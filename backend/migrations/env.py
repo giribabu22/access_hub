@@ -2,7 +2,7 @@ import logging
 from logging.config import fileConfig
 
 from flask import current_app
-import sqlalchemy as sa
+
 from alembic import context
 
 # this is the Alembic Config object, which provides
@@ -32,12 +32,10 @@ def get_engine_url():
         return str(get_engine().url).replace('%', '%%')
 
 
-# --- Import all models for autogenerate ---
-import sys
-import os
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'app')))
-from app import models  # noqa: F401, force import for Alembic
-
+# add your model's MetaData object here
+# for 'autogenerate' support
+# from myapp import mymodel
+# target_metadata = mymodel.Base.metadata
 config.set_main_option('sqlalchemy.url', get_engine_url())
 target_db = current_app.extensions['migrate'].db
 
@@ -99,14 +97,9 @@ def run_migrations_online():
     connectable = get_engine()
 
     with connectable.connect() as connection:
-        # Create main schema if it doesn't exist
-        connection.execute(sa.text("CREATE SCHEMA IF NOT EXISTS main"))
-        connection.commit()
-        
         context.configure(
             connection=connection,
             target_metadata=get_metadata(),
-            version_table_schema='main',  # Use 'main' schema for version table
             **conf_args
         )
 

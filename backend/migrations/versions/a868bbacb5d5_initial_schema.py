@@ -1,8 +1,8 @@
-"""Initial_migration
+"""initial_schema
 
-Revision ID: 470dc38dbfa6
+Revision ID: a868bbacb5d5
 Revises: 
-Create Date: 2025-12-26 11:44:14.484872
+Create Date: 2026-01-23 16:29:43.350222
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 from sqlalchemy.dialects import postgresql
 
 # revision identifiers, used by Alembic.
-revision = '470dc38dbfa6'
+revision = 'a868bbacb5d5'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -26,6 +26,8 @@ def upgrade():
     sa.Column('contact_email', sa.String(length=120), nullable=True),
     sa.Column('contact_phone', sa.String(length=32), nullable=True),
     sa.Column('subscription_tier', sa.String(length=20), nullable=False),
+    sa.Column('subscription_plan', sa.String(length=20), nullable=False),
+    sa.Column('enabled_features', sa.JSON(), nullable=True),
     sa.Column('organization_type', sa.String(length=50), nullable=False),
     sa.Column('timezone', sa.String(length=50), nullable=True),
     sa.Column('working_hours', sa.JSON(), nullable=True),
@@ -106,6 +108,22 @@ def upgrade():
     with op.batch_alter_table('departments', schema=None) as batch_op:
         batch_op.create_index(batch_op.f('ix_departments_organization_id'), ['organization_id'], unique=False)
 
+    op.create_table('group_visits',
+    sa.Column('id', sa.String(length=36), nullable=False),
+    sa.Column('organization_id', sa.String(length=36), nullable=False),
+    sa.Column('group_name', sa.String(length=255), nullable=False),
+    sa.Column('group_leader_name', sa.String(length=255), nullable=True),
+    sa.Column('group_leader_phone', sa.String(length=20), nullable=True),
+    sa.Column('purpose', sa.String(length=500), nullable=False),
+    sa.Column('scheduled_arrival', sa.DateTime(), nullable=True),
+    sa.Column('expected_duration_hours', sa.Float(), nullable=True),
+    sa.Column('created_at', sa.DateTime(), nullable=False),
+    sa.ForeignKeyConstraint(['organization_id'], ['organizations.id'], ),
+    sa.PrimaryKeyConstraint('id')
+    )
+    with op.batch_alter_table('group_visits', schema=None) as batch_op:
+        batch_op.create_index(batch_op.f('ix_group_visits_organization_id'), ['organization_id'], unique=False)
+
     op.create_table('locations',
     sa.Column('id', sa.String(length=36), nullable=False),
     sa.Column('organization_id', sa.String(length=36), nullable=False),
@@ -127,6 +145,42 @@ def upgrade():
     )
     with op.batch_alter_table('locations', schema=None) as batch_op:
         batch_op.create_index(batch_op.f('ix_locations_organization_id'), ['organization_id'], unique=False)
+
+    op.create_table('lpr_hotlist',
+    sa.Column('id', sa.String(length=36), nullable=False),
+    sa.Column('organization_id', sa.String(length=36), nullable=False),
+    sa.Column('vehicle_number', sa.String(length=20), nullable=False),
+    sa.Column('reason', sa.String(length=255), nullable=False),
+    sa.Column('fir_number', sa.String(length=100), nullable=True),
+    sa.Column('reporting_officer', sa.String(length=100), nullable=True),
+    sa.Column('severity', sa.String(length=20), nullable=True),
+    sa.Column('created_at', sa.DateTime(), nullable=True),
+    sa.Column('is_active', sa.Boolean(), nullable=True),
+    sa.ForeignKeyConstraint(['organization_id'], ['organizations.id'], ),
+    sa.PrimaryKeyConstraint('id')
+    )
+    with op.batch_alter_table('lpr_hotlist', schema=None) as batch_op:
+        batch_op.create_index(batch_op.f('ix_lpr_hotlist_organization_id'), ['organization_id'], unique=False)
+        batch_op.create_index(batch_op.f('ix_lpr_hotlist_vehicle_number'), ['vehicle_number'], unique=False)
+
+    op.create_table('lpr_whitelist',
+    sa.Column('id', sa.String(length=36), nullable=False),
+    sa.Column('organization_id', sa.String(length=36), nullable=False),
+    sa.Column('vehicle_number', sa.String(length=20), nullable=False),
+    sa.Column('owner_name', sa.String(length=100), nullable=False),
+    sa.Column('designation', sa.String(length=100), nullable=True),
+    sa.Column('department', sa.String(length=100), nullable=True),
+    sa.Column('priority', sa.String(length=20), nullable=True),
+    sa.Column('access_zones', sa.String(length=255), nullable=True),
+    sa.Column('created_at', sa.DateTime(), nullable=True),
+    sa.Column('valid_until', sa.DateTime(), nullable=True),
+    sa.Column('is_active', sa.Boolean(), nullable=True),
+    sa.ForeignKeyConstraint(['organization_id'], ['organizations.id'], ),
+    sa.PrimaryKeyConstraint('id')
+    )
+    with op.batch_alter_table('lpr_whitelist', schema=None) as batch_op:
+        batch_op.create_index(batch_op.f('ix_lpr_whitelist_organization_id'), ['organization_id'], unique=False)
+        batch_op.create_index(batch_op.f('ix_lpr_whitelist_vehicle_number'), ['vehicle_number'], unique=False)
 
     op.create_table('shifts',
     sa.Column('id', sa.String(length=36), nullable=False),
@@ -167,6 +221,30 @@ def upgrade():
         batch_op.create_index(batch_op.f('ix_users_role_id'), ['role_id'], unique=False)
         batch_op.create_index(batch_op.f('ix_users_username'), ['username'], unique=True)
 
+    op.create_table('visitor_blacklist',
+    sa.Column('id', sa.String(length=36), nullable=False),
+    sa.Column('organization_id', sa.String(length=36), nullable=False),
+    sa.Column('phone_number', sa.String(length=20), nullable=True),
+    sa.Column('email', sa.String(length=255), nullable=True),
+    sa.Column('id_proof_number', sa.String(length=100), nullable=True),
+    sa.Column('visitor_name', sa.String(length=255), nullable=True),
+    sa.Column('reason', sa.String(length=100), nullable=False),
+    sa.Column('severity', sa.String(length=50), nullable=False),
+    sa.Column('notes', sa.Text(), nullable=True),
+    sa.Column('watchlist_type', sa.String(length=50), nullable=True),
+    sa.Column('start_date', sa.DateTime(), nullable=False),
+    sa.Column('end_date', sa.DateTime(), nullable=True),
+    sa.Column('added_by', sa.String(length=36), nullable=True),
+    sa.Column('created_at', sa.DateTime(), nullable=False),
+    sa.ForeignKeyConstraint(['organization_id'], ['organizations.id'], ),
+    sa.PrimaryKeyConstraint('id')
+    )
+    with op.batch_alter_table('visitor_blacklist', schema=None) as batch_op:
+        batch_op.create_index(batch_op.f('ix_visitor_blacklist_email'), ['email'], unique=False)
+        batch_op.create_index(batch_op.f('ix_visitor_blacklist_id_proof_number'), ['id_proof_number'], unique=False)
+        batch_op.create_index(batch_op.f('ix_visitor_blacklist_organization_id'), ['organization_id'], unique=False)
+        batch_op.create_index(batch_op.f('ix_visitor_blacklist_phone_number'), ['phone_number'], unique=False)
+
     op.create_table('visitor_images',
     sa.Column('id', sa.BigInteger(), nullable=False),
     sa.Column('aadhaar_id', sa.String(length=12), nullable=False),
@@ -177,25 +255,6 @@ def upgrade():
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('aadhaar_id', 'angle', name='uq_visitor_angle')
     )
-    op.create_table('visitors',
-    sa.Column('id', sa.String(length=36), nullable=False),
-    sa.Column('organization_id', sa.String(length=36), nullable=False),
-    sa.Column('visitor_name', sa.String(length=255), nullable=False),
-    sa.Column('mobile_number', sa.String(length=20), nullable=False),
-    sa.Column('purpose_of_visit', sa.String(length=500), nullable=False),
-    sa.Column('allowed_floor', sa.String(length=100), nullable=False),
-    sa.Column('check_in_time', sa.DateTime(), nullable=False),
-    sa.Column('check_out_time', sa.DateTime(), nullable=True),
-    sa.Column('is_checked_in', sa.Boolean(), nullable=True),
-    sa.Column('current_floor', sa.String(length=100), nullable=True),
-    sa.Column('created_at', sa.DateTime(), nullable=False),
-    sa.Column('updated_at', sa.DateTime(), nullable=False),
-    sa.ForeignKeyConstraint(['organization_id'], ['organizations.id'], ),
-    sa.PrimaryKeyConstraint('id')
-    )
-    with op.batch_alter_table('visitors', schema=None) as batch_op:
-        batch_op.create_index(batch_op.f('ix_visitors_organization_id'), ['organization_id'], unique=False)
-
     op.create_table('audit_logs',
     sa.Column('id', sa.String(length=36), nullable=False),
     sa.Column('user_id', sa.String(length=36), nullable=False),
@@ -234,6 +293,13 @@ def upgrade():
     sa.Column('resolution', sa.String(length=20), nullable=True),
     sa.Column('confidence_threshold', sa.Float(), nullable=True),
     sa.Column('liveness_check_enabled', sa.Boolean(), nullable=True),
+    sa.Column('attendance_enabled', sa.Boolean(), nullable=True),
+    sa.Column('visitor_tracking_enabled', sa.Boolean(), nullable=True),
+    sa.Column('people_logs_enabled', sa.Boolean(), nullable=True),
+    sa.Column('management_type', sa.String(length=20), nullable=True),
+    sa.Column('auto_check_out_hours', sa.Integer(), nullable=True),
+    sa.Column('require_manual_approval', sa.Boolean(), nullable=True),
+    sa.Column('notification_enabled', sa.Boolean(), nullable=True),
     sa.Column('is_active', sa.Boolean(), nullable=False),
     sa.Column('last_heartbeat', sa.DateTime(), nullable=True),
     sa.Column('status', sa.String(length=20), nullable=True),
@@ -313,38 +379,72 @@ def upgrade():
         batch_op.create_index(batch_op.f('ix_images_entity_type'), ['entity_type'], unique=False)
         batch_op.create_index(batch_op.f('ix_images_organization_id'), ['organization_id'], unique=False)
 
-    op.create_table('visitor_alerts',
+    op.create_table('visitors',
     sa.Column('id', sa.String(length=36), nullable=False),
-    sa.Column('visitor_id', sa.String(length=36), nullable=False),
     sa.Column('organization_id', sa.String(length=36), nullable=False),
-    sa.Column('alert_type', sa.String(length=50), nullable=False),
-    sa.Column('current_floor', sa.String(length=100), nullable=False),
+    sa.Column('visitor_name', sa.String(length=255), nullable=False),
+    sa.Column('mobile_number', sa.String(length=20), nullable=False),
+    sa.Column('email', sa.String(length=255), nullable=True),
+    sa.Column('purpose_of_visit', sa.String(length=500), nullable=False),
     sa.Column('allowed_floor', sa.String(length=100), nullable=False),
-    sa.Column('alert_time', sa.DateTime(), nullable=False),
-    sa.Column('acknowledged', sa.Boolean(), nullable=True),
-    sa.Column('acknowledged_at', sa.DateTime(), nullable=True),
-    sa.Column('details', sa.JSON(), nullable=True),
+    sa.Column('visitor_type', sa.String(length=50), nullable=False),
+    sa.Column('is_vip', sa.Boolean(), nullable=True),
+    sa.Column('is_recurring', sa.Boolean(), nullable=True),
+    sa.Column('visit_frequency', sa.Integer(), nullable=True),
+    sa.Column('last_visit_date', sa.DateTime(), nullable=True),
+    sa.Column('host_name', sa.String(length=255), nullable=True),
+    sa.Column('host_phone', sa.String(length=20), nullable=True),
+    sa.Column('company_name', sa.String(length=255), nullable=True),
+    sa.Column('company_address', sa.Text(), nullable=True),
+    sa.Column('is_pre_registered', sa.Boolean(), nullable=True),
+    sa.Column('pre_registration_status', sa.String(length=50), nullable=True),
+    sa.Column('scheduled_arrival_time', sa.DateTime(), nullable=True),
+    sa.Column('scheduled_departure_time', sa.DateTime(), nullable=True),
+    sa.Column('check_in_time', sa.DateTime(), nullable=False),
+    sa.Column('check_out_time', sa.DateTime(), nullable=True),
+    sa.Column('is_checked_in', sa.Boolean(), nullable=True),
+    sa.Column('expected_duration_hours', sa.Float(), nullable=True),
+    sa.Column('actual_duration_hours', sa.Float(), nullable=True),
+    sa.Column('current_floor', sa.String(length=100), nullable=True),
+    sa.Column('badge_number', sa.String(length=50), nullable=True),
+    sa.Column('badge_status', sa.String(length=50), nullable=True),
+    sa.Column('badge_printed_at', sa.DateTime(), nullable=True),
+    sa.Column('group_visit_id', sa.String(length=36), nullable=True),
+    sa.Column('id_proof_type', sa.String(length=50), nullable=True),
+    sa.Column('id_proof_number', sa.String(length=100), nullable=True),
+    sa.Column('id_proof_image_path', sa.String(length=500), nullable=True),
+    sa.Column('photo_path', sa.String(length=500), nullable=True),
+    sa.Column('emergency_contact_name', sa.String(length=255), nullable=True),
+    sa.Column('emergency_contact_phone', sa.String(length=20), nullable=True),
+    sa.Column('temperature', sa.Float(), nullable=True),
+    sa.Column('health_declaration_status', sa.String(length=50), nullable=True),
+    sa.Column('vaccination_verified', sa.Boolean(), nullable=True),
+    sa.Column('nda_signed', sa.Boolean(), nullable=True),
+    sa.Column('nda_signed_at', sa.DateTime(), nullable=True),
+    sa.Column('assets_carried', sa.JSON(), nullable=True),
+    sa.Column('work_completed_proof', sa.String(length=500), nullable=True),
+    sa.Column('delivery_package_count', sa.Integer(), nullable=True),
+    sa.Column('delivery_recipient_name', sa.String(length=255), nullable=True),
+    sa.Column('special_instructions', sa.Text(), nullable=True),
+    sa.Column('vehicle_number', sa.String(length=20), nullable=True),
+    sa.Column('vehicle_type', sa.String(length=50), nullable=True),
+    sa.Column('vehicle_model', sa.String(length=100), nullable=True),
+    sa.Column('parking_slot', sa.String(length=50), nullable=True),
+    sa.Column('vehicle_check_status', sa.JSON(), nullable=True),
+    sa.Column('material_declaration', sa.Text(), nullable=True),
+    sa.Column('vehicle_photos', sa.JSON(), nullable=True),
+    sa.Column('vehicle_security_check_notes', sa.Text(), nullable=True),
+    sa.Column('feedback_rating', sa.Integer(), nullable=True),
+    sa.Column('feedback_comments', sa.Text(), nullable=True),
     sa.Column('created_at', sa.DateTime(), nullable=False),
+    sa.Column('updated_at', sa.DateTime(), nullable=False),
+    sa.ForeignKeyConstraint(['group_visit_id'], ['group_visits.id'], ),
     sa.ForeignKeyConstraint(['organization_id'], ['organizations.id'], ),
-    sa.ForeignKeyConstraint(['visitor_id'], ['visitors.id'], ),
-    sa.PrimaryKeyConstraint('id')
+    sa.PrimaryKeyConstraint('id'),
+    sa.UniqueConstraint('badge_number')
     )
-    with op.batch_alter_table('visitor_alerts', schema=None) as batch_op:
-        batch_op.create_index(batch_op.f('ix_visitor_alerts_organization_id'), ['organization_id'], unique=False)
-        batch_op.create_index(batch_op.f('ix_visitor_alerts_visitor_id'), ['visitor_id'], unique=False)
-
-    op.create_table('visitor_movement_logs',
-    sa.Column('id', sa.String(length=36), nullable=False),
-    sa.Column('visitor_id', sa.String(length=36), nullable=False),
-    sa.Column('floor', sa.String(length=100), nullable=False),
-    sa.Column('entry_time', sa.DateTime(), nullable=False),
-    sa.Column('exit_time', sa.DateTime(), nullable=True),
-    sa.Column('created_at', sa.DateTime(), nullable=False),
-    sa.ForeignKeyConstraint(['visitor_id'], ['visitors.id'], ),
-    sa.PrimaryKeyConstraint('id')
-    )
-    with op.batch_alter_table('visitor_movement_logs', schema=None) as batch_op:
-        batch_op.create_index(batch_op.f('ix_visitor_movement_logs_visitor_id'), ['visitor_id'], unique=False)
+    with op.batch_alter_table('visitors', schema=None) as batch_op:
+        batch_op.create_index(batch_op.f('ix_visitors_organization_id'), ['organization_id'], unique=False)
 
     op.create_table('attendance_records',
     sa.Column('id', sa.String(length=36), nullable=False),
@@ -380,6 +480,45 @@ def upgrade():
         batch_op.create_index(batch_op.f('ix_attendance_records_date'), ['date'], unique=False)
         batch_op.create_index(batch_op.f('ix_attendance_records_employee_id'), ['employee_id'], unique=False)
         batch_op.create_index(batch_op.f('ix_attendance_records_organization_id'), ['organization_id'], unique=False)
+
+    op.create_table('contractor_time_logs',
+    sa.Column('id', sa.String(length=36), nullable=False),
+    sa.Column('visitor_id', sa.String(length=36), nullable=False),
+    sa.Column('organization_id', sa.String(length=36), nullable=False),
+    sa.Column('clock_in_time', sa.DateTime(), nullable=False),
+    sa.Column('clock_out_time', sa.DateTime(), nullable=True),
+    sa.Column('billable_hours', sa.Float(), nullable=True),
+    sa.Column('work_description', sa.Text(), nullable=True),
+    sa.Column('work_location', sa.String(length=255), nullable=True),
+    sa.Column('proof_of_work', sa.String(length=500), nullable=True),
+    sa.Column('created_at', sa.DateTime(), nullable=False),
+    sa.ForeignKeyConstraint(['organization_id'], ['organizations.id'], ),
+    sa.ForeignKeyConstraint(['visitor_id'], ['visitors.id'], ),
+    sa.PrimaryKeyConstraint('id')
+    )
+    with op.batch_alter_table('contractor_time_logs', schema=None) as batch_op:
+        batch_op.create_index(batch_op.f('ix_contractor_time_logs_organization_id'), ['organization_id'], unique=False)
+        batch_op.create_index(batch_op.f('ix_contractor_time_logs_visitor_id'), ['visitor_id'], unique=False)
+
+    op.create_table('delivery_logs',
+    sa.Column('id', sa.String(length=36), nullable=False),
+    sa.Column('visitor_id', sa.String(length=36), nullable=False),
+    sa.Column('organization_id', sa.String(length=36), nullable=False),
+    sa.Column('package_count', sa.Integer(), nullable=False),
+    sa.Column('package_description', sa.Text(), nullable=True),
+    sa.Column('delivery_photo_path', sa.String(length=500), nullable=True),
+    sa.Column('recipient_name', sa.String(length=255), nullable=True),
+    sa.Column('recipient_signature', sa.Text(), nullable=True),
+    sa.Column('status', sa.String(length=50), nullable=True),
+    sa.Column('delivered_at', sa.DateTime(), nullable=True),
+    sa.Column('created_at', sa.DateTime(), nullable=False),
+    sa.ForeignKeyConstraint(['organization_id'], ['organizations.id'], ),
+    sa.ForeignKeyConstraint(['visitor_id'], ['visitors.id'], ),
+    sa.PrimaryKeyConstraint('id')
+    )
+    with op.batch_alter_table('delivery_logs', schema=None) as batch_op:
+        batch_op.create_index(batch_op.f('ix_delivery_logs_organization_id'), ['organization_id'], unique=False)
+        batch_op.create_index(batch_op.f('ix_delivery_logs_visitor_id'), ['visitor_id'], unique=False)
 
     op.create_table('face_embeddings',
     sa.Column('id', sa.String(length=36), nullable=False),
@@ -423,6 +562,198 @@ def upgrade():
     with op.batch_alter_table('leave_requests', schema=None) as batch_op:
         batch_op.create_index(batch_op.f('ix_leave_requests_employee_id'), ['employee_id'], unique=False)
         batch_op.create_index(batch_op.f('ix_leave_requests_organization_id'), ['organization_id'], unique=False)
+
+    op.create_table('lpr_logs',
+    sa.Column('id', sa.String(length=36), nullable=False),
+    sa.Column('organization_id', sa.String(length=36), nullable=False),
+    sa.Column('vehicle_number', sa.String(length=20), nullable=False),
+    sa.Column('vehicle_image_url', sa.String(length=512), nullable=True),
+    sa.Column('plate_image_url', sa.String(length=512), nullable=True),
+    sa.Column('driver_name', sa.String(length=100), nullable=True),
+    sa.Column('driver_phone', sa.String(length=20), nullable=True),
+    sa.Column('driver_license_id', sa.String(length=50), nullable=True),
+    sa.Column('timestamp', sa.DateTime(), nullable=False),
+    sa.Column('direction', sa.String(length=10), nullable=False),
+    sa.Column('gate_name', sa.String(length=100), nullable=True),
+    sa.Column('camera_id', sa.String(length=36), nullable=True),
+    sa.Column('status', sa.String(length=20), nullable=True),
+    sa.Column('category', sa.String(length=20), nullable=True),
+    sa.Column('confidence_score', sa.Float(), nullable=True),
+    sa.Column('processing_time_ms', sa.Integer(), nullable=True),
+    sa.Column('exit_time', sa.DateTime(), nullable=True),
+    sa.Column('duration_minutes', sa.Integer(), nullable=True),
+    sa.Column('is_overstay', sa.Boolean(), nullable=True),
+    sa.Column('checklist_status', sa.JSON(), nullable=True),
+    sa.Column('vehicle_photos', sa.JSON(), nullable=True),
+    sa.Column('material_declaration', sa.Text(), nullable=True),
+    sa.Column('vehicle_security_check_notes', sa.Text(), nullable=True),
+    sa.Column('gate_pass_id', sa.String(length=50), nullable=True),
+    sa.ForeignKeyConstraint(['camera_id'], ['cameras.id'], ),
+    sa.ForeignKeyConstraint(['organization_id'], ['organizations.id'], ),
+    sa.PrimaryKeyConstraint('id')
+    )
+    with op.batch_alter_table('lpr_logs', schema=None) as batch_op:
+        batch_op.create_index(batch_op.f('ix_lpr_logs_organization_id'), ['organization_id'], unique=False)
+        batch_op.create_index(batch_op.f('ix_lpr_logs_timestamp'), ['timestamp'], unique=False)
+        batch_op.create_index(batch_op.f('ix_lpr_logs_vehicle_number'), ['vehicle_number'], unique=False)
+
+    op.create_table('vip_visitor_preferences',
+    sa.Column('id', sa.String(length=36), nullable=False),
+    sa.Column('visitor_id', sa.String(length=36), nullable=False),
+    sa.Column('organization_id', sa.String(length=36), nullable=False),
+    sa.Column('vip_tier', sa.String(length=50), nullable=True),
+    sa.Column('preferred_greeting', sa.String(length=500), nullable=True),
+    sa.Column('dietary_requirements', sa.Text(), nullable=True),
+    sa.Column('accessibility_requirements', sa.Text(), nullable=True),
+    sa.Column('other_preferences', sa.JSON(), nullable=True),
+    sa.Column('room_preparation_settings', sa.JSON(), nullable=True),
+    sa.Column('previous_visit_notes', sa.Text(), nullable=True),
+    sa.Column('created_at', sa.DateTime(), nullable=False),
+    sa.Column('updated_at', sa.DateTime(), nullable=False),
+    sa.ForeignKeyConstraint(['organization_id'], ['organizations.id'], ),
+    sa.ForeignKeyConstraint(['visitor_id'], ['visitors.id'], ),
+    sa.PrimaryKeyConstraint('id')
+    )
+    with op.batch_alter_table('vip_visitor_preferences', schema=None) as batch_op:
+        batch_op.create_index(batch_op.f('ix_vip_visitor_preferences_organization_id'), ['organization_id'], unique=False)
+        batch_op.create_index(batch_op.f('ix_vip_visitor_preferences_visitor_id'), ['visitor_id'], unique=False)
+
+    op.create_table('visitor_alerts',
+    sa.Column('id', sa.String(length=36), nullable=False),
+    sa.Column('visitor_id', sa.String(length=36), nullable=False),
+    sa.Column('organization_id', sa.String(length=36), nullable=False),
+    sa.Column('alert_type', sa.String(length=50), nullable=False),
+    sa.Column('current_floor', sa.String(length=100), nullable=False),
+    sa.Column('allowed_floor', sa.String(length=100), nullable=False),
+    sa.Column('alert_time', sa.DateTime(), nullable=False),
+    sa.Column('acknowledged', sa.Boolean(), nullable=True),
+    sa.Column('acknowledged_at', sa.DateTime(), nullable=True),
+    sa.Column('details', sa.JSON(), nullable=True),
+    sa.Column('created_at', sa.DateTime(), nullable=False),
+    sa.ForeignKeyConstraint(['organization_id'], ['organizations.id'], ),
+    sa.ForeignKeyConstraint(['visitor_id'], ['visitors.id'], ),
+    sa.PrimaryKeyConstraint('id')
+    )
+    with op.batch_alter_table('visitor_alerts', schema=None) as batch_op:
+        batch_op.create_index(batch_op.f('ix_visitor_alerts_organization_id'), ['organization_id'], unique=False)
+        batch_op.create_index(batch_op.f('ix_visitor_alerts_visitor_id'), ['visitor_id'], unique=False)
+
+    op.create_table('visitor_assets',
+    sa.Column('id', sa.String(length=36), nullable=False),
+    sa.Column('visitor_id', sa.String(length=36), nullable=False),
+    sa.Column('asset_type', sa.String(length=100), nullable=False),
+    sa.Column('description', sa.String(length=500), nullable=True),
+    sa.Column('serial_number', sa.String(length=100), nullable=True),
+    sa.Column('security_seal_number', sa.String(length=100), nullable=True),
+    sa.Column('entry_verified', sa.Boolean(), nullable=True),
+    sa.Column('exit_verified', sa.Boolean(), nullable=True),
+    sa.Column('entry_time', sa.DateTime(), nullable=False),
+    sa.Column('exit_time', sa.DateTime(), nullable=True),
+    sa.Column('created_at', sa.DateTime(), nullable=False),
+    sa.ForeignKeyConstraint(['visitor_id'], ['visitors.id'], ),
+    sa.PrimaryKeyConstraint('id')
+    )
+    with op.batch_alter_table('visitor_assets', schema=None) as batch_op:
+        batch_op.create_index(batch_op.f('ix_visitor_assets_visitor_id'), ['visitor_id'], unique=False)
+
+    op.create_table('visitor_badges',
+    sa.Column('id', sa.String(length=36), nullable=False),
+    sa.Column('visitor_id', sa.String(length=36), nullable=False),
+    sa.Column('organization_id', sa.String(length=36), nullable=False),
+    sa.Column('badge_number', sa.String(length=50), nullable=False),
+    sa.Column('badge_type', sa.String(length=50), nullable=True),
+    sa.Column('qr_code_data', sa.Text(), nullable=True),
+    sa.Column('status', sa.String(length=50), nullable=True),
+    sa.Column('issued_at', sa.DateTime(), nullable=False),
+    sa.Column('returned_at', sa.DateTime(), nullable=True),
+    sa.Column('access_permissions', sa.JSON(), nullable=True),
+    sa.Column('created_at', sa.DateTime(), nullable=False),
+    sa.ForeignKeyConstraint(['organization_id'], ['organizations.id'], ),
+    sa.ForeignKeyConstraint(['visitor_id'], ['visitors.id'], ),
+    sa.PrimaryKeyConstraint('id'),
+    sa.UniqueConstraint('badge_number')
+    )
+    with op.batch_alter_table('visitor_badges', schema=None) as batch_op:
+        batch_op.create_index(batch_op.f('ix_visitor_badges_organization_id'), ['organization_id'], unique=False)
+        batch_op.create_index(batch_op.f('ix_visitor_badges_visitor_id'), ['visitor_id'], unique=False)
+
+    op.create_table('visitor_documents',
+    sa.Column('id', sa.String(length=36), nullable=False),
+    sa.Column('visitor_id', sa.String(length=36), nullable=False),
+    sa.Column('organization_id', sa.String(length=36), nullable=False),
+    sa.Column('document_type', sa.String(length=50), nullable=False),
+    sa.Column('document_template_id', sa.String(length=36), nullable=True),
+    sa.Column('signature_data', sa.Text(), nullable=True),
+    sa.Column('signed_at', sa.DateTime(), nullable=False),
+    sa.Column('pdf_path', sa.String(length=500), nullable=True),
+    sa.Column('created_at', sa.DateTime(), nullable=False),
+    sa.ForeignKeyConstraint(['organization_id'], ['organizations.id'], ),
+    sa.ForeignKeyConstraint(['visitor_id'], ['visitors.id'], ),
+    sa.PrimaryKeyConstraint('id')
+    )
+    with op.batch_alter_table('visitor_documents', schema=None) as batch_op:
+        batch_op.create_index(batch_op.f('ix_visitor_documents_organization_id'), ['organization_id'], unique=False)
+        batch_op.create_index(batch_op.f('ix_visitor_documents_visitor_id'), ['visitor_id'], unique=False)
+
+    op.create_table('visitor_health_screenings',
+    sa.Column('id', sa.String(length=36), nullable=False),
+    sa.Column('visitor_id', sa.String(length=36), nullable=False),
+    sa.Column('organization_id', sa.String(length=36), nullable=False),
+    sa.Column('temperature', sa.Float(), nullable=True),
+    sa.Column('questionnaire_responses', sa.JSON(), nullable=True),
+    sa.Column('vaccination_verified', sa.Boolean(), nullable=True),
+    sa.Column('vaccination_type', sa.String(length=100), nullable=True),
+    sa.Column('result', sa.String(length=50), nullable=False),
+    sa.Column('screener_notes', sa.Text(), nullable=True),
+    sa.Column('screened_at', sa.DateTime(), nullable=False),
+    sa.Column('screened_by', sa.String(length=36), nullable=True),
+    sa.ForeignKeyConstraint(['organization_id'], ['organizations.id'], ),
+    sa.ForeignKeyConstraint(['visitor_id'], ['visitors.id'], ),
+    sa.PrimaryKeyConstraint('id')
+    )
+    with op.batch_alter_table('visitor_health_screenings', schema=None) as batch_op:
+        batch_op.create_index(batch_op.f('ix_visitor_health_screenings_organization_id'), ['organization_id'], unique=False)
+        batch_op.create_index(batch_op.f('ix_visitor_health_screenings_visitor_id'), ['visitor_id'], unique=False)
+
+    op.create_table('visitor_movement_logs',
+    sa.Column('id', sa.String(length=36), nullable=False),
+    sa.Column('visitor_id', sa.String(length=36), nullable=False),
+    sa.Column('floor', sa.String(length=100), nullable=False),
+    sa.Column('entry_time', sa.DateTime(), nullable=False),
+    sa.Column('exit_time', sa.DateTime(), nullable=True),
+    sa.Column('created_at', sa.DateTime(), nullable=False),
+    sa.ForeignKeyConstraint(['visitor_id'], ['visitors.id'], ),
+    sa.PrimaryKeyConstraint('id')
+    )
+    with op.batch_alter_table('visitor_movement_logs', schema=None) as batch_op:
+        batch_op.create_index(batch_op.f('ix_visitor_movement_logs_visitor_id'), ['visitor_id'], unique=False)
+
+    op.create_table('visitor_pre_registrations',
+    sa.Column('id', sa.String(length=36), nullable=False),
+    sa.Column('organization_id', sa.String(length=36), nullable=False),
+    sa.Column('visitor_name', sa.String(length=255), nullable=False),
+    sa.Column('mobile_number', sa.String(length=20), nullable=False),
+    sa.Column('email', sa.String(length=255), nullable=True),
+    sa.Column('company_name', sa.String(length=255), nullable=True),
+    sa.Column('purpose_of_visit', sa.String(length=500), nullable=False),
+    sa.Column('host_name', sa.String(length=255), nullable=True),
+    sa.Column('host_phone', sa.String(length=20), nullable=True),
+    sa.Column('scheduled_arrival_time', sa.DateTime(), nullable=False),
+    sa.Column('scheduled_departure_time', sa.DateTime(), nullable=True),
+    sa.Column('status', sa.String(length=50), nullable=False),
+    sa.Column('approved_by', sa.String(length=36), nullable=True),
+    sa.Column('approved_at', sa.DateTime(), nullable=True),
+    sa.Column('rejection_reason', sa.Text(), nullable=True),
+    sa.Column('qr_code', sa.String(length=500), nullable=True),
+    sa.Column('visitor_id', sa.String(length=36), nullable=True),
+    sa.Column('created_at', sa.DateTime(), nullable=False),
+    sa.Column('updated_at', sa.DateTime(), nullable=False),
+    sa.ForeignKeyConstraint(['organization_id'], ['organizations.id'], ),
+    sa.ForeignKeyConstraint(['visitor_id'], ['visitors.id'], ),
+    sa.PrimaryKeyConstraint('id')
+    )
+    with op.batch_alter_table('visitor_pre_registrations', schema=None) as batch_op:
+        batch_op.create_index(batch_op.f('ix_visitor_pre_registrations_organization_id'), ['organization_id'], unique=False)
 
     op.create_table('presence_events',
     sa.Column('id', sa.String(length=36), nullable=False),
@@ -485,6 +816,49 @@ def downgrade():
         batch_op.drop_index('idx_camera_timestamp')
 
     op.drop_table('presence_events')
+    with op.batch_alter_table('visitor_pre_registrations', schema=None) as batch_op:
+        batch_op.drop_index(batch_op.f('ix_visitor_pre_registrations_organization_id'))
+
+    op.drop_table('visitor_pre_registrations')
+    with op.batch_alter_table('visitor_movement_logs', schema=None) as batch_op:
+        batch_op.drop_index(batch_op.f('ix_visitor_movement_logs_visitor_id'))
+
+    op.drop_table('visitor_movement_logs')
+    with op.batch_alter_table('visitor_health_screenings', schema=None) as batch_op:
+        batch_op.drop_index(batch_op.f('ix_visitor_health_screenings_visitor_id'))
+        batch_op.drop_index(batch_op.f('ix_visitor_health_screenings_organization_id'))
+
+    op.drop_table('visitor_health_screenings')
+    with op.batch_alter_table('visitor_documents', schema=None) as batch_op:
+        batch_op.drop_index(batch_op.f('ix_visitor_documents_visitor_id'))
+        batch_op.drop_index(batch_op.f('ix_visitor_documents_organization_id'))
+
+    op.drop_table('visitor_documents')
+    with op.batch_alter_table('visitor_badges', schema=None) as batch_op:
+        batch_op.drop_index(batch_op.f('ix_visitor_badges_visitor_id'))
+        batch_op.drop_index(batch_op.f('ix_visitor_badges_organization_id'))
+
+    op.drop_table('visitor_badges')
+    with op.batch_alter_table('visitor_assets', schema=None) as batch_op:
+        batch_op.drop_index(batch_op.f('ix_visitor_assets_visitor_id'))
+
+    op.drop_table('visitor_assets')
+    with op.batch_alter_table('visitor_alerts', schema=None) as batch_op:
+        batch_op.drop_index(batch_op.f('ix_visitor_alerts_visitor_id'))
+        batch_op.drop_index(batch_op.f('ix_visitor_alerts_organization_id'))
+
+    op.drop_table('visitor_alerts')
+    with op.batch_alter_table('vip_visitor_preferences', schema=None) as batch_op:
+        batch_op.drop_index(batch_op.f('ix_vip_visitor_preferences_visitor_id'))
+        batch_op.drop_index(batch_op.f('ix_vip_visitor_preferences_organization_id'))
+
+    op.drop_table('vip_visitor_preferences')
+    with op.batch_alter_table('lpr_logs', schema=None) as batch_op:
+        batch_op.drop_index(batch_op.f('ix_lpr_logs_vehicle_number'))
+        batch_op.drop_index(batch_op.f('ix_lpr_logs_timestamp'))
+        batch_op.drop_index(batch_op.f('ix_lpr_logs_organization_id'))
+
+    op.drop_table('lpr_logs')
     with op.batch_alter_table('leave_requests', schema=None) as batch_op:
         batch_op.drop_index(batch_op.f('ix_leave_requests_organization_id'))
         batch_op.drop_index(batch_op.f('ix_leave_requests_employee_id'))
@@ -495,6 +869,16 @@ def downgrade():
         batch_op.drop_index(batch_op.f('ix_face_embeddings_employee_id'))
 
     op.drop_table('face_embeddings')
+    with op.batch_alter_table('delivery_logs', schema=None) as batch_op:
+        batch_op.drop_index(batch_op.f('ix_delivery_logs_visitor_id'))
+        batch_op.drop_index(batch_op.f('ix_delivery_logs_organization_id'))
+
+    op.drop_table('delivery_logs')
+    with op.batch_alter_table('contractor_time_logs', schema=None) as batch_op:
+        batch_op.drop_index(batch_op.f('ix_contractor_time_logs_visitor_id'))
+        batch_op.drop_index(batch_op.f('ix_contractor_time_logs_organization_id'))
+
+    op.drop_table('contractor_time_logs')
     with op.batch_alter_table('attendance_records', schema=None) as batch_op:
         batch_op.drop_index(batch_op.f('ix_attendance_records_organization_id'))
         batch_op.drop_index(batch_op.f('ix_attendance_records_employee_id'))
@@ -504,15 +888,10 @@ def downgrade():
         batch_op.drop_index('idx_emp_date')
 
     op.drop_table('attendance_records')
-    with op.batch_alter_table('visitor_movement_logs', schema=None) as batch_op:
-        batch_op.drop_index(batch_op.f('ix_visitor_movement_logs_visitor_id'))
+    with op.batch_alter_table('visitors', schema=None) as batch_op:
+        batch_op.drop_index(batch_op.f('ix_visitors_organization_id'))
 
-    op.drop_table('visitor_movement_logs')
-    with op.batch_alter_table('visitor_alerts', schema=None) as batch_op:
-        batch_op.drop_index(batch_op.f('ix_visitor_alerts_visitor_id'))
-        batch_op.drop_index(batch_op.f('ix_visitor_alerts_organization_id'))
-
-    op.drop_table('visitor_alerts')
+    op.drop_table('visitors')
     with op.batch_alter_table('images', schema=None) as batch_op:
         batch_op.drop_index(batch_op.f('ix_images_organization_id'))
         batch_op.drop_index(batch_op.f('ix_images_entity_type'))
@@ -544,11 +923,14 @@ def downgrade():
         batch_op.drop_index('idx_entity')
 
     op.drop_table('audit_logs')
-    with op.batch_alter_table('visitors', schema=None) as batch_op:
-        batch_op.drop_index(batch_op.f('ix_visitors_organization_id'))
-
-    op.drop_table('visitors')
     op.drop_table('visitor_images')
+    with op.batch_alter_table('visitor_blacklist', schema=None) as batch_op:
+        batch_op.drop_index(batch_op.f('ix_visitor_blacklist_phone_number'))
+        batch_op.drop_index(batch_op.f('ix_visitor_blacklist_organization_id'))
+        batch_op.drop_index(batch_op.f('ix_visitor_blacklist_id_proof_number'))
+        batch_op.drop_index(batch_op.f('ix_visitor_blacklist_email'))
+
+    op.drop_table('visitor_blacklist')
     with op.batch_alter_table('users', schema=None) as batch_op:
         batch_op.drop_index(batch_op.f('ix_users_username'))
         batch_op.drop_index(batch_op.f('ix_users_role_id'))
@@ -560,10 +942,24 @@ def downgrade():
         batch_op.drop_index(batch_op.f('ix_shifts_organization_id'))
 
     op.drop_table('shifts')
+    with op.batch_alter_table('lpr_whitelist', schema=None) as batch_op:
+        batch_op.drop_index(batch_op.f('ix_lpr_whitelist_vehicle_number'))
+        batch_op.drop_index(batch_op.f('ix_lpr_whitelist_organization_id'))
+
+    op.drop_table('lpr_whitelist')
+    with op.batch_alter_table('lpr_hotlist', schema=None) as batch_op:
+        batch_op.drop_index(batch_op.f('ix_lpr_hotlist_vehicle_number'))
+        batch_op.drop_index(batch_op.f('ix_lpr_hotlist_organization_id'))
+
+    op.drop_table('lpr_hotlist')
     with op.batch_alter_table('locations', schema=None) as batch_op:
         batch_op.drop_index(batch_op.f('ix_locations_organization_id'))
 
     op.drop_table('locations')
+    with op.batch_alter_table('group_visits', schema=None) as batch_op:
+        batch_op.drop_index(batch_op.f('ix_group_visits_organization_id'))
+
+    op.drop_table('group_visits')
     with op.batch_alter_table('departments', schema=None) as batch_op:
         batch_op.drop_index(batch_op.f('ix_departments_organization_id'))
 
