@@ -1,0 +1,511 @@
+"""
+Employee-specific API Routes
+"""
+
+from flask import Blueprint, request, jsonify, current_app, g
+from sqlalchemy import and_, or_, func
+from datetime import datetime, timedelta
+import traceback
+
+from app.models.user import User
+from app.models.employee import Employee
+from app.models.department import Department
+from app.models.organization import Organization
+from app.models.attendance import AttendanceRecord
+from app.models.leave_request import LeaveRequest
+from app.utils.decorators import role_required, tenant_isolation
+from flask_jwt_extended import jwt_required
+
+bp = Blueprint('employee', __name__)
+
+@bp.route('/api/employee/profile', methods=['GET'])
+@jwt_required
+@role_required('employee', 'manager', 'org_admin', 'super_admin')
+def get_employee_profile():
+    """
+    Get current employee's profile information
+    """
+    try:
+        user_id = g.current_user.id
+        
+        # Get employee record
+        employee = Employee.query.filter_by(user_id=user_id, is_active=True).first()
+        
+        if not employee:
+            return jsonify({
+                'status': 'error',
+                'message': 'Employee record not found'
+            }), 404
+        
+        profile_data = {
+            'user_info': {
+                'id': employee.user.id,
+                'username': employee.user.username,
+                'email': employee.user.email,
+                'first_name': employee.user.first_name,
+                'last_name': employee.user.last_name,
+                'full_name': f"{employee.user.first_name} {employee.user.last_name}",
+                'role': employee.user.role.name if employee.user.role else None,
+                'is_active': employee.user.is_active,
+                'created_at': employee.user.created_at.isoformat() if employee.user.created_at else None
+            },
+            'employee_info': {
+                'id': employee.id,
+                'employee_id': employee.employee_id,
+                'position': employee.position,
+                'phone': employee.phone,
+                'hire_date': employee.hire_date.isoformat() if employee.hire_date else None,
+                'salary': employee.salary,
+                'is_active': employee.is_active,
+                'profile_image_url': employee.profile_image_url,
+                'department': {
+                    'id': employee.department.id if employee.department else None,
+                    'name': employee.department.name if employee.department else None,
+                    'description': employee.department.description if employee.department else None
+                } if employee.department else None,
+                'organization': {
+                    'id': employee.organization.id if employee.organization else None,
+                    'name': employee.organization.name if employee.organization else None
+                } if employee.organization else None
+            }
+        }
+        
+        return jsonify({
+            'status': 'success',
+            'data': profile_data
+        }), 200
+        
+    except Exception as e:
+        current_app.logger.error(f"Error fetching employee profile: {str(e)}")
+        current_app.logger.error(traceback.format_exc())
+        return jsonify({
+            'status': 'error',
+            'message': 'Failed to fetch employee profile'
+        }), 500
+
+@bp.route('/api/employee/attendance/today', methods=['GET'])
+@jwt_required
+@role_required('employee', 'manager', 'org_admin', 'super_admin')
+def get_today_attendance():
+    """
+    Get current employee's attendance status for today
+    """
+    try:
+        user_id = g.current_user.id
+        today = datetime.utcnow().date()
+        
+        # Get employee record
+        employee = Employee.query.filter_by(user_id=user_id, is_active=True).first()
+        
+        if not employee:
+            return jsonify({
+                'status': 'error',
+                'message': 'Employee record not found'
+            }), 404
+        
+        # Get today's attendance record
+        attendance = AttendanceRecord.query.filter(
+            AttendanceRecord.employee_id == employee.id,
+            func.date(AttendanceRecord.check_in_time) == today
+        ).first()
+        
+        attendance_data = {
+            'date': today.isoformat(),
+            'status': 'absent',  # Default status
+            'check_in_time': None,
+            'check_out_time': None,
+            'total_hours': 0,
+            'is_late': False,
+            'break_duration': 0
+        }
+        
+        if attendance:
+            check_in_time = attendance.check_in_time
+            check_out_time = attendance.check_out_time
+            
+            attendance_data.update({
+                'status': 'present',
+                'check_in_time': check_in_time.isoformat() if check_in_time else None,
+                'check_out_time': check_out_time.isoformat() if check_out_time else None,
+                'is_late': attendance.is_late if hasattr(attendance, 'is_late') else False,
+                'break_duration': attendance.break_duration if hasattr(attendance, 'break_duration') else 0
+            })
+            
+            # Calculate total hours if both check-in and check-out exist
+            if check_in_time and check_out_time:
+                duration = check_out_time - check_in_time
+                attendance_data['total_hours'] = round(duration.total_seconds() / 3600, 2)
+            elif check_in_time:
+                # Calculate current duration if only checked in
+                current_duration = datetime.utcnow() - check_in_time
+                attendance_data['total_hours'] = round(current_duration.total_seconds() / 3600, 2)
+        
+        return jsonify({
+            'status': 'success',
+            'data': attendance_data
+        }), 200
+        
+    except Exception as e:
+        current_app.logger.error(f"Error fetching today's attendance: {str(e)}")
+        current_app.logger.error(traceback.format_exc())
+        return jsonify({
+            'status': 'error',
+            'message': 'Failed to fetch attendance information'
+        }), 500
+
+@bp.route('/api/employee/attendance/history', methods=['GET'])
+@jwt_required
+@role_required('employee', 'manager', 'org_admin', 'super_admin')
+def get_attendance_history():
+    """
+    Get employee's attendance history
+    """
+    try:
+        user_id = g.current_user.id
+        
+        # Get pagination parameters
+        page = int(request.args.get('page', 1))
+        per_page = int(request.args.get('per_page', 10))
+        days = int(request.args.get('days', 30))  # Default to last 30 days
+        
+        # Get employee record
+        employee = Employee.query.filter_by(user_id=user_id, is_active=True).first()
+        
+        if not employee:
+            return jsonify({
+                'status': 'error',
+                'message': 'Employee record not found'
+            }), 404
+        
+        # Calculate date range
+        end_date = datetime.utcnow().date()
+        start_date = end_date - timedelta(days=days)
+        
+        # Get attendance records
+        attendance_query = Attendance.query.filter(
+            Attendance.employee_id == employee.id,
+            func.date(Attendance.check_in_time) >= start_date,
+            func.date(Attendance.check_in_time) <= end_date
+        ).order_by(Attendance.check_in_time.desc())
+        
+        attendance_records = attendance_query.paginate(
+            page=page, per_page=per_page, error_out=False
+        )
+        
+        history_data = []
+        for record in attendance_records.items:
+            check_in_time = record.check_in_time
+            check_out_time = record.check_out_time
+            
+            # Calculate duration
+            duration_hours = 0
+            if check_in_time and check_out_time:
+                duration = check_out_time - check_in_time
+                duration_hours = round(duration.total_seconds() / 3600, 2)
+            
+            history_data.append({
+                'id': record.id,
+                'date': check_in_time.date().isoformat() if check_in_time else None,
+                'check_in_time': check_in_time.isoformat() if check_in_time else None,
+                'check_out_time': check_out_time.isoformat() if check_out_time else None,
+                'duration_hours': duration_hours,
+                'status': 'present' if check_in_time else 'absent',
+                'is_late': getattr(record, 'is_late', False),
+                'break_duration': getattr(record, 'break_duration', 0)
+            })
+        
+        return jsonify({
+            'status': 'success',
+            'data': {
+                'attendance_history': history_data,
+                'pagination': {
+                    'page': attendance_records.page,
+                    'pages': attendance_records.pages,
+                    'per_page': attendance_records.per_page,
+                    'total': attendance_records.total,
+                    'has_next': attendance_records.has_next,
+                    'has_prev': attendance_records.has_prev
+                },
+                'date_range': {
+                    'start_date': start_date.isoformat(),
+                    'end_date': end_date.isoformat()
+                }
+            }
+        }), 200
+        
+    except Exception as e:
+        current_app.logger.error(f"Error fetching attendance history: {str(e)}")
+        current_app.logger.error(traceback.format_exc())
+        return jsonify({
+            'status': 'error',
+            'message': 'Failed to fetch attendance history'
+        }), 500
+
+@bp.route('/api/employee/leaves', methods=['GET'])
+@jwt_required
+@role_required('employee', 'manager', 'org_admin', 'super_admin')
+def get_employee_leaves():
+    """
+    Get employee's leave requests
+    """
+    try:
+        user_id = g.current_user.id
+        
+        # Get pagination and filter parameters
+        page = int(request.args.get('page', 1))
+        per_page = int(request.args.get('per_page', 10))
+        status_filter = request.args.get('status', 'all')
+        
+        # Get employee record
+        employee = Employee.query.filter_by(user_id=user_id, is_active=True).first()
+        
+        if not employee:
+            return jsonify({
+                'status': 'error',
+                'message': 'Employee record not found'
+            }), 404
+        
+        # Build query
+        leaves_query = LeaveRequest.query.filter(LeaveRequest.employee_id == employee.id)
+        
+        if status_filter != 'all':
+            leaves_query = leaves_query.filter(LeaveRequest.status == status_filter)
+        
+        leaves = leaves_query.order_by(LeaveRequest.created_at.desc()).paginate(
+            page=page, per_page=per_page, error_out=False
+        )
+        
+        leave_requests = []
+        for leave in leaves.items:
+            leave_requests.append({
+                'id': leave.id,
+                'leave_type': leave.leave_type,
+                'start_date': leave.start_date.isoformat(),
+                'end_date': leave.end_date.isoformat(),
+                'days_requested': leave.days_requested,
+                'reason': leave.reason,
+                'status': leave.status,
+                'created_at': leave.created_at.isoformat(),
+                'manager_comments': leave.manager_comments,
+                'approved_at': leave.approved_at.isoformat() if leave.approved_at else None,
+                'approved_by_name': None  # This would need a join to get manager name
+            })
+        
+        # Get leave balance summary (this would typically come from a separate leave balance table)
+        leave_balance = {
+            'annual_leave': {
+                'total': 21,  # Default annual leave days
+                'used': len([l for l in leave_requests if l['leave_type'] == 'Annual Leave' and l['status'] == 'approved']),
+                'remaining': 21 - len([l for l in leave_requests if l['leave_type'] == 'Annual Leave' and l['status'] == 'approved'])
+            },
+            'sick_leave': {
+                'total': 10,  # Default sick leave days
+                'used': len([l for l in leave_requests if l['leave_type'] == 'Sick Leave' and l['status'] == 'approved']),
+                'remaining': 10 - len([l for l in leave_requests if l['leave_type'] == 'Sick Leave' and l['status'] == 'approved'])
+            }
+        }
+        
+        return jsonify({
+            'status': 'success',
+            'data': {
+                'leave_requests': leave_requests,
+                'leave_balance': leave_balance,
+                'pagination': {
+                    'page': leaves.page,
+                    'pages': leaves.pages,
+                    'per_page': leaves.per_page,
+                    'total': leaves.total,
+                    'has_next': leaves.has_next,
+                    'has_prev': leaves.has_prev
+                }
+            }
+        }), 200
+        
+    except Exception as e:
+        current_app.logger.error(f"Error fetching employee leaves: {str(e)}")
+        current_app.logger.error(traceback.format_exc())
+        return jsonify({
+            'status': 'error',
+            'message': 'Failed to fetch leave requests'
+        }), 500
+
+@bp.route('/api/employee/leaves', methods=['POST'])
+@jwt_required
+@role_required('employee', 'manager', 'org_admin', 'super_admin')
+def apply_for_leave():
+    """
+    Apply for a new leave request
+    """
+    try:
+        user_id = g.current_user.id
+        data = request.get_json()
+        
+        if not data:
+            return jsonify({
+                'status': 'error',
+                'message': 'Invalid JSON data'
+            }), 400
+        
+        # Validate required fields
+        required_fields = ['leave_type', 'start_date', 'end_date', 'reason']
+        missing_fields = [field for field in required_fields if field not in data]
+        
+        if missing_fields:
+            return jsonify({
+                'status': 'error',
+                'message': f'Missing required fields: {", ".join(missing_fields)}'
+            }), 400
+        
+        # Get employee record
+        employee = Employee.query.filter_by(user_id=user_id, is_active=True).first()
+        
+        if not employee:
+            return jsonify({
+                'status': 'error',
+                'message': 'Employee record not found'
+            }), 404
+        
+        # Parse dates
+        try:
+            start_date = datetime.strptime(data['start_date'], '%Y-%m-%d').date()
+            end_date = datetime.strptime(data['end_date'], '%Y-%m-%d').date()
+        except ValueError:
+            return jsonify({
+                'status': 'error',
+                'message': 'Invalid date format. Use YYYY-MM-DD'
+            }), 400
+        
+        # Validate date logic
+        if start_date >= end_date:
+            return jsonify({
+                'status': 'error',
+                'message': 'End date must be after start date'
+            }), 400
+        
+        if start_date < datetime.utcnow().date():
+            return jsonify({
+                'status': 'error',
+                'message': 'Cannot apply for leave in the past'
+            }), 400
+        
+        # Calculate days requested
+        days_requested = (end_date - start_date).days + 1
+        
+        # Create new leave request
+        new_leave = Leave(
+            employee_id=employee.id,
+            leave_type=data['leave_type'],
+            start_date=start_date,
+            end_date=end_date,
+            days_requested=days_requested,
+            reason=data['reason'],
+            status='pending',
+            created_at=datetime.utcnow()
+        )
+        
+        from app import db
+        db.session.add(new_leave)
+        db.session.commit()
+        
+        return jsonify({
+            'status': 'success',
+            'message': 'Leave request submitted successfully',
+            'data': {
+                'leave_id': new_leave.id,
+                'status': 'pending'
+            }
+        }), 201
+        
+    except Exception as e:
+        current_app.logger.error(f"Error applying for leave: {str(e)}")
+        current_app.logger.error(traceback.format_exc())
+        return jsonify({
+            'status': 'error',
+            'message': 'Failed to submit leave request'
+        }), 500
+
+@bp.route('/api/employee/stats/summary', methods=['GET'])
+@jwt_required
+@role_required('employee', 'manager', 'org_admin', 'super_admin')
+def get_employee_stats_summary():
+    """
+    Get employee's statistics summary for dashboard
+    """
+    try:
+        user_id = g.current_user.id
+        
+        # Get employee record
+        employee = Employee.query.filter_by(user_id=user_id, is_active=True).first()
+        
+        if not employee:
+            return jsonify({
+                'status': 'error',
+                'message': 'Employee record not found'
+            }), 404
+        
+        # Get current month and year
+        today = datetime.utcnow().date()
+        current_month_start = today.replace(day=1)
+        
+        # Get attendance stats for current month
+        attendance_records = Attendance.query.filter(
+            Attendance.employee_id == employee.id,
+            func.date(Attendance.check_in_time) >= current_month_start
+        ).all()
+        
+        present_days = len(attendance_records)
+        working_days_this_month = (today - current_month_start).days + 1
+        
+        # Get leave stats
+        pending_leaves = LeaveRequest.query.filter_by(
+            employee_id=employee.id,
+            status='pending'
+        ).count()
+        
+        approved_leaves_this_year = LeaveRequest.query.filter(
+            LeaveRequest.employee_id == employee.id,
+            LeaveRequest.status == 'approved',
+            func.extract('year', LeaveRequest.start_date) == today.year
+        ).all()
+        
+        total_leave_days_used = sum(leave.days_requested for leave in approved_leaves_this_year)
+        
+        # Calculate total hours this month
+        total_hours_this_month = 0
+        for record in attendance_records:
+            if record.check_in_time and record.check_out_time:
+                duration = record.check_out_time - record.check_in_time
+                total_hours_this_month += duration.total_seconds() / 3600
+        
+        stats_summary = {
+            'attendance': {
+                'present_days_this_month': present_days,
+                'working_days_this_month': working_days_this_month,
+                'attendance_percentage': round((present_days / working_days_this_month * 100), 1) if working_days_this_month > 0 else 0,
+                'total_hours_this_month': round(total_hours_this_month, 1)
+            },
+            'leaves': {
+                'pending_requests': pending_leaves,
+                'approved_days_this_year': total_leave_days_used,
+                'remaining_annual_leave': max(0, 21 - total_leave_days_used)  # Assuming 21 days annual leave
+            },
+            'profile': {
+                'employee_id': employee.employee_id,
+                'position': employee.position,
+                'department': employee.department.name if employee.department else 'N/A',
+                'hire_date': employee.hire_date.isoformat() if employee.hire_date else None
+            }
+        }
+        
+        return jsonify({
+            'status': 'success',
+            'data': stats_summary
+        }), 200
+        
+    except Exception as e:
+        current_app.logger.error(f"Error fetching employee stats: {str(e)}")
+        current_app.logger.error(traceback.format_exc())
+        return jsonify({
+            'status': 'error',
+            'message': 'Failed to fetch employee statistics'
+        }), 500

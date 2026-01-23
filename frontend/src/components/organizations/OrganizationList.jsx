@@ -1,0 +1,242 @@
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { message } from 'antd';
+import { organizationsService } from '../../services/organizationsService';
+import '../../styles/OrganizationList.css';
+
+const OrganizationList = ({ showCreateButton = true, basePath = '/super-admin/organizations' }) => {
+  const navigate = useNavigate();
+  const [organizations, setOrganizations] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [filterStatus, setFilterStatus] = useState('all'); // all, active, inactive
+
+  useEffect(() => {
+    fetchOrganizations();
+  }, []);
+
+  const fetchOrganizations = async () => {
+    try {
+      setLoading(true);
+      // v2 API returns: { success: true, data: { items: [...], pagination: {...} }, message: "Success" }
+      const response = await organizationsService.list();
+      setOrganizations(response.data?.items || []);
+    } catch (error) {
+      console.error('Error fetching organizations:', error);
+      message.error(error.response?.data?.message || 'Failed to load organizations');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleCreateOrganization = () => {
+    navigate(`${basePath}/create`);
+  };
+
+  const handleViewOrganization = (orgId) => {
+    navigate(`${basePath}/${orgId}`);
+  };
+
+  const handleDeleteOrganization = async (orgId, orgName) => {
+    // Soft delete by default
+    if (!window.confirm(`Are you sure you want to delete "${orgName}"?`)) {
+      return;
+    }
+
+    try {
+      await organizationsService.delete(orgId, false);
+      message.success('Successfully deleted');
+      fetchOrganizations();
+    } catch (error) {
+      console.error('Error deleting organization:', error);
+      message.error(error.response?.data?.message || 'Failed to delete organization');
+    }
+  };
+
+  // Filter organizations based on search and status
+  const filteredOrganizations = organizations.filter(org => {
+    const matchesSearch = org.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      org.code?.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesStatus = filterStatus === 'all' ||
+      (filterStatus === 'active' && org.is_active) ||
+      (filterStatus === 'inactive' && !org.is_active);
+    return matchesSearch && matchesStatus;
+  });
+
+  if (loading) {
+    return (
+      <div className="loading-container">
+        <div className="spinner-large"></div>
+        <p>Loading organizations...</p>
+      </div>
+    );
+  }
+
+  return (
+    <div className="bg-gradient-to-br from-slate-50 via-indigo-50 to-purple-50 min-h-full">
+      {/* Page Header */}
+      <div className="bg-white/80 backdrop-blur-sm border-b border-slate-200/60 sticky top-0 z-30 shadow-sm">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+          <div className="flex items-center justify-between">
+            <div>
+              <h1 className="text-3xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
+                Organizations
+              </h1>
+              <p className="text-slate-600 mt-1">Manage all organizations in the system</p>
+            </div>
+            {showCreateButton && (
+              <button
+                className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-semibold rounded-xl hover:shadow-lg hover:shadow-indigo-400/30 transition-all duration-300"
+                onClick={handleCreateOrganization}
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                </svg>
+                Create Organization
+              </button>
+            )}
+          </div>
+        </div>
+      </div>
+
+      {/* Quick Actions Bar */}
+      <div className="bg-white border-b border-gray-200 sticky top-20 z-20 shadow-sm">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-wrap gap-3 py-4 items-center justify-between">
+            <p className="text-gray-600 font-medium">Total Organizations: {organizations.length}</p>
+            <div className="flex items-center gap-2 text-sm text-gray-500">
+              <span>Last updated: {new Date().toLocaleTimeString()}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Filters Section */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+          {/* Search Box */}
+          <div className="md:col-span-2">
+            <input
+              type="text"
+              placeholder="🔍 Search by name or code..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="w-full px-6 py-3 border-2 border-slate-200 rounded-xl focus:outline-none focus:border-indigo-500 focus:ring-4 focus:ring-indigo-100 bg-white shadow-sm hover:shadow-md transition-all text-lg"
+            />
+          </div>
+
+          {/* Filter Tabs */}
+          <div className="md:col-span-2 flex gap-3 flex-wrap">
+            <button
+              className={`px-6 py-3 rounded-xl font-bold transition-all duration-300 ${filterStatus === 'all'
+                ? 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-lg'
+                : 'bg-white text-slate-700 border-2 border-slate-200 hover:border-indigo-300'
+                }`}
+              onClick={() => setFilterStatus('all')}
+            >
+              All ({organizations.length})
+            </button>
+            <button
+              className={`px-6 py-3 rounded-xl font-bold transition-all duration-300 ${filterStatus === 'active'
+                ? 'bg-gradient-to-r from-green-500 to-emerald-600 text-white shadow-lg'
+                : 'bg-white text-slate-700 border-2 border-slate-200 hover:border-green-300'
+                }`}
+              onClick={() => setFilterStatus('active')}
+            >
+              Active ({organizations.filter(o => o.is_active).length})
+            </button>
+            <button
+              className={`px-6 py-3 rounded-xl font-bold transition-all duration-300 ${filterStatus === 'inactive'
+                ? 'bg-gradient-to-r from-orange-500 to-red-600 text-white shadow-lg'
+                : 'bg-white text-slate-700 border-2 border-slate-200 hover:border-orange-300'
+                }`}
+              onClick={() => setFilterStatus('inactive')}
+            >
+              Inactive ({organizations.filter(o => !o.is_active).length})
+            </button>
+          </div>
+        </div>
+
+        {/* Organizations Grid */}
+        {filteredOrganizations.length === 0 ? (
+          <div className="text-center py-16">
+            <div className="text-8xl mb-6">🏢</div>
+            <h3 className="text-3xl font-bold text-slate-900 mb-3">No organizations found</h3>
+            <p className="text-lg text-slate-600 mb-8">
+              {searchTerm || filterStatus !== 'all'
+                ? 'Try adjusting your search or filters'
+                : 'Get started by creating your first organization'}
+            </p>
+            {!searchTerm && filterStatus === 'all' && (
+              <button
+                className="px-8 py-4 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-bold rounded-xl hover:shadow-lg hover:translate-y-[-2px] transition-all duration-300 text-lg"
+                onClick={handleCreateOrganization}
+              >
+                ➕ Create Organization
+              </button>
+            )}
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {filteredOrganizations.map((org) => (
+              <div
+                key={org.id}
+                className="bg-white rounded-2xl border border-slate-200 shadow-lg hover:shadow-2xl transition-all duration-500 hover:translate-y-[-8px] overflow-hidden group"
+              >
+                {/* Card Header */}
+                <div className="bg-gradient-to-r from-indigo-500/10 to-purple-500/10 border-b border-slate-200 px-6 py-4 flex items-center justify-between">
+                  <div className="text-4xl">🏢</div>
+                  <span className={`px-4 py-2 rounded-full font-bold text-sm ${org.is_active
+                    ? 'bg-green-100 text-green-700'
+                    : 'bg-orange-100 text-orange-700'
+                    }`}>
+                    {org.is_active ? '✓ Active' : '⊘ Inactive'}
+                  </span>
+                </div>
+
+                {/* Card Body */}
+                <div className="px-6 py-6">
+                  <h3 className="text-2xl font-bold text-slate-900 mb-2">{org.name}</h3>
+                  <p className="text-sm text-slate-600 mb-4 font-medium">Code: <span className="text-indigo-600 font-bold">{org.code || 'N/A'}</span></p>
+                  {org.description && (
+                    <p className="text-slate-600 text-sm mb-6 line-clamp-2">{org.description}</p>
+                  )}
+
+                  {/* Stats */}
+                  <div className="grid grid-cols-3 gap-4 mb-6 p-4 bg-slate-50 rounded-xl">
+                    <div className="text-center">
+                      <p className="text-2xl font-black text-purple-600">{org.cameras_count || 0}</p>
+                      <p className="text-xs text-slate-600 font-semibold mt-1">Cameras</p>
+                    </div>
+                    <div className="text-center">
+                      <p className="text-2xl font-black text-blue-600">{org.locations_count || 0}</p>
+                      <p className="text-xs text-slate-600 font-semibold mt-1">Locations</p>
+                    </div>
+                  </div>
+
+                  {/* Actions */}
+                  <div className="flex gap-3">
+                    <button
+                      className="flex-1 px-4 py-2 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-bold rounded-lg hover:shadow-lg transition-all duration-300 text-sm"
+                      onClick={() => handleViewOrganization(org.id)}
+                    >
+                      View Details →
+                    </button>
+                    <button
+                      className="flex-1 px-4 py-2 bg-red-50 text-red-600 font-bold rounded-lg border-2 border-red-200 hover:bg-red-100 hover:border-red-300 transition-all duration-300 text-sm"
+                      onClick={() => handleDeleteOrganization(org.id, org.name)}
+                    >
+                      Delete
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
+
+export default OrganizationList;

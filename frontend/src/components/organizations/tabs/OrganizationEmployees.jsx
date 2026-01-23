@@ -1,0 +1,585 @@
+import React, { useState, useEffect } from 'react';
+import { message, Modal, Form, Input, Select, DatePicker, Switch } from 'antd';
+import { employeesService, EMPLOYMENT_TYPES, GENDER_OPTIONS, departmentsService, shiftsService } from '../../../services/organizationsService';
+import moment from 'moment';
+import WebcamCapture from '../../common/WebcamCapture.jsx';
+import EmployeeAnalytics from './EmployeeAnalytics';
+import EmployeeAttendanceLogs from './EmployeeAttendanceLogs';
+
+const { Option } = Select;
+const { TextArea } = Input;
+
+const OrganizationEmployees = ({ organizationId, organization }) => {
+  const [employees, setEmployees] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [showModal, setShowModal] = useState(false);
+  const [editingEmployee, setEditingEmployee] = useState(null);
+  const [form] = Form.useForm();
+  const [searchTerm, setSearchTerm] = useState('');
+  const [filterStatus, setFilterStatus] = useState('all');
+  const [departments, setDepartments] = useState([]);
+  const [shifts, setShifts] = useState([]);
+  const [employeePhoto, setEmployeePhoto] = useState(null);
+  const [showWebcam, setShowWebcam] = useState(false);
+  const [activeTab, setActiveTab] = useState('list');
+
+  useEffect(() => {
+    fetchEmployees();
+  }, [organizationId]);
+
+  useEffect(() => {
+    fetchDepartmentsAndShifts();
+  }, [organizationId]);
+
+  const fetchEmployees = async () => {
+    try {
+      setLoading(true);
+      const response = await employeesService.list({
+        organization_id: organizationId,
+        per_page: 100,
+      });
+      setEmployees(response.data?.items || []);
+    } catch (error) {
+      console.error('Error fetching employees:', error);
+      message.error(error.response?.data?.message || 'Failed to load employees');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const fetchDepartmentsAndShifts = async () => {
+    try {
+      const [dResp, sResp] = await Promise.all([
+        departmentsService.list({ organization_id: organizationId, per_page: 200, is_active: true }),
+        shiftsService.list({ organization_id: organizationId, per_page: 200, is_active: true }),
+      ]);
+      setDepartments(dResp.data?.items || dResp.data || []);
+      setShifts(sResp.data?.items || sResp.data || []);
+    } catch (err) {
+      console.error('Error fetching departments/shifts:', err);
+      // non-blocking
+    }
+  };
+
+  const handleCreateEmployee = () => {
+    setEditingEmployee(null);
+    setEmployeePhoto(null);
+    setShowWebcam(false);
+    form.resetFields();
+    setShowModal(true);
+  };
+
+  const handleEditEmployee = (employee) => {
+    setEditingEmployee(employee);
+    setEmployeePhoto(employee.photo_base64 || null);
+    setShowWebcam(false);
+    form.setFieldsValue({
+      ...employee,
+      date_of_birth: employee.date_of_birth ? moment(employee.date_of_birth) : null,
+      joining_date: employee.joining_date ? moment(employee.joining_date) : null,
+    });
+    setShowModal(true);
+  };
+
+  const handleDeleteEmployee = async (employeeId, employeeName) => {
+    if (!window.confirm(`Are you sure you want to delete employee "${employeeName}"?`)) {
+      return;
+    }
+
+    try {
+      await employeesService.delete(employeeId, false);
+      message.success('Employee deleted successfully!');
+      fetchEmployees();
+    } catch (error) {
+      console.error('Error deleting employee:', error);
+      message.error(error.response?.data?.message || 'Failed to delete employee');
+    }
+  };
+
+  const handleToggleStatus = async (employee) => {
+    try {
+      await employeesService.update(employee.id, {
+        is_active: !employee.is_active,
+      });
+      message.success(employee.is_active ? 'Successfully disabled' : 'Successfully enabled');
+      fetchEmployees();
+    } catch (error) {
+      console.error('Error updating employee status:', error);
+      message.error(error.response?.data?.message || 'Failed to update employee status');
+    }
+  };
+
+  const handleSubmit = async (values) => {
+    try {
+      if (editingEmployee) {
+        const payload = {
+          full_name: values.full_name,
+          phone_number: values.phone_number,
+          gender: values.gender,
+          date_of_birth: values.date_of_birth ? values.date_of_birth.format('YYYY-MM-DD') : null,
+          designation: values.designation,
+          employment_type: values.employment_type,
+          joining_date: values.joining_date ? values.joining_date.format('YYYY-MM-DD') : null,
+          department_id: values.department_id,
+          shift_id: values.shift_id,
+          address: values.address,
+          is_active: values.is_active,
+          photo_base64: employeePhoto || undefined,
+        };
+        await employeesService.update(editingEmployee.id, payload);
+        message.success('Successfully updated');
+      } else {
+        const generateUUID = () => {
+          return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+            const r = Math.random() * 16 | 0;
+            const v = c === 'x' ? r : (r & 0x3 | 0x8);
+            return v.toString(16);
+          });
+        };
+        const payload = {
+          organization_id: organizationId,
+          user_id: generateUUID(),
+          full_name: values.full_name,
+          employee_code: `EMP-${Date.now()}`,
+          phone_number: values.phone_number,
+          gender: values.gender,
+          date_of_birth: values.date_of_birth ? values.date_of_birth.format('YYYY-MM-DD') : null,
+          designation: values.designation,
+          employment_type: values.employment_type,
+          joining_date: values.joining_date ? values.joining_date.format('YYYY-MM-DD') : null,
+          department_id: values.department_id,
+          shift_id: values.shift_id,
+          address: values.address,
+          photo_base64: employeePhoto || undefined,
+        };
+        await employeesService.create(payload);
+        message.success('Successfully created');
+      }
+
+      setShowModal(false);
+      setEmployeePhoto(null);
+      setShowWebcam(false);
+      form.resetFields();
+      fetchEmployees();
+    } catch (error) {
+      console.error('Error saving employee:', error);
+      message.error(error.response?.data?.message || 'Failed to save employee');
+    }
+  };
+
+  const filteredEmployees = employees.filter((emp) => {
+    const matchesSearch =
+      emp.full_name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      emp.employee_code?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      emp.phone_number?.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesStatus =
+      filterStatus === 'all' ||
+      (filterStatus === 'active' && emp.is_active) ||
+      (filterStatus === 'inactive' && !emp.is_active);
+    return matchesSearch && matchesStatus;
+  });
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center py-12">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600"></div>
+      </div>
+    );
+  }
+
+
+  return (
+    <div className="space-y-6">
+      {/* Header & Tabs */}
+      <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+        <div className="p-6 border-b border-gray-100 flex justify-between items-center flex-wrap gap-4 bg-gradient-to-r from-indigo-50 to-purple-50">
+          <div>
+            <h2 className="text-3xl font-bold text-gray-900 flex items-center gap-2">
+              👥 Employees Management
+            </h2>
+            <p className="text-gray-600 mt-1 text-sm">Manage employees for <span className="font-semibold">{organization?.name}</span></p>
+          </div>
+          <button
+            onClick={handleCreateEmployee}
+            className="px-6 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-semibold rounded-lg hover:shadow-lg transition-all duration-300 hover:-translate-y-0.5"
+          >
+            ➕ Add Employee
+          </button>
+        </div>
+
+        {/* Tab Navigation */}
+        <div className="flex border-b border-gray-200 bg-gray-50/50">
+          <button
+            onClick={() => setActiveTab('list')}
+            className={`px-6 py-3 font-semibold text-sm transition-all relative ${activeTab === 'list'
+              ? 'text-indigo-600 bg-white border-t-2 border-indigo-600'
+              : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
+              }`}
+          >
+            📋 Employee List
+          </button>
+          <button
+            onClick={() => setActiveTab('analytics')}
+            className={`px-6 py-3 font-semibold text-sm transition-all relative ${activeTab === 'analytics'
+              ? 'text-indigo-600 bg-white border-t-2 border-indigo-600'
+              : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
+              }`}
+          >
+            📊 Analytics
+          </button>
+          <button
+            onClick={() => setActiveTab('logs')}
+            className={`px-6 py-3 font-semibold text-sm transition-all relative ${activeTab === 'logs'
+              ? 'text-indigo-600 bg-white border-t-2 border-indigo-600'
+              : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
+              }`}
+          >
+            📝 Attendance Logs
+          </button>
+        </div>
+      </div>
+
+      {activeTab === 'analytics' && (
+        <EmployeeAnalytics employees={employees} />
+      )}
+
+      {activeTab === 'logs' && (
+        <EmployeeAttendanceLogs employees={employees} />
+      )}
+
+      {activeTab === 'list' && (
+        <>
+          {/* Search and Filters */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <input
+              type="text"
+              placeholder="🔍 Search by name, code, or phone..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+            />
+            <div className="flex gap-2">
+              <button
+                onClick={() => setFilterStatus('all')}
+                className={`px-4 py-2 rounded-lg font-semibold transition-all ${filterStatus === 'all'
+                  ? 'bg-indigo-600 text-white'
+                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                  }`}
+              >
+                All ({employees.length})
+              </button>
+              <button
+                onClick={() => setFilterStatus('active')}
+                className={`px-4 py-2 rounded-lg font-semibold transition-all ${filterStatus === 'active'
+                  ? 'bg-green-600 text-white'
+                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                  }`}
+              >
+                Active ({employees.filter((e) => e.is_active).length})
+              </button>
+              <button
+                onClick={() => setFilterStatus('inactive')}
+                className={`px-4 py-2 rounded-lg font-semibold transition-all ${filterStatus === 'inactive'
+                  ? 'bg-orange-600 text-white'
+                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                  }`}
+              >
+                Inactive ({employees.filter((e) => !e.is_active).length})
+              </button>
+            </div>
+          </div>
+
+          {/* Employees Table */}
+          {filteredEmployees.length === 0 ? (
+            <div className="text-center py-12 bg-gray-50 rounded-xl">
+              <div className="text-6xl mb-4">👥</div>
+              <h3 className="text-xl font-bold text-gray-900 mb-2">No employees found</h3>
+              <p className="text-gray-600 mb-6">
+                {searchTerm || filterStatus !== 'all'
+                  ? 'Try adjusting your search or filters'
+                  : 'Get started by adding your first employee'}
+              </p>
+              {!searchTerm && filterStatus === 'all' && (
+                <button
+                  onClick={handleCreateEmployee}
+                  className="px-6 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-semibold rounded-lg hover:shadow-lg transition-all"
+                >
+                  ➕ Add Employee
+                </button>
+              )}
+            </div>
+          ) : (
+            <div className="overflow-x-auto bg-white rounded-xl shadow-md">
+              <table className="w-full">
+                <thead className="bg-gray-50 border-b border-gray-200">
+                  <tr>
+                    <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                      Employee
+                    </th>
+                    <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                      Code
+                    </th>
+                    <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                      Contact
+                    </th>
+                    <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                      Designation
+                    </th>
+                    <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                      Type
+                    </th>
+                    <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                      Status
+                    </th>
+                    <th className="px-6 py-4 text-right text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                      Actions
+                    </th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-gray-200">
+                  {filteredEmployees.map((employee) => (
+                    <tr key={employee.id} className="hover:bg-gray-50 transition-colors">
+                      <td className="px-6 py-4">
+                        <div className="flex items-center gap-3">
+                          <div className="w-10 h-10 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-full flex items-center justify-center text-white font-bold">
+                            {employee.full_name?.charAt(0).toUpperCase()}
+                          </div>
+                          <div>
+                            <div className="font-semibold text-gray-900">{employee.full_name}</div>
+                          </div>
+                        </div>
+                      </td>
+                      <td className="px-6 py-4">
+                        <span className="font-mono text-sm font-semibold text-indigo-600">
+                          {employee.employee_code}
+                        </span>
+                      </td>
+                      <td className="px-6 py-4 text-sm text-gray-700">
+                        {employee.phone_number || 'N/A'}
+                      </td>
+                      <td className="px-6 py-4 text-sm text-gray-700">
+                        {employee.designation || 'N/A'}
+                      </td>
+                      <td className="px-6 py-4">
+                        <span className="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-xs font-semibold">
+                          {employee.employment_type?.replace('_', ' ').toUpperCase() || 'N/A'}
+                        </span>
+                      </td>
+                      <td className="px-6 py-4">
+                        <button
+                          onClick={() => handleToggleStatus(employee)}
+                          className={`px-3 py-1 rounded-full text-xs font-semibold cursor-pointer transition-all ${employee.is_active
+                            ? 'bg-green-100 text-green-700 hover:bg-green-200'
+                            : 'bg-orange-100 text-orange-700 hover:bg-orange-200'
+                            }`}
+                        >
+                          {employee.is_active ? '✓ Active' : '⊘ Inactive'}
+                        </button>
+                      </td>
+                      <td className="px-6 py-4 text-right">
+                        <div className="flex justify-end gap-2">
+                          <button
+                            onClick={() => handleEditEmployee(employee)}
+                            className="px-3 py-1 bg-indigo-50 text-indigo-600 rounded-lg hover:bg-indigo-100 transition-all text-sm font-semibold"
+                          >
+                            Edit
+                          </button>
+                          <button
+                            onClick={() => handleDeleteEmployee(employee.id, employee.full_name)}
+                            className="px-3 py-1 bg-red-50 text-red-600 rounded-lg hover:bg-red-100 transition-all text-sm font-semibold"
+                          >
+                            Delete
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+
+          {/* Create/Edit Modal */}
+          <Modal
+            title={
+              <div className="text-xl font-bold text-gray-900">
+                {editingEmployee ? 'Edit Employee' : 'Create New Employee'}
+              </div>
+            }
+            open={showModal}
+            onCancel={() => {
+              setShowModal(false);
+              setEmployeePhoto(null);
+              setShowWebcam(false);
+              form.resetFields();
+            }}
+            footer={null}
+            width={800}
+          >
+            <Form form={form} layout="vertical" onFinish={handleSubmit} className="mt-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {/* Employee code is auto-generated by backend; do not allow manual entry */}
+
+                <Form.Item
+                  name="full_name"
+                  label="Full Name"
+                  rules={[{ required: true, message: 'Please enter full name' }]}
+                >
+                  <Input placeholder="John Doe" />
+                </Form.Item>
+
+                <Form.Item name="phone_number" label="Phone Number">
+                  <Input placeholder="+1234567890" />
+                </Form.Item>
+
+                <Form.Item name="gender" label="Gender">
+                  <Select placeholder="Select gender">
+                    <Option value={GENDER_OPTIONS.MALE}>Male</Option>
+                    <Option value={GENDER_OPTIONS.FEMALE}>Female</Option>
+                    <Option value={GENDER_OPTIONS.OTHER}>Other</Option>
+                  </Select>
+                </Form.Item>
+
+                <Form.Item name="date_of_birth" label="Date of Birth">
+                  <DatePicker className="w-full" format="YYYY-MM-DD" />
+                </Form.Item>
+
+                <Form.Item name="designation" label="Designation">
+                  <Input placeholder="Software Engineer" />
+                </Form.Item>
+
+                <Form.Item name="employment_type" label="Employment Type">
+                  <Select placeholder="Select employment type">
+                    <Option value={EMPLOYMENT_TYPES.FULL_TIME}>Full Time</Option>
+                    <Option value={EMPLOYMENT_TYPES.PART_TIME}>Part Time</Option>
+                    <Option value={EMPLOYMENT_TYPES.CONTRACT}>Contract</Option>
+                    <Option value={EMPLOYMENT_TYPES.INTERN}>Intern</Option>
+                  </Select>
+                </Form.Item>
+
+                <Form.Item name="joining_date" label="Joining Date">
+                  <DatePicker className="w-full" format="YYYY-MM-DD" />
+                </Form.Item>
+
+                <Form.Item name="department_id" label="Department">
+                  <Select placeholder="Select department" allowClear>
+                    {departments.map((d) => (
+                      <Option key={d.id} value={d.id}>{d.name || d.department_name}{d.code ? ` — ${d.code}` : ''}</Option>
+                    ))}
+                  </Select>
+                </Form.Item>
+
+
+
+                <Form.Item name="shift_id" label="Shift">
+                  <Select placeholder="Select shift" allowClear>
+                    {shifts.map((s) => (
+                      <Option key={s.id} value={s.id}>{s.shift_name || s.name} {s.start_time ? `(${s.start_time} - ${s.end_time})` : ''}</Option>
+                    ))}
+                  </Select>
+                </Form.Item>
+
+                <Form.Item name="address" label="Address" className="md:col-span-2">
+                  <TextArea rows={2} placeholder="Enter full address" />
+                </Form.Item>
+
+                {/* Employee Photo Capture */}
+                <div className="md:col-span-2">
+                  <label className="block text-sm font-semibold text-gray-700 mb-3">
+                    Employee Photo
+                  </label>
+
+                  {!showWebcam && !employeePhoto && (
+                    <button
+                      type="button"
+                      onClick={() => setShowWebcam(true)}
+                      className="w-full px-8 py-4 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-semibold rounded-xl transition-all duration-300 flex items-center justify-center gap-3 shadow-lg hover:shadow-xl transform hover:scale-105 active:scale-95 mb-6"
+                    >
+                      <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
+                      </svg>
+                      Capture Employee Photo
+                    </button>
+                  )}
+
+                  {showWebcam && (
+                    <div className="mb-6">
+                      <WebcamCapture onImageCapture={(base64) => {
+                        setEmployeePhoto(base64);
+                        setShowWebcam(false);
+                        message.success('Employee photo captured successfully!');
+                      }}
+                        onBack={() => setShowWebcam(false)}
+                      />
+                    </div>
+                  )}
+
+                  {employeePhoto && (
+                    <div className="bg-gray-50 rounded-lg p-4 border border-green-200">
+                      <div className="mb-3 flex items-center gap-2">
+                        <span className="text-2xl">✅</span>
+                        <p className="text-green-700 font-semibold">Photo captured successfully</p>
+                      </div>
+                      <div className="relative">
+                        <img
+                          src={employeePhoto}
+                          alt="Employee"
+                          className="w-full h-48 object-cover rounded-lg"
+                        />
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setEmployeePhoto(null);
+                            setShowWebcam(true);
+                          }}
+                          className="mt-3 w-full px-4 py-2 bg-yellow-600 hover:bg-yellow-700 text-white font-semibold rounded-lg transition-all duration-300 flex items-center justify-center gap-2"
+                        >
+                          🔄 Retake Photo
+                        </button>
+                      </div>
+                    </div>
+                  )}
+                </div>
+
+                {editingEmployee && (
+                  <Form.Item
+                    name="is_active"
+                    label="Active Status"
+                    valuePropName="checked"
+                    className="md:col-span-2"
+                  >
+                    <Switch />
+                  </Form.Item>
+                )}
+              </div>
+
+              <div className="flex justify-end gap-3 mt-6 pt-6 border-t">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setShowModal(false);
+                    setEmployeePhoto(null);
+                    setShowWebcam(false);
+                    form.resetFields();
+                  }}
+                  className="px-6 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-all font-semibold"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="px-6 py-2 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-lg hover:shadow-lg transition-all font-semibold"
+                >
+                  {editingEmployee ? 'Update Employee' : 'Create Employee'}
+                </button>
+              </div>
+            </Form>
+          </Modal>
+        </>
+      )}
+    </div>
+  );
+};
+
+export default OrganizationEmployees;

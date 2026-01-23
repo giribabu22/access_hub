@@ -1,0 +1,4 @@
+{
+  "message": "Login failed: Invalid salt",
+  "success": false
+}
