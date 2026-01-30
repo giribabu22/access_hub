@@ -217,7 +217,14 @@ const VisitorEntryForm = ({ organizationId, organization, onSubmitSuccess }) => 
     try {
       setLoading(true);
 
-      const response = await visitorService.createVisitor(organizationId, formData);
+      // Sanitize form data - convert empty strings to null for integer fields
+      const sanitizedData = {
+        ...formData,
+        delivery_package_count: formData.delivery_package_count === '' ? null : parseInt(formData.delivery_package_count) || null,
+        expected_duration_hours: formData.expected_duration_hours === '' ? null : parseInt(formData.expected_duration_hours) || null,
+      };
+
+      const response = await visitorService.createVisitor(organizationId, sanitizedData);
 
       message.success('Visitor check-in successful! Generating visitor pass...');
 

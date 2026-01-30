@@ -257,6 +257,33 @@ export const organizationsService = {
       throw error;
     }
   },
+
+  /**
+   * Get employee attendance summary for an organization
+   * 
+   * @param {string} orgId - Organization UUID
+   * @param {Object} params - Query parameters
+   * @param {number} [params.page=1] - Page number
+   * @param {number} [params.per_page=20] - Items per page
+   * @param {string} [params.month] - Month in YYYY-MM format (defaults to current month)
+   * @returns {Promise} Response with { success, data: { items, pagination, month }, message }
+   * 
+   * @example
+   * const response = await organizationsService.getEmployeeAttendanceSummary('uuid-here', {
+   *   month: '2026-01',
+   *   per_page: 50
+   * });
+   * const attendanceData = response.data.items;
+   */
+  getEmployeeAttendanceSummary: async (orgId, params = {}) => {
+    try {
+      const response = await api.get(`/api/v2/organizations/${orgId}/employees/attendance-summary`, { params });
+      return response.data;
+    } catch (error) {
+      console.error(`Error getting employee attendance summary ${orgId}:`, error);
+      throw error;
+    }
+  },
 };
 
 /**

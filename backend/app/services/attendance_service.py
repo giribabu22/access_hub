@@ -119,6 +119,7 @@ class AttendanceService:
     def list_attendance(filters, organization_id=None):
         """List attendance records with filters and pagination"""
         query = AttendanceRecord.query
+        needs_employee_join = False
         
         # Apply tenant isolation
         if organization_id:
@@ -131,9 +132,30 @@ class AttendanceService:
         if filters.get('employee_id'):
             query = query.filter_by(employee_id=filters['employee_id'])
         
-        if filters.get('department_id'):
-            # Join with Employee to filter by department
-            query = query.join(Employee).filter(Employee.department_id == filters['department_id'])
+        # Check if we need to join with Employee table
+        if filters.get('department_id') or filters.get('search'):
+            needs_employee_join = True
+        
+        # Perform join if needed
+        if needs_employee_join:
+            query = query.join(Employee)
+            
+            # Apply department filter
+            if filters.get('department_id'):
+                query = query.filter(Employee.department_id == filters['department_id'])
+            
+            # Apply search filter
+            if filters.get('search'):
+                search = f"%{filters['search']}%"
+                query = query.filter(
+                    or_(
+                        Employee.full_name.ilike(search),
+                        Employee.employee_code.ilike(search)
+                    )
+                )
+            
+            # Ensure we only select AttendanceRecord entities
+            query = query.with_entities(AttendanceRecord)
         
         if filters.get('start_date'):
             query = query.filter(AttendanceRecord.date >= filters['start_date'])
@@ -146,16 +168,6 @@ class AttendanceService:
         
         if filters.get('review_status'):
             query = query.filter_by(review_status=filters['review_status'])
-        
-        if filters.get('search'):
-            # Search by employee name or code
-            search = f"%{filters['search']}%"
-            query = query.join(Employee).filter(
-                or_(
-                    Employee.full_name.ilike(search),
-                    Employee.employee_code.ilike(search)
-                )
-            )
         
         # Order by date desc
         query = query.order_by(AttendanceRecord.date.desc())

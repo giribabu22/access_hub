@@ -15,7 +15,7 @@ class VisitorCreateSchema(Schema):
     image_base64 = fields.String(allow_none=True)
     
     # New Fields
-    visitor_type = fields.String(required=False, default='guest')
+    visitor_type = fields.String(required=False, load_default='guest')
     host_name = fields.String(allow_none=True)
     host_phone = fields.String(allow_none=True)
     company_name = fields.String(allow_none=True)

@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { message, Modal, Form, Input, Select, DatePicker, Switch } from 'antd';
-import { employeesService, EMPLOYMENT_TYPES, GENDER_OPTIONS, departmentsService, shiftsService } from '../../../services/organizationsService';
+import { employeesService, EMPLOYMENT_TYPES, GENDER_OPTIONS, departmentsService, shiftsService, organizationsService } from '../../../services/organizationsService';
 import moment from 'moment';
 import WebcamCapture from '../../common/WebcamCapture.jsx';
 import EmployeeAnalytics from './EmployeeAnalytics';
 import EmployeeAttendanceLogs from './EmployeeAttendanceLogs';
+import EmployeeAttendanceCalendar from './EmployeeAttendanceCalendar';
+import OrganizationDepartments from './OrganizationDepartments';
+import OrganizationShifts from './OrganizationShifts';
 
 const { Option } = Select;
 const { TextArea } = Input;
@@ -22,6 +25,10 @@ const OrganizationEmployees = ({ organizationId, organization }) => {
   const [employeePhoto, setEmployeePhoto] = useState(null);
   const [showWebcam, setShowWebcam] = useState(false);
   const [activeTab, setActiveTab] = useState('list');
+  const [attendanceRecords, setAttendanceRecords] = useState([]);
+  const [loadingAttendance, setLoadingAttendance] = useState(false);
+  const [selectedCalendarEmployee, setSelectedCalendarEmployee] = useState(null);
+  const calendarRef = React.useRef(null);
 
   useEffect(() => {
     fetchEmployees();
@@ -60,6 +67,22 @@ const OrganizationEmployees = ({ organizationId, organization }) => {
       // non-blocking
     }
   };
+
+  const fetchAttendanceRecords = async () => {
+    try {
+      setLoadingAttendance(true);
+      const response = await organizationsService.getEmployeeAttendanceSummary(organizationId, {
+        per_page: 100,
+      });
+      setAttendanceRecords(response.data?.items || []);
+    } catch (error) {
+      console.error('Error fetching attendance records:', error);
+      message.error(error.response?.data?.message || 'Failed to load attendance records');
+    } finally {
+      setLoadingAttendance(false);
+    }
+  };
+
 
   const handleCreateEmployee = () => {
     setEditingEmployee(null);
@@ -188,63 +211,233 @@ const OrganizationEmployees = ({ organizationId, organization }) => {
   }
 
 
+
+
   return (
-    <div className="space-y-6">
+    <div className="w-full space-y-3">
       {/* Header & Tabs */}
-      <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
-        <div className="p-6 border-b border-gray-100 flex justify-between items-center flex-wrap gap-4 bg-gradient-to-r from-indigo-50 to-purple-50">
-          <div>
-            <h2 className="text-3xl font-bold text-gray-900 flex items-center gap-2">
-              👥 Employees Management
+      <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+        <div className="px-4 py-3 border-b border-gray-100 flex justify-between items-center flex-wrap gap-4 bg-gray-50">
+          <div className="flex items-center gap-3">
+            <h2 className="text-lg font-bold text-gray-800">
+              Employee Directory
             </h2>
-            <p className="text-gray-600 mt-1 text-sm">Manage employees for <span className="font-semibold">{organization?.name}</span></p>
+            <span className="text-gray-400">|</span>
+            <p className="text-gray-500 text-sm">Manage employees for <span className="font-semibold">{organization?.name}</span></p>
           </div>
           <button
             onClick={handleCreateEmployee}
-            className="px-6 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-semibold rounded-lg hover:shadow-lg transition-all duration-300 hover:-translate-y-0.5"
+            className="px-3 py-1.5 bg-indigo-600 text-white text-sm font-medium rounded hover:bg-indigo-700 transition-colors shadow-sm flex items-center gap-2"
           >
-            ➕ Add Employee
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" /></svg>
+            Add Employee
           </button>
         </div>
 
-        {/* Tab Navigation */}
-        <div className="flex border-b border-gray-200 bg-gray-50/50">
+        <div className="flex border-b border-gray-200 bg-white">
           <button
             onClick={() => setActiveTab('list')}
-            className={`px-6 py-3 font-semibold text-sm transition-all relative ${activeTab === 'list'
-              ? 'text-indigo-600 bg-white border-t-2 border-indigo-600'
-              : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
+            className={`px-4 py-2 font-medium text-sm transition-all relative border-b-2 ${activeTab === 'list'
+              ? 'text-indigo-600 border-indigo-600 bg-indigo-50/50'
+              : 'text-gray-600 border-transparent hover:text-gray-900 hover:bg-gray-50'
               }`}
           >
-            📋 Employee List
+            Employee List
           </button>
           <button
             onClick={() => setActiveTab('analytics')}
-            className={`px-6 py-3 font-semibold text-sm transition-all relative ${activeTab === 'analytics'
-              ? 'text-indigo-600 bg-white border-t-2 border-indigo-600'
-              : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
+            className={`px-4 py-2 font-medium text-sm transition-all relative border-b-2 ${activeTab === 'analytics'
+              ? 'text-indigo-600 border-indigo-600 bg-indigo-50/50'
+              : 'text-gray-600 border-transparent hover:text-gray-900 hover:bg-gray-50'
               }`}
           >
-            📊 Analytics
+            Analytics
           </button>
           <button
             onClick={() => setActiveTab('logs')}
-            className={`px-6 py-3 font-semibold text-sm transition-all relative ${activeTab === 'logs'
-              ? 'text-indigo-600 bg-white border-t-2 border-indigo-600'
-              : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
+            className={`px-4 py-2 font-medium text-sm transition-all relative border-b-2 ${activeTab === 'logs'
+              ? 'text-indigo-600 border-indigo-600 bg-indigo-50/50'
+              : 'text-gray-600 border-transparent hover:text-gray-900 hover:bg-gray-50'
               }`}
           >
-            📝 Attendance Logs
+            Attendance Logs
+          </button>
+          <button
+            onClick={() => {
+              setActiveTab('records');
+              if (attendanceRecords.length === 0) {
+                fetchAttendanceRecords();
+              }
+            }}
+            className={`px-4 py-2 font-medium text-sm transition-all relative border-b-2 ${activeTab === 'records'
+              ? 'text-indigo-600 border-indigo-600 bg-indigo-50/50'
+              : 'text-gray-600 border-transparent hover:text-gray-900 hover:bg-gray-50'
+              }`}
+          >
+            Attendance Records
+          </button>
+          <button
+            onClick={() => setActiveTab('calendar')}
+            className={`px-4 py-2 font-medium text-sm transition-all relative border-b-2 ${activeTab === 'calendar'
+              ? 'text-indigo-600 border-indigo-600 bg-indigo-50/50'
+              : 'text-gray-600 border-transparent hover:text-gray-900 hover:bg-gray-50'
+              }`}
+          >
+            Calendar
+          </button>
+          <button
+            onClick={() => setActiveTab('departments')}
+            className={`px-4 py-2 font-medium text-sm transition-all relative border-b-2 ${activeTab === 'departments'
+              ? 'text-indigo-600 border-indigo-600 bg-indigo-50/50'
+              : 'text-gray-600 border-transparent hover:text-gray-900 hover:bg-gray-50'
+              }`}
+          >
+            Departments
+          </button>
+          <button
+            onClick={() => setActiveTab('shifts')}
+            className={`px-4 py-2 font-medium text-sm transition-all relative border-b-2 ${activeTab === 'shifts'
+              ? 'text-indigo-600 border-indigo-600 bg-indigo-50/50'
+              : 'text-gray-600 border-transparent hover:text-gray-900 hover:bg-gray-50'
+              }`}
+          >
+            Shifts
           </button>
         </div>
       </div>
 
       {activeTab === 'analytics' && (
-        <EmployeeAnalytics employees={employees} />
+        <EmployeeAnalytics
+          employees={employees}
+          organizationId={organizationId}
+        />
       )}
 
       {activeTab === 'logs' && (
-        <EmployeeAttendanceLogs employees={employees} />
+        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4">
+          <EmployeeAttendanceLogs
+            employees={employees}
+            organizationId={organizationId}
+            onEmployeeClick={(employeeId) => {
+              setSelectedCalendarEmployee(employeeId);
+              setActiveTab('calendar');
+            }}
+          />
+        </div>
+      )}
+
+      {activeTab === 'records' && (
+        <div className="space-y-6">
+          {/* Monthly Attendance Records Table */}
+          <div className="bg-white rounded-xl shadow-md overflow-hidden">
+            <div className="p-6 border-b border-gray-100 bg-gradient-to-r from-blue-50 to-indigo-50">
+              <h3 className="text-2xl font-bold text-gray-900">📊 Monthly Attendance Records</h3>
+              <p className="text-gray-600 text-sm mt-1">View attendance statistics for all employees</p>
+            </div>
+
+            {loadingAttendance ? (
+              <div className="flex items-center justify-center py-12">
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600"></div>
+              </div>
+            ) : attendanceRecords.length === 0 ? (
+              <div className="text-center py-12 bg-gray-50">
+                <div className="text-6xl mb-4">📊</div>
+                <h3 className="text-xl font-bold text-gray-900 mb-2">No attendance records found</h3>
+                <p className="text-gray-600 mb-6">Attendance data will appear here once employees check in</p>
+              </div>
+            ) : (
+              <div className="overflow-x-auto">
+                <table className="w-full">
+                  <thead className="bg-gray-50 border-b border-gray-200">
+                    <tr>
+                      <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                        Employee
+                      </th>
+                      <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                        Department
+                      </th>
+                      <th className="px-4 py-3 text-center text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                        Present Days
+                      </th>
+                      <th className="px-4 py-3 text-center text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                        Absent Days
+                      </th>
+                      <th className="px-4 py-3 text-center text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                        Leave Count
+                      </th>
+                      <th className="px-4 py-3 text-center text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                        Avg Hours/Day
+                      </th>
+                      <th className="px-4 py-3 text-center text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                        Attendance %
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-gray-200">
+                    {attendanceRecords.map((record) => (
+                      <tr
+                        key={record.employee_id}
+                        className="hover:bg-indigo-50 transition-colors cursor-pointer"
+                        onClick={() => {
+                          setSelectedCalendarEmployee(record.employee_id);
+                          setActiveTab('calendar');
+                        }}
+                        title="Click to view attendance calendar"
+                      >
+                        <td className="px-4 py-3">
+                          <div className="flex items-center gap-3">
+                            <div className="w-10 h-10 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-full flex items-center justify-center text-white font-bold">
+                              {record.full_name?.charAt(0).toUpperCase()}
+                            </div>
+                            <div>
+                              <div className="font-semibold text-gray-900">{record.full_name}</div>
+                              <div className="text-xs text-gray-500">{record.employee_code}</div>
+                            </div>
+                          </div>
+                        </td>
+                        <td className="px-4 py-3 text-sm text-gray-700">
+                          {record.department || 'N/A'}
+                        </td>
+                        <td className="px-4 py-3 text-center">
+                          <span className="px-3 py-1 bg-green-100 text-green-700 rounded-full text-sm font-semibold">
+                            {record.present_days}
+                          </span>
+                        </td>
+                        <td className="px-4 py-3 text-center">
+                          <span className="px-3 py-1 bg-red-100 text-red-700 rounded-full text-sm font-semibold">
+                            {record.absent_days}
+                          </span>
+                        </td>
+                        <td className="px-4 py-3 text-center">
+                          <span className="px-3 py-1 bg-yellow-100 text-yellow-700 rounded-full text-sm font-semibold">
+                            {record.leave_count}
+                          </span>
+                        </td>
+                        <td className="px-4 py-3 text-center text-sm font-semibold text-gray-900">
+                          {record.avg_hours_per_day} hrs
+                        </td>
+                        <td className="px-4 py-3 text-center">
+                          <div className="flex flex-col items-center">
+                            <span className={`px-3 py-1 rounded-full text-sm font-semibold ${record.attendance_percentage >= 90
+                              ? 'bg-green-100 text-green-700'
+                              : record.attendance_percentage >= 75
+                                ? 'bg-yellow-100 text-yellow-700'
+                                : 'bg-red-100 text-red-700'
+                              }`}>
+                              {record.attendance_percentage}%
+                            </span>
+                          </div>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
+          </div>
+
+
+        </div>
       )}
 
       {activeTab === 'list' && (
@@ -256,36 +449,12 @@ const OrganizationEmployees = ({ organizationId, organization }) => {
               placeholder="🔍 Search by name, code, or phone..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+              className="px-3 py-1.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-sm w-full md:w-64"
             />
-            <div className="flex gap-2">
-              <button
-                onClick={() => setFilterStatus('all')}
-                className={`px-4 py-2 rounded-lg font-semibold transition-all ${filterStatus === 'all'
-                  ? 'bg-indigo-600 text-white'
-                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                  }`}
-              >
-                All ({employees.length})
-              </button>
-              <button
-                onClick={() => setFilterStatus('active')}
-                className={`px-4 py-2 rounded-lg font-semibold transition-all ${filterStatus === 'active'
-                  ? 'bg-green-600 text-white'
-                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                  }`}
-              >
-                Active ({employees.filter((e) => e.is_active).length})
-              </button>
-              <button
-                onClick={() => setFilterStatus('inactive')}
-                className={`px-4 py-2 rounded-lg font-semibold transition-all ${filterStatus === 'inactive'
-                  ? 'bg-orange-600 text-white'
-                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                  }`}
-              >
-                Inactive ({employees.filter((e) => !e.is_active).length})
-              </button>
+            <div className="flex gap-2 text-sm">
+              <button onClick={() => setFilterStatus('all')} className={`px-3 py-1.5 rounded-md ${filterStatus === 'all' ? 'bg-indigo-100 text-indigo-700 font-medium' : 'bg-white border hover:bg-gray-50'}`}>All ({employees.length})</button>
+              <button onClick={() => setFilterStatus('active')} className={`px-3 py-1.5 rounded-md ${filterStatus === 'active' ? 'bg-green-100 text-green-700 font-medium' : 'bg-white border hover:bg-gray-50'}`}>Active ({employees.filter(e => e.is_active).length})</button>
+              <button onClick={() => setFilterStatus('inactive')} className={`px-3 py-1.5 rounded-md ${filterStatus === 'inactive' ? 'bg-orange-100 text-orange-700 font-medium' : 'bg-white border hover:bg-gray-50'}`}>Inactive ({employees.filter(e => !e.is_active).length})</button>
             </div>
           </div>
 
@@ -309,29 +478,29 @@ const OrganizationEmployees = ({ organizationId, organization }) => {
               )}
             </div>
           ) : (
-            <div className="overflow-x-auto bg-white rounded-xl shadow-md">
+            <div className="overflow-x-auto bg-white rounded-lg shadow-sm border border-gray-200">
               <table className="w-full">
                 <thead className="bg-gray-50 border-b border-gray-200">
                   <tr>
-                    <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                    <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
                       Employee
                     </th>
-                    <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                    <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
                       Code
                     </th>
-                    <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                    <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
                       Contact
                     </th>
-                    <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                    <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
                       Designation
                     </th>
-                    <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                    <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
                       Type
                     </th>
-                    <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                    <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
                       Status
                     </th>
-                    <th className="px-6 py-4 text-right text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                    <th className="px-4 py-3 text-right text-xs font-semibold text-gray-600 uppercase tracking-wider">
                       Actions
                     </th>
                   </tr>
@@ -339,7 +508,7 @@ const OrganizationEmployees = ({ organizationId, organization }) => {
                 <tbody className="divide-y divide-gray-200">
                   {filteredEmployees.map((employee) => (
                     <tr key={employee.id} className="hover:bg-gray-50 transition-colors">
-                      <td className="px-6 py-4">
+                      <td className="px-4 py-3">
                         <div className="flex items-center gap-3">
                           <div className="w-10 h-10 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-full flex items-center justify-center text-white font-bold">
                             {employee.full_name?.charAt(0).toUpperCase()}
@@ -349,23 +518,23 @@ const OrganizationEmployees = ({ organizationId, organization }) => {
                           </div>
                         </div>
                       </td>
-                      <td className="px-6 py-4">
+                      <td className="px-4 py-3">
                         <span className="font-mono text-sm font-semibold text-indigo-600">
                           {employee.employee_code}
                         </span>
                       </td>
-                      <td className="px-6 py-4 text-sm text-gray-700">
+                      <td className="px-4 py-3 text-sm text-gray-700">
                         {employee.phone_number || 'N/A'}
                       </td>
-                      <td className="px-6 py-4 text-sm text-gray-700">
+                      <td className="px-4 py-3 text-sm text-gray-700">
                         {employee.designation || 'N/A'}
                       </td>
-                      <td className="px-6 py-4">
+                      <td className="px-4 py-3">
                         <span className="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-xs font-semibold">
                           {employee.employment_type?.replace('_', ' ').toUpperCase() || 'N/A'}
                         </span>
                       </td>
-                      <td className="px-6 py-4">
+                      <td className="px-4 py-3">
                         <button
                           onClick={() => handleToggleStatus(employee)}
                           className={`px-3 py-1 rounded-full text-xs font-semibold cursor-pointer transition-all ${employee.is_active
@@ -376,7 +545,7 @@ const OrganizationEmployees = ({ organizationId, organization }) => {
                           {employee.is_active ? '✓ Active' : '⊘ Inactive'}
                         </button>
                       </td>
-                      <td className="px-6 py-4 text-right">
+                      <td className="px-4 py-3 text-right">
                         <div className="flex justify-end gap-2">
                           <button
                             onClick={() => handleEditEmployee(employee)}
@@ -577,6 +746,30 @@ const OrganizationEmployees = ({ organizationId, organization }) => {
             </Form>
           </Modal>
         </>
+      )}
+
+      {activeTab === 'calendar' && (
+        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4">
+          <EmployeeAttendanceCalendar
+            employees={employees}
+            selectedEmployeeId={selectedCalendarEmployee}
+            organizationId={organizationId}
+          />
+        </div>
+      )}
+
+      {activeTab === 'departments' && (
+        <OrganizationDepartments
+          organizationId={organizationId}
+          organization={organization}
+        />
+      )}
+
+      {activeTab === 'shifts' && (
+        <OrganizationShifts
+          organizationId={organizationId}
+          organization={organization}
+        />
       )}
     </div>
   );

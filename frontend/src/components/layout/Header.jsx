@@ -31,24 +31,18 @@ const Header = () => {
 
   const getNavigationItems = () => {
     const role = getUserRole();
-    
+
     switch (role) {
       case 'super_admin':
         return [
           { name: 'Dashboard', href: '/super-admin/dashboard', icon: '🏠' },
-          { name: 'Organizations', href: '/super-admin/organizations', icon: '🏢' },
-          { name: 'Employees', href: '/super-admin/employees', icon: '👥' },
-          { name: 'System', href: '/super-admin/cameras', icon: '⚙️' },
+          { name: 'Organizations', href: '/super-admin/organizations', icon: '🏢' }
         ];
-      
+
       case 'org_admin':
         return [
-          { name: 'Dashboard', href: '/org-admin/dashboard', icon: '🏠' },
-          { name: 'Visitors', href: '/org-admin/visitors', icon: '👤' },
-          { name: 'Employees', href: '/org-admin/employees', icon: '👥' },
-          { name: 'Analytics', href: '/org-admin/analytics', icon: '📊' },
         ];
-      
+
       case 'manager':
         return [
           { name: 'Dashboard', href: '/manager/dashboard', icon: '🏠' },
@@ -56,7 +50,7 @@ const Header = () => {
           { name: 'Leaves', href: '/manager/leaves', icon: '📋' },
           { name: 'Reports', href: '/manager/reports', icon: '📈' },
         ];
-      
+
       case 'employee':
         return [
           { name: 'Dashboard', href: '/employee/dashboard', icon: '🏠' },
@@ -64,7 +58,7 @@ const Header = () => {
           { name: 'Leaves', href: '/employee/leaves', icon: '📋' },
           { name: 'Profile', href: '/employee/profile', icon: '👤' },
         ];
-      
+
       default:
         return [];
     }
@@ -81,7 +75,7 @@ const Header = () => {
     <header className="bg-white/95 backdrop-blur-lg border-b border-slate-200/60 sticky top-0 z-50 shadow-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
-          
+
           {/* Logo and Brand */}
           <div className="flex items-center gap-4">
             <Link to="/" className="flex items-center gap-3 group">
@@ -94,7 +88,7 @@ const Header = () => {
                 <h1 className="text-xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
                   AccessHub
                 </h1>
-                <p className="text-xs text-slate-500 -mt-1">VMS</p>
+                <p className="text-xs text-slate-500 -mt-1">hub for access control</p>
               </div>
             </Link>
           </div>
@@ -105,11 +99,10 @@ const Header = () => {
               <Link
                 key={item.name}
                 to={item.href}
-                className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 flex items-center gap-2 ${
-                  isActive(item.href)
+                className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 flex items-center gap-2 ${isActive(item.href)
                     ? 'bg-indigo-100 text-indigo-700 shadow-sm'
                     : 'text-slate-600 hover:text-indigo-600 hover:bg-slate-50'
-                }`}
+                  }`}
               >
                 <span>{item.icon}</span>
                 {item.name}
@@ -230,11 +223,10 @@ const Header = () => {
                     <Link
                       key={item.name}
                       to={item.href}
-                      className={`block px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 flex items-center gap-2 ${
-                        isActive(item.href)
+                      className={`block px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 flex items-center gap-2 ${isActive(item.href)
                           ? 'bg-indigo-100 text-indigo-700'
                           : 'text-slate-600 hover:text-indigo-600 hover:bg-slate-50'
-                      }`}
+                        }`}
                       onClick={() => setIsMenuOpen(false)}
                     >
                       <span>{item.icon}</span>

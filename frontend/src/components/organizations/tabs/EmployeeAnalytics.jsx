@@ -6,7 +6,7 @@ import {
 import moment from 'moment';
 import { attendanceService } from '../../../services/organizationsService';
 
-const EmployeeAnalytics = ({ employees = [] }) => {
+const EmployeeAnalytics = ({ employees = [], organizationId }) => {
     const [attendanceData, setAttendanceData] = useState([]);
     const [typeDistribution, setTypeDistribution] = useState([]);
     const [departmentDistribution, setDepartmentDistribution] = useState([]);
@@ -56,6 +56,7 @@ const EmployeeAnalytics = ({ employees = [] }) => {
             const startDate = moment().subtract(6, 'days');
 
             const logsResponse = await attendanceService.list({
+                organization_id: organizationId,
                 start_date: startDate.format('YYYY-MM-DD'),
                 end_date: endDate.format('YYYY-MM-DD'),
                 per_page: 1000 // Limit for dashboard
