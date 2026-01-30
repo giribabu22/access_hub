@@ -432,6 +432,6 @@ def get_employee_attendance(employee_id):
     per_page = filters.pop('per_page', 20)
     
     query = EmployeeService.get_employee_attendance(employee_id, filters)
-    result = paginate(query, page, per_page, AttendanceSchema)
+    result = paginate(query, page, per_page, AttendanceRecordSchema)
     
     return success_response(data=result)
