@@ -32,6 +32,24 @@ from flask_jwt_extended import verify_jwt_in_request, get_jwt_identity, get_jwt
 from .responses import error_response
 from .exceptions import AuthorizationError
 from ..extensions import db
+from ..models import User
+
+def _normalize_role(role_claim):
+    """Normalize role claim to a lowercase string.
+
+    Accepts a string role (e.g. 'employee') or an object/dict
+    like {'id': '...', 'name': 'employee'} and returns the
+    role name in lowercase or None.
+    """
+    if not role_claim:
+        return None
+    # If role is an object like {'id':..., 'name':...}
+    if isinstance(role_claim, dict):
+        name = role_claim.get('name') or role_claim.get('role')
+        return name.lower() if isinstance(name, str) else None
+    if isinstance(role_claim, str):
+        return role_claim.lower()
+    return None
 
 
 def role_required(*roles):
@@ -44,11 +62,34 @@ def role_required(*roles):
         def wrapper(*args, **kwargs):
             verify_jwt_in_request()
             claims = get_jwt()
-            user_role = claims.get('role')
-            
-            if user_role not in roles:
+            user_role = _normalize_role(claims.get('role'))
+
+            # Fallback: if role claim missing, try to load from DB using JWT identity
+            if not user_role:
+                try:
+                    user_id = get_jwt_identity()
+                    if user_id:
+                        user = User.query.filter_by(id=user_id, is_active=True).first()
+                        if user and user.role:
+                            user_role = user.role.name.lower()
+                            # populate g.current_user for downstream code if not set
+                            if not hasattr(g, 'current_user'):
+                                g.current_user = {
+                                    'id': user.id,
+                                    'email': user.email,
+                                    'username': user.username,
+                                    'organization_id': user.organization_id,
+                                    'role_id': user.role_id,
+                                    'is_active': user.is_active
+                                }
+                except Exception:
+                    # ignore DB lookup errors here; will raise authorization below
+                    user_role = None
+
+            allowed = [r.lower() for r in roles]
+            if user_role not in allowed:
                 raise AuthorizationError(f"Access denied. Required roles: {', '.join(roles)}")
-            
+
             return fn(*args, **kwargs)
         return wrapper
     return decorator
@@ -105,8 +146,8 @@ def tenant_isolation(fn):
     def wrapper(*args, **kwargs):
         verify_jwt_in_request()
         claims = get_jwt()
-        user_role = claims.get('role')
-        
+        user_role = _normalize_role(claims.get('role'))
+
         # Super admin can access all organizations
         if user_role == 'super_admin':
             g.organization_id = None  # No filtering
@@ -115,7 +156,7 @@ def tenant_isolation(fn):
             if not organization_id:
                 raise AuthorizationError("Access denied. Invalid organization context.")
             g.organization_id = organization_id
-            
+
         # For managers, also set department context if available
         if user_role == 'manager':
             department_id = claims.get('department_id')
@@ -135,12 +176,12 @@ def manager_required(fn):
     def wrapper(*args, **kwargs):
         verify_jwt_in_request()
         claims = get_jwt()
-        user_role = claims.get('role')
-        
+        user_role = _normalize_role(claims.get('role'))
+
         allowed_roles = ['super_admin', 'org_admin', 'manager']
         if user_role not in allowed_roles:
             raise AuthorizationError("Access denied. Manager privileges required.")
-        
+
         return fn(*args, **kwargs)
     return wrapper
 
@@ -154,12 +195,12 @@ def employee_required(fn):
     def wrapper(*args, **kwargs):
         verify_jwt_in_request()
         claims = get_jwt()
-        user_role = claims.get('role')
-        
+        user_role = _normalize_role(claims.get('role'))
+
         allowed_roles = ['super_admin', 'org_admin', 'manager', 'employee']
         if user_role not in allowed_roles:
             raise AuthorizationError("Access denied. Employee privileges required.")
-        
+
         return fn(*args, **kwargs)
     return wrapper
 
@@ -173,12 +214,12 @@ def team_access_required(fn):
     def wrapper(*args, **kwargs):
         verify_jwt_in_request()
         claims = get_jwt()
-        user_role = claims.get('role')
-        
+        user_role = _normalize_role(claims.get('role'))
+
         # Super admin and org admin have full access
         if user_role in ['super_admin', 'org_admin']:
             return fn(*args, **kwargs)
-        
+
         # Manager needs department context
         if user_role == 'manager':
             department_id = claims.get('department_id')
@@ -186,7 +227,7 @@ def team_access_required(fn):
                 raise AuthorizationError("Access denied. Department context required for manager.")
             g.department_id = department_id
             return fn(*args, **kwargs)
-        
+
         raise AuthorizationError("Access denied. Team access privileges required.")
     
     return wrapper

@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from '../contexts/AuthContext';
+import { authService } from '../services/authService';
 import "../styles/AdminDashboard.css";
 import RegisterVisitorPopup from "./common/RegisterVisitorPopup";
 import AlertFeed from "../features/alerts/AlertFeed";
@@ -22,7 +23,7 @@ const AdminDashboard = () => {
     mounted.current = true;
     (async () => {
       try {
-        const token = localStorage.getItem('token');
+        const token = authService.getAccessToken();
         if (!token || !user?.organization_id) {
           if (mounted.current) setVisitorCount(0);
           if (mounted.current) setLoadingVisitors(false);
@@ -63,7 +64,7 @@ const AdminDashboard = () => {
     let timer;
     const tick = async () => {
       try {
-        const token = localStorage.getItem('token');
+        const token = authService.getAccessToken();
         if (!token) return;
 
         const response = await fetch(`http://localhost:5001/api/v2/organizations/${user.organization_id}/visitors/count`, {

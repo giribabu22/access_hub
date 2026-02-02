@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
+import { authService } from '../../services/authService';
 import '../../styles/Dashboard.css';
 import DashboardHeader from '../common/dashboard/DashboardHeader';
 import StatCard from '../common/dashboard/StatCard';
@@ -33,7 +34,7 @@ const OrgAdminDashboard = () => {
     try {
       setLoading(true);
       setError(null);
-      const token = localStorage.getItem('token');
+      const token = authService.getAccessToken();
 
       if (!token || !user?.organization_id) {
         throw new Error('No authentication token or organization ID');

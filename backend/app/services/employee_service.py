@@ -86,19 +86,22 @@ class EmployeeService:
         if existing_user_emp:
             raise ConflictError(f"User is already linked to another employee")
         
+        # Handle photo_base64 separately so it is not passed to the Employee model
+        photo_base64 = data.pop('photo_base64', None)
+
         # Create employee
         employee = Employee(**data)
         db.session.add(employee)
         db.session.flush()  # Flush to get the employee ID
         
         # Save employee photo to unified image storage if provided
-        if data.get('photo_base64'):
+        if photo_base64:
             try:
                 ImageService.create_image(
                     entity_type='employee',
                     entity_id=employee.id,
                     organization_id=employee.organization_id,
-                    image_base64=data.get('photo_base64'),
+                    image_base64=photo_base64,
                     image_type='photo',
                     capture_device='webcam',
                     primary=True
