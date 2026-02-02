@@ -11473,3 +11473,87 @@ Traceback (most recent call last):
     return self.mapping_type(value)
            ~~~~~~~~~~~~~~~~~^^^^^^^
 TypeError: 'Employee' object is not iterable
+[2026-02-02 15:24:27,420] ERROR in routes: Error fetching employee stats: name 'Attendance' is not defined
+[2026-02-02 15:24:27,442] ERROR in routes: Traceback (most recent call last):
+  File "C:\Users\kajal\ProjectSp\access_hub\access_hub\backend\app\api\employee\routes.py", line 526, in get_employee_stats_summary
+    attendance_records = Attendance.query.filter(
+                         ^^^^^^^^^^
+NameError: name 'Attendance' is not defined
+
+[2026-02-02 15:24:27,777] ERROR in routes: Error fetching employee stats: name 'Attendance' is not defined
+[2026-02-02 15:24:27,779] ERROR in routes: Traceback (most recent call last):
+  File "C:\Users\kajal\ProjectSp\access_hub\access_hub\backend\app\api\employee\routes.py", line 526, in get_employee_stats_summary
+    attendance_records = Attendance.query.filter(
+                         ^^^^^^^^^^
+NameError: name 'Attendance' is not defined
+
+[2026-02-02 15:24:40,935] ERROR in routes: Error fetching employee stats: name 'Attendance' is not defined
+[2026-02-02 15:24:40,952] ERROR in routes: Traceback (most recent call last):
+  File "C:\Users\kajal\ProjectSp\access_hub\access_hub\backend\app\api\employee\routes.py", line 526, in get_employee_stats_summary
+    attendance_records = Attendance.query.filter(
+                         ^^^^^^^^^^
+NameError: name 'Attendance' is not defined
+
+[2026-02-02 15:24:41,282] ERROR in routes: Error fetching employee stats: name 'Attendance' is not defined
+[2026-02-02 15:24:41,285] ERROR in routes: Traceback (most recent call last):
+  File "C:\Users\kajal\ProjectSp\access_hub\access_hub\backend\app\api\employee\routes.py", line 526, in get_employee_stats_summary
+    attendance_records = Attendance.query.filter(
+                         ^^^^^^^^^^
+NameError: name 'Attendance' is not defined
+
+[2026-02-02 15:24:42,650] ERROR in routes: Error fetching employee stats: name 'Attendance' is not defined
+[2026-02-02 15:24:42,653] ERROR in routes: Traceback (most recent call last):
+  File "C:\Users\kajal\ProjectSp\access_hub\access_hub\backend\app\api\employee\routes.py", line 526, in get_employee_stats_summary
+    attendance_records = Attendance.query.filter(
+                         ^^^^^^^^^^
+NameError: name 'Attendance' is not defined
+
+[2026-02-02 15:24:42,985] ERROR in routes: Error fetching employee stats: name 'Attendance' is not defined
+[2026-02-02 15:24:42,995] ERROR in routes: Traceback (most recent call last):
+  File "C:\Users\kajal\ProjectSp\access_hub\access_hub\backend\app\api\employee\routes.py", line 526, in get_employee_stats_summary
+    attendance_records = Attendance.query.filter(
+                         ^^^^^^^^^^
+NameError: name 'Attendance' is not defined
+
+[2026-02-02 15:25:02,334] ERROR in routes: Error fetching employee stats: name 'Attendance' is not defined
+[2026-02-02 15:25:02,336] ERROR in routes: Traceback (most recent call last):
+  File "C:\Users\kajal\ProjectSp\access_hub\access_hub\backend\app\api\employee\routes.py", line 526, in get_employee_stats_summary
+    attendance_records = Attendance.query.filter(
+                         ^^^^^^^^^^
+NameError: name 'Attendance' is not defined
+
+[2026-02-02 15:25:02,683] ERROR in routes: Error fetching employee stats: name 'Attendance' is not defined
+[2026-02-02 15:25:02,693] ERROR in routes: Traceback (most recent call last):
+  File "C:\Users\kajal\ProjectSp\access_hub\access_hub\backend\app\api\employee\routes.py", line 526, in get_employee_stats_summary
+    attendance_records = Attendance.query.filter(
+                         ^^^^^^^^^^
+NameError: name 'Attendance' is not defined
+
+[2026-02-02 15:25:23,560] ERROR in routes: Error fetching employee stats: name 'Attendance' is not defined
+[2026-02-02 15:25:23,577] ERROR in routes: Traceback (most recent call last):
+  File "C:\Users\kajal\ProjectSp\access_hub\access_hub\backend\app\api\employee\routes.py", line 526, in get_employee_stats_summary
+    attendance_records = Attendance.query.filter(
+                         ^^^^^^^^^^
+NameError: name 'Attendance' is not defined
+
+[2026-02-02 15:25:23,928] ERROR in routes: Error fetching employee stats: name 'Attendance' is not defined
+[2026-02-02 15:25:23,938] ERROR in routes: Traceback (most recent call last):
+  File "C:\Users\kajal\ProjectSp\access_hub\access_hub\backend\app\api\employee\routes.py", line 526, in get_employee_stats_summary
+    attendance_records = Attendance.query.filter(
+                         ^^^^^^^^^^
+NameError: name 'Attendance' is not defined
+
+[2026-02-02 15:25:44,501] ERROR in routes: Error fetching employee stats: name 'Attendance' is not defined
+[2026-02-02 15:25:44,519] ERROR in routes: Traceback (most recent call last):
+  File "C:\Users\kajal\ProjectSp\access_hub\access_hub\backend\app\api\employee\routes.py", line 526, in get_employee_stats_summary
+    attendance_records = Attendance.query.filter(
+                         ^^^^^^^^^^
+NameError: name 'Attendance' is not defined
+
+[2026-02-02 15:25:44,866] ERROR in routes: Error fetching employee stats: name 'Attendance' is not defined
+[2026-02-02 15:25:44,869] ERROR in routes: Traceback (most recent call last):
+  File "C:\Users\kajal\ProjectSp\access_hub\access_hub\backend\app\api\employee\routes.py", line 526, in get_employee_stats_summary
+    attendance_records = Attendance.query.filter(
+                         ^^^^^^^^^^
+NameError: name 'Attendance' is not defined
+

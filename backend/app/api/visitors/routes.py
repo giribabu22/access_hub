@@ -68,14 +68,20 @@ def create_visitor(org_id):
 def list_visitors(org_id):
     """
     Get all visitors for an organization.
-    Query params: page (default 1), limit (default 10)
+    Query params: 
+      - page (default 1)
+      - limit (default 10)
+      - from_date (optional, format: YYYY-MM-DD, filters by check-in date range start)
+      - to_date (optional, format: YYYY-MM-DD, filters by check-in date range end)
     """
     try:
         user = get_current_user()
         page = request.args.get('page', 1, type=int)
         limit = request.args.get('limit', 10, type=int)
+        from_date = request.args.get('from_date', None, type=str)
+        to_date = request.args.get('to_date', None, type=str)
         
-        total, visitors = VisitorService.get_visitors_by_organization(org_id, page, limit)
+        total, visitors = VisitorService.get_visitors_by_organization(org_id, page, limit, from_date, to_date)
         
         response_schema = VisitorResponseSchema(many=True)
         
