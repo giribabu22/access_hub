@@ -12,6 +12,7 @@ import {
   X
 } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
+import { authService } from '../services/authService';
 
 function EmployeeLeaves() {
   const { user } = useAuth();
@@ -40,7 +41,7 @@ function EmployeeLeaves() {
 
   const fetchLeaveRequests = async () => {
     try {
-      const token = localStorage.getItem('token');
+      const token = authService.getAccessToken();
       if (!token) {
         setLoading(false);
         return;
@@ -85,7 +86,7 @@ function EmployeeLeaves() {
     e.preventDefault();
     
     try {
-      const token = localStorage.getItem('token');
+      const token = authService.getAccessToken();
       if (!token) return;
 
       const response = await fetch('/api/employee/leaves', {

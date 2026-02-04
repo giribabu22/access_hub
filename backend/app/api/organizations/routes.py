@@ -358,3 +358,182 @@ def get_organization_stats(org_id):
     """
     stats = OrganizationService.get_organization_stats(org_id)
     return success_response(data=stats)
+
+
+@bp.route('/<string:org_id>/employees/attendance-summary', methods=['GET'])
+@jwt_required()
+@require_permission('employees:read')
+def get_employees_attendance_summary(org_id):
+    """
+    Get attendance summary for all employees in an organization
+    ---
+    tags:
+      - Organizations
+      - Employees
+    security:
+      - Bearer: []
+    parameters:
+      - name: org_id
+        in: path
+        type: string
+        required: true
+        description: Organization ID
+      - name: per_page
+        in: query
+        type: integer
+        default: 50
+        description: Number of records per page
+      - name: page
+        in: query
+        type: integer
+        default: 1
+        description: Page number
+      - name: month
+        in: query
+        type: string
+        format: date
+        description: Filter by month (YYYY-MM format)
+    responses:
+      200:
+        description: Attendance summary for employees
+        schema:
+          type: object
+          properties:
+            success:
+              type: boolean
+            data:
+              type: object
+              properties:
+                items:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      employee_id:
+                        type: string
+                      full_name:
+                        type: string
+                      employee_code:
+                        type: string
+                      department:
+                        type: string
+                      present_days:
+                        type: integer
+                      absent_days:
+                        type: integer
+                      leave_count:
+                        type: integer
+                      avg_hours_per_day:
+                        type: number
+                      attendance_percentage:
+                        type: number
+                pagination:
+                  type: object
+      404:
+        $ref: '#/responses/NotFoundError'
+      401:
+        $ref: '#/responses/UnauthorizedError'
+      403:
+        $ref: '#/responses/ForbiddenError'
+    """
+    from ...services.attendance_service import AttendanceService
+    from datetime import datetime, timedelta
+    from ...models import Employee, AttendanceRecord, Department
+    from sqlalchemy import func
+    from ...extensions import db
+    
+    try:
+        per_page = request.args.get('per_page', 50, type=int)
+        page = request.args.get('page', 1, type=int)
+        month = request.args.get('month')  # YYYY-MM format
+        
+        # Calculate date range
+        if month:
+            try:
+                month_date = datetime.strptime(month, '%Y-%m')
+                start_date = month_date.date()
+                # Get last day of month
+                if month_date.month == 12:
+                    end_date = datetime(month_date.year + 1, 1, 1).date() - timedelta(days=1)
+                else:
+                    end_date = datetime(month_date.year, month_date.month + 1, 1).date() - timedelta(days=1)
+            except ValueError:
+                start_date = datetime.utcnow().date().replace(day=1)
+                end_date = datetime.utcnow().date()
+        else:
+            # Default to current month
+            today = datetime.utcnow().date()
+            start_date = today.replace(day=1)
+            end_date = today
+        
+        # Get all active employees in organization
+        employees_query = db.session.query(Employee).filter(
+            Employee.organization_id == org_id,
+            Employee.is_active.is_(True),
+            Employee.deleted_at.is_(None)
+        )
+        
+        total = employees_query.count()
+        employees = employees_query.offset((page - 1) * per_page).limit(per_page).all()
+        
+        # Build attendance data for each employee
+        items = []
+        for emp in employees:
+            # Get attendance records for date range
+            attendance_recs = db.session.query(AttendanceRecord).filter(
+                AttendanceRecord.employee_id == emp.id,
+                AttendanceRecord.date >= start_date,
+                AttendanceRecord.date <= end_date
+            ).all()
+            
+            present_days = len(attendance_recs)
+            total_days = (end_date - start_date).days + 1
+            absent_days = max(0, total_days - present_days)
+            
+            # Calculate average hours
+            avg_hours = 0.0
+            if attendance_recs:
+                hours_list = [float(r.work_hours or 0) for r in attendance_recs]
+                avg_hours = sum(hours_list) / len(hours_list)
+            
+            attendance_pct = round((present_days / total_days * 100), 1) if total_days > 0 else 0
+            
+            # Get department name
+            department = ''
+            if emp.department_id:
+                dept = db.session.query(Department).filter_by(id=emp.department_id).first()
+                department = dept.name if dept else ''
+            
+            items.append({
+                'employee_id': emp.id,
+                'full_name': emp.full_name,
+                'employee_code': emp.employee_code,
+                'department': department,
+                'present_days': present_days,
+                'absent_days': absent_days,
+                'leave_count': 0,  # TODO: Calculate from leave requests
+                'avg_hours_per_day': round(avg_hours, 1),
+                'attendance_percentage': attendance_pct
+            })
+        
+        pagination = {
+            'page': page,
+            'per_page': per_page,
+            'total': total,
+            'pages': (total + per_page - 1) // per_page
+        }
+        
+        return success_response(
+            data={
+                'items': items,
+                'pagination': pagination,
+                'month': start_date.strftime('%Y-%m')
+            },
+            message='Attendance summary retrieved successfully'
+        )
+    
+    except Exception as e:
+        import traceback
+        print(f"[get_employees_attendance_summary] Error: {e}")
+        print(f"[get_employees_attendance_summary] Traceback: {traceback.format_exc()}")
+        return error_response(f'Failed to retrieve attendance summary: {str(e)}', 500)

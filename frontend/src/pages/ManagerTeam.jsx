@@ -14,6 +14,7 @@ import {
   AlertCircle
 } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
+import { authService } from '../services/authService';
 
 function ManagerTeam() {
   const { user } = useAuth();
@@ -40,7 +41,7 @@ function ManagerTeam() {
 
   const fetchTeamMembers = async () => {
     try {
-      const token = localStorage.getItem('token');
+      const token = authService.getAccessToken();
       if (!token) {
         setLoading(false);
         return;
@@ -88,7 +89,7 @@ function ManagerTeam() {
 
   const fetchCameras = async () => {
     try {
-      const token = localStorage.getItem('token');
+      const token = authService.getAccessToken();
       if (!token) {
         setCameras([]);
         return;
@@ -117,7 +118,7 @@ function ManagerTeam() {
 
   const fetchLocations = async () => {
     try {
-      const token = localStorage.getItem('token');
+      const token = authService.getAccessToken();
       if (!token) {
         setLocations([]);
         return;

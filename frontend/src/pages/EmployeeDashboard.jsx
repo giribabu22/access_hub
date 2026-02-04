@@ -15,6 +15,7 @@ import {
   Timer
 } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
+import { authService } from '../services/authService';
 import DashboardHeader from '../components/common/dashboard/DashboardHeader';
 import StatCard from '../components/common/dashboard/StatCard';
 import QuickActionButton from '../components/common/dashboard/QuickActionButton';
@@ -39,7 +40,7 @@ function EmployeeDashboard() {
 
   const fetchEmployeeData = async () => {
     try {
-      const token = localStorage.getItem('token');
+      const token = authService.getAccessToken();
       if (!token) {
         setLoading(false);
         return;

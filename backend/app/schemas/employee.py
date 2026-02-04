@@ -147,6 +147,7 @@ class EmployeeUpdateSchema(Schema):
     )
     shift_id = fields.String(allow_none=True)
     is_active = fields.Boolean()
+    photo_base64 = fields.String(allow_none=True)
 
 
 class EmployeeListSchema(Schema):

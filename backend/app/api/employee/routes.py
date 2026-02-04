@@ -14,22 +14,71 @@ from app.models.organization import Organization
 from app.models.attendance import AttendanceRecord
 from app.models.leave_request import LeaveRequest
 from app.utils.decorators import role_required, tenant_isolation
-from flask_jwt_extended import jwt_required
+from flask_jwt_extended import jwt_required, get_jwt_identity, get_jwt
 
 bp = Blueprint('employee', __name__)
 
+
+def _get_current_user_id():
+    """Retrieve current user id from available contexts: g, JWT, or RBAC middleware."""
+    # Prefer g.current_user_id if set by middleware
+    try:
+        if hasattr(g, 'current_user_id') and g.current_user_id:
+            return g.current_user_id
+    except Exception:
+        pass
+
+    # If RBAC middleware set g.current_user as a dict
+    try:
+        if hasattr(g, 'current_user') and isinstance(g.current_user, dict):
+            return g.current_user.get('id')
+    except Exception:
+        pass
+
+    # Fallback to JWT identity
+    try:
+        return get_jwt_identity()
+    except Exception:
+        return None
+
 @bp.route('/api/employee/profile', methods=['GET'])
-@jwt_required
+@jwt_required()
 @role_required('employee', 'manager', 'org_admin', 'super_admin')
 def get_employee_profile():
     """
     Get current employee's profile information
     """
     try:
-        user_id = g.current_user.id
+        # Debug: log JWT identity, claims and g context to help trace errors
+        try:
+            jwt_id = get_jwt_identity()
+        except Exception:
+            jwt_id = None
+
+        try:
+            jwt_claims = get_jwt()
+        except Exception:
+            jwt_claims = None
+
+        try:
+            g_debug = {
+                'has_current_user': hasattr(g, 'current_user'),
+                'current_user': getattr(g, 'current_user', None),
+                'current_user_id': getattr(g, 'current_user_id', None),
+                'current_user_role': getattr(g, 'current_user_role', None),
+                'current_user_claims': getattr(g, 'current_user_claims', None),
+            }
+        except Exception:
+            g_debug = str(g)
+
+        current_app.logger.debug(f"EMP_PROFILE DEBUG: jwt_identity={jwt_id}, jwt_claims={jwt_claims}, g={g_debug}")
+
+        user_id = _get_current_user_id()
+        current_app.logger.debug(f"EMP_PROFILE DEBUG: resolved user_id={user_id}")
         
         # Get employee record
         employee = Employee.query.filter_by(user_id=user_id, is_active=True).first()
+        current_app.logger.debug(f"EMP_PROFILE DEBUG: employee found={bool(employee)} id={(employee.id if employee else None)}")
         
         if not employee:
             return jsonify({
@@ -37,27 +86,44 @@ def get_employee_profile():
                 'message': 'Employee record not found'
             }), 404
         
+        # Map fields from Employee and User models safely
+        user_obj = getattr(employee, 'user', None)
+        user_id_val = user_obj.id if user_obj and hasattr(user_obj, 'id') else None
+        username_val = user_obj.username if user_obj and hasattr(user_obj, 'username') else None
+        email_val = user_obj.email if user_obj and hasattr(user_obj, 'email') else None
+        role_val = user_obj.role.name if user_obj and getattr(user_obj, 'role', None) else None
+        created_at_val = user_obj.created_at.isoformat() if user_obj and getattr(user_obj, 'created_at', None) else None
+
+        full_name = getattr(employee, 'full_name', None)
+        # Attempt to split full_name into first/last for compatibility
+        first_name = None
+        last_name = None
+        if full_name:
+            parts = full_name.split()
+            first_name = parts[0] if parts else None
+            last_name = ' '.join(parts[1:]) if len(parts) > 1 else None
+
         profile_data = {
             'user_info': {
-                'id': employee.user.id,
-                'username': employee.user.username,
-                'email': employee.user.email,
-                'first_name': employee.user.first_name,
-                'last_name': employee.user.last_name,
-                'full_name': f"{employee.user.first_name} {employee.user.last_name}",
-                'role': employee.user.role.name if employee.user.role else None,
-                'is_active': employee.user.is_active,
-                'created_at': employee.user.created_at.isoformat() if employee.user.created_at else None
+                'id': user_id_val,
+                'username': username_val,
+                'email': email_val,
+                'first_name': first_name,
+                'last_name': last_name,
+                'full_name': full_name,
+                'role': role_val,
+                'is_active': user_obj.is_active if user_obj and hasattr(user_obj, 'is_active') else None,
+                'created_at': created_at_val
             },
             'employee_info': {
                 'id': employee.id,
-                'employee_id': employee.employee_id,
-                'position': employee.position,
-                'phone': employee.phone,
-                'hire_date': employee.hire_date.isoformat() if employee.hire_date else None,
-                'salary': employee.salary,
+                'employee_code': getattr(employee, 'employee_code', None),
+                'position': getattr(employee, 'designation', None),
+                'phone': getattr(employee, 'phone_number', None),
+                'hire_date': getattr(employee, 'joining_date').isoformat() if getattr(employee, 'joining_date', None) else None,
+                'salary': getattr(employee, 'salary', None) if hasattr(employee, 'salary') else None,
                 'is_active': employee.is_active,
-                'profile_image_url': employee.profile_image_url,
+                'profile_image_url': None,
                 'department': {
                     'id': employee.department.id if employee.department else None,
                     'name': employee.department.name if employee.department else None,
@@ -69,6 +135,14 @@ def get_employee_profile():
                 } if employee.organization else None
             }
         }
+
+        # Try to get primary image URL if Image model available
+        try:
+            primary = employee.get_primary_image()
+            if primary and hasattr(primary, 'url'):
+                profile_data['employee_info']['profile_image_url'] = primary.url
+        except Exception:
+            pass
         
         return jsonify({
             'status': 'success',
@@ -77,21 +151,22 @@ def get_employee_profile():
         
     except Exception as e:
         current_app.logger.error(f"Error fetching employee profile: {str(e)}")
-        current_app.logger.error(traceback.format_exc())
+        tb = traceback.format_exc()
+        current_app.logger.error(tb)
         return jsonify({
             'status': 'error',
             'message': 'Failed to fetch employee profile'
         }), 500
 
 @bp.route('/api/employee/attendance/today', methods=['GET'])
-@jwt_required
+@jwt_required()
 @role_required('employee', 'manager', 'org_admin', 'super_admin')
 def get_today_attendance():
     """
     Get current employee's attendance status for today
     """
     try:
-        user_id = g.current_user.id
+        user_id = _get_current_user_id()
         today = datetime.utcnow().date()
         
         # Get employee record
@@ -154,14 +229,14 @@ def get_today_attendance():
         }), 500
 
 @bp.route('/api/employee/attendance/history', methods=['GET'])
-@jwt_required
+@jwt_required()
 @role_required('employee', 'manager', 'org_admin', 'super_admin')
 def get_attendance_history():
     """
     Get employee's attendance history
     """
     try:
-        user_id = g.current_user.id
+        user_id = _get_current_user_id()
         
         # Get pagination parameters
         page = int(request.args.get('page', 1))
@@ -242,14 +317,14 @@ def get_attendance_history():
         }), 500
 
 @bp.route('/api/employee/leaves', methods=['GET'])
-@jwt_required
+@jwt_required()
 @role_required('employee', 'manager', 'org_admin', 'super_admin')
 def get_employee_leaves():
     """
     Get employee's leave requests
     """
     try:
-        user_id = g.current_user.id
+        user_id = _get_current_user_id()
         
         # Get pagination and filter parameters
         page = int(request.args.get('page', 1))
@@ -330,14 +405,14 @@ def get_employee_leaves():
         }), 500
 
 @bp.route('/api/employee/leaves', methods=['POST'])
-@jwt_required
+@jwt_required()
 @role_required('employee', 'manager', 'org_admin', 'super_admin')
 def apply_for_leave():
     """
     Apply for a new leave request
     """
     try:
-        user_id = g.current_user.id
+        user_id = _get_current_user_id()
         data = request.get_json()
         
         if not data:
@@ -425,14 +500,14 @@ def apply_for_leave():
         }), 500
 
 @bp.route('/api/employee/stats/summary', methods=['GET'])
-@jwt_required
+@jwt_required()
 @role_required('employee', 'manager', 'org_admin', 'super_admin')
 def get_employee_stats_summary():
     """
     Get employee's statistics summary for dashboard
     """
     try:
-        user_id = g.current_user.id
+        user_id = _get_current_user_id()
         
         # Get employee record
         employee = Employee.query.filter_by(user_id=user_id, is_active=True).first()

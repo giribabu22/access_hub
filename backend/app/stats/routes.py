@@ -3,6 +3,7 @@ from flask import Blueprint, jsonify, request
 from flasgger import swag_from
 from ..middleware import require_login
 from flask_jwt_extended import jwt_required, get_jwt_identity, get_jwt
+from datetime import datetime, timedelta
 # Import models used for analytics
 from ..models import (
     Organization,
@@ -16,6 +17,7 @@ from .. import models as legacy_models
 from ..extensions import db
 from sqlalchemy import func
 from sqlalchemy.exc import ProgrammingError
+from ..services.attendance_service import AttendanceService
 
 bp = Blueprint("stats", __name__)
 
@@ -250,6 +252,44 @@ def stats_overview():
     }
 
     return jsonify(payload), 200
+
+
+@bp.get("/api/analytics/attendance")
+@jwt_required()
+def analytics_attendance():
+    """Get attendance analytics for an organization or overall.
+    Query params: organization_id, start_date (YYYY-MM-DD), end_date (YYYY-MM-DD), department_id, employment_type
+    """
+    try:
+        org_id = request.args.get('organization_id', type=str)
+        start_date = request.args.get('start_date')
+        end_date = request.args.get('end_date')
+        department_id = request.args.get('department_id')
+        employment_type = request.args.get('employment_type')
+
+        # Default to last 7 days if not provided
+        if not end_date:
+            end_date = datetime.utcnow().date().isoformat()
+        if not start_date:
+            start_date = (datetime.utcnow().date() - timedelta(days=6)).isoformat()
+
+        filters = {}
+        if department_id:
+            filters['department_id'] = department_id
+        if employment_type:
+            filters['employment_type'] = employment_type
+
+        if not org_id:
+            return jsonify({ 'success': False, 'message': 'organization_id is required' }), 400
+
+        summary = AttendanceService.get_organization_attendance_summary(org_id, start_date, end_date, filters)
+        return jsonify({ 'success': True, 'data': summary }), 200
+    except Exception as e:
+        import traceback
+        print(f"[analytics_attendance] Error: {e}")
+        print(f"[analytics_attendance] Traceback: {traceback.format_exc()}")
+        db.session.rollback()
+        return jsonify({ 'success': False, 'message': 'Failed to compute analytics', 'error': str(e) }), 500
 
 
 @bp.get("/api/stats/organization-analytics")

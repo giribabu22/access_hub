@@ -5,6 +5,7 @@ import {
 } from 'recharts';
 import moment from 'moment';
 import { attendanceService } from '../../../services/organizationsService';
+import api from '../../../services/api';
 
 const EmployeeAnalytics = ({ employees = [], organizationId }) => {
     const [attendanceData, setAttendanceData] = useState([]);
@@ -19,52 +20,51 @@ const EmployeeAnalytics = ({ employees = [], organizationId }) => {
 
     useEffect(() => {
         fetchAnalyticsData();
-    }, [employees]);
+    }, [organizationId]);
 
     const fetchAnalyticsData = async () => {
         setLoading(true);
         try {
-            // 1. Employment Type Distribution (from employees prop)
-            const types = {};
-            employees.forEach(e => {
-                const type = e.employment_type || 'Unknown';
-                types[type] = (types[type] || 0) + 1;
-            });
-            const typeData = Object.keys(types).map((type, index) => ({
-                name: type.replace('_', ' ').toUpperCase(),
-                value: types[type],
-                color: ['#4f46e5', '#06b6d4', '#8b5cf6', '#f59e0b'][index % 4]
-            }));
-            setTypeDistribution(typeData.length ? typeData : [{ name: 'No Data', value: 1, color: '#e5e7eb' }]);
-
-            // 2. Department Distribution (from employees prop)
-            const depts = {};
-            employees.forEach(e => {
-                const dept = e.department?.name || e.department_id || 'Unassigned';
-                depts[dept] = (depts[dept] || 0) + 1;
-            });
-            const deptData = Object.keys(depts).map((dept, index) => ({
-                name: dept,
-                value: depts[dept],
-                color: ['#10b981', '#3b82f6', '#f43f5e', '#f97316'][index % 4]
-            }));
-            setDepartmentDistribution(deptData.length ? deptData : [{ name: 'No Data', value: 1, color: '#e5e7eb' }]);
-
-            // 3. Attendance Trends & Stats (Need API call)
-            // Fetch last 7 days
-            const endDate = moment();
-            const startDate = moment().subtract(6, 'days');
-
-            const logsResponse = await attendanceService.list({
-                organization_id: organizationId,
-                start_date: startDate.format('YYYY-MM-DD'),
-                end_date: endDate.format('YYYY-MM-DD'),
-                per_page: 1000 // Limit for dashboard
+            // Call server-side analytics endpoint (returns aggregated metrics)
+            const endDate = moment().format('YYYY-MM-DD');
+            const startDate = moment().subtract(6, 'days').format('YYYY-MM-DD');
+            const resp = await api.get('/api/analytics/attendance', {
+                params: {
+                    organization_id: organizationId,
+                    start_date: startDate,
+                    end_date: endDate,
+                }
             });
 
-            if (logsResponse.success) {
-                const logs = logsResponse.data.items || [];
-                processAttendanceData(logs, startDate, endDate, employees.length);
+            if (resp?.data?.success) {
+                const data = resp.data.data || {};
+
+                // Set summary stats
+                setStats({
+                    attendanceRate: data.summary?.avg_attendance_rate || 0,
+                    onTimeRate: data.summary?.on_time_rate || 0,
+                    avgWorkHours: data.summary?.avg_work_hours || 0
+                });
+
+                // Set series
+                const series = (data.series || []).map(d => ({ name: moment(d.date).format('ddd'), present: d.present, late: d.late, absent: d.absent }));
+                setAttendanceData(series);
+
+                // Employment type distribution
+                const typeData = (data.employment_type_distribution || []).map((e, idx) => ({
+                    name: (e.type || 'Unknown').replace('_', ' ').toUpperCase(),
+                    value: e.count,
+                    color: ['#4f46e5', '#06b6d4', '#8b5cf6', '#f59e0b'][idx % 4]
+                }));
+                setTypeDistribution(typeData.length ? typeData : [{ name: 'No Data', value: 1, color: '#e5e7eb' }]);
+
+                // Department distribution
+                const deptData = (data.department_distribution || []).map((d, idx) => ({
+                    name: d.department || 'Unassigned',
+                    value: d.count,
+                    color: ['#10b981', '#3b82f6', '#f43f5e', '#f97316'][idx % 4]
+                }));
+                setDepartmentDistribution(deptData.length ? deptData : [{ name: 'No Data', value: 1, color: '#e5e7eb' }]);
             }
         } catch (error) {
             console.error('Error fetching analytics data:', error);

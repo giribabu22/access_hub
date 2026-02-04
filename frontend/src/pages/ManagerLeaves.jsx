@@ -11,6 +11,7 @@ import {
   Download
 } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
+import { authService } from '../services/authService';
 
 function ManagerLeaves() {
   const { user } = useAuth();
@@ -32,7 +33,7 @@ function ManagerLeaves() {
 
   const fetchLeaveRequests = async () => {
     try {
-      const token = localStorage.getItem('token');
+      const token = authService.getAccessToken();
       if (!token) {
         setLoading(false);
         return;
@@ -132,7 +133,7 @@ function ManagerLeaves() {
 
   const handleApprove = async (requestId) => {
     try {
-      const token = localStorage.getItem('token');
+      const token = authService.getAccessToken();
       if (!token) return;
 
       const response = await fetch(`/api/manager/leaves/${requestId}/approve`, {
@@ -171,7 +172,7 @@ function ManagerLeaves() {
 
   const handleReject = async (requestId, reason) => {
     try {
-      const token = localStorage.getItem('token');
+      const token = authService.getAccessToken();
       if (!token) return;
 
       if (!reason || reason.trim() === '') {
