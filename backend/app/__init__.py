@@ -276,6 +276,18 @@ def create_app():
     
     Swagger(app, config=swagger_config, template=swagger_template)
 
+    # Log swagger URLs for developers to easily open docs from console
+    try:
+        host = app.config.get("SWAGGER_HOST", "localhost:5001")
+        if not str(host).startswith("http"):
+            swagger_url = f"http://{host}/api/docs/"
+        else:
+            swagger_url = f"{host.rstrip('/')}/api/docs/"
+        app.logger.info(f"Swagger UI available at: {swagger_url} (spec: /apispec.json)")
+    except Exception:
+        # Never fail app startup due to logging
+        pass
+
     # Import models to ensure they're registered with SQLAlchemy
     with app.app_context():
         # Import new models package (app/models/)
@@ -298,8 +310,16 @@ def create_app():
     from .users.routes import bp as users_bp
     app.register_blueprint(users_bp)
 
-    from .visitors.routes import bp as visitors_bp
-    app.register_blueprint(visitors_bp)
+    # Register visitors blueprint if its optional ML deps are available
+    try:
+        from .visitors.routes import bp as visitors_bp
+        app.register_blueprint(visitors_bp)
+    except Exception as _err:
+        # Do not fail app startup for missing optional ML/image deps
+        try:
+            app.logger.warning(f"Visitors blueprint not registered: {_err}")
+        except Exception:
+            pass
 
     from .stats.routes import bp as stats_bp
     app.register_blueprint(stats_bp)
@@ -322,6 +342,18 @@ def create_app():
     
     from .api.employees.routes import bp as employees_v2_bp
     app.register_blueprint(employees_v2_bp)
+
+    # Register legacy employee blueprint (singular) which exposes
+    # endpoints like /api/employee/profile and attendance helper routes.
+    try:
+        from .api.employee.routes import bp as employee_bp
+        app.register_blueprint(employee_bp)
+    except Exception as _err:
+        # Do not fail startup for optional legacy routes; log and continue
+        try:
+            app.logger.warning(f"Employee blueprint not registered: {_err}")
+        except Exception:
+            pass
     
     from .api.cameras.routes import bp as cameras_v2_bp
     app.register_blueprint(cameras_v2_bp)

@@ -2,7 +2,7 @@
 Business logic for Attendance management.
 """
 
-from sqlalchemy import or_, and_
+from sqlalchemy import or_, and_, case
 from ..extensions import db
 from ..models import AttendanceRecord, Employee
 from ..utils.exceptions import NotFoundError, ConflictError, BadRequestError
@@ -220,3 +220,167 @@ class AttendanceService:
         db.session.commit()
         
         return attendance
+
+    @staticmethod
+    def get_organization_attendance_summary(organization_id, start_date, end_date, filters=None):
+        """Return aggregated attendance analytics for an organization.
+
+        Returns a dict with daily series, summary stats and distributions.
+        """
+        from sqlalchemy import func, distinct
+        from ..models import AttendanceRecord, Employee, Shift, Department
+
+        if filters is None:
+            filters = {}
+
+        # Parse dates (expect date objects or ISO strings)
+        if isinstance(start_date, str):
+            start_date = datetime.strptime(start_date, '%Y-%m-%d').date()
+        if isinstance(end_date, str):
+            end_date = datetime.strptime(end_date, '%Y-%m-%d').date()
+
+        # Active employee count (respect filters like department/employment_type)
+        emp_q = db.session.query(func.count(Employee.id)).filter(
+            Employee.organization_id == organization_id,
+            Employee.is_active.is_(True)
+        )
+        if filters.get('department_id'):
+            emp_q = emp_q.filter(Employee.department_id == filters['department_id'])
+        if filters.get('employment_type'):
+            emp_q = emp_q.filter(Employee.employment_type == filters['employment_type'])
+
+        total_active = emp_q.scalar() or 0
+
+        # Daily present and late counts
+        ar = AttendanceRecord
+        # base attendance query
+        base_q = db.session.query(
+            ar.date.label('date'),
+            func.count(distinct(ar.employee_id)).label('present_count'),
+            func.sum(case((ar.check_in_time != None, 1), else_=0)).label('records_with_checkin'),
+            func.avg(ar.work_hours).label('avg_work_hours')
+        ).filter(
+            ar.organization_id == organization_id,
+            ar.date >= start_date,
+            ar.date <= end_date
+        )
+
+        if filters.get('department_id'):
+            base_q = base_q.join(Employee).filter(Employee.department_id == filters['department_id'])
+        if filters.get('employment_type'):
+            base_q = base_q.join(Employee).filter(Employee.employment_type == filters['employment_type'])
+
+        base_q = base_q.group_by(ar.date).order_by(ar.date)
+
+        daily = []
+        try:
+            rows = base_q.all()
+        except Exception:
+            db.session.rollback()
+            rows = []
+
+        date_map = { }
+        for r in rows:
+            date_map[r.date.isoformat()] = {
+                'date': r.date.isoformat(),
+                'present': int(r.present_count or 0),
+                'late': 0,  # late needs separate calculation
+                'avg_work_hours': float(r.avg_work_hours or 0)
+            }
+
+        # Calculate late counts per day by comparing check_in_time to shift start_time + grace
+        # Join AttendanceRecord -> Employee -> Shift and compute late where possible
+        late_q = db.session.query(
+            ar.date.label('date'),
+            func.count(distinct(ar.employee_id)).label('late_count')
+        ).join(Employee, Employee.id == ar.employee_id).outerjoin(Shift, Shift.id == Employee.shift_id)
+        late_q = late_q.filter(
+            ar.organization_id == organization_id,
+            ar.date >= start_date,
+            ar.date <= end_date,
+            ar.check_in_time != None,
+            Shift.id != None  # Only count records where shift exists
+        )
+        # late condition: check_in_time > (date + shift.start_time + grace)
+        # perform as numeric comparison using extract
+        late_q = late_q.filter(
+            func.extract('hour', ar.check_in_time) * 60 + func.extract('minute', ar.check_in_time) > (
+                func.extract('hour', Shift.start_time) * 60 + func.extract('minute', Shift.start_time) + Shift.grace_period_minutes
+            )
+        ).group_by(ar.date).order_by(ar.date)
+
+        try:
+            late_rows = late_q.all()
+        except Exception as e:
+            print(f"[get_organization_attendance_summary] Error calculating late counts: {e}")
+            db.session.rollback()
+            late_rows = []
+
+        for r in late_rows:
+            key = r.date.isoformat()
+            if key in date_map:
+                date_map[key]['late'] = int(r.late_count or 0)
+            else:
+                date_map[key] = {'date': key, 'present': 0, 'late': int(r.late_count or 0), 'avg_work_hours': 0}
+
+        # Build series covering full range
+        cur = start_date
+        while cur <= end_date:
+            key = cur.isoformat()
+            entry = date_map.get(key, {'date': key, 'present': 0, 'late': 0, 'avg_work_hours': 0})
+            # absent estimation
+            entry['absent'] = max(0, total_active - entry['present']) if total_active > 0 else 0
+            daily.append(entry)
+            cur = cur + timedelta(days=1)
+
+        # Summary metrics
+        total_present = sum(d['present'] for d in daily)
+        total_late = sum(d['late'] for d in daily)
+        # average work hours across days (weighted average)
+        hours_list = [d['avg_work_hours'] for d in daily if d.get('avg_work_hours')]
+        avg_work_hours = round(sum(hours_list) / len(hours_list), 1) if hours_list else 0
+        days_count = (end_date - start_date).days + 1
+
+        avg_attendance_rate = round((total_present / (total_active * days_count) * 100), 1) if total_active and days_count else 0
+        on_time_rate = round(((total_present - total_late) / total_present * 100), 1) if total_present else 0
+
+        # Employment type distribution
+        et_q = db.session.query(Employee.employment_type, func.count(Employee.id)).filter(Employee.organization_id == organization_id)
+        if filters.get('department_id'):
+            et_q = et_q.filter(Employee.department_id == filters['department_id'])
+        et_q = et_q.group_by(Employee.employment_type)
+        try:
+            et_rows = et_q.all()
+        except Exception:
+            db.session.rollback()
+            et_rows = []
+
+        employment_type_distribution = [{'type': r[0] or 'Unknown', 'count': int(r[1])} for r in et_rows]
+
+        # Department distribution
+        dept_q = db.session.query(Department.name, func.count(Employee.id)).join(Employee, Employee.department_id == Department.id).filter(Department.organization_id == organization_id)
+        dept_q = dept_q.group_by(Department.name)
+        try:
+            dept_rows = dept_q.all()
+        except Exception:
+            db.session.rollback()
+            dept_rows = []
+
+        department_distribution = [{'department': r[0] or 'Unassigned', 'count': int(r[1])} for r in dept_rows]
+
+        payload = {
+            'organization_id': organization_id,
+            'date_range': {'start': start_date.isoformat(), 'end': end_date.isoformat()},
+            'summary': {
+                'avg_attendance_rate': avg_attendance_rate,
+                'on_time_rate': on_time_rate,
+                'avg_work_hours': avg_work_hours,
+                'coverage': f"{sum(1 for d in daily if d['present']>0)}/{total_active}"
+            },
+            'series': daily,
+            'employment_type_distribution': employment_type_distribution,
+            'department_distribution': department_distribution,
+            'total_active_employees': total_active
+        }
+
+        return payload

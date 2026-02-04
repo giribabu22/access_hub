@@ -13,6 +13,7 @@ import {
   Camera
 } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
+import { authService } from '../services/authService';
 
 function EmployeeProfile() {
   const { user } = useAuth();
@@ -32,7 +33,7 @@ function EmployeeProfile() {
 
   const fetchProfile = async () => {
     try {
-      const token = localStorage.getItem('token');
+      const token = authService.getAccessToken();
       if (!token) {
         setLoading(false);
         return;
@@ -63,12 +64,11 @@ function EmployeeProfile() {
 
   const handleSave = async () => {
     try {
-      const token = localStorage.getItem('token');
+      const token = authService.getAccessToken();
       if (!token) return;
 
       // This would be a PUT request to update profile
       // For now, we'll just simulate the update
-      console.log('Updating profile:', editForm);
       
       // Simulate API call
       alert('Profile updated successfully!');
@@ -143,7 +143,7 @@ function EmployeeProfile() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="max-w-full mx-0 px-5 py-8">
         {/* Header */}
         <div className="flex justify-between items-center mb-8">
           <div>
@@ -183,100 +183,74 @@ function EmployeeProfile() {
         </div>
 
         {/* Profile Content */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8 items-stretch">
           {/* Profile Picture Section */}
           <div className="lg:col-span-1">
-            <div className="bg-white rounded-lg shadow p-6">
-              <div className="text-center">
-                <div className="relative inline-block">
-                  <div className="w-32 h-32 rounded-full bg-gray-200 flex items-center justify-center mx-auto mb-4">
-                    {profile.employee_info.profile_image_url ? (
-                      <img
-                        className="w-32 h-32 rounded-full object-cover"
-                        src={profile.employee_info.profile_image_url}
-                        alt="Profile"
-                      />
-                    ) : (
-                      <User className="w-16 h-16 text-gray-400" />
+            <div className="bg-white rounded-lg shadow p-6 h-full flex flex-col justify-between">
+              <div>
+                <div className="text-center">
+                  <div className="relative inline-block">
+                    <div className="w-24 h-24 sm:w-32 sm:h-32 rounded-full bg-gray-200 flex items-center justify-center mx-auto mb-4">
+                      {profile.employee_info.profile_image_url ? (
+                        <img
+                          className="w-24 h-24 sm:w-32 sm:h-32 rounded-full object-cover"
+                          src={profile.employee_info.profile_image_url}
+                          alt="Profile"
+                        />
+                      ) : (
+                        <User className="w-12 h-12 sm:w-16 sm:h-16 text-gray-400" />
+                      )}
+                    </div>
+                    {isEditing && (
+                      <button className="absolute bottom-0 right-0 p-2 bg-blue-600 text-white rounded-full hover:bg-blue-700">
+                        <Camera className="w-4 h-4" />
+                      </button>
                     )}
                   </div>
-                  {isEditing && (
-                    <button className="absolute bottom-0 right-0 p-2 bg-blue-600 text-white rounded-full hover:bg-blue-700">
-                      <Camera className="w-4 h-4" />
-                    </button>
-                  )}
+                  <h3 className="text-lg sm:text-xl font-semibold text-gray-900">
+                    {profile.user_info.full_name}
+                  </h3>
+                  <p className="text-gray-600">{profile.employee_info.position || 'Employee'}</p>
+                  <p className="text-sm text-gray-500 mt-1">ID: {profile.employee_info.employee_id}</p>
                 </div>
-                <h3 className="text-xl font-semibold text-gray-900">
-                  {profile.user_info.full_name}
-                </h3>
-                <p className="text-gray-600">{profile.employee_info.position || 'Employee'}</p>
-                <p className="text-sm text-gray-500 mt-1">
-                  ID: {profile.employee_info.employee_id}
-                </p>
+
+                {/* Quick Stats */}
+                <div className="mt-6 pt-6 border-t border-gray-200">
+                  <div className="grid grid-cols-2 gap-4 text-center">
+                    <div>
+                      <p className="text-2xl font-semibold text-blue-600">
+                        {profile.employee_info.hire_date ? Math.floor((new Date() - new Date(profile.employee_info.hire_date)) / (1000 * 60 * 60 * 24 * 365)) : 0}
+                      </p>
+                      <p className="text-sm text-gray-600">Years</p>
+                    </div>
+                    <div>
+                      <p className="text-2xl font-semibold text-green-600">{profile.employee_info.department?.name ? 1 : 0}</p>
+                      <p className="text-sm text-gray-600">Department</p>
+                    </div>
+                  </div>
+                </div>
               </div>
 
-              {/* Quick Stats */}
-              <div className="mt-6 pt-6 border-t border-gray-200">
-                <div className="grid grid-cols-2 gap-4 text-center">
-                  <div>
-                    <p className="text-2xl font-semibold text-blue-600">
-                      {profile.employee_info.hire_date ? 
-                        Math.floor((new Date() - new Date(profile.employee_info.hire_date)) / (1000 * 60 * 60 * 24 * 365))
-                        : 0}
-                    </p>
-                    <p className="text-sm text-gray-600">Years</p>
+              {/* Move Personal Information into left card so there's no empty space */}
+                <div className="mt-6">
+                <div className="p-6 border-t border-gray-200">
+                  <h4 className="text-lg font-medium text-gray-900">Personal Information</h4>
+                </div>
+                <div className="p-6 space-y-4">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <ProfileField icon={User} label="First Name" value={profile.user_info.first_name} isEditing={isEditing} fieldName="first_name" />
+                    <ProfileField icon={User} label="Last Name" value={profile.user_info.last_name} isEditing={isEditing} fieldName="last_name" />
                   </div>
-                  <div>
-                    <p className="text-2xl font-semibold text-green-600">
-                      {profile.employee_info.department?.name ? 1 : 0}
-                    </p>
-                    <p className="text-sm text-gray-600">Department</p>
-                  </div>
+                  <ProfileField icon={Mail} label="Email Address" value={profile.user_info.email} isEditing={false} />
+                  <ProfileField icon={Phone} label="Phone Number" value={profile.employee_info.phone} isEditing={isEditing} fieldName="phone" />
                 </div>
               </div>
             </div>
           </div>
 
-          {/* Profile Information */}
+          {/* Profile Information is moved to left card. Right column keeps professional & account sections */}
           <div className="lg:col-span-2">
             <div className="bg-white rounded-lg shadow">
-              <div className="p-6 border-b border-gray-200">
-                <h4 className="text-lg font-medium text-gray-900">Personal Information</h4>
-              </div>
-              <div className="p-6 space-y-4">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <ProfileField
-                    icon={User}
-                    label="First Name"
-                    value={profile.user_info.first_name}
-                    isEditing={isEditing}
-                    fieldName="first_name"
-                  />
-                  <ProfileField
-                    icon={User}
-                    label="Last Name"
-                    value={profile.user_info.last_name}
-                    isEditing={isEditing}
-                    fieldName="last_name"
-                  />
-                </div>
-                <ProfileField
-                  icon={Mail}
-                  label="Email Address"
-                  value={profile.user_info.email}
-                  isEditing={false} // Email should not be editable
-                />
-                <ProfileField
-                  icon={Phone}
-                  label="Phone Number"
-                  value={profile.employee_info.phone}
-                  isEditing={isEditing}
-                  fieldName="phone"
-                />
-              </div>
-            </div>
-
-            <div className="bg-white rounded-lg shadow mt-6">
               <div className="p-6 border-b border-gray-200">
                 <h4 className="text-lg font-medium text-gray-900">Professional Information</h4>
               </div>

@@ -95,7 +95,13 @@ def require_auth(f):
             g.current_user_role = claims.get('role')
             g.current_organization_id = claims.get('organization_id')
             g.current_department_id = claims.get('department_id')
+            
+            # Also set user_role and organization_id for backward compatibility
+            g.user_role = claims.get('role')
+            g.organization_id = claims.get('organization_id')
         
+        except AuthenticationError:
+            raise
         except Exception as e:
             raise AuthenticationError("Invalid or expired token")
         
@@ -122,11 +128,17 @@ def require_role(roles):
                 g.current_organization_id = claims.get('organization_id')
                 g.current_department_id = claims.get('department_id')
                 
+                # Also set user_role and organization_id for backward compatibility
+                g.user_role = claims.get('role')
+                g.organization_id = claims.get('organization_id')
+                
                 # Check role
                 user_role = claims.get('role')
                 if user_role not in roles:
                     raise AuthenticationError(f"Role '{user_role}' not authorized. Required: {roles}")
             
+            except AuthenticationError:
+                raise
             except Exception as e:
                 raise AuthenticationError("Invalid or expired token")
             

@@ -134,19 +134,46 @@ class VisitorService:
         return visitor
 
     @staticmethod
-    def get_visitors_by_organization(organization_id, page=1, limit=10):
+    def get_visitors_by_organization(organization_id, page=1, limit=10, from_date=None, to_date=None):
         """
-        Get all visitors for an organization with pagination.
+        Get all visitors for an organization with pagination and optional date range filtering.
         
         Args:
             organization_id: Organization UUID
             page: Page number (1-indexed)
             limit: Items per page
+            from_date: Optional start date in YYYY-MM-DD format to filter by check-in date range
+            to_date: Optional end date in YYYY-MM-DD format to filter by check-in date range
         
         Returns:
             (total_count, visitors_list)
         """
+        from sqlalchemy import func
+        from datetime import datetime
+        
         query = OrganizationVisitor.query.filter_by(organization_id=organization_id)
+        
+        # Apply date range filter if provided
+        if from_date:
+            try:
+                # Parse the start date
+                from_date_obj = datetime.strptime(from_date, '%Y-%m-%d').date()
+                # Filter visitors by check-in date >= from_date
+                query = query.filter(func.date(OrganizationVisitor.check_in_time) >= from_date_obj)
+            except ValueError:
+                # If date format is invalid, ignore the filter
+                pass
+        
+        if to_date:
+            try:
+                # Parse the end date
+                to_date_obj = datetime.strptime(to_date, '%Y-%m-%d').date()
+                # Filter visitors by check-in date <= to_date
+                query = query.filter(func.date(OrganizationVisitor.check_in_time) <= to_date_obj)
+            except ValueError:
+                # If date format is invalid, ignore the filter
+                pass
+        
         total = query.count()
         
         visitors = query.order_by(OrganizationVisitor.check_in_time.desc()).paginate(

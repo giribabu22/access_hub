@@ -2,7 +2,7 @@
 Marshmallow schemas for organization visitor management validation.
 """
 
-from marshmallow import Schema, fields, validates, ValidationError
+from marshmallow import Schema, fields, validates, ValidationError, post_dump
 
 
 class VisitorCreateSchema(Schema):
@@ -78,6 +78,7 @@ class VisitorResponseSchema(Schema):
     
     photo_id = fields.Method('get_photo_id', dump_only=True)
     photo_base64 = fields.Method('get_photo_base64', dump_only=True)
+    visitor_image = fields.Method('get_visitor_image', dump_only=True)  # Alias for frontend compatibility
     
     # New Fields Response
     vehicle_number = fields.String()
@@ -100,6 +101,17 @@ class VisitorResponseSchema(Schema):
             primary_image = obj.get_primary_image()
             return primary_image.image_base64 if primary_image else None
         return None
+
+    def get_visitor_image(self, obj):
+        """Get visitor image as base64 (alias for photo_base64 for frontend compatibility)"""
+        return self.get_photo_base64(obj)
+
+    @post_dump
+    def add_name_alias(self, data, **kwargs):
+        """Add 'name' as an alias for 'visitor_name' for frontend compatibility"""
+        if 'visitor_name' in data:
+            data['name'] = data['visitor_name']
+        return data
 
     class Meta:
         strict = True

@@ -11,6 +11,7 @@ import {
   FileText
 } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
+import { authService } from '../services/authService';
 
 function ManagerReports() {
   const { user } = useAuth();
@@ -26,7 +27,7 @@ function ManagerReports() {
   const generateReport = async () => {
     setLoading(true);
     try {
-      const token = localStorage.getItem('token');
+      const token = authService.getAccessToken();
       if (!token) {
         setLoading(false);
         return;

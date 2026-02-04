@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
+import { authService } from '../../services/authService';
 import '../../styles/Dashboard.css';
 
 const ManagerDashboard = () => {
@@ -44,7 +45,7 @@ const ManagerDashboard = () => {
 
   const fetchTeamStats = async () => {
     try {
-      const token = localStorage.getItem('token');
+      const token = authService.getAccessToken();
       if (!token) throw new Error('No authentication token');
 
       const response = await fetch('http://localhost:5001/api/manager/team/stats', {
@@ -72,7 +73,7 @@ const ManagerDashboard = () => {
 
   const fetchTeamMembers = async () => {
     try {
-      const token = localStorage.getItem('token');
+      const token = authService.getAccessToken();
       if (!token) throw new Error('No authentication token');
 
       const response = await fetch('http://localhost:5001/api/manager/team/members', {
@@ -100,7 +101,7 @@ const ManagerDashboard = () => {
 
   const fetchCameras = async () => {
     try {
-      const token = localStorage.getItem('token');
+      const token = authService.getAccessToken();
       if (!token) throw new Error('No authentication token');
 
       const response = await fetch('http://localhost:5001/api/manager/cameras', {
@@ -128,7 +129,7 @@ const ManagerDashboard = () => {
 
   const fetchLocations = async () => {
     try {
-      const token = localStorage.getItem('token');
+      const token = authService.getAccessToken();
       if (!token) throw new Error('No authentication token');
 
       const response = await fetch('http://localhost:5001/api/manager/locations', {
@@ -156,7 +157,7 @@ const ManagerDashboard = () => {
 
   const fetchPendingLeaves = async () => {
     try {
-      const token = localStorage.getItem('token');
+      const token = authService.getAccessToken();
       if (!token) throw new Error('No authentication token');
 
       const response = await fetch('http://localhost:5001/api/manager/leaves/pending?per_page=5', {
@@ -184,7 +185,7 @@ const ManagerDashboard = () => {
 
   const handleApproveLeave = async (leaveId) => {
     try {
-      const token = localStorage.getItem('token');
+      const token = authService.getAccessToken();
       if (!token) return;
 
       const response = await fetch(`http://localhost:5001/api/manager/leaves/${leaveId}/approve`, {
@@ -212,7 +213,7 @@ const ManagerDashboard = () => {
 
   const handleRejectLeave = async (leaveId) => {
     try {
-      const token = localStorage.getItem('token');
+      const token = authService.getAccessToken();
       if (!token) return;
 
       const reason = prompt('Please provide a reason for rejection:');
