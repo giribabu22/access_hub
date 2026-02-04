@@ -285,9 +285,11 @@ def analytics_attendance():
         summary = AttendanceService.get_organization_attendance_summary(org_id, start_date, end_date, filters)
         return jsonify({ 'success': True, 'data': summary }), 200
     except Exception as e:
+        import traceback
         print(f"[analytics_attendance] Error: {e}")
+        print(f"[analytics_attendance] Traceback: {traceback.format_exc()}")
         db.session.rollback()
-        return jsonify({ 'success': False, 'message': 'Failed to compute analytics' }), 500
+        return jsonify({ 'success': False, 'message': 'Failed to compute analytics', 'error': str(e) }), 500
 
 
 @bp.get("/api/stats/organization-analytics")

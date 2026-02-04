@@ -2,7 +2,7 @@
 Business logic for Attendance management.
 """
 
-from sqlalchemy import or_, and_
+from sqlalchemy import or_, and_, case
 from ..extensions import db
 from ..models import AttendanceRecord, Employee
 from ..utils.exceptions import NotFoundError, ConflictError, BadRequestError
@@ -257,7 +257,7 @@ class AttendanceService:
         base_q = db.session.query(
             ar.date.label('date'),
             func.count(distinct(ar.employee_id)).label('present_count'),
-            func.sum(func.case([(ar.check_in_time != None, 1)], else_=0)).label('records_with_checkin'),
+            func.sum(case((ar.check_in_time != None, 1), else_=0)).label('records_with_checkin'),
             func.avg(ar.work_hours).label('avg_work_hours')
         ).filter(
             ar.organization_id == organization_id,
@@ -293,12 +293,13 @@ class AttendanceService:
         late_q = db.session.query(
             ar.date.label('date'),
             func.count(distinct(ar.employee_id)).label('late_count')
-        ).join(Employee, Employee.id == ar.employee_id).join(Shift, Shift.id == Employee.shift_id)
+        ).join(Employee, Employee.id == ar.employee_id).outerjoin(Shift, Shift.id == Employee.shift_id)
         late_q = late_q.filter(
             ar.organization_id == organization_id,
             ar.date >= start_date,
             ar.date <= end_date,
-            ar.check_in_time != None
+            ar.check_in_time != None,
+            Shift.id != None  # Only count records where shift exists
         )
         # late condition: check_in_time > (date + shift.start_time + grace)
         # perform as numeric comparison using extract
@@ -310,7 +311,8 @@ class AttendanceService:
 
         try:
             late_rows = late_q.all()
-        except Exception:
+        except Exception as e:
+            print(f"[get_organization_attendance_summary] Error calculating late counts: {e}")
             db.session.rollback()
             late_rows = []
 
