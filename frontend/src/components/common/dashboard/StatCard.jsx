@@ -25,16 +25,16 @@ const StatCard = ({
     // Map color names to Tailwind classes
     const colorMap = {
         indigo: {
-            borderHover: 'hover:border-indigo-400/50',
-            bgGradient: 'from-indigo-500/5 to-purple-500/5',
-            iconBg: 'bg-indigo-100 group-hover:bg-indigo-200',
-            textGradient: 'from-indigo-600 to-purple-600',
+            borderHover: 'hover:border-teal-400/50',
+            bgGradient: 'from-teal-500/5 to-teal-500/5',
+            iconBg: 'bg-teal-100 group-hover:bg-teal-200',
+            textGradient: 'from-teal-600 to-teal-600',
         },
         purple: {
             borderHover: 'hover:border-purple-400/50',
-            bgGradient: 'from-purple-500/5 to-pink-500/5',
-            iconBg: 'bg-purple-100 group-hover:bg-purple-200',
-            textGradient: 'from-purple-600 to-pink-600',
+            bgGradient: 'from-cyan-500/5 to-pink-500/5',
+            iconBg: 'bg-teal-100 group-hover:bg-teal-200',
+            textGradient: 'from-cyan-600 to-pink-600',
         },
         blue: {
             borderHover: 'hover:border-blue-400/50',

@@ -52,7 +52,7 @@ const Breadcrumbs = () => {
           ) : (
             <Link
               to={routeTo}
-              className="text-indigo-600 hover:text-indigo-700 font-medium transition-colors duration-200"
+              className="text-teal-600 hover:text-teal-700 font-medium transition-colors duration-200"
             >
               {label}
             </Link>
@@ -65,11 +65,11 @@ const Breadcrumbs = () => {
   };
 
   return (
-    <div className="bg-white border-b border-gray-200 px-4 sm:px-6 lg:px-8 py-3">
+    <div className="bg-teal-50/95 border-b border-gray-200 px-4 sm:px-6 lg:px-8 py-3">
       <nav className="flex items-center gap-1 text-sm">
         <Link
           to="/"
-          className="text-indigo-600 hover:text-indigo-700 font-medium transition-colors duration-200 flex items-center gap-1"
+          className="text-teal-600 hover:text-teal-700 font-medium transition-colors duration-200 flex items-center gap-1"
         >
           <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
             <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" />

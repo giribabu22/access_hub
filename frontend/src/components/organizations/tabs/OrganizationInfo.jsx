@@ -47,7 +47,7 @@ const OrganizationInfo = ({ organization, onUpdate }) => {
   return (
     <div className="space-y-6 animate-fadeIn">
       {/* Basic Information */}
-      <div className="bg-gray-50 rounded-xl p-6">
+      <div className="bg-teal-50 rounded-xl p-6">
         <h3 className="text-xl font-bold text-gray-900 mb-6 pb-3 border-b-2 border-gray-200">
           Basic Information
         </h3>
@@ -94,7 +94,7 @@ const OrganizationInfo = ({ organization, onUpdate }) => {
       </div>
 
       {/* Address Information */}
-      <div className="bg-gray-50 rounded-xl p-6">
+      <div className="bg-teal-50 rounded-xl p-6">
         <h3 className="text-xl font-bold text-gray-900 mb-6 pb-3 border-b-2 border-gray-200">
           Address Information
         </h3>
@@ -143,7 +143,7 @@ const OrganizationInfo = ({ organization, onUpdate }) => {
       </div>
 
       {/* Contact Information */}
-      <div className="bg-gray-50 rounded-xl p-6">
+      <div className="bg-teal-50 rounded-xl p-6">
         <h3 className="text-xl font-bold text-gray-900 mb-6 pb-3 border-b-2 border-gray-200">
           Contact Information
         </h3>
@@ -174,7 +174,7 @@ const OrganizationInfo = ({ organization, onUpdate }) => {
                   href={organization.website} 
                   target="_blank" 
                   rel="noopener noreferrer"
-                  className="text-indigo-600 hover:text-indigo-800 font-medium hover:underline"
+                  className="text-teal-600 hover:text-teal-800 font-medium hover:underline"
                 >
                   {organization.website}
                 </a>
@@ -187,7 +187,7 @@ const OrganizationInfo = ({ organization, onUpdate }) => {
       </div>
 
       {/* Primary Contact Person */}
-      <div className="bg-gray-50 rounded-xl p-6">
+      <div className="bg-teal-50 rounded-xl p-6">
         <h3 className="text-xl font-bold text-gray-900 mb-6 pb-3 border-b-2 border-gray-200">
           Primary Contact Person
         </h3>
@@ -220,7 +220,7 @@ const OrganizationInfo = ({ organization, onUpdate }) => {
       </div>
 
       {/* System Information */}
-      <div className="bg-gray-50 rounded-xl p-6">
+      <div className="bg-teal-50 rounded-xl p-6">
         <h3 className="text-xl font-bold text-gray-900 mb-6 pb-3 border-b-2 border-gray-200">
           System Information
         </h3>
@@ -262,7 +262,7 @@ const OrganizationInfo = ({ organization, onUpdate }) => {
 
       {/* Resource Overview & Stats */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div className="bg-gray-50 rounded-xl p-6">
+        <div className="bg-teal-50 rounded-xl p-6">
           <h3 className="text-xl font-bold text-gray-900 mb-6 pb-3 border-b-2 border-gray-200">
             Resource Distribution
           </h3>
@@ -286,12 +286,12 @@ const OrganizationInfo = ({ organization, onUpdate }) => {
           </div>
         </div>
 
-        <div className="bg-gray-50 rounded-xl p-6">
+        <div className="bg-teal-50 rounded-xl p-6">
           <h3 className="text-xl font-bold text-gray-900 mb-6 pb-3 border-b-2 border-gray-200">
             Organization Status
           </h3>
           <div className="flex flex-col gap-4">
-             <div className="p-4 bg-white rounded-lg border border-gray-200 shadow-sm">
+             <div className="p-4 bg-teal-50/95 rounded-lg border border-gray-200 shadow-sm">
                 <div className="flex items-center justify-between mb-2">
                   <span className="text-sm font-medium text-gray-600">Current State</span>
                   <span className={`px-3 py-1 rounded-full text-xs font-bold uppercase ${
@@ -307,7 +307,7 @@ const OrganizationInfo = ({ organization, onUpdate }) => {
                 </p>
              </div>
              
-             <div className="p-4 bg-white rounded-lg border border-gray-200 shadow-sm">
+             <div className="p-4 bg-teal-50/95 rounded-lg border border-gray-200 shadow-sm">
                 <div className="flex items-center justify-between mb-2">
                   <span className="text-sm font-medium text-gray-600">Subscription Status</span>
                   <span className="px-3 py-1 rounded-full text-xs font-bold uppercase bg-blue-100 text-blue-700">
@@ -319,7 +319,7 @@ const OrganizationInfo = ({ organization, onUpdate }) => {
                 </p>
              </div>
 
-             <div className="p-4 bg-white rounded-lg border border-gray-200 shadow-sm">
+             <div className="p-4 bg-teal-50/95 rounded-lg border border-gray-200 shadow-sm">
                 <div className="flex items-center justify-between mb-2">
                   <span className="text-sm font-medium text-gray-600">System Health</span>
                   <span className="px-3 py-1 rounded-full text-xs font-bold uppercase bg-green-100 text-green-700">
@@ -336,7 +336,7 @@ const OrganizationInfo = ({ organization, onUpdate }) => {
 
       {/* Additional Statistics */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div className="bg-gray-50 rounded-xl p-6">
+        <div className="bg-teal-50 rounded-xl p-6">
           <h3 className="text-xl font-bold text-gray-900 mb-6 pb-3 border-b-2 border-gray-200">
             Visitor Activity (Last 7 Days)
           </h3>
@@ -361,7 +361,7 @@ const OrganizationInfo = ({ organization, onUpdate }) => {
           </div>
         </div>
 
-        <div className="bg-gray-50 rounded-xl p-6">
+        <div className="bg-teal-50 rounded-xl p-6">
           <h3 className="text-xl font-bold text-gray-900 mb-6 pb-3 border-b-2 border-gray-200">
             Camera Health Status
           </h3>

@@ -8,13 +8,13 @@ const WebcamTest = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 p-8">
+    <div className="min-h-screen bg-teal-100 p-8">
       <div className="max-w-4xl mx-auto">
         <h1 className="text-3xl font-bold text-center mb-8 text-gray-800">
           🧪 Webcam Test Page
         </h1>
 
-        <div className="bg-white rounded-lg shadow-lg p-6">
+        <div className="bg-teal-50/95 rounded-lg shadow-lg p-6">
           <WebcamCapture
             onImageCapture={handleImageCapture}
           />

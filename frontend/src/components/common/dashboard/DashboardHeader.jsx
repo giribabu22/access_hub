@@ -9,13 +9,13 @@ const DashboardHeader = ({
     refreshing = false
 }) => {
     return (
-        <div className="bg-white/80 backdrop-blur-sm border-b border-slate-200/60 sticky top-0 z-30 shadow-sm transition-all duration-300">
+        <div className="bg-teal-50/90 backdrop-blur-sm border-b border-slate-200/60 sticky top-0 z-30 shadow-sm transition-all duration-300">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
                 <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
 
                     {/* Title Section */}
                     <div className="text-center sm:text-left">
-                        <h1 className="text-3xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
+                        <h1 className="text-3xl font-bold bg-gradient-to-r from-teal-600 to-teal-600 bg-clip-text text-transparent">
                             {title}
                         </h1>
                         {subtitle ? (
@@ -23,7 +23,7 @@ const DashboardHeader = ({
                         ) : (
                             user && (
                                 <p className="text-slate-600 mt-1">
-                                    Welcome back, <span className="font-bold text-indigo-600">{user.username || 'Admin'}</span>! 👋
+                                    Welcome back, <span className="font-bold text-teal-600">{user.username || 'Admin'}</span>! 👋
                                 </p>
                             )
                         )}
@@ -35,11 +35,11 @@ const DashboardHeader = ({
                             <button
                                 onClick={onRefresh}
                                 disabled={refreshing}
-                                className="inline-flex items-center gap-2 px-4 py-2 bg-white border border-slate-200 rounded-lg text-slate-700 hover:bg-slate-50 hover:border-slate-300 transition-all duration-300 shadow-sm hover:shadow-md disabled:opacity-50 disabled:cursor-not-allowed"
+                                className="inline-flex items-center gap-2 px-4 py-2 bg-teal-50/95 border border-slate-200 rounded-lg text-slate-700 hover:bg-slate-50 hover:border-slate-300 transition-all duration-300 shadow-sm hover:shadow-md disabled:opacity-50 disabled:cursor-not-allowed"
                             >
                                 {refreshing ? (
                                     <>
-                                        <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-indigo-600"></div>
+                                        <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-teal-600"></div>
                                         <span className="hidden sm:inline">Refreshing...</span>
                                     </>
                                 ) : (

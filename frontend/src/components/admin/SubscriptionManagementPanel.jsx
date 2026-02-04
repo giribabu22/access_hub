@@ -84,12 +84,12 @@ const SubscriptionManagementPanel = () => {
 
   const getPlanColor = (tier) => {
     const colors = {
-      free: 'bg-gray-100 text-gray-800',
+      free: 'bg-teal-100 text-gray-800',
       starter: 'bg-blue-100 text-blue-800',
       professional: 'bg-green-100 text-green-800',
-      enterprise: 'bg-purple-100 text-purple-800'
+      enterprise: 'bg-teal-100 text-teal-800'
     };
-    return colors[tier] || 'bg-gray-100 text-gray-800';
+    return colors[tier] || 'bg-teal-100 text-gray-800';
   };
 
   const getUsageStatus = (percentages) => {
@@ -105,7 +105,7 @@ const SubscriptionManagementPanel = () => {
     return (
       <div className="flex items-center justify-center min-h-96">
         <div className="text-center">
-          <div className="w-12 h-12 border-4 border-indigo-200 border-t-indigo-600 rounded-full animate-spin mx-auto mb-4"></div>
+          <div className="w-12 h-12 border-4 border-teal-200 border-t-teal-600 rounded-full animate-spin mx-auto mb-4"></div>
           <p className="text-gray-600">Loading subscription data...</p>
         </div>
       </div>
@@ -118,7 +118,7 @@ const SubscriptionManagementPanel = () => {
       <div className="flex justify-between items-center">
         <div>
           <h1 className="text-2xl font-bold text-gray-900 flex items-center">
-            <Crown className="w-8 h-8 text-indigo-600 mr-3" />
+            <Crown className="w-8 h-8 text-teal-600 mr-3" />
             Subscription Management
           </h1>
           <p className="text-gray-600 mt-1">Manage organization subscription plans and usage</p>
@@ -133,7 +133,7 @@ const SubscriptionManagementPanel = () => {
           ).length;
           
           return (
-            <div key={tier} className="bg-white rounded-xl p-6 border border-gray-200 shadow-sm">
+            <div key={tier} className="bg-teal-50/95 rounded-xl p-6 border border-gray-200 shadow-sm">
               <div className="flex items-center justify-between mb-2">
                 <span className={`px-3 py-1 rounded-full text-sm font-medium ${getPlanColor(tier)}`}>
                   {tier.charAt(0).toUpperCase() + tier.slice(1)}
@@ -147,7 +147,7 @@ const SubscriptionManagementPanel = () => {
       </div>
 
       {/* Filters */}
-      <div className="bg-white rounded-xl p-4 border border-gray-200 shadow-sm">
+      <div className="bg-teal-50/95 rounded-xl p-4 border border-gray-200 shadow-sm">
         <div className="flex flex-wrap gap-2">
           {[
             { key: 'all', label: 'All Organizations' },
@@ -163,8 +163,8 @@ const SubscriptionManagementPanel = () => {
               onClick={() => setFilter(key)}
               className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
                 filter === key
-                  ? 'bg-indigo-600 text-white'
-                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                  ? 'bg-teal-600 text-white'
+                  : 'bg-teal-100 text-gray-700 hover:bg-gray-200'
               }`}
             >
               {label}
@@ -174,7 +174,7 @@ const SubscriptionManagementPanel = () => {
       </div>
 
       {/* Organizations List */}
-      <div className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
+      <div className="bg-teal-50/95 rounded-xl border border-gray-200 shadow-sm overflow-hidden">
         <div className="px-6 py-4 border-b border-gray-200">
           <h3 className="text-lg font-semibold text-gray-900">
             Organizations ({filteredOrganizations.length})
@@ -183,7 +183,7 @@ const SubscriptionManagementPanel = () => {
         
         <div className="overflow-x-auto">
           <table className="w-full">
-            <thead className="bg-gray-50">
+            <thead className="bg-teal-50">
               <tr>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Organization
@@ -209,7 +209,7 @@ const SubscriptionManagementPanel = () => {
                 const usage = status.current_usage || {};
                 
                 return (
-                  <tr key={org.id} className="hover:bg-gray-50">
+                  <tr key={org.id} className="hover:bg-teal-50">
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div>
                         <div className="text-sm font-medium text-gray-900">{org.name}</div>
@@ -242,7 +242,7 @@ const SubscriptionManagementPanel = () => {
                     <td className="px-6 py-4 whitespace-nowrap text-sm">
                       <button
                         onClick={() => handleUpgradeOrganization(org)}
-                        className="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg font-medium transition-colors"
+                        className="px-4 py-2 bg-teal-600 hover:bg-teal-700 text-white rounded-lg font-medium transition-colors"
                       >
                         Manage Plan
                       </button>

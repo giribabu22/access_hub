@@ -55,7 +55,7 @@ const PresenceEventsList = () => {
       {/* Main Content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {/* Filter */}
-        <div className="bg-white rounded-2xl shadow-lg p-6 mb-8 border border-slate-200">
+        <div className="bg-teal-50/95 rounded-2xl shadow-lg p-6 mb-8 border border-slate-200">
           <div className="flex gap-4 flex-wrap">
             <select
               value={filterStatus}
@@ -89,7 +89,7 @@ const PresenceEventsList = () => {
             {filteredEvents.map(evt => (
               <div
                 key={evt.id}
-                className="bg-white rounded-2xl shadow-lg p-6 border border-slate-200 hover:shadow-2xl transition-all duration-300 flex flex-col md:flex-row md:items-center md:justify-between gap-4 group"
+                className="bg-teal-50/95 rounded-2xl shadow-lg p-6 border border-slate-200 hover:shadow-2xl transition-all duration-300 flex flex-col md:flex-row md:items-center md:justify-between gap-4 group"
               >
                 <div>
                   <h3 className="text-lg font-bold text-slate-900 mb-2">{evt.visitorName}</h3>
@@ -121,7 +121,7 @@ const PresenceEventsList = () => {
             ))}
           </div>
         ) : (
-          <div className="bg-white rounded-2xl shadow-lg p-12 text-center border border-slate-200">
+          <div className="bg-teal-50/95 rounded-2xl shadow-lg p-12 text-center border border-slate-200">
             <p className="text-slate-600 text-lg">No events found</p>
           </div>
         )}

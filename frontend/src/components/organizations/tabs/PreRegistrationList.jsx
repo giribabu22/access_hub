@@ -91,18 +91,18 @@ const PreRegistrationList = ({ organizationId }) => {
             case 'approved': return 'bg-green-100 text-green-700';
             case 'rejected': return 'bg-red-100 text-red-700';
             case 'pending': return 'bg-yellow-100 text-yellow-700';
-            default: return 'bg-gray-100 text-gray-700';
+            default: return 'bg-teal-100 text-gray-700';
         }
     };
 
     return (
-        <div className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
-            <div className="p-6 border-b border-slate-200 flex flex-col md:flex-row justify-between items-center gap-4 bg-purple-50">
+        <div className="bg-teal-50/95 rounded-xl border border-slate-200 shadow-sm overflow-hidden">
+            <div className="p-6 border-b border-slate-200 flex flex-col md:flex-row justify-between items-center gap-4 bg-teal-50">
                 <div>
-                    <h3 className="text-xl font-bold text-purple-900 flex items-center gap-2">
+                    <h3 className="text-xl font-bold text-teal-900 flex items-center gap-2">
                         📅 Pre-Registrations
                     </h3>
-                    <p className="text-purple-700 text-sm mt-1">Manage upcoming visits and approvals</p>
+                    <p className="text-teal-700 text-sm mt-1">Manage upcoming visits and approvals</p>
                 </div>
                 <div className="flex gap-2">
                     <select
@@ -117,7 +117,7 @@ const PreRegistrationList = ({ organizationId }) => {
                     </select>
                     <button
                         onClick={() => setShowForm(!showForm)}
-                        className="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 font-medium flex items-center gap-2 transition-colors"
+                        className="px-4 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700 font-medium flex items-center gap-2 transition-colors"
                     >
                         {showForm ? 'Cancel' : '➕ New Pre-Reg'}
                     </button>
@@ -202,7 +202,7 @@ const PreRegistrationList = ({ organizationId }) => {
                             </button>
                             <button
                                 type="submit"
-                                className="px-6 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 font-medium"
+                                className="px-6 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700 font-medium"
                             >
                                 Create Invitation
                             </button>

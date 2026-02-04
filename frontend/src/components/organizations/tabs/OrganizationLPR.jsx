@@ -266,8 +266,8 @@ const OrganizationLPR = ({ organization }) => {
                             key={tab.id}
                             onClick={() => setActiveSubTab(tab.id)}
                             className={`px-4 py-2 rounded-md text-sm font-semibold transition-all ${activeSubTab === tab.id
-                                ? 'bg-white text-indigo-700 shadow-sm'
-                                : 'text-slate-600 hover:text-indigo-600 hover:bg-slate-200'
+                                ? 'bg-white text-teal-700 shadow-sm'
+                                : 'text-slate-600 hover:text-teal-600 hover:bg-slate-200'
                                 }`}
                         >
                             {tab.label}
@@ -299,7 +299,7 @@ const OrganizationLPR = ({ organization }) => {
                     </div>
 
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-2">
-                        <div className="bg-white border border-slate-200 rounded-xl overflow-hidden shadow-sm">
+                        <div className="bg-teal-50/95 border border-slate-200 rounded-xl overflow-hidden shadow-sm">
                             <div className="px-4 py-3 bg-slate-50 border-b border-slate-200 flex justify-between items-center">
                                 <h3 className="font-bold text-slate-800">Recent Alerts</h3>
                                 <span className="text-xs bg-red-100 text-red-700 px-2 py-1 rounded border border-red-200">Live</span>
@@ -309,7 +309,7 @@ const OrganizationLPR = ({ organization }) => {
                             </div>
                         </div>
 
-                        <div className="bg-white border border-slate-200 rounded-xl overflow-hidden shadow-sm">
+                        <div className="bg-teal-50/95 border border-slate-200 rounded-xl overflow-hidden shadow-sm">
                             <div className="px-4 py-3 bg-slate-50 border-b border-slate-200 flex justify-between items-center">
                                 <h3 className="font-bold text-slate-800">Quick Actions</h3>
                             </div>
@@ -344,7 +344,7 @@ const OrganizationLPR = ({ organization }) => {
 
             {/* THE REGISTER TAB */}
             {activeSubTab === 'register' && (
-                <div className="bg-white border border-slate-300 rounded-lg shadow-sm overflow-hidden">
+                <div className="bg-teal-50/95 border border-slate-300 rounded-lg shadow-sm overflow-hidden">
                     <div className="px-6 py-4 border-b border-slate-200 bg-slate-50">
                         <div className="flex justify-between items-end mb-4">
                             <div>
@@ -363,12 +363,12 @@ const OrganizationLPR = ({ organization }) => {
                                 </p>
                             </div>
                             <div className="flex gap-2">
-                                <button className="px-3 py-1 bg-white border border-slate-300 rounded shadow-sm text-sm font-medium hover:bg-slate-50 flex items-center gap-2">
+                                <button className="px-3 py-1 bg-teal-50/95 border border-slate-300 rounded shadow-sm text-sm font-medium hover:bg-slate-50 flex items-center gap-2">
                                     <span>🖨️</span> Print Log
                                 </button>
                                 <button
                                     onClick={() => setShowManualEntryModal(true)}
-                                    className="px-3 py-1 bg-indigo-600 text-white border border-indigo-600 rounded shadow-sm text-sm font-medium hover:bg-indigo-700 flex items-center gap-2"
+                                    className="px-3 py-1 bg-teal-600 text-white border border-teal-600 rounded shadow-sm text-sm font-medium hover:bg-teal-700 flex items-center gap-2"
                                 >
                                     <span>+</span> Manual Entry / Inspection
                                 </button>
@@ -376,7 +376,7 @@ const OrganizationLPR = ({ organization }) => {
                         </div>
 
                         {/* Search Filters */}
-                        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 bg-white p-3 rounded-lg border border-slate-200 shadow-sm">
+                        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 bg-teal-50/95 p-3 rounded-lg border border-slate-200 shadow-sm">
                             <div className="md:col-span-2">
                                 <label className="block text-xs font-bold text-slate-500 uppercase mb-1">Search Vehicle</label>
                                 <div className="relative">
@@ -385,7 +385,7 @@ const OrganizationLPR = ({ organization }) => {
                                         placeholder="Enter Vehicle Number..."
                                         value={searchFilters.vehicle_number}
                                         onChange={(e) => setSearchFilters(prev => ({ ...prev, vehicle_number: e.target.value.toUpperCase() }))}
-                                        className="w-full border border-slate-300 rounded pl-9 pr-3 py-2 text-sm focus:ring-2 focus:ring-indigo-500 outline-none font-mono uppercase"
+                                        className="w-full border border-slate-300 rounded pl-9 pr-3 py-2 text-sm focus:ring-2 focus:ring-teal-500 outline-none font-mono uppercase"
                                     />
                                     <span className="absolute left-3 top-2 text-slate-400">🔍</span>
                                 </div>
@@ -396,7 +396,7 @@ const OrganizationLPR = ({ organization }) => {
                                     type="date"
                                     value={searchFilters.date}
                                     onChange={(e) => setSearchFilters(prev => ({ ...prev, date: e.target.value }))}
-                                    className="w-full border border-slate-300 rounded px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-500 outline-none"
+                                    className="w-full border border-slate-300 rounded px-3 py-2 text-sm focus:ring-2 focus:ring-teal-500 outline-none"
                                 />
                             </div>
                             <div className="flex items-end">
@@ -439,7 +439,7 @@ const OrganizationLPR = ({ organization }) => {
                                                     <span className="text-xs bg-green-100 text-green-700 px-2 py-1 rounded border border-green-200">Checked</span>
                                                 ) : <span className="text-xs text-slate-400">N/A</span>}
                                                 {row.gate_pass_id && (
-                                                    <button onClick={() => { setPrintedPassEntry(row); setShowGatePassModal(true); }} className="ml-2 text-indigo-600 hover:underline text-xs">
+                                                    <button onClick={() => { setPrintedPassEntry(row); setShowGatePassModal(true); }} className="ml-2 text-teal-600 hover:underline text-xs">
                                                         🖨️ Pass
                                                     </button>
                                                 )}
@@ -513,7 +513,7 @@ const OrganizationLPR = ({ organization }) => {
 
             {/* HOTLIST TAB */}
             {activeSubTab === 'hotlist' && (
-                <div className="bg-white border border-red-200 rounded-lg shadow-sm overflow-hidden">
+                <div className="bg-teal-50/95 border border-red-200 rounded-lg shadow-sm overflow-hidden">
                     <div className="px-6 py-4 border-b border-red-100 bg-red-50 flex justify-between items-center">
                         <div>
                             <h3 className="font-bold text-lg text-red-900">Restricted Vehicle Hotlist</h3>
@@ -569,7 +569,7 @@ const OrganizationLPR = ({ organization }) => {
 
             {/* WHITELIST TAB */}
             {activeSubTab === 'whitelist' && (
-                <div className="bg-white border border-green-200 rounded-lg shadow-sm overflow-hidden">
+                <div className="bg-teal-50/95 border border-green-200 rounded-lg shadow-sm overflow-hidden">
                     <div className="px-6 py-4 border-b border-green-100 bg-green-50 flex justify-between items-center">
                         <div>
                             <h3 className="font-bold text-lg text-green-900">Authorized / VIP Vehicles</h3>
@@ -628,7 +628,7 @@ const OrganizationLPR = ({ organization }) => {
             {/* HOTLIST MODAL */}
             {showHotlistModal && (
                 <div className="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 flex items-center justify-center p-4 shadow-2xl">
-                    <div className="bg-white rounded-xl shadow-2xl w-full max-w-lg overflow-hidden animate-in fade-in zoom-in duration-200">
+                    <div className="bg-teal-50/95 rounded-xl shadow-2xl w-full max-w-lg overflow-hidden animate-in fade-in zoom-in duration-200">
                         <div className="bg-red-600 px-6 py-4 flex justify-between items-center text-white">
                             <h3 className="font-bold text-lg flex items-center gap-2">
                                 🚫 Add to Hotlist
@@ -702,7 +702,7 @@ const OrganizationLPR = ({ organization }) => {
             {/* WHITELIST MODAL */}
             {showWhitelistModal && (
                 <div className="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 flex items-center justify-center p-4 shadow-2xl">
-                    <div className="bg-white rounded-xl shadow-2xl w-full max-w-lg overflow-hidden animate-in fade-in zoom-in duration-200">
+                    <div className="bg-teal-50/95 rounded-xl shadow-2xl w-full max-w-lg overflow-hidden animate-in fade-in zoom-in duration-200">
                         <div className="bg-green-600 px-6 py-4 flex justify-between items-center text-white">
                             <h3 className="font-bold text-lg flex items-center gap-2">
                                 ✅ Authorize Vehicle
@@ -788,12 +788,12 @@ const OrganizationLPR = ({ organization }) => {
             {/* MANUAL ENTRY MODAL */}
             {showManualEntryModal && (
                 <div className="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 flex items-center justify-center p-4 shadow-2xl overflow-y-auto">
-                    <div className="bg-white rounded-xl shadow-2xl w-full max-w-4xl animate-in fade-in zoom-in duration-200 my-8">
-                        <div className="bg-indigo-600 px-6 py-4 flex justify-between items-center text-white rounded-t-xl">
+                    <div className="bg-teal-50/95 rounded-xl shadow-2xl w-full max-w-4xl animate-in fade-in zoom-in duration-200 my-8">
+                        <div className="bg-teal-600 px-6 py-4 flex justify-between items-center text-white rounded-t-xl">
                             <h3 className="font-bold text-lg flex items-center gap-2">
                                 🚔 Manual Vehicle Entry / Inspection
                             </h3>
-                            <button onClick={() => setShowManualEntryModal(false)} className="hover:bg-indigo-700 p-1 rounded">✕</button>
+                            <button onClick={() => setShowManualEntryModal(false)} className="hover:bg-teal-700 p-1 rounded">✕</button>
                         </div>
                         <form onSubmit={handleManualEntrySubmit} className="p-6 space-y-6">
 
@@ -806,7 +806,7 @@ const OrganizationLPR = ({ organization }) => {
                                         value={manualEntryForm.vehicle_number}
                                         onChange={e => setManualEntryForm({ ...manualEntryForm, vehicle_number: e.target.value.toUpperCase() })}
                                         placeholder="MH 12 AB 1234"
-                                        className="w-full border border-slate-300 rounded px-3 py-2 font-mono uppercase focus:ring-2 focus:ring-indigo-500 outline-none mb-2"
+                                        className="w-full border border-slate-300 rounded px-3 py-2 font-mono uppercase focus:ring-2 focus:ring-teal-500 outline-none mb-2"
                                         required
                                     />
                                     <select
@@ -926,7 +926,7 @@ const OrganizationLPR = ({ organization }) => {
                                                     <button
                                                         type="button"
                                                         onClick={() => { setActivePhotoSlot(type); setShowWebcam(true); }}
-                                                        className="w-full h-24 bg-white rounded border-2 border-dashed border-slate-300 flex flex-col items-center justify-center hover:bg-indigo-50 hover:text-indigo-600 hover:border-indigo-300 transition-all text-slate-400 gap-1"
+                                                        className="w-full h-24 bg-teal-50/95 rounded border-2 border-dashed border-slate-300 flex flex-col items-center justify-center hover:bg-teal-50 hover:text-teal-600 hover:border-teal-300 transition-all text-slate-400 gap-1"
                                                     >
                                                         <span className="text-xl">📷</span>
                                                         <span className="text-xs font-semibold">Add Photo</span>
@@ -947,7 +947,7 @@ const OrganizationLPR = ({ organization }) => {
                                         onChange={e => setManualEntryForm({ ...manualEntryForm, material_declaration: e.target.value })}
                                         placeholder="List any major materials/tools..."
                                         rows="3"
-                                        className="w-full border border-slate-300 rounded px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-500 outline-none"
+                                        className="w-full border border-slate-300 rounded px-3 py-2 text-sm focus:ring-2 focus:ring-teal-500 outline-none"
                                     />
                                 </div>
                                 <div>
@@ -957,14 +957,14 @@ const OrganizationLPR = ({ organization }) => {
                                         onChange={e => setManualEntryForm({ ...manualEntryForm, vehicle_security_check_notes: e.target.value })}
                                         placeholder="Observations: Dents, Scratches, etc."
                                         rows="3"
-                                        className="w-full border border-slate-300 rounded px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-500 outline-none"
+                                        className="w-full border border-slate-300 rounded px-3 py-2 text-sm focus:ring-2 focus:ring-teal-500 outline-none"
                                     />
                                 </div>
                             </div>
 
                             <div className="pt-4 flex justify-end gap-3 border-t border-slate-100">
                                 <button type="button" onClick={() => setShowManualEntryModal(false)} className="px-5 py-2 text-slate-600 font-semibold hover:bg-slate-100 rounded-lg transition-colors">Cancel</button>
-                                <button type="submit" className="px-8 py-2 bg-indigo-600 text-white font-bold rounded-lg shadow-lg hover:bg-indigo-700 hover:shadow-xl transform active:scale-95 transition-all flex items-center gap-2">
+                                <button type="submit" className="px-8 py-2 bg-teal-600 text-white font-bold rounded-lg shadow-lg hover:bg-teal-700 hover:shadow-xl transform active:scale-95 transition-all flex items-center gap-2">
                                     <span>💾 Create Entry & Generate Pass</span>
                                 </button>
                             </div>
@@ -976,7 +976,7 @@ const OrganizationLPR = ({ organization }) => {
             {/* GATE PASS MODAL */}
             {showGatePassModal && printedPassEntry && (
                 <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-[60] flex items-center justify-center p-4">
-                    <div className="bg-white rounded-xl w-full max-w-sm overflow-hidden shadow-2xl">
+                    <div className="bg-teal-50/95 rounded-xl w-full max-w-sm overflow-hidden shadow-2xl">
                         <div className="bg-slate-900 text-white px-4 py-3 flex justify-between items-center">
                             <h3 className="font-bold flex items-center gap-2">🎫 Vehicle Gate Pass</h3>
                             <button onClick={() => setShowGatePassModal(false)} className="text-slate-400 hover:text-white">✕</button>
@@ -1014,8 +1014,8 @@ const OrganizationLPR = ({ organization }) => {
                             <div className="bg-slate-100 rounded-lg p-3 text-center">
                                 <p className="text-[10px] text-slate-400 uppercase font-bold mb-1">Security Status</p>
                                 <div className="flex justify-center gap-2">
-                                    {printedPassEntry.checklist_status?.puc_valid && <span className="bg-white border border-slate-200 px-1 rounded text-[10px]">PUC</span>}
-                                    {printedPassEntry.checklist_status?.insurance_valid && <span className="bg-white border border-slate-200 px-1 rounded text-[10px]">INS</span>}
+                                    {printedPassEntry.checklist_status?.puc_valid && <span className="bg-teal-50/95 border border-slate-200 px-1 rounded text-[10px]">PUC</span>}
+                                    {printedPassEntry.checklist_status?.insurance_valid && <span className="bg-teal-50/95 border border-slate-200 px-1 rounded text-[10px]">INS</span>}
                                     <span className="bg-green-500 text-white px-2 rounded text-[10px] font-bold">CLEARED</span>
                                 </div>
                             </div>
@@ -1027,7 +1027,7 @@ const OrganizationLPR = ({ organization }) => {
                         <div className="p-4 bg-slate-50 border-t border-slate-200 flex gap-2">
                             <button
                                 onClick={() => { window.print(); setShowGatePassModal(false); }}
-                                className="flex-1 bg-indigo-600 text-white font-bold py-3 rounded-lg hover:bg-indigo-700 shadow-lg flex justify-center items-center gap-2"
+                                className="flex-1 bg-teal-600 text-white font-bold py-3 rounded-lg hover:bg-teal-700 shadow-lg flex justify-center items-center gap-2"
                             >
                                 🖨️ PRINT PASS
                             </button>
@@ -1050,7 +1050,7 @@ const OrganizationLPR = ({ organization }) => {
             {/* WEBCAM MODAL */}
             {showWebcam && (
                 <div className="fixed inset-0 bg-black/90 z-[70] flex items-center justify-center p-4">
-                    <div className="bg-white rounded-xl overflow-hidden w-full max-w-2xl relative">
+                    <div className="bg-teal-50/95 rounded-xl overflow-hidden w-full max-w-2xl relative">
                         <button
                             onClick={() => setShowWebcam(false)}
                             className="absolute top-4 right-4 z-10 bg-black/50 hover:bg-black/70 text-white rounded-full w-8 h-8 flex items-center justify-center"

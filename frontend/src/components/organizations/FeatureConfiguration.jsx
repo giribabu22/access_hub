@@ -123,16 +123,16 @@ const FeatureConfiguration = ({
             <div
               key={planId}
               className={`relative p-4 border-2 rounded-xl cursor-pointer transition-all hover:shadow-md ${subscriptionPlan === planId
-                ? 'border-indigo-600 bg-white ring-2 ring-indigo-100'
+                ? 'border-teal-600 bg-white ring-2 ring-teal-100'
                 : 'border-slate-200 bg-white hover:border-slate-300'
                 }`}
               onClick={() => onPlanChange(planId)}
             >
               <div className="flex items-center justify-between mb-2">
-                <h4 className={`font-bold ${subscriptionPlan === planId ? 'text-indigo-700' : 'text-slate-800'}`}>{plan.name}</h4>
+                <h4 className={`font-bold ${subscriptionPlan === planId ? 'text-teal-700' : 'text-slate-800'}`}>{plan.name}</h4>
                 <div className="flex items-center">
-                  <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${subscriptionPlan === planId ? 'border-indigo-600' : 'border-slate-300'}`}>
-                    {subscriptionPlan === planId && <div className="w-2.5 h-2.5 rounded-full bg-indigo-600" />}
+                  <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${subscriptionPlan === planId ? 'border-teal-600' : 'border-slate-300'}`}>
+                    {subscriptionPlan === planId && <div className="w-2.5 h-2.5 rounded-full bg-teal-600" />}
                   </div>
                 </div>
               </div>

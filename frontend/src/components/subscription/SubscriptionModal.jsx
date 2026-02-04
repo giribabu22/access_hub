@@ -100,7 +100,7 @@ const SubscriptionModal = ({ isOpen, onClose, initialTab = 'plans' }) => {
     const isNearLimit = percentage >= 80;
     
     return (
-      <div key={key} className="bg-white rounded-lg p-4 border border-gray-200">
+      <div key={key} className="bg-teal-50/95 rounded-lg p-4 border border-gray-200">
         <div className="flex justify-between items-center mb-2">
           <span className="font-medium text-gray-900">{label}</span>
           <span className={`text-sm font-semibold ${
@@ -131,18 +131,18 @@ const SubscriptionModal = ({ isOpen, onClose, initialTab = 'plans' }) => {
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-2xl shadow-2xl max-w-6xl w-full max-h-[90vh] overflow-hidden">
+      <div className="bg-teal-50/95 rounded-2xl shadow-2xl max-w-6xl w-full max-h-[90vh] overflow-hidden">
         {/* Header */}
         <div className="flex justify-between items-center p-6 border-b border-gray-200">
           <div>
             <h2 className="text-2xl font-bold text-gray-900">Subscription Management</h2>
             {currentPlan && (
-              <p className="text-gray-600">Current Plan: <span className="font-semibold text-indigo-600">{currentPlan.name}</span></p>
+              <p className="text-gray-600">Current Plan: <span className="font-semibold text-teal-600">{currentPlan.name}</span></p>
             )}
           </div>
           <button
             onClick={onClose}
-            className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+            className="p-2 hover:bg-teal-100 rounded-lg transition-colors"
           >
             <X className="w-6 h-6 text-gray-500" />
           </button>
@@ -153,7 +153,7 @@ const SubscriptionModal = ({ isOpen, onClose, initialTab = 'plans' }) => {
           <button
             className={`px-4 py-3 font-medium text-sm border-b-2 transition-colors ${
               activeTab === 'plans'
-                ? 'border-indigo-500 text-indigo-600'
+                ? 'border-teal-500 text-teal-600'
                 : 'border-transparent text-gray-500 hover:text-gray-700'
             }`}
             onClick={() => setActiveTab('plans')}
@@ -163,7 +163,7 @@ const SubscriptionModal = ({ isOpen, onClose, initialTab = 'plans' }) => {
           <button
             className={`px-4 py-3 font-medium text-sm border-b-2 transition-colors ${
               activeTab === 'usage'
-                ? 'border-indigo-500 text-indigo-600'
+                ? 'border-teal-500 text-teal-600'
                 : 'border-transparent text-gray-500 hover:text-gray-700'
             }`}
             onClick={() => setActiveTab('usage')}
@@ -185,12 +185,12 @@ const SubscriptionModal = ({ isOpen, onClose, initialTab = 'plans' }) => {
                     <div
                       key={plan.tier}
                       className={`relative rounded-2xl border-2 p-6 transition-all hover:shadow-lg ${
-                        isCurrentPlan ? 'border-indigo-500 bg-indigo-50' : 'border-gray-200'
-                      } ${plan.ui_display?.highlight ? 'ring-2 ring-indigo-200' : ''}`}
+                        isCurrentPlan ? 'border-teal-500 bg-teal-50' : 'border-gray-200'
+                      } ${plan.ui_display?.highlight ? 'ring-2 ring-teal-200' : ''}`}
                     >
                       {plan.ui_display?.highlight && (
                         <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
-                          <span className="bg-gradient-to-r from-indigo-500 to-purple-600 text-white px-4 py-1 rounded-full text-sm font-semibold">
+                          <span className="bg-gradient-to-r from-teal-500 to-teal-600 text-white px-4 py-1 rounded-full text-sm font-semibold">
                             Most Popular
                           </span>
                         </div>
@@ -198,7 +198,7 @@ const SubscriptionModal = ({ isOpen, onClose, initialTab = 'plans' }) => {
                       
                       {isCurrentPlan && (
                         <div className="absolute -top-3 right-4">
-                          <span className="bg-indigo-500 text-white px-3 py-1 rounded-full text-xs font-semibold">
+                          <span className="bg-teal-500 text-white px-3 py-1 rounded-full text-xs font-semibold">
                             Current Plan
                           </span>
                         </div>
@@ -209,7 +209,7 @@ const SubscriptionModal = ({ isOpen, onClose, initialTab = 'plans' }) => {
                           {typeof getPlanIcon(plan.tier) === 'string' ? (
                             getPlanIcon(plan.tier)
                           ) : (
-                            <div className="flex justify-center text-indigo-600">
+                            <div className="flex justify-center text-teal-600">
                               {getPlanIcon(plan.tier)}
                             </div>
                           )}
@@ -252,19 +252,19 @@ const SubscriptionModal = ({ isOpen, onClose, initialTab = 'plans' }) => {
 
                       {/* Action Button */}
                       {isCurrentPlan ? (
-                        <button disabled className="w-full py-3 bg-gray-100 text-gray-500 rounded-lg font-semibold">
+                        <button disabled className="w-full py-3 bg-teal-100 text-gray-500 rounded-lg font-semibold">
                           Current Plan
                         </button>
                       ) : canUpgrade && isSuperAdmin ? (
                         <button
                           onClick={() => handleUpgrade(plan.tier)}
                           disabled={loading}
-                          className="w-full py-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg font-semibold transition-colors disabled:opacity-50"
+                          className="w-full py-3 bg-teal-600 hover:bg-teal-700 text-white rounded-lg font-semibold transition-colors disabled:opacity-50"
                         >
                           {loading ? 'Upgrading...' : 'Upgrade'}
                         </button>
                       ) : (
-                        <button disabled className="w-full py-3 bg-gray-100 text-gray-500 rounded-lg font-semibold">
+                        <button disabled className="w-full py-3 bg-teal-100 text-gray-500 rounded-lg font-semibold">
                           {!isSuperAdmin ? 'Admin Only' : 'Contact Sales'}
                         </button>
                       )}
@@ -314,18 +314,18 @@ const SubscriptionModal = ({ isOpen, onClose, initialTab = 'plans' }) => {
               {/* Upgrade Recommendation */}
               {subscriptionStatus?.usage_percentages && 
                Object.values(subscriptionStatus.usage_percentages).some(p => p >= 80) && (
-                <div className="p-6 bg-gradient-to-r from-indigo-50 to-purple-50 border border-indigo-200 rounded-xl">
+                <div className="p-6 bg-gradient-to-r from-teal-50 to-teal-50 border border-teal-200 rounded-xl">
                   <div className="flex items-center mb-4">
-                    <Crown className="w-6 h-6 text-indigo-600 mr-3" />
-                    <h4 className="text-lg font-semibold text-indigo-900">Consider Upgrading Your Plan</h4>
+                    <Crown className="w-6 h-6 text-teal-600 mr-3" />
+                    <h4 className="text-lg font-semibold text-teal-900">Consider Upgrading Your Plan</h4>
                   </div>
-                  <p className="text-indigo-700 mb-4">
+                  <p className="text-teal-700 mb-4">
                     You're approaching or have exceeded some of your plan limits. Upgrading your plan will give you more resources and access to additional features.
                   </p>
                   {upgradeOptions.length > 0 && (
                     <button
                       onClick={() => setActiveTab('plans')}
-                      className="px-6 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg font-semibold transition-colors"
+                      className="px-6 py-2 bg-teal-600 hover:bg-teal-700 text-white rounded-lg font-semibold transition-colors"
                     >
                       View Upgrade Options
                     </button>

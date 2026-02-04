@@ -199,7 +199,7 @@ function ManagerTeam() {
         );
       default:
         return (
-          <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
+          <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-teal-100 text-gray-800">
             Unknown
           </span>
         );
@@ -220,7 +220,7 @@ function ManagerTeam() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-teal-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Header */}
         <div className="mb-8">
@@ -231,7 +231,7 @@ function ManagerTeam() {
         </div>
 
         {/* Tab Navigation */}
-        <div className="bg-white rounded-lg shadow mb-8">
+        <div className="bg-teal-50/95 rounded-lg shadow mb-8">
           <div className="border-b border-gray-200">
             <nav className="-mb-px flex space-x-8 px-6">
               <button
@@ -326,11 +326,11 @@ function ManagerTeam() {
                     </div>
                     <div className="text-sm text-yellow-600">On Leave</div>
                   </div>
-                  <div className="bg-purple-50 p-4 rounded-lg">
-                    <div className="text-2xl font-bold text-purple-600">
+                  <div className="bg-teal-50 p-4 rounded-lg">
+                    <div className="text-2xl font-bold text-teal-600">
                       {teamMembers.filter(m => m.status === 'active').length}
                     </div>
-                    <div className="text-sm text-purple-600">Active</div>
+                    <div className="text-sm text-teal-600">Active</div>
                   </div>
                 </div>
               </>
@@ -343,7 +343,7 @@ function ManagerTeam() {
                   <h3 className="text-lg font-medium text-gray-900 mb-4">Camera Status</h3>
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                     {cameras.length > 0 ? cameras.map((camera) => (
-                      <div key={camera.id} className="bg-white border border-gray-200 rounded-lg p-4">
+                      <div key={camera.id} className="bg-teal-50/95 border border-gray-200 rounded-lg p-4">
                         <div className="flex items-center justify-between mb-2">
                           <h4 className="font-medium text-gray-900">{camera.name}</h4>
                           <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
@@ -384,7 +384,7 @@ function ManagerTeam() {
                   <h3 className="text-lg font-medium text-gray-900 mb-4">Location Overview</h3>
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                     {locations.length > 0 ? locations.map((location) => (
-                      <div key={location.id} className="bg-white border border-gray-200 rounded-lg p-4">
+                      <div key={location.id} className="bg-teal-50/95 border border-gray-200 rounded-lg p-4">
                         <div className="flex items-center justify-between mb-2">
                           <h4 className="font-medium text-gray-900">{location.name}</h4>
                           <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
@@ -426,7 +426,7 @@ function ManagerTeam() {
         {activeTab === 'team' && (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {filteredMembers.length > 0 ? filteredMembers.map((member) => (
-              <div key={member.id} className="bg-white rounded-lg shadow hover:shadow-md transition-shadow">
+              <div key={member.id} className="bg-teal-50/95 rounded-lg shadow hover:shadow-md transition-shadow">
                 <div className="p-6">
                   <div className="flex items-start justify-between mb-4">
                     <div className="flex items-center space-x-3">

@@ -174,7 +174,7 @@ function RoleBasedSidebar({ isOpen, onToggle }) {
         className={`flex items-center px-3 py-2 text-sm font-medium rounded-md transition-colors ${
           isActive
             ? 'bg-blue-100 text-blue-700 border-r-2 border-blue-700'
-            : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
+            : 'text-gray-600 hover:text-gray-900 hover:bg-teal-50'
         }`}
         onClick={() => setActiveSection(item.id)}
       >
@@ -204,7 +204,7 @@ function RoleBasedSidebar({ isOpen, onToggle }) {
 
       {/* Sidebar */}
       <div className={`
-        fixed inset-y-0 left-0 z-30 w-64 bg-white shadow-lg transform transition-transform duration-300 ease-in-out
+        fixed inset-y-0 left-0 z-30 w-64 bg-teal-50/95 shadow-lg transform transition-transform duration-300 ease-in-out
         ${isOpen ? 'translate-x-0' : '-translate-x-full'}
         lg:translate-x-0 lg:static lg:inset-0
       `}>
@@ -226,7 +226,7 @@ function RoleBasedSidebar({ isOpen, onToggle }) {
           </div>
           <button
             onClick={onToggle}
-            className="lg:hidden p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100"
+            className="lg:hidden p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-teal-100"
           >
             <X className="h-5 w-5" />
           </button>

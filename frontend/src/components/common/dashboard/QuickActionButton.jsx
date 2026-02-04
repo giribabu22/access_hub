@@ -2,8 +2,8 @@ import React from 'react';
 
 const QuickActionButton = ({ title, icon, color = 'indigo', onClick }) => {
     const colorMap = {
-        indigo: 'from-indigo-600 to-purple-600',
-        purple: 'from-purple-600 to-pink-600',
+        indigo: 'from-teal-600 to-teal-600',
+        purple: 'from-cyan-600 to-pink-600',
         blue: 'from-blue-600 to-cyan-600',
         green: 'from-green-600 to-emerald-600',
         orange: 'from-orange-600 to-amber-600',

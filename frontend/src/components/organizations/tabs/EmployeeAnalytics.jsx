@@ -142,7 +142,7 @@ const EmployeeAnalytics = ({ employees = [], organizationId }) => {
     if (loading) {
         return (
             <div className="flex items-center justify-center h-64">
-                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600"></div>
+                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-teal-600"></div>
             </div>
         );
     }
@@ -151,19 +151,19 @@ const EmployeeAnalytics = ({ employees = [], organizationId }) => {
         <div className="space-y-6 animate-fadeIn">
             {/* Summary Cards */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
+                <div className="bg-teal-50/95 p-6 rounded-xl shadow-sm border border-gray-200">
                     <p className="text-sm font-medium text-gray-500">Avg. Attendance Rate (7d)</p>
                     <div className="flex items-end gap-2 mt-2">
                         <span className="text-3xl font-bold text-gray-900">{stats.attendanceRate}%</span>
                     </div>
                 </div>
-                <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
+                <div className="bg-teal-50/95 p-6 rounded-xl shadow-sm border border-gray-200">
                     <p className="text-sm font-medium text-gray-500">On-Time Arrival</p>
                     <div className="flex items-end gap-2 mt-2">
                         <span className="text-3xl font-bold text-gray-900">{stats.onTimeRate}%</span>
                     </div>
                 </div>
-                <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
+                <div className="bg-teal-50/95 p-6 rounded-xl shadow-sm border border-gray-200">
                     <p className="text-sm font-medium text-gray-500">Avg. Work Hours</p>
                     <div className="flex items-end gap-2 mt-2">
                         <span className="text-3xl font-bold text-gray-900">{stats.avgWorkHours}h</span>
@@ -174,7 +174,7 @@ const EmployeeAnalytics = ({ employees = [], organizationId }) => {
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 {/* Attendance Trends */}
-                <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
+                <div className="bg-teal-50/95 p-6 rounded-xl shadow-sm border border-gray-200">
                     <h3 className="text-lg font-bold text-gray-900 mb-6">Weekly Attendance Trends</h3>
                     <div className="h-80">
                         <ResponsiveContainer width="100%" height="100%">
@@ -193,7 +193,7 @@ const EmployeeAnalytics = ({ employees = [], organizationId }) => {
                 </div>
 
                 {/* Employment Type Distribution */}
-                <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
+                <div className="bg-teal-50/95 p-6 rounded-xl shadow-sm border border-gray-200">
                     <h3 className="text-lg font-bold text-gray-900 mb-6">Employment Type Distribution</h3>
                     <div className="h-80">
                         <ResponsiveContainer width="100%" height="100%">

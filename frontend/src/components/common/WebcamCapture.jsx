@@ -243,7 +243,7 @@ const WebcamCapture = ({ onImageCapture, onBack }) => {
       )}
 
       {/* Camera Preview Area */}
-      <div className="relative border-2 border-dashed border-indigo-300 rounded-xl overflow-hidden bg-gradient-to-br from-slate-50 to-slate-100 shadow-inner">
+      <div className="relative border-2 border-dashed border-teal-300 rounded-xl overflow-hidden bg-gradient-to-br from-slate-50 to-slate-100 shadow-inner">
         <div className="aspect-video bg-gradient-to-br from-slate-800 to-slate-900 flex items-center justify-center relative">
           
           {/* Live Video Preview */}
@@ -269,7 +269,7 @@ const WebcamCapture = ({ onImageCapture, onBack }) => {
               {/* Live indicator - only show when actually streaming */}
               {isStreaming && (
                 <div className="absolute top-4 left-4 bg-red-500 text-white px-3 py-1 rounded-full text-xs font-semibold flex items-center gap-2 animate-pulse">
-                  <div className="w-2 h-2 bg-white rounded-full"></div>
+                  <div className="w-2 h-2 bg-teal-50/95 rounded-full"></div>
                   LIVE
                 </div>
               )}
@@ -304,7 +304,7 @@ const WebcamCapture = ({ onImageCapture, onBack }) => {
           {isLoading && (
             <div className="text-center text-white p-8">
               <div className="space-y-4">
-                <div className="animate-spin w-12 h-12 border-4 border-indigo-500 border-t-transparent rounded-full mx-auto"></div>
+                <div className="animate-spin w-12 h-12 border-4 border-teal-500 border-t-transparent rounded-full mx-auto"></div>
                 <p className="text-lg font-semibold">📹 Starting Camera...</p>
                 <p className="text-sm text-slate-300">Please allow camera permissions</p>
                 <p className="text-xs text-slate-400">Look for permission popup in your browser</p>
@@ -331,7 +331,7 @@ const WebcamCapture = ({ onImageCapture, onBack }) => {
           {!isStreaming && !capturedImage && !isLoading && !error && (
             <div className="text-center text-white p-8">
               <div className="space-y-4">
-                <div className="text-indigo-400">
+                <div className="text-teal-400">
                   <svg className="w-16 h-16 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -354,7 +354,7 @@ const WebcamCapture = ({ onImageCapture, onBack }) => {
         {!isStreaming && !capturedImage && !isLoading && (
           <button
             onClick={startWebcam}
-            className="px-8 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-semibold rounded-xl transition-all duration-300 flex items-center gap-3 shadow-lg hover:shadow-xl transform hover:scale-105 active:scale-95"
+            className="px-8 py-3 bg-gradient-to-r from-teal-600 to-teal-600 hover:from-teal-700 hover:to-teal-700 text-white font-semibold rounded-xl transition-all duration-300 flex items-center gap-3 shadow-lg hover:shadow-xl transform hover:scale-105 active:scale-95"
           >
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />

@@ -172,7 +172,7 @@ const OrganizationStatistics = ({ organization, organizationId = null }) => {
   return (
     <div className="space-y-6 animate-fadeIn">
       {/* Header & Controls */}
-      <div className="flex flex-col md:flex-row justify-between items-center gap-4 bg-white p-4 rounded-xl shadow-sm border border-gray-200">
+      <div className="flex flex-col md:flex-row justify-between items-center gap-4 bg-teal-50/95 p-4 rounded-xl shadow-sm border border-gray-200">
         <div className="flex items-center gap-3">
           <h2 className="text-lg font-bold text-gray-900">📊 Analytics Overview</h2>
           {loading && <div className="animate-spin text-blue-500">⏳</div>}
@@ -191,18 +191,18 @@ const OrganizationStatistics = ({ organization, organizationId = null }) => {
           <button
             onClick={fetchAnalytics}
             disabled={loading}
-            className="px-3 py-1.5 text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-md transition-all disabled:opacity-50"
+            className="px-3 py-1.5 text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-teal-50 rounded-md transition-all disabled:opacity-50"
           >
             🔄 Refresh
           </button>
-          <div className="flex bg-gray-100 p-1 rounded-lg">
+          <div className="flex bg-teal-100 p-1 rounded-lg">
             {['week', 'month', 'year'].map((range) => (
               <button
                 key={range}
                 onClick={() => setTimeRange(range)}
                 className={`px-4 py-1.5 rounded-md text-sm font-medium transition-all ${
                   timeRange === range 
-                    ? 'bg-white text-indigo-600 shadow-sm' 
+                    ? 'bg-white text-teal-600 shadow-sm' 
                     : 'text-gray-600 hover:text-gray-900'
                 }`}
               >
@@ -215,20 +215,7 @@ const OrganizationStatistics = ({ organization, organizationId = null }) => {
 
       {/* Key Metrics Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
-          <p className="text-sm font-medium text-gray-500">Total Employees</p>
-          <div className="flex items-end gap-2 mt-2">
-            <span className="text-3xl font-bold text-gray-900">
-              {analyticsData?.employees?.total ?? organization?.employees_count ?? 0}
-            </span>
-            {analyticsData?.employees?.active && analyticsData?.employees?.total && (
-              <span className="text-sm font-medium text-green-600 mb-1">
-                {Math.round((analyticsData.employees.active / analyticsData.employees.total) * 100)}% active
-              </span>
-            )}
-          </div>
-        </div>
-        <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
+        <div className="bg-teal-50/95 p-6 rounded-xl shadow-sm border border-gray-200">
           <p className="text-sm font-medium text-gray-500">Total Cameras</p>
           <div className="flex items-end gap-2 mt-2">
             <span className="text-3xl font-bold text-gray-900">
@@ -243,7 +230,7 @@ const OrganizationStatistics = ({ organization, organizationId = null }) => {
             )}
           </div>
         </div>
-        <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
+        <div className="bg-teal-50/95 p-6 rounded-xl shadow-sm border border-gray-200">
           <p className="text-sm font-medium text-gray-500">Total Visitors</p>
           <div className="flex items-end gap-2 mt-2">
             <span className="text-3xl font-bold text-gray-900">
@@ -252,7 +239,7 @@ const OrganizationStatistics = ({ organization, organizationId = null }) => {
             <span className="text-sm font-medium text-blue-600 mb-1">Registered</span>
           </div>
         </div>
-        <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
+        <div className="bg-teal-50/95 p-6 rounded-xl shadow-sm border border-gray-200">
           <p className="text-sm font-medium text-gray-500">Face Embeddings</p>
           <div className="flex items-end gap-2 mt-2">
             <span className="text-3xl font-bold text-gray-900">
@@ -270,7 +257,7 @@ const OrganizationStatistics = ({ organization, organizationId = null }) => {
       {/* Main Charts Row 1 */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Visitor & Employee Trends */}
-        <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
+        <div className="bg-teal-50/95 p-6 rounded-xl shadow-sm border border-gray-200">
           <h3 className="text-lg font-bold text-gray-900 mb-6">Traffic Trends</h3>
           <div className="h-80">
             <ResponsiveContainer width="100%" height="100%">
@@ -298,7 +285,7 @@ const OrganizationStatistics = ({ organization, organizationId = null }) => {
         </div>
 
         {/* Attendance Breakdown */}
-        <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
+        <div className="bg-teal-50/95 p-6 rounded-xl shadow-sm border border-gray-200">
           <h3 className="text-lg font-bold text-gray-900 mb-6">Weekly Attendance</h3>
           <div className="h-80">
             <ResponsiveContainer width="100%" height="100%">
@@ -320,7 +307,7 @@ const OrganizationStatistics = ({ organization, organizationId = null }) => {
       {/* Secondary Charts Row */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {/* Workforce Composition */}
-        <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
+        <div className="bg-teal-50/95 p-6 rounded-xl shadow-sm border border-gray-200">
           <h3 className="text-lg font-bold text-gray-900 mb-4">Workforce Composition</h3>
           <div className="h-64">
             <ResponsiveContainer width="100%" height="100%">
@@ -346,7 +333,7 @@ const OrganizationStatistics = ({ organization, organizationId = null }) => {
         </div>
 
         {/* Camera Status */}
-        <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
+        <div className="bg-teal-50/95 p-6 rounded-xl shadow-sm border border-gray-200">
           <h3 className="text-lg font-bold text-gray-900 mb-4">Camera Status</h3>
           <div className="h-64">
             <ResponsiveContainer width="100%" height="100%">
@@ -372,7 +359,7 @@ const OrganizationStatistics = ({ organization, organizationId = null }) => {
         </div>
 
         {/* Quick Stats List */}
-        <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
+        <div className="bg-teal-50/95 p-6 rounded-xl shadow-sm border border-gray-200">
           <h3 className="text-lg font-bold text-gray-900 mb-4">📈 Performance Metrics</h3>
           <div className="space-y-4">
             <div className="flex justify-between items-center p-3 bg-blue-50 rounded-lg border border-blue-200">

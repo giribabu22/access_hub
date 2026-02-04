@@ -47,7 +47,7 @@ function Header() {
   const hideLogout = location.pathname === "/";
 
   return (
-    <header className="fixed top-0 left-0 right-0 w-full bg-gradient-to-r from-indigo-600 via-purple-600 to-purple-700 shadow-2xl border-b border-purple-400/30 backdrop-blur-sm z-1000">
+    <header className="fixed top-0 left-0 right-0 w-full bg-gradient-to-r from-teal-600 via-purple-600 to-teal-700 shadow-2xl border-b border-purple-400/30 backdrop-blur-sm z-1000">
       <div className="max-w-7xl mx-auto flex items-center justify-between px-4 md:px-8 h-16">
         {/* Logo */}
         <div 
@@ -87,7 +87,7 @@ function Header() {
                 className="flex items-center gap-3 cursor-pointer px-4 py-2 rounded-xl hover:bg-white/10 transition-all duration-300 group"
                 onClick={handleLogoutClick}
               >
-                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-400 to-indigo-600 text-white flex items-center justify-center text-sm font-bold shadow-lg group-hover:shadow-xl transition-all">
+                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-400 to-teal-600 text-white flex items-center justify-center text-sm font-bold shadow-lg group-hover:shadow-xl transition-all">
                   {userInitials}
                 </div>
                 <span className="text-sm font-semibold text-white whitespace-nowrap hidden lg:inline">
@@ -96,7 +96,7 @@ function Header() {
               </div>
 
               {showLogout && (
-                <div className="absolute top-16 right-0 bg-gradient-to-br from-violet-600 to-purple-700 border border-white/20 rounded-2xl shadow-2xl p-5 min-w-max z-2000 flex items-center gap-4 backdrop-blur-xl animate-in fade-in slide-in-from-top-2 duration-200">
+                <div className="absolute top-16 right-0 bg-gradient-to-br from-violet-600 to-teal-700 border border-white/20 rounded-2xl shadow-2xl p-5 min-w-max z-2000 flex items-center gap-4 backdrop-blur-xl animate-in fade-in slide-in-from-top-2 duration-200">
                   <div className="w-14 h-14 rounded-full bg-white/20 backdrop-blur-md text-white flex items-center justify-center text-lg font-bold border border-white/30 shadow-lg">
                     {userInitials}
                   </div>
@@ -125,12 +125,12 @@ function Header() {
                 className="flex items-center gap-2 cursor-pointer px-2 py-1 rounded-lg hover:bg-white/10 transition-all"
                 onClick={handleLogoutClick}
               >
-                <div className="w-9 h-9 rounded-full bg-gradient-to-br from-blue-400 to-indigo-600 text-white flex items-center justify-center text-xs font-bold">
+                <div className="w-9 h-9 rounded-full bg-gradient-to-br from-blue-400 to-teal-600 text-white flex items-center justify-center text-xs font-bold">
                   {userInitials}
                 </div>
               </div>
               {showLogout && (
-                <div className="absolute top-12 right-0 bg-gradient-to-br from-violet-600 to-purple-700 border border-white/20 rounded-xl shadow-xl p-3 min-w-max z-2000 flex items-center gap-3">
+                <div className="absolute top-12 right-0 bg-gradient-to-br from-violet-600 to-teal-700 border border-white/20 rounded-xl shadow-xl p-3 min-w-max z-2000 flex items-center gap-3">
                   <div className="w-10 h-10 rounded-full bg-white/20 text-white flex items-center justify-center text-sm font-bold">
                     {userInitials}
                   </div>

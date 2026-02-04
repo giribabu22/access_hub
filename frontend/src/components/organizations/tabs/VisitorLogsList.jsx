@@ -102,12 +102,12 @@ const VisitorLogsList = ({ organizationId, refreshTrigger }) => {
   return (
     <div className="space-y-6">
       {/* Tabs */}
-      <div className="flex bg-gray-100 p-1 rounded-lg w-fit">
+      <div className="flex bg-teal-100 p-1 rounded-lg w-fit">
         <button
           onClick={() => handleTabChange('visitors')}
           className={`px-6 py-2.5 font-semibold rounded-md transition-all duration-300 flex items-center gap-2 ${
             selectedTab === 'visitors'
-              ? 'bg-white text-indigo-600 shadow-md'
+              ? 'bg-white text-teal-600 shadow-md'
               : 'text-gray-600 hover:text-gray-900'
           }`}
         >
@@ -117,7 +117,7 @@ const VisitorLogsList = ({ organizationId, refreshTrigger }) => {
           onClick={() => handleTabChange('alerts')}
           className={`px-6 py-2.5 font-semibold rounded-md transition-all duration-300 flex items-center gap-2 ${
             selectedTab === 'alerts'
-              ? 'bg-white text-indigo-600 shadow-md'
+              ? 'bg-white text-teal-600 shadow-md'
               : 'text-gray-600 hover:text-gray-900'
           }`}
         >
@@ -127,10 +127,10 @@ const VisitorLogsList = ({ organizationId, refreshTrigger }) => {
 
       {/* Visitors Tab */}
       {selectedTab === 'visitors' && (
-        <div className="bg-white rounded-xl shadow-md overflow-hidden">
+        <div className="bg-teal-50/95 rounded-xl shadow-md overflow-hidden">
           {loading ? (
             <div className="flex justify-center items-center py-12">
-              <div className="w-8 h-8 border-4 border-gray-200 border-t-indigo-600 rounded-full animate-spin"></div>
+              <div className="w-8 h-8 border-4 border-gray-200 border-t-teal-600 rounded-full animate-spin"></div>
             </div>
           ) : visitors.length === 0 ? (
             <div className="text-center py-12">
@@ -140,7 +140,7 @@ const VisitorLogsList = ({ organizationId, refreshTrigger }) => {
           ) : (
             <div className="overflow-x-auto">
               <table className="w-full">
-                <thead className="bg-gray-50 border-b border-gray-200">
+                <thead className="bg-teal-50 border-b border-gray-200">
                   <tr>
                     <th className="px-6 py-3 text-left text-xs font-bold text-gray-700 uppercase tracking-wider">
                       Name
@@ -167,7 +167,7 @@ const VisitorLogsList = ({ organizationId, refreshTrigger }) => {
                 </thead>
                 <tbody className="divide-y divide-gray-200">
                   {visitors.map((visitor) => (
-                    <tr key={visitor.id} className="hover:bg-gray-50 transition-colors duration-200">
+                    <tr key={visitor.id} className="hover:bg-teal-50 transition-colors duration-200">
                       <td className="px-6 py-4 text-sm font-medium text-gray-900">
                         {visitor.visitor_name}
                       </td>
@@ -192,7 +192,7 @@ const VisitorLogsList = ({ organizationId, refreshTrigger }) => {
                               const w = window.open('');
                               w.document.write(img.outerHTML);
                             }}
-                            className="px-3 py-1 bg-indigo-100 text-indigo-700 rounded-md hover:bg-indigo-200 transition-colors duration-200 text-xs font-semibold"
+                            className="px-3 py-1 bg-teal-100 text-teal-700 rounded-md hover:bg-teal-200 transition-colors duration-200 text-xs font-semibold"
                           >
                             📷 View
                           </button>
@@ -224,7 +224,7 @@ const VisitorLogsList = ({ organizationId, refreshTrigger }) => {
 
           {/* Pagination */}
           {visitors.length > 0 && (
-            <div className="bg-gray-50 border-t border-gray-200 px-6 py-4 flex items-center justify-between">
+            <div className="bg-teal-50 border-t border-gray-200 px-6 py-4 flex items-center justify-between">
               <div className="text-sm text-gray-600">
                 Page <span className="font-semibold">{page}</span>
               </div>
@@ -232,13 +232,13 @@ const VisitorLogsList = ({ organizationId, refreshTrigger }) => {
                 <button
                   onClick={() => setPage(Math.max(1, page - 1))}
                   disabled={page === 1}
-                  className="px-4 py-2 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="px-4 py-2 bg-teal-50/95 border border-gray-300 rounded-lg hover:bg-teal-50 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   Previous
                 </button>
                 <button
                   onClick={() => setPage(page + 1)}
-                  className="px-4 py-2 bg-white border border-gray-300 rounded-lg hover:bg-gray-50"
+                  className="px-4 py-2 bg-teal-50/95 border border-gray-300 rounded-lg hover:bg-teal-50"
                 >
                   Next
                 </button>
@@ -250,10 +250,10 @@ const VisitorLogsList = ({ organizationId, refreshTrigger }) => {
 
       {/* Alerts Tab */}
       {selectedTab === 'alerts' && (
-        <div className="bg-white rounded-xl shadow-md overflow-hidden">
+        <div className="bg-teal-50/95 rounded-xl shadow-md overflow-hidden">
           {loading ? (
             <div className="flex justify-center items-center py-12">
-              <div className="w-8 h-8 border-4 border-gray-200 border-t-indigo-600 rounded-full animate-spin"></div>
+              <div className="w-8 h-8 border-4 border-gray-200 border-t-teal-600 rounded-full animate-spin"></div>
             </div>
           ) : alerts.length === 0 ? (
             <div className="text-center py-12">

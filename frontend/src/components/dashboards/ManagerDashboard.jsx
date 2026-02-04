@@ -249,9 +249,9 @@ const ManagerDashboard = () => {
   // Show loading screen
   if (loading && !stats.total_members && teamMembers.length === 0) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-indigo-50 to-purple-50 flex items-center justify-center">
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-teal-50 to-teal-50 flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-16 w-16 border-b-4 border-indigo-600 mx-auto mb-4"></div>
+          <div className="animate-spin rounded-full h-16 w-16 border-b-4 border-teal-600 mx-auto mb-4"></div>
           <h2 className="text-2xl font-bold text-slate-900 mb-2">Loading Dashboard</h2>
           <p className="text-slate-600">Please wait while we fetch your data...</p>
         </div>
@@ -262,7 +262,7 @@ const ManagerDashboard = () => {
   // Show error screen
   if (error && !stats.total_members && teamMembers.length === 0) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-indigo-50 to-purple-50 flex items-center justify-center">
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-teal-50 to-teal-50 flex items-center justify-center">
         <div className="text-center">
           <div className="text-6xl mb-4">❌</div>
           <h2 className="text-2xl font-bold text-slate-900 mb-2">Failed to Load Dashboard</h2>
@@ -272,7 +272,7 @@ const ManagerDashboard = () => {
               setError(null);
               fetchManagerData();
             }}
-            className="px-6 py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors"
+            className="px-6 py-3 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition-colors"
           >
             Try Again
           </button>
@@ -282,9 +282,9 @@ const ManagerDashboard = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-indigo-50 to-purple-50">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-teal-50 to-teal-50">
       {/* Header */}
-      <div className="sticky top-0 z-40 bg-gradient-to-r from-indigo-600 via-purple-600 to-purple-700 shadow-xl border-b border-purple-400/30">
+      <div className="sticky top-0 z-40 bg-gradient-to-r from-teal-600 via-purple-600 to-teal-700 shadow-xl border-b border-purple-400/30">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6">
           <div>
             <h1 className="text-4xl sm:text-5xl font-black text-white mb-2 drop-shadow-lg">
@@ -312,17 +312,17 @@ const ManagerDashboard = () => {
         {/* Cards Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
           {/* Team Members Card */}
-          <div className="group bg-white backdrop-blur-xl p-8 rounded-2xl border border-slate-200/50 hover:border-indigo-400/50 shadow-lg hover:shadow-2xl transition-all duration-500 hover:translate-y-[-8px] overflow-hidden relative">
-            <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/5 to-purple-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+          <div className="group bg-white backdrop-blur-xl p-8 rounded-2xl border border-slate-200/50 hover:border-teal-400/50 shadow-lg hover:shadow-2xl transition-all duration-500 hover:translate-y-[-8px] overflow-hidden relative">
+            <div className="absolute inset-0 bg-gradient-to-br from-teal-500/5 to-teal-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
             <div className="relative z-10">
               <div className="flex items-center justify-between mb-6">
                 <div className="text-6xl group-hover:scale-125 transition-transform duration-300">👥</div>
-                <div className="w-12 h-12 rounded-full bg-indigo-100 flex items-center justify-center group-hover:bg-indigo-200 transition-colors">
+                <div className="w-12 h-12 rounded-full bg-teal-100 flex items-center justify-center group-hover:bg-teal-200 transition-colors">
                   <span className="text-lg">→</span>
                 </div>
               </div>
               <h3 className="text-xl font-bold text-slate-900 mb-2">Team Members</h3>
-              <p className="text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-purple-600 mb-3">
+              <p className="text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-teal-600 to-teal-600 mb-3">
                 {loading ? '...' : stats.total_members || teamMembers.length}
               </p>
               <p className="text-sm text-slate-600 font-medium">Under your management</p>
@@ -408,7 +408,7 @@ const ManagerDashboard = () => {
             </button>
             <button 
               onClick={() => navigate('/manager/reports')}
-              className="px-6 py-4 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-bold rounded-xl hover:shadow-lg hover:translate-y-[-2px] transition-all duration-300"
+              className="px-6 py-4 bg-gradient-to-r from-cyan-600 to-pink-600 text-white font-bold rounded-xl hover:shadow-lg hover:translate-y-[-2px] transition-all duration-300"
             >
               📊 Team Reports
             </button>
@@ -418,10 +418,10 @@ const ManagerDashboard = () => {
         {/* Pending Approvals Section */}
         <div className="mb-12">
           <h2 className="text-3xl font-black text-slate-900 mb-6">Pending Leave Approvals</h2>
-          <div className="bg-white rounded-2xl shadow-lg border border-slate-200/50 p-8">
+          <div className="bg-teal-50/95 rounded-2xl shadow-lg border border-slate-200/50 p-8">
             {loading ? (
               <div className="text-center py-12">
-                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600 mx-auto mb-4"></div>
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-teal-600 mx-auto mb-4"></div>
                 <p className="text-slate-600">Loading pending approvals...</p>
               </div>
             ) : pendingLeaves.length > 0 ? (
@@ -465,7 +465,7 @@ const ManagerDashboard = () => {
                 <div className="text-center pt-4">
                   <button 
                     onClick={() => navigate('/manager/leaves')}
-                    className="text-indigo-600 hover:text-indigo-700 font-medium"
+                    className="text-teal-600 hover:text-teal-700 font-medium"
                   >
                     View all pending requests →
                   </button>
@@ -486,30 +486,30 @@ const ManagerDashboard = () => {
           <h2 className="text-3xl font-black text-slate-900 mb-6">Organization Overview</h2>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             {/* Organization Info Card */}
-            <div className="bg-gradient-to-br from-indigo-50 to-purple-50 border-2 border-indigo-200 rounded-2xl p-8">
-              <h3 className="text-2xl font-bold text-indigo-900 mb-6">Organization Details</h3>
+            <div className="bg-gradient-to-br from-teal-50 to-teal-50 border-2 border-teal-200 rounded-2xl p-8">
+              <h3 className="text-2xl font-bold text-teal-900 mb-6">Organization Details</h3>
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
                   <span className="text-lg font-medium text-slate-700">Your Department:</span>
-                  <span className="text-lg font-bold text-indigo-600">
+                  <span className="text-lg font-bold text-teal-600">
                     {user?.employee?.department?.name || 'N/A'}
                   </span>
                 </div>
                 <div className="flex items-center justify-between">
                   <span className="text-lg font-medium text-slate-700">Position:</span>
-                  <span className="text-lg font-bold text-indigo-600">
+                  <span className="text-lg font-bold text-teal-600">
                     {user?.employee?.designation || 'N/A'}
                   </span>
                 </div>
                 <div className="flex items-center justify-between">
                   <span className="text-lg font-medium text-slate-700">Employee Code:</span>
-                  <span className="text-lg font-bold text-indigo-600">
+                  <span className="text-lg font-bold text-teal-600">
                     {user?.employee?.employee_code || 'N/A'}
                   </span>
                 </div>
                 <div className="flex items-center justify-between">
                   <span className="text-lg font-medium text-slate-700">Shift:</span>
-                  <span className="text-lg font-bold text-indigo-600">
+                  <span className="text-lg font-bold text-teal-600">
                     {user?.employee?.shift?.name || 'N/A'}
                   </span>
                 </div>
@@ -520,25 +520,25 @@ const ManagerDashboard = () => {
             <div className="bg-gradient-to-br from-green-50 to-emerald-50 border-2 border-green-200 rounded-2xl p-8">
               <h3 className="text-2xl font-bold text-green-900 mb-6">Resource Overview</h3>
               <div className="grid grid-cols-2 gap-4">
-                <div className="bg-white rounded-xl p-4 border border-green-300">
+                <div className="bg-teal-50/95 rounded-xl p-4 border border-green-300">
                   <div className="text-3xl font-bold text-green-600 mb-2">
                     📹 {loading ? '...' : cameras.length}
                   </div>
                   <div className="text-sm font-medium text-green-700">Cameras</div>
                 </div>
-                <div className="bg-white rounded-xl p-4 border border-green-300">
+                <div className="bg-teal-50/95 rounded-xl p-4 border border-green-300">
                   <div className="text-3xl font-bold text-green-600 mb-2">
                     📍 {loading ? '...' : locations.length}
                   </div>
                   <div className="text-sm font-medium text-green-700">Locations</div>
                 </div>
-                <div className="bg-white rounded-xl p-4 border border-green-300">
+                <div className="bg-teal-50/95 rounded-xl p-4 border border-green-300">
                   <div className="text-3xl font-bold text-green-600 mb-2">
                     👥 {loading ? '...' : stats.total_members || teamMembers.length}
                   </div>
                   <div className="text-sm font-medium text-green-700">Team Members</div>
                 </div>
-                <div className="bg-white rounded-xl p-4 border border-green-300">
+                <div className="bg-teal-50/95 rounded-xl p-4 border border-green-300">
                   <div className="text-3xl font-bold text-green-600 mb-2">
                     🏢 {user?.employee?.department?.code || 'N/A'}
                   </div>
@@ -552,7 +552,7 @@ const ManagerDashboard = () => {
         {/* Recent Team Activity */}
         <div className="mb-12">
           <h2 className="text-3xl font-black text-slate-900 mb-6">Recent Team Activity</h2>
-          <div className="bg-white rounded-2xl shadow-lg border border-slate-200/50 p-8">
+          <div className="bg-teal-50/95 rounded-2xl shadow-lg border border-slate-200/50 p-8">
             {teamMembers.length > 0 ? (
               <div className="space-y-4">
                 <h3 className="text-xl font-bold text-slate-900 mb-4">Your Team Members</h3>
@@ -560,8 +560,8 @@ const ManagerDashboard = () => {
                   {teamMembers.slice(0, 6).map((member, index) => (
                     <div key={member.id || index} className="bg-slate-50 rounded-lg p-4">
                       <div className="flex items-center space-x-3">
-                        <div className="w-10 h-10 bg-indigo-100 rounded-full flex items-center justify-center">
-                          <span className="text-sm font-bold text-indigo-600">
+                        <div className="w-10 h-10 bg-teal-100 rounded-full flex items-center justify-center">
+                          <span className="text-sm font-bold text-teal-600">
                             {member.name?.charAt(0) || '?'}
                           </span>
                         </div>
@@ -577,7 +577,7 @@ const ManagerDashboard = () => {
                   <div className="text-center pt-4">
                     <button 
                       onClick={() => navigate('/manager/team')}
-                      className="text-indigo-600 hover:text-indigo-700 font-medium"
+                      className="text-teal-600 hover:text-teal-700 font-medium"
                     >
                       View all {teamMembers.length} team members →
                     </button>

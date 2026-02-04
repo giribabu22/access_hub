@@ -79,7 +79,7 @@ const OrgAdminDashboard = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-indigo-50 to-purple-50">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-teal-50 to-teal-50">
       <DashboardHeader
         title="Dashboard"
         user={user}
@@ -265,13 +265,13 @@ const OrgAdminDashboard = () => {
           <p className="text-lg text-yellow-800 mb-6">
             Department and Employee management features coming in Phase 3!
           </p>
-          <div className="bg-white rounded-xl p-6 border border-yellow-300">
+          <div className="bg-teal-50/95 rounded-xl p-6 border border-yellow-300">
             <h4 className="text-xl font-bold text-slate-900 mb-4">Your Profile</h4>
             <div className="space-y-2 text-slate-700">
-              <p><strong className="text-indigo-600">Email:</strong> {user?.email}</p>
-              <p><strong className="text-indigo-600">Username:</strong> {user?.username}</p>
-              <p><strong className="text-indigo-600">Role:</strong> {user?.role?.name}</p>
-              <p><strong className="text-indigo-600">Organization:</strong> {user?.organization_id || 'Not assigned'}</p>
+              <p><strong className="text-teal-600">Email:</strong> {user?.email}</p>
+              <p><strong className="text-teal-600">Username:</strong> {user?.username}</p>
+              <p><strong className="text-teal-600">Role:</strong> {user?.role?.name}</p>
+              <p><strong className="text-teal-600">Organization:</strong> {user?.organization_id || 'Not assigned'}</p>
             </div>
           </div>
         </div>

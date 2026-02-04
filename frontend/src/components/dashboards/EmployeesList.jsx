@@ -69,12 +69,12 @@ const EmployeesList = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 pt-24 pb-12">
       {/* Sticky Header */}
-      <div className="sticky top-20 bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-xl z-40">
+      <div className="sticky top-20 bg-gradient-to-r from-teal-600 to-teal-600 text-white shadow-xl z-40">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="flex items-center justify-between">
             <div>
               <h1 className="text-4xl font-bold mb-2">👥 Employees Management</h1>
-              <p className="text-indigo-100">Manage and view all employees ({totalItems} total)</p>
+              <p className="text-teal-100">Manage and view all employees ({totalItems} total)</p>
             </div>
             <button
               onClick={() => navigate('/super-admin/dashboard')}
@@ -89,7 +89,7 @@ const EmployeesList = () => {
       {/* Main Content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {/* Search and Filter */}
-        <div className="bg-white rounded-2xl shadow-lg p-6 mb-8 border border-slate-200">
+        <div className="bg-teal-50/95 rounded-2xl shadow-lg p-6 mb-8 border border-slate-200">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div>
               <label className="block text-sm font-semibold text-slate-700 mb-2">🔍 Search</label>
@@ -98,7 +98,7 @@ const EmployeesList = () => {
                 placeholder="Search by name or email..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full px-4 py-3 rounded-lg border-2 border-slate-200 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 transition-all"
+                className="w-full px-4 py-3 rounded-lg border-2 border-slate-200 focus:border-teal-500 focus:ring-2 focus:ring-teal-200 transition-all"
               />
             </div>
             <div>
@@ -106,7 +106,7 @@ const EmployeesList = () => {
               <select
                 value={filterStatus}
                 onChange={(e) => setFilterStatus(e.target.value)}
-                className="w-full px-4 py-3 rounded-lg border-2 border-slate-200 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 transition-all"
+                className="w-full px-4 py-3 rounded-lg border-2 border-slate-200 focus:border-teal-500 focus:ring-2 focus:ring-teal-200 transition-all"
               >
                 <option value="all">All Employees</option>
                 <option value="active">Active</option>
@@ -116,7 +116,7 @@ const EmployeesList = () => {
             <div className="flex items-end">
               <button
                 onClick={fetchEmployees}
-                className="w-full px-6 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-semibold rounded-lg hover:shadow-lg transition-all"
+                className="w-full px-6 py-3 bg-gradient-to-r from-teal-600 to-teal-600 text-white font-semibold rounded-lg hover:shadow-lg transition-all"
               >
                 🔄 Refresh
               </button>
@@ -137,7 +137,7 @@ const EmployeesList = () => {
             {filteredEmployees.map(emp => (
               <div
                 key={emp.id}
-                className="bg-white rounded-2xl shadow-lg p-6 border border-slate-200 hover:shadow-2xl hover:border-indigo-300 transition-all duration-300 group"
+                className="bg-teal-50/95 rounded-2xl shadow-lg p-6 border border-slate-200 hover:shadow-2xl hover:border-teal-300 transition-all duration-300 group"
               >
                 <div className="flex items-start justify-between mb-4">
                   <div className="text-3xl">👤</div>
@@ -158,7 +158,7 @@ const EmployeesList = () => {
                 </div>
                 <button
                   onClick={() => message.info('Employee detail view coming soon')}
-                  className="w-full px-4 py-2 bg-gradient-to-r from-indigo-500 to-purple-500 text-white rounded-lg font-semibold hover:shadow-lg transition-all group-hover:translate-y-[-2px]"
+                  className="w-full px-4 py-2 bg-gradient-to-r from-teal-500 to-teal-500 text-white rounded-lg font-semibold hover:shadow-lg transition-all group-hover:translate-y-[-2px]"
                 >
                   View Details
                 </button>
@@ -166,7 +166,7 @@ const EmployeesList = () => {
             ))}
           </div>
         ) : (
-          <div className="bg-white rounded-2xl shadow-lg p-12 text-center border border-slate-200">
+          <div className="bg-teal-50/95 rounded-2xl shadow-lg p-12 text-center border border-slate-200">
             <p className="text-slate-600 text-lg">No employees found</p>
           </div>
         )}
@@ -180,7 +180,7 @@ const EmployeesList = () => {
               className={`px-4 py-2 rounded-lg font-semibold transition-all ${
                 currentPage === 1
                   ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
-                  : 'bg-white text-indigo-600 hover:bg-indigo-50 border border-indigo-200'
+                  : 'bg-white text-teal-600 hover:bg-teal-50 border border-teal-200'
               }`}
             >
               ← Previous
@@ -205,8 +205,8 @@ const EmployeesList = () => {
                     onClick={() => setCurrentPage(pageNumber)}
                     className={`px-3 py-2 rounded-lg font-semibold transition-all ${
                       currentPage === pageNumber
-                        ? 'bg-indigo-600 text-white'
-                        : 'bg-white text-indigo-600 hover:bg-indigo-50 border border-indigo-200'
+                        ? 'bg-teal-600 text-white'
+                        : 'bg-white text-teal-600 hover:bg-teal-50 border border-teal-200'
                     }`}
                   >
                     {pageNumber}
@@ -221,7 +221,7 @@ const EmployeesList = () => {
               className={`px-4 py-2 rounded-lg font-semibold transition-all ${
                 currentPage === totalPages
                   ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
-                  : 'bg-white text-indigo-600 hover:bg-indigo-50 border border-indigo-200'
+                  : 'bg-white text-teal-600 hover:bg-teal-50 border border-teal-200'
               }`}
             >
               Next →
