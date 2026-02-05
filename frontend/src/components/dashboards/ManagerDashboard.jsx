@@ -48,7 +48,7 @@ const ManagerDashboard = () => {
       const token = authService.getAccessToken();
       if (!token) throw new Error('No authentication token');
 
-      const response = await fetch('http://localhost:5001/api/manager/team/stats', {
+      const response = await fetch('http://localhost:5001api/manager/team/stats', {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
@@ -76,7 +76,7 @@ const ManagerDashboard = () => {
       const token = authService.getAccessToken();
       if (!token) throw new Error('No authentication token');
 
-      const response = await fetch('http://localhost:5001/api/manager/team/members', {
+      const response = await fetch('http://localhost:5001api/manager/team/members', {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
@@ -104,7 +104,7 @@ const ManagerDashboard = () => {
       const token = authService.getAccessToken();
       if (!token) throw new Error('No authentication token');
 
-      const response = await fetch('http://localhost:5001/api/manager/cameras', {
+      const response = await fetch('http://localhost:5001api/manager/cameras', {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
@@ -132,7 +132,7 @@ const ManagerDashboard = () => {
       const token = authService.getAccessToken();
       if (!token) throw new Error('No authentication token');
 
-      const response = await fetch('http://localhost:5001/api/manager/locations', {
+      const response = await fetch('http://localhost:5001api/manager/locations', {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
@@ -160,7 +160,7 @@ const ManagerDashboard = () => {
       const token = authService.getAccessToken();
       if (!token) throw new Error('No authentication token');
 
-      const response = await fetch('http://localhost:5001/api/manager/leaves/pending?per_page=5', {
+      const response = await fetch('http://localhost:5001api/manager/leaves/pending?per_page=5', {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
@@ -188,7 +188,7 @@ const ManagerDashboard = () => {
       const token = authService.getAccessToken();
       if (!token) return;
 
-      const response = await fetch(`http://localhost:5001/api/manager/leaves/${leaveId}/approve`, {
+      const response = await fetch(`http://localhost:5001api/manager/leaves/${leaveId}/approve`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -219,7 +219,7 @@ const ManagerDashboard = () => {
       const reason = prompt('Please provide a reason for rejection:');
       if (!reason) return;
 
-      const response = await fetch(`http://localhost:5001/api/manager/leaves/${leaveId}/reject`, {
+      const response = await fetch(`http://localhost:5001api/manager/leaves/${leaveId}/reject`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -268,7 +268,7 @@ const ManagerDashboard = () => {
           <div className="text-6xl mb-4">❌</div>
           <h2 className="text-2xl font-bold text-slate-900 mb-2">Failed to Load Dashboard</h2>
           <p className="text-slate-600 mb-6">{error}</p>
-          <button 
+          <button
             onClick={() => {
               setError(null);
               fetchManagerData();
@@ -299,8 +299,8 @@ const ManagerDashboard = () => {
               </span>
             </p>
           </div>
-          <button 
-            onClick={handleLogout} 
+          <button
+            onClick={handleLogout}
             className="px-6 py-3 bg-red-500/80 hover:bg-red-600 backdrop-blur-md border border-red-400/30 text-white rounded-xl font-semibold text-sm transition-all duration-300 hover:shadow-lg hover:translate-y-[-2px] active:translate-y-0"
           >
             Logout
@@ -389,25 +389,25 @@ const ManagerDashboard = () => {
         <div className="mb-12">
           <h2 className="text-3xl font-black text-slate-900 mb-6">Quick Actions</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-            <button 
+            <button
               onClick={() => navigate('/manager/reports')}
               className="px-6 py-4 bg-gradient-to-r from-green-600 to-emerald-600 text-white font-bold rounded-xl hover:shadow-lg hover:translate-y-[-2px] transition-all duration-300"
             >
               ✅ Review Attendance
             </button>
-            <button 
+            <button
               onClick={() => navigate('/manager/leaves')}
               className="px-6 py-4 bg-gradient-to-r from-orange-600 to-amber-600 text-white font-bold rounded-xl hover:shadow-lg hover:translate-y-[-2px] transition-all duration-300"
             >
               📋 Approve Leave Requests
             </button>
-            <button 
+            <button
               onClick={() => navigate('/manager/team')}
               className="px-6 py-4 bg-gradient-to-r from-blue-600 to-cyan-600 text-white font-bold rounded-xl hover:shadow-lg hover:translate-y-[-2px] transition-all duration-300"
             >
               👥 View Team
             </button>
-            <button 
+            <button
               onClick={() => navigate('/manager/reports')}
               className="px-6 py-4 bg-gradient-to-r from-cyan-600 to-pink-600 text-white font-bold rounded-xl hover:shadow-lg hover:translate-y-[-2px] transition-all duration-300"
             >
@@ -447,13 +447,13 @@ const ManagerDashboard = () => {
                         </div>
                       </div>
                       <div className="flex space-x-2">
-                        <button 
+                        <button
                           onClick={() => handleApproveLeave(leave.id)}
                           className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
                         >
                           Approve
                         </button>
-                        <button 
+                        <button
                           onClick={() => handleRejectLeave(leave.id)}
                           className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
                         >
@@ -464,7 +464,7 @@ const ManagerDashboard = () => {
                   </div>
                 ))}
                 <div className="text-center pt-4">
-                  <button 
+                  <button
                     onClick={() => navigate('/manager/leaves')}
                     className="text-teal-600 hover:text-teal-700 font-medium"
                   >
@@ -576,7 +576,7 @@ const ManagerDashboard = () => {
                 </div>
                 {teamMembers.length > 6 && (
                   <div className="text-center pt-4">
-                    <button 
+                    <button
                       onClick={() => navigate('/manager/team')}
                       className="text-teal-600 hover:text-teal-700 font-medium"
                     >

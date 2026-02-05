@@ -1,9 +1,8 @@
-
 // Get current user info
 
 import axios from "axios";
 import io from "socket.io-client";
-import { authService } from "./authService";
+import { tokenUtils } from "../utils/tokenUtils";
 
 export const profileAPI = {
   me: () => api.get('/api/me'),
@@ -18,7 +17,7 @@ export const API_BASE = API_BASE_URL;
 
 // Axios instance - JWT-based APIs don't need credentials (cookies/sessions)
 const api = axios.create({
-  baseURL: API_BASE_URL,
+  baseURL: 'http://localhost:5001',
   withCredentials: false, // JWT doesn't need cookies
   headers: {
     'Content-Type': 'application/json',
@@ -29,8 +28,8 @@ const api = axios.create({
 api.interceptors.request.use(
   (config) => {
     try {
-      // Use authService to get token (it handles the correct key internally)
-      const token = authService.getAccessToken();
+      // Use tokenUtils to get token (it handles the correct key internally)
+      const token = tokenUtils.getAccessToken();
       if (token) {
         config.headers = config.headers || {};
         config.headers["Authorization"] = `Bearer ${token}`;
@@ -54,7 +53,7 @@ api.interceptors.response.use(
       originalRequest._retry = true;
 
       try {
-        const refreshToken = authService.getRefreshToken();
+        const refreshToken = tokenUtils.getRefreshToken();
         if (refreshToken) {
           // Call refresh endpoint
           const response = await axios.post(
@@ -69,9 +68,9 @@ api.interceptors.response.use(
 
           if (response.data.success) {
             const { access_token, refresh_token } = response.data.data;
-            authService.setAccessToken(access_token);
+            tokenUtils.setAccessToken(access_token);
             if (refresh_token) {
-              authService.setRefreshToken(refresh_token);
+              tokenUtils.setRefreshToken(refresh_token);
             }
 
             // Retry original request with new token
@@ -82,9 +81,7 @@ api.interceptors.response.use(
       } catch (refreshError) {
         // Refresh failed, clear tokens and redirect to login
         // Clear all possible token keys (both old and new formats)
-        localStorage.removeItem('accesshub_access_token');
-        localStorage.removeItem('accesshub_refresh_token');
-        localStorage.removeItem('accesshub_user_data');
+        tokenUtils.clearTokens();
         window.location.href = '/login';
         return Promise.reject(refreshError);
       }
@@ -114,7 +111,7 @@ export const statsAPI = {
 
 // Socket: include token in `auth` payload so backend can accept Bearer JWTs
 const socketAuth = {};
-const _tok = authService.getAccessToken();
+const _tok = tokenUtils.getAccessToken();
 if (_tok) socketAuth.token = _tok;
 
 export const socket = io(`${API_BASE_URL}/stats`, {

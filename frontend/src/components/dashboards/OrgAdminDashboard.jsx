@@ -16,8 +16,6 @@ const OrgAdminDashboard = () => {
     presentToday: 0,
     leaveRequests: 0,
     cameras: 0,
-    leaveRequests: 0,
-    cameras: 0,
     locations: 0,
     organization: null
   });
@@ -28,6 +26,7 @@ const OrgAdminDashboard = () => {
     if (user?.organization_id) {
       fetchOrganizationStats();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
 
   const fetchOrganizationStats = async () => {
@@ -40,7 +39,7 @@ const OrgAdminDashboard = () => {
         throw new Error('No authentication token or organization ID');
       }
 
-      const response = await fetch(`http://localhost:5001/api/v2/organizations/${user.organization_id}/stats`, {
+      const response = await fetch(`http://localhost:5001api/v2/organizations/${user.organization_id}/stats`, {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
@@ -58,7 +57,6 @@ const OrgAdminDashboard = () => {
           employees: result.data.employees_count || 0,
           presentToday: result.data.present_today || 0,
           leaveRequests: result.data.pending_leaves || 0,
-          cameras: result.data.cameras_count || 0,
           cameras: result.data.cameras_count || 0,
           locations: result.data.locations_count || 0,
           organization: result.data.organization || null

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
-import { 
-  Users, 
-  Search, 
+import {
+  Users,
+  Search,
   Filter,
   Edit3,
   Mail,
@@ -47,7 +47,7 @@ function ManagerTeam() {
         return;
       }
 
-      const response = await fetch('http://localhost:5001/api/manager/team/members', {
+      const response = await fetch('http://localhost:5001api/manager/team/members', {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
@@ -71,7 +71,7 @@ function ManagerTeam() {
             attendanceToday: 'unknown', // This would come from attendance API
             avatar: member.profile_image || `https://ui-avatars.com/api/?name=${encodeURIComponent(member.name)}&background=3b82f6&color=fff`
           }));
-          
+
           setTeamMembers(members);
         }
       } else {
@@ -95,7 +95,7 @@ function ManagerTeam() {
         return;
       }
 
-      const response = await fetch('http://localhost:5001/api/manager/cameras', {
+      const response = await fetch('http://localhost:5001api/manager/cameras', {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
@@ -124,7 +124,7 @@ function ManagerTeam() {
         return;
       }
 
-      const response = await fetch('http://localhost:5001/api/manager/locations', {
+      const response = await fetch('http://localhost:5001api/manager/locations', {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
@@ -237,32 +237,29 @@ function ManagerTeam() {
             <nav className="-mb-px flex space-x-8 px-6">
               <button
                 onClick={() => setActiveTab('team')}
-                className={`py-4 px-1 border-b-2 font-medium text-sm ${
-                  activeTab === 'team'
-                    ? 'border-blue-500 text-blue-600'
-                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-                }`}
+                className={`py-4 px-1 border-b-2 font-medium text-sm ${activeTab === 'team'
+                  ? 'border-blue-500 text-blue-600'
+                  : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                  }`}
               >
                 <Users className="inline-block w-5 h-5 mr-2" />
                 Team Members ({teamMembers.length})
               </button>
               <button
                 onClick={() => setActiveTab('cameras')}
-                className={`py-4 px-1 border-b-2 font-medium text-sm ${
-                  activeTab === 'cameras'
-                    ? 'border-blue-500 text-blue-600'
-                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-                }`}
+                className={`py-4 px-1 border-b-2 font-medium text-sm ${activeTab === 'cameras'
+                  ? 'border-blue-500 text-blue-600'
+                  : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                  }`}
               >
                 📹 Cameras ({cameras.length})
               </button>
               <button
                 onClick={() => setActiveTab('locations')}
-                className={`py-4 px-1 border-b-2 font-medium text-sm ${
-                  activeTab === 'locations'
-                    ? 'border-blue-500 text-blue-600'
-                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-                }`}
+                className={`py-4 px-1 border-b-2 font-medium text-sm ${activeTab === 'locations'
+                  ? 'border-blue-500 text-blue-600'
+                  : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                  }`}
               >
                 <MapPin className="inline-block w-5 h-5 mr-2" />
                 Locations ({locations.length})
@@ -347,11 +344,10 @@ function ManagerTeam() {
                       <div key={camera.id} className="bg-teal-50/95 border border-gray-200 rounded-lg p-4">
                         <div className="flex items-center justify-between mb-2">
                           <h4 className="font-medium text-gray-900">{camera.name}</h4>
-                          <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                            camera.status === 'active' 
-                              ? 'bg-green-100 text-green-800' 
-                              : 'bg-red-100 text-red-800'
-                          }`}>
+                          <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${camera.status === 'active'
+                            ? 'bg-green-100 text-green-800'
+                            : 'bg-red-100 text-red-800'
+                            }`}>
                             {camera.status}
                           </span>
                         </div>
@@ -388,11 +384,10 @@ function ManagerTeam() {
                       <div key={location.id} className="bg-teal-50/95 border border-gray-200 rounded-lg p-4">
                         <div className="flex items-center justify-between mb-2">
                           <h4 className="font-medium text-gray-900">{location.name}</h4>
-                          <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                            location.status === 'active' 
-                              ? 'bg-green-100 text-green-800' 
-                              : 'bg-red-100 text-red-800'
-                          }`}>
+                          <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${location.status === 'active'
+                            ? 'bg-green-100 text-green-800'
+                            : 'bg-red-100 text-red-800'
+                            }`}>
                             {location.status}
                           </span>
                         </div>

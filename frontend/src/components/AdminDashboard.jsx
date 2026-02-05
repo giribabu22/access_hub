@@ -31,7 +31,7 @@ const AdminDashboard = () => {
         }
 
         // Use organization-specific visitor count
-        const response = await fetch(`http://localhost:5001/api/v2/organizations/${user.organization_id}/visitors/count`, {
+        const response = await fetch(`http://localhost:5001api/v2/organizations/${user.organization_id}/visitors/count`, {
           headers: {
             'Authorization': `Bearer ${token}`,
             'Content-Type': 'application/json'
@@ -60,14 +60,13 @@ const AdminDashboard = () => {
   // simple polling every 30s (reduced frequency)
   useEffect(() => {
     if (!user?.organization_id) return;
-    
-    let timer;
+
     const tick = async () => {
       try {
         const token = authService.getAccessToken();
         if (!token) return;
 
-        const response = await fetch(`http://localhost:5001/api/v2/organizations/${user.organization_id}/visitors/count`, {
+        const response = await fetch(`http://localhost:5001api/v2/organizations/${user.organization_id}/visitors/count`, {
           headers: {
             'Authorization': `Bearer ${token}`,
             'Content-Type': 'application/json'
@@ -82,9 +81,9 @@ const AdminDashboard = () => {
       } catch {
         // ignore errors in polling
       }
-      timer = setTimeout(tick, 30000); // 30 seconds instead of 5
+      setTimeout(tick, 30000); // 30 seconds instead of 5
     };
-    
+
     const pollTimer = setTimeout(tick, 30000);
     return () => clearTimeout(pollTimer);
   }, [user]);
@@ -103,8 +102,7 @@ const AdminDashboard = () => {
   // Registered visitors card is intentionally static now (no navigation)
 
   useEffect(() => {
-    const onDeleted = (e) => {
-      const id = e?.detail?.id;
+    const onDeleted = () => {
       setVisitorCount((c) => Math.max(0, c - 1));
     };
     window.addEventListener('visitors:deleted', onDeleted);
@@ -114,61 +112,61 @@ const AdminDashboard = () => {
   return (
     <AlertsProvider>
       <div className="admin-user-dashboard">
-      <div className="dashboard-container">
-        {/* Stats Cards */}
-        <div className="stats-row">
-          <AlertsContext.Consumer>
-            {({ alerts }) => (
-              <div className="stat-card alert-card">
-                <h3 className="stat-title">Active Security Alerts</h3>
-                <div className="stat-number">{alerts.length}</div>
-              </div>
-            )}
-          </AlertsContext.Consumer>
+        <div className="dashboard-container">
+          {/* Stats Cards */}
+          <div className="stats-row">
+            <AlertsContext.Consumer>
+              {({ alerts }) => (
+                <div className="stat-card alert-card">
+                  <h3 className="stat-title">Active Security Alerts</h3>
+                  <div className="stat-number">{alerts.length}</div>
+                </div>
+              )}
+            </AlertsContext.Consumer>
 
-          <div className="stat-card visitor-card">
-            <h3 className="stat-title">Total Registered Visitors</h3>
-            <div className="stat-number">
-              {loadingVisitors ? "—" : visitorCount}
+            <div className="stat-card visitor-card">
+              <h3 className="stat-title">Total Registered Visitors</h3>
+              <div className="stat-number">
+                {loadingVisitors ? "—" : visitorCount}
+              </div>
+            </div>
+          </div>
+
+          {/* Main Content Area */}
+          <div className="content-row">
+            {/* Quick Actions */}
+            <div className="quick-actions-panel">
+              <h2 className="panel-title">Quick Actions</h2>
+
+              <button
+                onClick={() => setIsPopupOpen(true)}
+                className="register-btn"
+              >
+                <span className="btn-icon">👤</span>
+                Register New User
+              </button>
+
+              <button
+                onClick={handleExistingUsersClick}
+                className="register-btn-existing"
+              >
+                <span className="btn-icon">👤</span>
+                Existing Users
+              </button>
+            </div>
+
+            {/* Security Alert Panel (live feed) */}
+            <div className="security-alert-panel">
+              <AlertFeed />
             </div>
           </div>
         </div>
 
-        {/* Main Content Area */}
-        <div className="content-row">
-          {/* Quick Actions */}
-          <div className="quick-actions-panel">
-            <h2 className="panel-title">Quick Actions</h2>
-
-            <button
-              onClick={() => setIsPopupOpen(true)}
-              className="register-btn"
-            >
-              <span className="btn-icon">👤</span>
-              Register New User
-            </button>
-
-            <button
-              onClick={handleExistingUsersClick}
-              className="register-btn-existing"
-            >
-              <span className="btn-icon">👤</span>
-              Existing Users
-            </button>
-          </div>
-
-          {/* Security Alert Panel (live feed) */}
-          <div className="security-alert-panel">
-            <AlertFeed />
-          </div>
-        </div>
-      </div>
-
-      {/* Popup */}
-      <RegisterVisitorPopup
-        visible={isPopupOpen}
-        onClose={() => setIsPopupOpen(false)}
-      />
+        {/* Popup */}
+        <RegisterVisitorPopup
+          visible={isPopupOpen}
+          onClose={() => setIsPopupOpen(false)}
+        />
       </div>
     </AlertsProvider>
   );

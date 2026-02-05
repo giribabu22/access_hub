@@ -533,7 +533,7 @@ export const attendanceAPI = {
 
 
 // Export all services as default
-export default {
+const apiServices = {
   auth: authAPI,
   users: usersAPI,
   roles: rolesAPI,
@@ -556,3 +556,5 @@ export default {
   health: healthAPI,
   attendance: attendanceAPI,
 };
+
+export default apiServices;

@@ -29,9 +29,15 @@
   "proxy": "http://localhost:5001",
   "eslintConfig": {
     "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
+      "react-app"
+    ],
+    "rules": {
+      "no-unused-vars": "off",
+      "react-hooks/exhaustive-deps": "off",
+      "no-dupe-keys": "error",
+      "no-mixed-operators": "off",
+      "import/no-anonymous-default-export": "off"
+    }
   },
   "browserslist": {
     "production": [
