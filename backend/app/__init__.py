@@ -58,6 +58,12 @@ def create_app():
         "specs_route": "/api/docs/",
     }
     
+    # Parse SWAGGER_HOST to separate scheme and host for Swagger config
+    raw_swagger_host = app.config.get("SWAGGER_HOST", "localhost:5001")
+    swagger_host_domain = raw_swagger_host
+    if "://" in raw_swagger_host:
+        _, swagger_host_domain = raw_swagger_host.split("://", 1)
+    
     swagger_template = {
         "swagger": "2.0",
         "info": {
@@ -69,7 +75,7 @@ def create_app():
                 "email": "support@vms.com"
             }
         },
-        "host": app.config.get("SWAGGER_HOST", "localhost:5001"),
+        "host": swagger_host_domain,
         "basePath": "/",
         "schemes": ["http", "https"],
         "securityDefinitions": {
@@ -280,9 +286,8 @@ def create_app():
     try:
         host = app.config.get("SWAGGER_HOST", "localhost:5001")
         if not str(host).startswith("http"):
-            swagger_url = f"http://{host}/api/docs/"
-        else:
-            swagger_url = f"{host.rstrip('/')}/api/docs/"
+            host = f"http://{host}"
+        swagger_url = f"{host.rstrip('/')}/api/docs/"
         app.logger.info(f"Swagger UI available at: {swagger_url} (spec: /apispec.json)")
     except Exception:
         # Never fail app startup due to logging

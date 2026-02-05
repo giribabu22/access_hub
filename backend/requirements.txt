@@ -19,24 +19,27 @@ alembic>=1.13.1
 
 # Pydantic for config
 pydantic>=2.6.4
+pydantic-settings
 
 # Security
 pyjwt>=2.8.0
 bcrypt>=4.1.2
 
 # Image handling, CV, ML
-pillow>=10.2.0
-numpy>=1.26.4
-opencv-python-headless>=4.9.0.80
-albumentations>=1.4.0
+# pillow>=10.2.0
+# numpy>=1.26.4
+# opencv-python-headless>=4.9.0.80
+# albumentations>=1.4.0
 requests>=2.31.0
 qdrant-client>=1.8.0
-ultralytics>=8.1.0
-deepface>=0.0.83
-torch>=2.2.0
-tf-keras>=2.20.1
+# ultralytics>=8.1.0
+# deepface>=0.0.83
+# torch>=2.2.0
+# tf-keras>=2.20.1
 
 # Linting & dev
 black>=24.3.0
 isort>=5.13.2
 mypy>=1.8.0
+
+psutil

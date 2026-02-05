@@ -29,6 +29,9 @@ class Settings(BaseSettings):
     session_cookie_name: Optional[str] = Field("vms_session", env=["SESSION_COOKIE_NAME"])
     session_cookie_samesite: Optional[str] = Field("Lax", env=["SESSION_COOKIE_SAMESITE"])
     session_cookie_secure: Optional[bool] = Field(False, env=["SESSION_COOKIE_SECURE"])
+    
+    # Swagger
+    swagger_host: Optional[str] = Field("localhost:5001", env=["SWAGGER_HOST"])
 
 
     @field_validator("environment")
@@ -102,6 +105,9 @@ class Config:
     
     # Redis (optional)
     REDIS_URL = settings.redis_url
+
+    # Swagger
+    SWAGGER_HOST = settings.swagger_host
     
     # Cache configuration
     CACHE_TYPE = "redis" if settings.redis_url else "SimpleCache"
