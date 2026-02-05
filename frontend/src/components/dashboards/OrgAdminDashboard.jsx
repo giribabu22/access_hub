@@ -7,6 +7,8 @@ import DashboardHeader from '../common/dashboard/DashboardHeader';
 import StatCard from '../common/dashboard/StatCard';
 import QuickActionButton from '../common/dashboard/QuickActionButton';
 
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'http://localhost:5001';
+
 const OrgAdminDashboard = () => {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
@@ -39,7 +41,7 @@ const OrgAdminDashboard = () => {
         throw new Error('No authentication token or organization ID');
       }
 
-      const response = await fetch(`http://localhost:5001api/v2/organizations/${user.organization_id}/stats`, {
+      const response = await fetch(`${API_BASE_URL}/api/v2/organizations/${user.organization_id}/stats`, {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'

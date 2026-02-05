@@ -63,7 +63,7 @@ const VisitorPreview = () => {
                 onClick={() => {
                   window.print();
                   setTimeout(() => {
-                    window.location.href = "http://localhost:5001/user_dashboard";
+                    navigate("/user_dashboard");
                   }, 500);
                 }}
                 className="vp-btn primary"

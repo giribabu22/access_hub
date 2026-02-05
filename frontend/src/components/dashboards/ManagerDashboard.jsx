@@ -4,6 +4,9 @@ import { useAuth } from '../../contexts/AuthContext';
 import { authService } from '../../services/authService';
 import '../../styles/Dashboard.css';
 
+
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'http://localhost:5001';
+
 const ManagerDashboard = () => {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
@@ -48,7 +51,7 @@ const ManagerDashboard = () => {
       const token = authService.getAccessToken();
       if (!token) throw new Error('No authentication token');
 
-      const response = await fetch('http://localhost:5001api/manager/team/stats', {
+      const response = await fetch(`${API_BASE_URL}/api/manager/team/stats`, {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
@@ -76,7 +79,7 @@ const ManagerDashboard = () => {
       const token = authService.getAccessToken();
       if (!token) throw new Error('No authentication token');
 
-      const response = await fetch('http://localhost:5001api/manager/team/members', {
+      const response = await fetch(`${API_BASE_URL}/api/manager/team/members`, {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
@@ -104,7 +107,7 @@ const ManagerDashboard = () => {
       const token = authService.getAccessToken();
       if (!token) throw new Error('No authentication token');
 
-      const response = await fetch('http://localhost:5001api/manager/cameras', {
+      const response = await fetch(`${API_BASE_URL}/api/manager/cameras`, {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
@@ -132,7 +135,7 @@ const ManagerDashboard = () => {
       const token = authService.getAccessToken();
       if (!token) throw new Error('No authentication token');
 
-      const response = await fetch('http://localhost:5001api/manager/locations', {
+      const response = await fetch(`${API_BASE_URL}/api/manager/locations`, {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
@@ -160,7 +163,7 @@ const ManagerDashboard = () => {
       const token = authService.getAccessToken();
       if (!token) throw new Error('No authentication token');
 
-      const response = await fetch('http://localhost:5001api/manager/leaves/pending?per_page=5', {
+      const response = await fetch(`${API_BASE_URL}/api/manager/leaves/pending?per_page=5`, {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
@@ -188,7 +191,7 @@ const ManagerDashboard = () => {
       const token = authService.getAccessToken();
       if (!token) return;
 
-      const response = await fetch(`http://localhost:5001api/manager/leaves/${leaveId}/approve`, {
+      const response = await fetch(`${API_BASE_URL}/api/manager/leaves/${leaveId}/approve`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -219,7 +222,7 @@ const ManagerDashboard = () => {
       const reason = prompt('Please provide a reason for rejection:');
       if (!reason) return;
 
-      const response = await fetch(`http://localhost:5001api/manager/leaves/${leaveId}/reject`, {
+      const response = await fetch(`${API_BASE_URL}/api/manager/leaves/${leaveId}/reject`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`,

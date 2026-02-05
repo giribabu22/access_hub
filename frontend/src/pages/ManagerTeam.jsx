@@ -16,6 +16,8 @@ import {
 import { useAuth } from '../contexts/AuthContext';
 import { authService } from '../services/authService';
 
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'http://localhost:5001';
+
 function ManagerTeam() {
   const { user } = useAuth();
   const [teamMembers, setTeamMembers] = useState([]);
@@ -47,7 +49,7 @@ function ManagerTeam() {
         return;
       }
 
-      const response = await fetch('http://localhost:5001api/manager/team/members', {
+      const response = await fetch(`${API_BASE_URL}/api/manager/team/members`, {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
@@ -95,7 +97,7 @@ function ManagerTeam() {
         return;
       }
 
-      const response = await fetch('http://localhost:5001api/manager/cameras', {
+      const response = await fetch(`${API_BASE_URL}/api/manager/cameras`, {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
@@ -124,7 +126,7 @@ function ManagerTeam() {
         return;
       }
 
-      const response = await fetch('http://localhost:5001api/manager/locations', {
+      const response = await fetch(`${API_BASE_URL}/api/manager/locations`, {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'

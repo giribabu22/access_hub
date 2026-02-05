@@ -8,6 +8,8 @@ import AlertFeed from "../features/alerts/AlertFeed";
 import { AlertsProvider, AlertsContext } from "../features/alerts/alerts.context";
 import { statsAPI } from "../services/api";
 
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'http://localhost:5001';
+
 const AdminDashboard = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
@@ -31,7 +33,7 @@ const AdminDashboard = () => {
         }
 
         // Use organization-specific visitor count
-        const response = await fetch(`http://localhost:5001api/v2/organizations/${user.organization_id}/visitors/count`, {
+        const response = await fetch(`${API_BASE_URL}/api/v2/organizations/${user.organization_id}/visitors/count`, {
           headers: {
             'Authorization': `Bearer ${token}`,
             'Content-Type': 'application/json'
@@ -66,7 +68,7 @@ const AdminDashboard = () => {
         const token = authService.getAccessToken();
         if (!token) return;
 
-        const response = await fetch(`http://localhost:5001api/v2/organizations/${user.organization_id}/visitors/count`, {
+        const response = await fetch(`${API_BASE_URL}/api/v2/organizations/${user.organization_id}/visitors/count`, {
           headers: {
             'Authorization': `Bearer ${token}`,
             'Content-Type': 'application/json'
