@@ -618,11 +618,13 @@ const OrganizationEmployees = ({ organizationId, organization }) => {
 
                   {showWebcam && (
                     <div className="mb-6">
-                      <WebcamCapture onImageCapture={(base64) => {
-                        setEmployeePhoto(base64);
-                        setShowWebcam(false);
-                        message.success('Employee photo captured successfully!');
-                      }}
+                      <WebcamCapture 
+                        key={`webcam-${Date.now()}`}
+                        onImageCapture={(base64) => {
+                          setEmployeePhoto(base64);
+                          setShowWebcam(false);
+                          message.success('Employee photo captured successfully!');
+                        }}
                         onBack={() => setShowWebcam(false)}
                       />
                     </div>
@@ -644,7 +646,11 @@ const OrganizationEmployees = ({ organizationId, organization }) => {
                           type="button"
                           onClick={() => {
                             setEmployeePhoto(null);
-                            setShowWebcam(true);
+                            setShowWebcam(false);
+                            // Delay to ensure camera cleanup before restarting
+                            setTimeout(() => {
+                              setShowWebcam(true);
+                            }, 500);
                           }}
                           className="mt-3 w-full px-4 py-2 bg-yellow-600 hover:bg-yellow-700 text-white font-semibold rounded-lg transition-all duration-300 flex items-center justify-center gap-2"
                         >
