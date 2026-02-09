@@ -284,6 +284,31 @@ export const organizationsService = {
       throw error;
     }
   },
+
+  /**
+   * Get top performers - employees with perfect attendance and minimal leaves
+   * 
+   * @param {string} orgId - Organization UUID
+   * @param {Object} params - Query parameters
+   * @param {string} [params.month] - Month in YYYY-MM format (defaults to current month)
+   * @param {number} [params.limit] - Maximum number of performers to return (default: 10)
+   * @returns {Promise} Response with top performers data
+   * 
+   * @example
+   * const response = await organizationsService.getTopPerformers('uuid-here', {
+   *   month: '2026-01',
+   *   limit: 10
+   * });
+   */
+  getTopPerformers: async (orgId, params = {}) => {
+    try {
+      const response = await api.get(`/api/v2/organizations/${orgId}/employees/top-performers`, { params });
+      return response.data;
+    } catch (error) {
+      console.error(`Error getting top performers ${orgId}:`, error);
+      throw error;
+    }
+  },
 };
 
 /**

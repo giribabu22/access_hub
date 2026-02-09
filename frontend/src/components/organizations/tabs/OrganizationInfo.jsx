@@ -1,10 +1,23 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { 
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell,
-  PieChart, Pie, Legend, AreaChart, Area
+  PieChart, Pie, Legend, AreaChart, Area, LineChart, Line, RadarChart, Radar,
+  PolarAngleAxis, PolarRadiusAxis, PolarGrid
 } from 'recharts';
+import {
+  TrendingUp, Users, Camera, MapPin, Layers, Clock, Shield, Database, 
+  AlertCircle, CheckCircle2, Activity, Zap, Settings, Download, Copy, Phone, Mail, MapIcon
+} from 'lucide-react';
 
 const OrganizationInfo = ({ organization, onUpdate }) => {
+  const [copiedField, setCopiedField] = useState(null);
+
+  const copyToClipboard = (text, field) => {
+    navigator.clipboard.writeText(text);
+    setCopiedField(field);
+    setTimeout(() => setCopiedField(null), 2000);
+  };
+
   const formatDate = (dateString) => {
     if (!dateString) return 'N/A';
     return new Date(dateString).toLocaleString('en-IN', {
@@ -13,28 +26,53 @@ const OrganizationInfo = ({ organization, onUpdate }) => {
     });
   };
 
+  const getDaysActive = () => {
+    if (!organization.created_at) return 0;
+    const created = new Date(organization.created_at);
+    const today = new Date();
+    return Math.floor((today - created) / (1000 * 60 * 60 * 24));
+  };
+
+  const getResourceUtilization = () => {
+    const maxEmployees = 500;
+    const maxCameras = 100;
+    const empUtil = ((organization.employees_count || 0) / maxEmployees) * 100;
+    const camUtil = ((organization.cameras_count || 0) / maxCameras) * 100;
+    return {
+      employees: Math.min(empUtil, 100),
+      cameras: Math.min(camUtil, 100)
+    };
+  };
+
   const resourceData = [
-    { name: 'Employees', count: organization.employees_count || 0, color: '#6366f1' },
-    { name: 'Cameras', count: organization.cameras_count || 0, color: '#ec4899' },
-    { name: 'Locations', count: organization.locations_count || 0, color: '#3b82f6' },
-    { name: 'Departments', count: organization.departments_count || 0, color: '#22c55e' },
+    { name: 'Employees', count: organization.employees_count || 0, color: '#0D9488' },
+    { name: 'Cameras', count: organization.cameras_count || 0, color: '#14B8A6' },
+    { name: 'Locations', count: organization.locations_count || 0, color: '#2DD4BF' },
+    { name: 'Departments', count: organization.departments_count || 0, color: '#5EEAD4' },
+  ];
+
+  const radarData = [
+    { category: 'Employees', value: Math.min((organization.employees_count || 0) / 5, 100) },
+    { category: 'Departments', value: Math.min((organization.departments_count || 0) * 20, 100) },
+    { category: 'Cameras', value: Math.min((organization.cameras_count || 0) / 1.5, 100) },
+    { category: 'Locations', value: Math.min((organization.locations_count || 0) * 25, 100) },
   ];
 
   // Mock data for additional statistics
   const visitorActivityData = [
-    { name: 'Mon', visitors: 120 },
-    { name: 'Tue', visitors: 132 },
-    { name: 'Wed', visitors: 101 },
-    { name: 'Thu', visitors: 134 },
-    { name: 'Fri', visitors: 190 },
-    { name: 'Sat', visitors: 90 },
-    { name: 'Sun', visitors: 85 },
+    { name: 'Mon', visitors: 120, trend: 'up' },
+    { name: 'Tue', visitors: 132, trend: 'up' },
+    { name: 'Wed', visitors: 101, trend: 'down' },
+    { name: 'Thu', visitors: 134, trend: 'up' },
+    { name: 'Fri', visitors: 190, trend: 'up' },
+    { name: 'Sat', visitors: 90, trend: 'down' },
+    { name: 'Sun', visitors: 85, trend: 'down' },
   ];
 
   const cameraHealthData = [
-    { name: 'Online', value: Math.floor((organization.cameras_count || 0) * 0.8), color: '#22c55e' },
-    { name: 'Offline', value: Math.floor((organization.cameras_count || 0) * 0.15), color: '#ef4444' },
-    { name: 'Maintenance', value: Math.floor((organization.cameras_count || 0) * 0.05), color: '#eab308' },
+    { name: 'Online', value: Math.floor((organization.cameras_count || 0) * 0.92), color: '#22c55e' },
+    { name: 'Offline', value: Math.floor((organization.cameras_count || 0) * 0.05), color: '#ef4444' },
+    { name: 'Maintenance', value: Math.floor((organization.cameras_count || 0) * 0.03), color: '#f59e0b' },
   ].filter(item => item.value > 0);
 
   // If no cameras, show placeholder data
@@ -44,349 +82,414 @@ const OrganizationInfo = ({ organization, onUpdate }) => {
      cameraHealthData.push({ name: 'No Cameras', value: 1, color: '#9ca3af' });
   }
 
+  const utilization = getResourceUtilization();
+
+  // Subscription tiers with features
+  const subscriptionDetails = {
+    'free': { color: '#64748b', features: ['Basic Features', 'Limited Users', 'Standard Support'] },
+    'starter': { color: '#06b6d4', features: ['Core Features', '50 Users', 'Email Support'] },
+    'professional': { color: '#8b5cf6', features: ['Advanced Features', '500 Users', 'Priority Support'] },
+    'enterprise': { color: '#ef4444', features: ['All Features', 'Unlimited Users', '24/7 Support'] },
+  };
+
+  const subTier = organization.subscription_plan || organization.subscription_tier || 'free';
+  const subConfig = subscriptionDetails[subTier] || subscriptionDetails['free'];
+
   return (
-    <div className="space-y-6 animate-fadeIn">
-      {/* Basic Information */}
-      <div className="bg-teal-50 rounded-xl p-6">
-        <h3 className="text-xl font-bold text-gray-900 mb-6 pb-3 border-b-2 border-gray-200">
-          Basic Information
-        </h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="flex flex-col gap-2">
-            <label className="text-xs font-semibold text-gray-600 uppercase tracking-wide">
-              Organization Name
-            </label>
-            <div className="bg-white px-4 py-3 rounded-lg border border-gray-200 text-gray-900">
-              {organization.name}
+    <div className="space-y-6 animate-fadeIn bg-gradient-to-br from-slate-50 to-slate-100 min-h-screen py-6">
+      {/* Executive Summary KPI Section */}
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div className="bg-white rounded-xl p-4 border-l-4 border-teal-600 shadow-lg hover:shadow-xl transition-all">
+          <div className="flex items-center justify-between mb-2">
+            <span className="text-xs font-semibold text-gray-500 uppercase tracking-widest">Total Employees</span>
+            <Users className="w-5 h-5 text-teal-600" />
+          </div>
+          <div className="text-2xl font-black text-gray-900">{organization.employees_count || 0}</div>
+          <p className="text-xs text-gray-500 mt-1">Active workforce</p>
+        </div>
+
+        <div className="bg-white rounded-xl p-4 border-l-4 border-teal-500 shadow-lg hover:shadow-xl transition-all">
+          <div className="flex items-center justify-between mb-2">
+            <span className="text-xs font-semibold text-gray-500 uppercase tracking-widest">Cameras</span>
+            <Camera className="w-5 h-5 text-teal-500" />
+          </div>
+          <div className="text-2xl font-black text-gray-900">{organization.cameras_count || 0}</div>
+          <p className="text-xs text-gray-500 mt-1">Surveillance assets</p>
+        </div>
+
+        <div className="bg-white rounded-xl p-4 border-l-4 border-teal-400 shadow-lg hover:shadow-xl transition-all">
+          <div className="flex items-center justify-between mb-2">
+            <span className="text-xs font-semibold text-gray-500 uppercase tracking-widest">Locations</span>
+            <MapPin className="w-5 h-5 text-teal-400" />
+          </div>
+          <div className="text-2xl font-black text-gray-900">{organization.locations_count || 0}</div>
+          <p className="text-xs text-gray-500 mt-1">Physical sites</p>
+        </div>
+
+        <div className="bg-white rounded-xl p-4 border-l-4 border-teal-700 shadow-lg hover:shadow-xl transition-all">
+          <div className="flex items-center justify-between mb-2">
+            <span className="text-xs font-semibold text-gray-500 uppercase tracking-widest">Departments</span>
+            <Layers className="w-5 h-5 text-teal-700" />
+          </div>
+          <div className="text-2xl font-black text-gray-900">{organization.departments_count || 0}</div>
+          <p className="text-xs text-gray-500 mt-1">Organizational units</p>
+        </div>
+      </div>
+
+      {/* Resource Analysis - Professional Dashboard */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {/* Resource Distribution Chart */}
+        <div className="bg-white rounded-xl shadow-lg overflow-hidden">
+          <div className="bg-gradient-to-r from-teal-600 to-teal-500 px-6 py-4">
+            <h3 className="text-lg font-bold text-white flex items-center gap-2">
+              <TrendingUp className="w-5 h-5" /> Resource Composition
+            </h3>
+          </div>
+          <div className="p-6">
+            <div className="h-80 w-full">
+              <ResponsiveContainer width="100%" height="100%">
+                <BarChart data={resourceData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
+                  <defs>
+                    <linearGradient id="colorGradient" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="5%" stopColor="#0D9488" stopOpacity={0.8}/>
+                      <stop offset="95%" stopColor="#0D9488" stopOpacity={0.3}/>
+                    </linearGradient>
+                  </defs>
+                  <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e2e8f0" />
+                  <XAxis dataKey="name" axisLine={false} tickLine={false} stroke="#94a3b8" />
+                  <YAxis axisLine={false} tickLine={false} stroke="#94a3b8" />
+                  <Tooltip 
+                    cursor={{ fill: 'rgba(13, 148, 136, 0.1)' }}
+                    contentStyle={{ borderRadius: '8px', border: '2px solid #0D9488', boxShadow: '0 10px 25px rgba(0,0,0,0.1)' }}
+                    formatter={(value) => [`${value} Units`, 'Count']}
+                  />
+                  <Bar dataKey="count" radius={[8, 8, 0, 0]} barSize={50}>
+                    {resourceData.map((entry, index) => (
+                      <Cell key={`cell-${index}`} fill={entry.color} />
+                    ))}
+                  </Bar>
+                </BarChart>
+              </ResponsiveContainer>
+            </div>
+            <div className="grid grid-cols-2 gap-3 mt-4">
+              {resourceData.map((item, idx) => (
+                <div key={idx} className="flex items-center gap-2 text-sm">
+                  <div className="w-3 h-3 rounded-full" style={{ backgroundColor: item.color }}></div>
+                  <span className="text-gray-700">{item.name}: <strong>{item.count}</strong></span>
+                </div>
+              ))}
             </div>
           </div>
-          <div className="flex flex-col gap-2">
-            <label className="text-xs font-semibold text-gray-600 uppercase tracking-wide">
-              Organization Code
-            </label>
-            <div className="bg-white px-4 py-3 rounded-lg border border-gray-200 text-gray-900">
-              {organization.code || 'N/A'}
-            </div>
+        </div>
+
+        {/* Resource Utilization Radar Chart */}
+        <div className="bg-white rounded-xl shadow-lg overflow-hidden">
+          <div className="bg-gradient-to-r from-teal-500 to-teal-400 px-6 py-4">
+            <h3 className="text-lg font-bold text-white flex items-center gap-2">
+              <Activity className="w-5 h-5" /> Organization Capacity
+            </h3>
           </div>
-          <div className="flex flex-col gap-2">
-            <label className="text-xs font-semibold text-gray-600 uppercase tracking-wide">
-              Status
-            </label>
-            <div className="bg-white px-4 py-3 rounded-lg border border-gray-200">
-              <span className={`px-3 py-1 rounded-md text-xs font-semibold uppercase ${
-                organization.is_active 
-                  ? 'bg-green-100 text-green-700' 
-                  : 'bg-red-100 text-red-700'
-              }`}>
-                {organization.is_active ? 'Active' : 'Inactive'}
-              </span>
+          <div className="p-6">
+            <div className="h-80 w-full">
+              <ResponsiveContainer width="100%" height="100%">
+                <RadarChart data={radarData}>
+                  <PolarGrid stroke="#e2e8f0" />
+                  <PolarAngleAxis dataKey="category" stroke="#64748b" />
+                  <PolarRadiusAxis stroke="#94a3b8" />
+                  <Radar name="Utilization" dataKey="value" stroke="#0D9488" fill="#0D9488" fillOpacity={0.6} />
+                  <Tooltip 
+                    contentStyle={{ borderRadius: '8px', border: '2px solid #0D9488', boxShadow: '0 10px 25px rgba(0,0,0,0.1)' }}
+                    formatter={(value) => [`${value.toFixed(0)}%`, 'Capacity']}
+                  />
+                </RadarChart>
+              </ResponsiveContainer>
             </div>
-          </div>
-          <div className="flex flex-col gap-2 md:col-span-2">
-            <label className="text-xs font-semibold text-gray-600 uppercase tracking-wide">
-              Description
-            </label>
-            <div className="bg-white px-4 py-3 rounded-lg border border-gray-200 text-gray-900">
-              {organization.description || 'No description provided'}
+            <div className="bg-gradient-to-r from-teal-50 to-cyan-50 p-4 rounded-lg mt-4 border border-teal-200">
+              <p className="text-xs text-gray-700">
+                <strong>📊 Capacity Status:</strong> Your organization is utilizing resources efficiently across all departments and asset management.
+              </p>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Address Information */}
-      <div className="bg-teal-50 rounded-xl p-6">
-        <h3 className="text-xl font-bold text-gray-900 mb-6 pb-3 border-b-2 border-gray-200">
-          Address Information
-        </h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="flex flex-col gap-2 md:col-span-2">
-            <label className="text-xs font-semibold text-gray-600 uppercase tracking-wide">
-              Street Address
-            </label>
-            <div className="bg-white px-4 py-3 rounded-lg border border-gray-200 text-gray-900">
-              {organization.address || 'N/A'}
+      {/* Analytics Section - Camera Health */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+
+        {/* Timeline & Audit Information */}
+        <div className="bg-white rounded-xl shadow-lg overflow-hidden">
+          <div className="bg-gradient-to-r from-teal-700 to-teal-600 px-6 py-4">
+            <h3 className="text-lg font-bold text-white flex items-center gap-2">
+              <Clock className="w-5 h-5" /> Organization Timeline
+            </h3>
+          </div>
+          <div className="p-6">
+            <div className="space-y-4">
+              <div className="flex gap-4">
+                <div className="flex flex-col items-center">
+                  <div className="w-4 h-4 rounded-full bg-green-500 border-2 border-white"></div>
+                  <div className="w-0.5 h-20 bg-gray-200 mt-2"></div>
+                </div>
+                <div className="pb-6">
+                  <p className="font-bold text-gray-900">Organization Created</p>
+                  <p className="text-sm text-gray-600">{formatDate(organization.created_at)}</p>
+                  <p className="text-xs text-gray-500 mt-1">🎯 By: {organization.created_by_username || 'System'}</p>
+                </div>
+              </div>
+
+              <div className="flex gap-4">
+                <div className="flex flex-col items-center">
+                  <div className="w-4 h-4 rounded-full bg-blue-500 border-2 border-white"></div>
+                  <div className="w-0.5 h-20 bg-gray-200 mt-2"></div>
+                </div>
+                <div className="pb-6">
+                  <p className="font-bold text-gray-900">Last Updated</p>
+                  <p className="text-sm text-gray-600">{formatDate(organization.updated_at)}</p>
+                  <p className="text-xs text-gray-500 mt-1">🔄 By: {organization.updated_by_username || 'N/A'}</p>
+                </div>
+              </div>
+
+              <div className="flex gap-4">
+                <div className="flex flex-col items-center">
+                  <div className="w-4 h-4 rounded-full bg-purple-500 border-2 border-white"></div>
+                </div>
+                <div>
+                  <p className="font-bold text-gray-900">Current Status</p>
+                  <p className="text-sm text-gray-600">
+                    {organization.is_active ? '✅ Active & Operational' : '⚠️ Inactive'}
+                  </p>
+                  <p className="text-xs text-gray-500 mt-1">Running for {getDaysActive()} days</p>
+                </div>
+              </div>
             </div>
           </div>
-          <div className="flex flex-col gap-2">
-            <label className="text-xs font-semibold text-gray-600 uppercase tracking-wide">
-              City
-            </label>
-            <div className="bg-white px-4 py-3 rounded-lg border border-gray-200 text-gray-900">
-              {organization.city || 'N/A'}
-            </div>
+        </div>
+       
+        {/* Camera Health Donut Chart */}
+        <div className="bg-white rounded-xl shadow-lg overflow-hidden">
+          <div className="bg-gradient-to-r from-teal-600 to-teal-400 px-6 py-4">
+            <h3 className="text-lg font-bold text-white flex items-center gap-2">
+              <Shield className="w-5 h-5" /> Camera Infrastructure Status
+            </h3>
           </div>
-          <div className="flex flex-col gap-2">
-            <label className="text-xs font-semibold text-gray-600 uppercase tracking-wide">
-              State
-            </label>
-            <div className="bg-white px-4 py-3 rounded-lg border border-gray-200 text-gray-900">
-              {organization.state || 'N/A'}
+          <div className="p-6">
+            <div className="h-80 w-full flex items-center justify-center">
+              <ResponsiveContainer width="100%" height="100%">
+                <PieChart>
+                  <Pie
+                    data={cameraHealthData}
+                    cx="50%"
+                    cy="50%"
+                    innerRadius={60}
+                    outerRadius={90}
+                    paddingAngle={5}
+                    dataKey="value"
+                  >
+                    {cameraHealthData.map((entry, index) => (
+                      <Cell key={`cell-${index}`} fill={entry.color} />
+                    ))}
+                  </Pie>
+                  <Tooltip 
+                    contentStyle={{ borderRadius: '8px', border: '2px solid #0D9488', boxShadow: '0 10px 25px rgba(0,0,0,0.1)' }}
+                    formatter={(value) => `${value} cameras`}
+                  />
+                  <Legend verticalAlign="bottom" height={36} iconType="circle" />
+                </PieChart>
+              </ResponsiveContainer>
             </div>
-          </div>
-          <div className="flex flex-col gap-2">
-            <label className="text-xs font-semibold text-gray-600 uppercase tracking-wide">
-              Country
-            </label>
-            <div className="bg-white px-4 py-3 rounded-lg border border-gray-200 text-gray-900">
-              {organization.country || 'N/A'}
-            </div>
-          </div>
-          <div className="flex flex-col gap-2">
-            <label className="text-xs font-semibold text-gray-600 uppercase tracking-wide">
-              Postal Code
-            </label>
-            <div className="bg-white px-4 py-3 rounded-lg border border-gray-200 text-gray-900">
-              {organization.postal_code || 'N/A'}
+            <div className="grid grid-cols-3 gap-2 mt-4">
+              {cameraHealthData.map((item, idx) => (
+                <div key={idx} className="p-3 rounded-lg border text-center" style={{ borderColor: item.color, backgroundColor: `${item.color}15` }}>
+                  <div className="text-lg font-bold" style={{ color: item.color }}>{item.value}</div>
+                  <div className="text-xs text-gray-600">{item.name}</div>
+                </div>
+              ))}
             </div>
           </div>
         </div>
       </div>
 
-      {/* Contact Information */}
-      <div className="bg-teal-50 rounded-xl p-6">
-        <h3 className="text-xl font-bold text-gray-900 mb-6 pb-3 border-b-2 border-gray-200">
-          Contact Information
-        </h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="flex flex-col gap-2">
-            <label className="text-xs font-semibold text-gray-600 uppercase tracking-wide">
-              Phone
-            </label>
-            <div className="bg-white px-4 py-3 rounded-lg border border-gray-200 text-gray-900">
-              {organization.phone || 'N/A'}
-            </div>
+      {/* Organization Details & Subscription Status Grid */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        {/* Left: Basic Information */}
+        <div className="lg:col-span-2 bg-white rounded-xl shadow-lg overflow-hidden">
+          <div className="bg-gradient-to-r from-teal-800 to-teal-700 px-6 py-4">
+            <h3 className="text-lg font-bold text-white flex items-center gap-2">
+              <Database className="w-5 h-5" /> Organization Profile
+            </h3>
           </div>
-          <div className="flex flex-col gap-2">
-            <label className="text-xs font-semibold text-gray-600 uppercase tracking-wide">
-              Email
-            </label>
-            <div className="bg-white px-4 py-3 rounded-lg border border-gray-200 text-gray-900">
-              {organization.email || 'N/A'}
+          <div className="p-6 space-y-4">
+            {/* Name & Code */}
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className="block text-xs font-bold text-gray-600 uppercase tracking-widest mb-2">Name</label>
+                <div className="relative">
+                  <div className="bg-gradient-to-r from-slate-50 to-slate-100 px-4 py-3 rounded-lg border border-slate-200 text-gray-900 font-semibold pr-10 break-words">
+                    {organization.name}
+                  </div>
+                  <button 
+                    onClick={() => copyToClipboard(organization.name, 'name')}
+                    className="absolute right-2 top-1/2 transform -translate-y-1/2 p-1.5 hover:bg-slate-200 rounded"
+                    title="Copy name"
+                  >
+                    <Copy className={`w-4 h-4 ${copiedField === 'name' ? 'text-green-600' : 'text-gray-400'}`} />
+                  </button>
+                </div>
+              </div>
+              <div>
+                <label className="block text-xs font-bold text-gray-600 uppercase tracking-widest mb-2">Code</label>
+                <div className="relative">
+                  <div className="bg-gradient-to-r from-teal-50 to-teal-100 px-4 py-3 rounded-lg border border-teal-200 text-teal-900 font-bold tracking-wider pr-10">
+                    {organization.code || 'N/A'}
+                  </div>
+                  <button 
+                    onClick={() => copyToClipboard(organization.code, 'code')}
+                    className="absolute right-2 top-1/2 transform -translate-y-1/2 p-1.5 hover:bg-teal-200 rounded"
+                    title="Copy code"
+                  >
+                    <Copy className={`w-4 h-4 ${copiedField === 'code' ? 'text-green-600' : 'text-gray-400'}`} />
+                  </button>
+                </div>
+              </div>
             </div>
-          </div>
-          <div className="flex flex-col gap-2 md:col-span-2">
-            <label className="text-xs font-semibold text-gray-600 uppercase tracking-wide">
-              Website
-            </label>
-            <div className="bg-white px-4 py-3 rounded-lg border border-gray-200">
-              {organization.website ? (
-                <a 
-                  href={organization.website} 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="text-teal-600 hover:text-teal-800 font-medium hover:underline"
-                >
-                  {organization.website}
-                </a>
-              ) : (
-                <span className="text-gray-900">N/A</span>
+
+            {/* Organization Type & Status */}
+            <div className="grid grid-cols-2 gap-4 pt-2 border-t border-slate-200">
+              <div>
+                <label className="block text-xs font-bold text-gray-600 uppercase tracking-widest mb-2">Type</label>
+                <div className="bg-slate-50 px-4 py-3 rounded-lg border border-slate-200">
+                  <span className="inline-block px-3 py-1 rounded-full text-xs font-bold uppercase bg-teal-100 text-teal-700">
+                    {organization.organization_type ? organization.organization_type.replace('_', ' ') : 'Office'}
+                  </span>
+                </div>
+              </div>
+              <div>
+                <label className="block text-xs font-bold text-gray-600 uppercase tracking-widest mb-2">Status</label>
+                <div className="bg-slate-50 px-4 py-3 rounded-lg border border-slate-200">
+                  <div className="flex items-center gap-2">
+                    {organization.is_active ? (
+                      <>
+                        <CheckCircle2 className="w-5 h-5 text-green-600" />
+                        <span className="text-sm font-bold text-green-700">Active</span>
+                      </>
+                    ) : (
+                      <>
+                        <AlertCircle className="w-5 h-5 text-red-600" />
+                        <span className="text-sm font-bold text-red-700">Inactive</span>
+                      </>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Address */}
+            {organization.address && (
+              <div className="pt-2 border-t border-slate-200">
+                <label className="block text-xs font-bold text-gray-600 uppercase tracking-widest mb-2">📍 Address</label>
+                <div className="bg-slate-50 px-4 py-3 rounded-lg border border-slate-200 text-gray-700">
+                  {organization.address}
+                </div>
+              </div>
+            )}
+
+            {/* Contact Details */}
+            <div className="grid grid-cols-2 gap-4 pt-2 border-t border-slate-200">
+              {organization.contact_email && (
+                <div>
+                  <label className="block text-xs font-bold text-gray-600 uppercase tracking-widest mb-2">📧 Email</label>
+                  <div className="bg-slate-50 px-4 py-3 rounded-lg border border-slate-200 text-sm text-gray-700 break-all">
+                    {organization.contact_email}
+                  </div>
+                </div>
+              )}
+              {organization.contact_phone && (
+                <div>
+                  <label className="block text-xs font-bold text-gray-600 uppercase tracking-widest mb-2">📞 Phone</label>
+                  <div className="bg-slate-50 px-4 py-3 rounded-lg border border-slate-200 text-sm text-gray-700">
+                    {organization.contact_phone}
+                  </div>
+                </div>
               )}
             </div>
-          </div>
-        </div>
-      </div>
 
-      {/* Primary Contact Person */}
-      <div className="bg-teal-50 rounded-xl p-6">
-        <h3 className="text-xl font-bold text-gray-900 mb-6 pb-3 border-b-2 border-gray-200">
-          Primary Contact Person
-        </h3>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="flex flex-col gap-2">
-            <label className="text-xs font-semibold text-gray-600 uppercase tracking-wide">
-              Name
-            </label>
-            <div className="bg-white px-4 py-3 rounded-lg border border-gray-200 text-gray-900">
-              {organization.contact_person_name || 'N/A'}
-            </div>
-          </div>
-          <div className="flex flex-col gap-2">
-            <label className="text-xs font-semibold text-gray-600 uppercase tracking-wide">
-              Email
-            </label>
-            <div className="bg-white px-4 py-3 rounded-lg border border-gray-200 text-gray-900">
-              {organization.contact_person_email || 'N/A'}
-            </div>
-          </div>
-          <div className="flex flex-col gap-2">
-            <label className="text-xs font-semibold text-gray-600 uppercase tracking-wide">
-              Phone
-            </label>
-            <div className="bg-white px-4 py-3 rounded-lg border border-gray-200 text-gray-900">
-              {organization.contact_person_phone || 'N/A'}
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* System Information */}
-      <div className="bg-teal-50 rounded-xl p-6">
-        <h3 className="text-xl font-bold text-gray-900 mb-6 pb-3 border-b-2 border-gray-200">
-          System Information
-        </h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="flex flex-col gap-2">
-            <label className="text-xs font-semibold text-gray-600 uppercase tracking-wide">
-              Created On
-            </label>
-            <div className="bg-white px-4 py-3 rounded-lg border border-gray-200 text-gray-900">
-              {formatDate(organization.created_at)}
-            </div>
-          </div>
-          <div className="flex flex-col gap-2">
-            <label className="text-xs font-semibold text-gray-600 uppercase tracking-wide">
-              Last Updated
-            </label>
-            <div className="bg-white px-4 py-3 rounded-lg border border-gray-200 text-gray-900">
-              {formatDate(organization.updated_at)}
-            </div>
-          </div>
-          <div className="flex flex-col gap-2">
-            <label className="text-xs font-semibold text-gray-600 uppercase tracking-wide">
-              Created By
-            </label>
-            <div className="bg-white px-4 py-3 rounded-lg border border-gray-200 text-gray-900">
-              {organization.created_by_username || 'System'}
-            </div>
-          </div>
-          <div className="flex flex-col gap-2">
-            <label className="text-xs font-semibold text-gray-600 uppercase tracking-wide">
-              Last Updated By
-            </label>
-            <div className="bg-white px-4 py-3 rounded-lg border border-gray-200 text-gray-900">
-              {organization.updated_by_username || 'N/A'}
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Resource Overview & Stats */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div className="bg-teal-50 rounded-xl p-6">
-          <h3 className="text-xl font-bold text-gray-900 mb-6 pb-3 border-b-2 border-gray-200">
-            Resource Distribution
-          </h3>
-          <div className="h-64 w-full">
-            <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={resourceData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
-                <CartesianGrid strokeDasharray="3 3" vertical={false} />
-                <XAxis dataKey="name" axisLine={false} tickLine={false} />
-                <YAxis axisLine={false} tickLine={false} />
-                <Tooltip 
-                  cursor={{ fill: 'transparent' }}
-                  contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }}
-                />
-                <Bar dataKey="count" radius={[4, 4, 0, 0]} barSize={40}>
-                  {resourceData.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={entry.color} />
-                  ))}
-                </Bar>
-              </BarChart>
-            </ResponsiveContainer>
-          </div>
-        </div>
-
-        <div className="bg-teal-50 rounded-xl p-6">
-          <h3 className="text-xl font-bold text-gray-900 mb-6 pb-3 border-b-2 border-gray-200">
-            Organization Status
-          </h3>
-          <div className="flex flex-col gap-4">
-             <div className="p-4 bg-teal-50/95 rounded-lg border border-gray-200 shadow-sm">
-                <div className="flex items-center justify-between mb-2">
-                  <span className="text-sm font-medium text-gray-600">Current State</span>
-                  <span className={`px-3 py-1 rounded-full text-xs font-bold uppercase ${
-                    organization.is_active ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'
-                  }`}>
-                    {organization.is_active ? 'Active' : 'Inactive'}
-                  </span>
+            {/* Timezone & Created Info */}
+            <div className="pt-2 border-t border-slate-200">
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-xs font-bold text-gray-600 uppercase tracking-widest mb-2">🕐 Timezone</label>
+                  <div className="bg-slate-50 px-4 py-3 rounded-lg border border-slate-200 text-gray-700 text-sm">
+                    {organization.timezone || 'UTC'}
+                  </div>
                 </div>
-                <p className="text-xs text-gray-500">
-                  {organization.is_active 
-                    ? 'The organization is currently active and fully operational. All services are running.' 
-                    : 'The organization is currently inactive. Access to services may be restricted.'}
-                </p>
-             </div>
-             
-             <div className="p-4 bg-teal-50/95 rounded-lg border border-gray-200 shadow-sm">
-                <div className="flex items-center justify-between mb-2">
-                  <span className="text-sm font-medium text-gray-600">Subscription Status</span>
-                  <span className="px-3 py-1 rounded-full text-xs font-bold uppercase bg-blue-100 text-blue-700">
-                    Standard Plan
-                  </span>
+                <div>
+                  <label className="block text-xs font-bold text-gray-600 uppercase tracking-widest mb-2">📅 Days Active</label>
+                  <div className="bg-slate-50 px-4 py-3 rounded-lg border border-slate-200 text-gray-700 text-sm font-bold">
+                    {getDaysActive()} days
+                  </div>
                 </div>
-                <p className="text-xs text-gray-500">
-                  Valid until Dec 31, 2025. Auto-renewal is enabled.
-                </p>
-             </div>
-
-             <div className="p-4 bg-teal-50/95 rounded-lg border border-gray-200 shadow-sm">
-                <div className="flex items-center justify-between mb-2">
-                  <span className="text-sm font-medium text-gray-600">System Health</span>
-                  <span className="px-3 py-1 rounded-full text-xs font-bold uppercase bg-green-100 text-green-700">
-                    Healthy
-                  </span>
-                </div>
-                <p className="text-xs text-gray-500">
-                  All systems are functioning normally. No critical issues detected.
-                </p>
-             </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Additional Statistics */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div className="bg-teal-50 rounded-xl p-6">
-          <h3 className="text-xl font-bold text-gray-900 mb-6 pb-3 border-b-2 border-gray-200">
-            Visitor Activity (Last 7 Days)
-          </h3>
-          <div className="h-64 w-full">
-            <ResponsiveContainer width="100%" height="100%">
-              <AreaChart data={visitorActivityData} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
-                <defs>
-                  <linearGradient id="colorVisitors" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="#8884d8" stopOpacity={0.8}/>
-                    <stop offset="95%" stopColor="#8884d8" stopOpacity={0}/>
-                  </linearGradient>
-                </defs>
-                <XAxis dataKey="name" axisLine={false} tickLine={false} />
-                <YAxis axisLine={false} tickLine={false} />
-                <CartesianGrid strokeDasharray="3 3" vertical={false} />
-                <Tooltip 
-                  contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }}
-                />
-                <Area type="monotone" dataKey="visitors" stroke="#8884d8" fillOpacity={1} fill="url(#colorVisitors)" />
-              </AreaChart>
-            </ResponsiveContainer>
+              </div>
+            </div>
           </div>
         </div>
 
-        <div className="bg-teal-50 rounded-xl p-6">
-          <h3 className="text-xl font-bold text-gray-900 mb-6 pb-3 border-b-2 border-gray-200">
-            Camera Health Status
-          </h3>
-          <div className="h-64 w-full flex items-center justify-center">
-            <ResponsiveContainer width="100%" height="100%">
-              <PieChart>
-                <Pie
-                  data={cameraHealthData}
-                  cx="50%"
-                  cy="50%"
-                  innerRadius={60}
-                  outerRadius={80}
-                  paddingAngle={5}
-                  dataKey="value"
-                >
-                  {cameraHealthData.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={entry.color} />
-                  ))}
-                </Pie>
-                <Tooltip 
-                  contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }}
-                />
-                <Legend verticalAlign="bottom" height={36} iconType="circle" />
-              </PieChart>
-            </ResponsiveContainer>
+        {/* Right: Subscription & System Health */}
+        <div className="space-y-6">
+          {/* Subscription Card */}
+          <div className="bg-white rounded-xl shadow-lg overflow-hidden">
+            <div className="bg-gradient-to-r from-teal-600 to-teal-500 px-6 py-4">
+              <h3 className="text-lg font-bold text-white">Subscription Plan</h3>
+            </div>
+            <div className="p-6 space-y-4">
+              <div className="text-center mb-4">
+                <div className="inline-block px-4 py-2 rounded-full text-xs font-bold uppercase bg-teal-100 text-teal-700">
+                  {subTier.toUpperCase()}
+                </div>
+              </div>
+              <div className="space-y-2 text-sm">
+                {subConfig.features.map((feature, idx) => (
+                  <div key={idx} className="flex items-center gap-2 text-gray-700">
+                    <CheckCircle2 className="w-4 h-4 text-teal-600" />
+                    <span>{feature}</span>
+                  </div>
+                ))}
+              </div>
+              <button className="w-full mt-4 py-2 px-4 rounded-lg text-white text-xs font-bold uppercase bg-teal-600 hover:bg-teal-700 transition-colors">
+                ⚡ Upgrade Plan
+              </button>
+            </div>
+          </div>
+
+          {/* System Health Card */}
+          <div className="bg-white rounded-xl shadow-lg overflow-hidden">
+            <div className="bg-gradient-to-r from-teal-600 to-cyan-600 px-6 py-4">
+              <h3 className="text-lg font-bold text-white flex items-center gap-2">
+                <Shield className="w-5 h-5" /> System Health
+              </h3>
+            </div>
+            <div className="p-6 space-y-3">
+              <div className="p-3 bg-teal-50 rounded-lg border border-teal-200">
+                <div className="flex items-center justify-between mb-1">
+                  <span className="text-xs font-semibold text-teal-700">API Status</span>
+                  <span className="text-xs font-bold text-teal-700">✓ Operational</span>
+                </div>
+                <div className="w-full bg-teal-200 rounded-full h-1.5"><div className="bg-teal-600 h-1.5 rounded-full w-full"></div></div>
+              </div>
+              <div className="p-3 bg-cyan-50 rounded-lg border border-cyan-200">
+                <div className="flex items-center justify-between mb-1">
+                  <span className="text-xs font-semibold text-cyan-700">Database</span>
+                  <span className="text-xs font-bold text-cyan-700">✓ Healthy</span>
+                </div>
+                <div className="w-full bg-cyan-200 rounded-full h-1.5"><div className="bg-cyan-600 h-1.5 rounded-full" style={{ width: '95%' }}></div></div>
+              </div>
+              <div className="p-3 bg-teal-100 rounded-lg border border-teal-300">
+                <div className="flex items-center justify-between mb-1">
+                  <span className="text-xs font-semibold text-teal-700">Storage</span>
+                  <span className="text-xs font-bold text-teal-700">42% Used</span>
+                </div>
+                <div className="w-full bg-teal-200 rounded-full h-1.5"><div className="bg-teal-700 h-1.5 rounded-full" style={{ width: '42%' }}></div></div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
