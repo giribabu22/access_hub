@@ -68,6 +68,7 @@ class Organization(db.Model):
     attendance_records = db.relationship("AttendanceRecord", back_populates="organization")
     face_embeddings = db.relationship("FaceEmbedding", back_populates="organization")
     leave_requests = db.relationship("LeaveRequest", back_populates="organization")
+    attendance_change_requests = db.relationship("AttendanceChangeRequest", back_populates="organization")
     audit_logs = db.relationship("AuditLog", back_populates="organization")
     locations = db.relationship("Location", back_populates="organization", cascade="all, delete-orphan")
     cameras = db.relationship("Camera", back_populates="organization", cascade="all, delete-orphan")

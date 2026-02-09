@@ -26,10 +26,11 @@ bp = Blueprint('manager', __name__)
 @manager_required
 def get_team_members():
     """
-    Get team members under the manager's supervision
+    Get team members under the manager's supervision with attendance status
     """
     try:
-        manager_id = g.current_user.id
+        from flask_jwt_extended import get_jwt_identity
+        manager_id = get_jwt_identity()
         organization_id = g.organization_id
         manager_department_id = g.jwt_claims.get('department_id')
         
@@ -45,12 +46,58 @@ def get_team_members():
         
         employees = employees_query.all()
         
+        # Get today's attendance and leaves for context
+        today = datetime.utcnow().date()
+        
+        # Get attendance records for today
+        attendance_records = AttendanceRecord.query.filter(
+            AttendanceRecord.check_in_time >= today,
+            AttendanceRecord.check_in_time < today + timedelta(days=1),
+            AttendanceRecord.organization_id == organization_id
+        ).all()
+        attendance_map = {r.employee_id: r for r in attendance_records}
+        
+        # Get active leaves for today
+        active_leaves = LeaveRequest.query.filter(
+            LeaveRequest.start_date <= today,
+            LeaveRequest.end_date >= today,
+            LeaveRequest.status == 'approved',
+            LeaveRequest.organization_id == organization_id
+        ).all()
+        leave_map = {l.employee_id: l for l in active_leaves}
+        
         team_members = []
         for employee in employees:
             # Skip the manager themselves
             if employee.user_id == manager_id:
                 continue
+            
+            # Determine status
+            status = 'inactive'
+            attendance_status = 'absent'
+            last_seen = None
+            
+            if employee.is_active:
+                status = 'active'
                 
+                # Check leave status first
+                if employee.id in leave_map:
+                    status = 'on_leave'
+                    attendance_status = 'on_leave'
+                # Check attendance status
+                elif employee.id in attendance_map:
+                    record = attendance_map[employee.id]
+                    attendance_status = 'present'
+                    last_seen = record.check_out_time.isoformat() if record.check_out_time else record.check_in_time.isoformat()
+            
+            # Format emergency contact
+            emergency_contact = 'N/A'
+            if employee.emergency_contact:
+                if isinstance(employee.emergency_contact, dict):
+                    emergency_contact = employee.emergency_contact.get('phone', 'N/A')
+                else:
+                    emergency_contact = str(employee.emergency_contact)
+
             team_members.append({
                 'id': employee.id,
                 'user_id': employee.user_id,
@@ -61,8 +108,12 @@ def get_team_members():
                 'position': employee.position,
                 'phone': employee.phone,
                 'hire_date': employee.hire_date.isoformat() if employee.hire_date else None,
-                'status': 'active' if employee.is_active else 'inactive',
-                'profile_image': employee.profile_image_url
+                'status': status,
+                'attendance_status': attendance_status,
+                'last_seen': last_seen,
+                'profile_image': employee.profile_image_url,
+                'department': employee.department.name if employee.department else 'N/A',
+                'emergency_contact': emergency_contact
             })
         
         return jsonify({
@@ -79,6 +130,112 @@ def get_team_members():
         return jsonify({
             'status': 'error',
             'message': 'Failed to fetch team members'
+        }), 500
+
+@bp.route('/api/manager/dashboard/activities', methods=['GET'])
+@jwt_required()
+@tenant_required
+@manager_required
+def get_dashboard_activities():
+    """
+    Get recent activities for manager dashboard
+    """
+    try:
+        organization_id = g.organization_id
+        manager_department_id = g.jwt_claims.get('department_id')
+        
+        activities = []
+        
+        # 1. Recent Leave Requests (last 7 days)
+        last_week = datetime.utcnow() - timedelta(days=7)
+        leaves_query = LeaveRequest.query.join(Employee).filter(
+            Employee.organization_id == organization_id,
+            LeaveRequest.created_at >= last_week
+        )
+        if manager_department_id:
+            leaves_query = leaves_query.filter(Employee.department_id == manager_department_id)
+            
+        recent_leaves = leaves_query.order_by(LeaveRequest.created_at.desc()).limit(5).all()
+        
+        for leave in recent_leaves:
+            activities.append({
+                'id': f"leave_{leave.id}",
+                'type': 'leave_request',
+                'employee': f"{leave.employee.user.first_name} {leave.employee.user.last_name}",
+                'action': 'Submitted leave request',
+                'time': leave.created_at.isoformat(),
+                'timestamp': leave.created_at.timestamp(),
+                'status': leave.status,
+                'details': f"{leave.leave_type} leave"
+            })
+            
+        # 2. Recent Check-ins (Today)
+        today_start = datetime.utcnow().replace(hour=0, minute=0, second=0, microsecond=0)
+        attendance_query = AttendanceRecord.query.join(Employee).filter(
+            Employee.organization_id == organization_id,
+            AttendanceRecord.check_in_time >= today_start
+        )
+        if manager_department_id:
+            attendance_query = attendance_query.filter(Employee.department_id == manager_department_id)
+            
+        recent_attendance = attendance_query.order_by(AttendanceRecord.check_in_time.desc()).limit(10).all()
+        
+        for record in recent_attendance:
+            status = 'success'
+            action = 'Checked in'
+            
+            # Check for late arrival (assuming 9:30 AM is late limit, ideally this should be config based)
+            # Simple check: if check in is after 9:30 AM local time (UTC+5:30)
+            # UTC check in + 5:30 > 9:30 => UTC > 4:00
+            if record.check_in_time.time() > datetime.strptime('04:00', '%H:%M').time():
+                status = 'flagged'
+                action = 'Late check-in'
+                
+            activities.append({
+                'id': f"att_{record.id}",
+                'type': 'late_arrival' if status == 'flagged' else 'attendance',
+                'employee': f"{record.employee.user.first_name} {record.employee.user.last_name}",
+                'action': action,
+                'time': record.check_in_time.isoformat(),
+                'timestamp': record.check_in_time.timestamp(),
+                'status': status,
+                'details': f"at {record.check_in_time.strftime('%H:%M')}"
+            })
+            
+        # Sort by timestamp descending
+        activities.sort(key=lambda x: x['timestamp'], reverse=True)
+        
+        # Take top 10
+        activities = activities[:10]
+        
+        # Format time for display (e.g., "2 hours ago")
+        now = datetime.utcnow()
+        for activity in activities:
+            dt = datetime.fromtimestamp(activity['timestamp'])
+            diff = now - dt
+            
+            if diff.days > 0:
+                activity['time_display'] = f"{diff.days}d ago"
+            elif diff.seconds > 3600:
+                activity['time_display'] = f"{diff.seconds // 3600}h ago"
+            elif diff.seconds > 60:
+                activity['time_display'] = f"{diff.seconds // 60}m ago"
+            else:
+                activity['time_display'] = "Just now"
+                
+        return jsonify({
+            'status': 'success',
+            'data': {
+                'activities': activities
+            }
+        }), 200
+        
+    except Exception as e:
+        current_app.logger.error(f"Error fetching dashboard activities: {str(e)}")
+        current_app.logger.error(traceback.format_exc())
+        return jsonify({
+            'status': 'error',
+            'message': 'Failed to fetch dashboard activities'
         }), 500
 
 @bp.route('/api/manager/team/stats', methods=['GET'])
@@ -121,7 +278,13 @@ def get_team_stats():
             
         attendance_records = attendance_query.all()
         
-        present_today = len([a for a in attendance_records if a.check_in_time.date() == today])
+        # Present today
+        present_today_records = [a for a in attendance_records if a.check_in_time.date() == today]
+        present_today = len(present_today_records)
+        
+        # Late arrivals today (assuming 9:30 AM cutoff)
+        late_limit_time = datetime.strptime('04:00', '%H:%M').time() # 9:30 AM IST is 4:00 AM UTC
+        late_arrivals = len([a for a in present_today_records if a.check_in_time.time() > late_limit_time])
         
         # Get pending leave requests
         leaves_query = LeaveRequest.query.join(Employee).filter(
@@ -145,8 +308,12 @@ def get_team_stats():
             'status': 'success',
             'data': {
                 'total_members': total_members,
+                'total_organization_members': Organization.query.get(organization_id).employees.filter(Employee.is_active==True).count(),
+                'organization_name': Organization.query.get(organization_id).name,
+                'department_name': Department.query.get(manager_department_id).name if manager_department_id else 'All Departments',
                 'present_today': present_today,
                 'pending_leaves': pending_leaves,
+                'late_arrivals': late_arrivals,
                 'attendance_percentage': round(attendance_percentage, 1)
             }
         }), 200
@@ -273,7 +440,8 @@ def approve_leave_request(leave_id):
         
         # Approve the leave
         leave.status = 'approved'
-        leave.approved_by = g.current_user.id
+        from flask_jwt_extended import get_jwt_identity
+        leave.approved_by = get_jwt_identity()
         leave.approval_notes = manager_comments
         
         from app import db
@@ -340,7 +508,8 @@ def reject_leave_request(leave_id):
         
         # Reject the leave
         leave.status = 'rejected'
-        leave.approved_by = g.current_user.id
+        from flask_jwt_extended import get_jwt_identity
+        leave.approved_by = get_jwt_identity()
         leave.approval_notes = manager_comments
         
         from app import db

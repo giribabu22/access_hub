@@ -14,6 +14,7 @@ from .face_embedding import FaceEmbedding
 from .presence_event import PresenceEvent
 from .attendance import AttendanceRecord
 from .leave_request import LeaveRequest
+from .attendance_change_request import AttendanceChangeRequest
 from .audit_log import AuditLog
 from .image import Image
 from .visitor import (
@@ -37,6 +38,7 @@ __all__ = [
     "PresenceEvent",
     "AttendanceRecord",
     "LeaveRequest",
+    "AttendanceChangeRequest",
     "AuditLog",
     "Image",
     "OrganizationVisitor",

@@ -11599,3 +11599,969 @@ NameError: name 'Attendance' is not defined
                          ^^^^^^^^^^
 NameError: name 'Attendance' is not defined
 
+[2026-02-09 13:09:04,857] ERROR in routes: Error fetching employee stats: name 'Attendance' is not defined
+[2026-02-09 13:09:04,905] ERROR in routes: Traceback (most recent call last):
+  File "C:\Users\preml\Desktop\office\AccessHub\backend\app\api\employee\routes.py", line 526, in get_employee_stats_summary
+    attendance_records = Attendance.query.filter(
+                         ^^^^^^^^^^
+NameError: name 'Attendance' is not defined
+
+[2026-02-09 13:09:07,414] ERROR in routes: Error fetching employee stats: name 'Attendance' is not defined
+[2026-02-09 13:09:07,425] ERROR in routes: Traceback (most recent call last):
+  File "C:\Users\preml\Desktop\office\AccessHub\backend\app\api\employee\routes.py", line 526, in get_employee_stats_summary
+    attendance_records = Attendance.query.filter(
+                         ^^^^^^^^^^
+NameError: name 'Attendance' is not defined
+
+[2026-02-09 13:09:11,864] ERROR in routes: Error fetching employee leaves: 'LeaveRequest' object has no attribute 'days_requested'
+[2026-02-09 13:09:11,874] ERROR in routes: Traceback (most recent call last):
+  File "C:\Users\preml\Desktop\office\AccessHub\backend\app\api\employee\routes.py", line 360, in get_employee_leaves
+    'days_requested': leave.days_requested,
+                      ^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'LeaveRequest' object has no attribute 'days_requested'
+
+[2026-02-09 13:09:12,086] ERROR in routes: Error fetching employee leaves: 'LeaveRequest' object has no attribute 'days_requested'
+[2026-02-09 13:09:12,091] ERROR in routes: Traceback (most recent call last):
+  File "C:\Users\preml\Desktop\office\AccessHub\backend\app\api\employee\routes.py", line 360, in get_employee_leaves
+    'days_requested': leave.days_requested,
+                      ^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'LeaveRequest' object has no attribute 'days_requested'
+
+[2026-02-09 13:09:46,814] ERROR in routes: Error applying for leave: name 'Leave' is not defined
+[2026-02-09 13:09:46,826] ERROR in routes: Traceback (most recent call last):
+  File "C:\Users\preml\Desktop\office\AccessHub\backend\app\api\employee\routes.py", line 470, in apply_for_leave
+    new_leave = Leave(
+                ^^^^^
+NameError: name 'Leave' is not defined
+
+[2026-02-09 13:10:07,537] ERROR in routes: Error applying for leave: name 'Leave' is not defined
+[2026-02-09 13:10:07,540] ERROR in routes: Traceback (most recent call last):
+  File "C:\Users\preml\Desktop\office\AccessHub\backend\app\api\employee\routes.py", line 470, in apply_for_leave
+    new_leave = Leave(
+                ^^^^^
+NameError: name 'Leave' is not defined
+
+[2026-02-09 13:10:40,369] ERROR in routes: Error applying for leave: name 'Leave' is not defined
+[2026-02-09 13:10:40,385] ERROR in routes: Traceback (most recent call last):
+  File "C:\Users\preml\Desktop\office\AccessHub\backend\app\api\employee\routes.py", line 470, in apply_for_leave
+    new_leave = Leave(
+                ^^^^^
+NameError: name 'Leave' is not defined
+
+[2026-02-09 13:14:41,031] ERROR in routes: Error fetching employee leaves: 'LeaveRequest' object has no attribute 'days_requested'
+[2026-02-09 13:14:41,034] ERROR in routes: Traceback (most recent call last):
+  File "C:\Users\preml\Desktop\office\AccessHub\backend\app\api\employee\routes.py", line 360, in get_employee_leaves
+    'days_requested': leave.days_requested,
+                      ^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'LeaveRequest' object has no attribute 'days_requested'
+
+[2026-02-09 13:14:41,256] ERROR in routes: Error fetching employee leaves: 'LeaveRequest' object has no attribute 'days_requested'
+[2026-02-09 13:14:41,257] ERROR in routes: Traceback (most recent call last):
+  File "C:\Users\preml\Desktop\office\AccessHub\backend\app\api\employee\routes.py", line 360, in get_employee_leaves
+    'days_requested': leave.days_requested,
+                      ^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'LeaveRequest' object has no attribute 'days_requested'
+
+[2026-02-09 13:14:53,153] ERROR in routes: Error applying for leave: name 'Leave' is not defined
+[2026-02-09 13:14:53,155] ERROR in routes: Traceback (most recent call last):
+  File "C:\Users\preml\Desktop\office\AccessHub\backend\app\api\employee\routes.py", line 470, in apply_for_leave
+    new_leave = Leave(
+                ^^^^^
+NameError: name 'Leave' is not defined
+
+[2026-02-09 13:17:41,721] ERROR in routes: Error fetching employee stats: name 'Attendance' is not defined
+[2026-02-09 13:17:41,734] ERROR in routes: Traceback (most recent call last):
+  File "C:\Users\preml\Desktop\office\AccessHub\backend\app\api\employee\routes.py", line 526, in get_employee_stats_summary
+    attendance_records = Attendance.query.filter(
+                         ^^^^^^^^^^
+NameError: name 'Attendance' is not defined
+
+[2026-02-09 13:17:42,085] ERROR in routes: Error fetching employee stats: name 'Attendance' is not defined
+[2026-02-09 13:17:42,094] ERROR in routes: Traceback (most recent call last):
+  File "C:\Users\preml\Desktop\office\AccessHub\backend\app\api\employee\routes.py", line 526, in get_employee_stats_summary
+    attendance_records = Attendance.query.filter(
+                         ^^^^^^^^^^
+NameError: name 'Attendance' is not defined
+
+[2026-02-09 13:17:57,758] ERROR in routes: Error fetching employee leaves: Could not determine join condition between parent/child tables on relationship AttendanceChangeRequest.attendance_record - there are multiple foreign key paths linking the tables.  Specify the 'foreign_keys' argument, providing a list of those columns which should be counted as containing a foreign key reference to the parent table.
+[2026-02-09 13:17:57,759] ERROR in routes: Error fetching employee stats: One or more mappers failed to initialize - can't proceed with initialization of other mappers. Triggering mapper: 'Mapper[AttendanceChangeRequest(attendance_change_requests)]'. Original exception was: Could not determine join condition between parent/child tables on relationship AttendanceChangeRequest.attendance_record - there are multiple foreign key paths linking the tables.  Specify the 'foreign_keys' argument, providing a list of those columns which should be counted as containing a foreign key reference to the parent table.
+[2026-02-09 13:17:57,760] ERROR in routes: Error fetching today's attendance: One or more mappers failed to initialize - can't proceed with initialization of other mappers. Triggering mapper: 'Mapper[AttendanceChangeRequest(attendance_change_requests)]'. Original exception was: Could not determine join condition between parent/child tables on relationship AttendanceChangeRequest.attendance_record - there are multiple foreign key paths linking the tables.  Specify the 'foreign_keys' argument, providing a list of those columns which should be counted as containing a foreign key reference to the parent table.
+[2026-02-09 13:17:57,760] ERROR in routes: Error fetching employee profile: One or more mappers failed to initialize - can't proceed with initialization of other mappers. Triggering mapper: 'Mapper[AttendanceChangeRequest(attendance_change_requests)]'. Original exception was: Could not determine join condition between parent/child tables on relationship AttendanceChangeRequest.attendance_record - there are multiple foreign key paths linking the tables.  Specify the 'foreign_keys' argument, providing a list of those columns which should be counted as containing a foreign key reference to the parent table.
+[2026-02-09 13:17:57,823] ERROR in routes: Traceback (most recent call last):
+  File "C:\Users\preml\Desktop\office\AccessHub\backend\app\api\employee\routes.py", line 513, in get_employee_stats_summary
+    employee = Employee.query.filter_by(user_id=user_id, is_active=True).first()
+               ^^^^^^^^^^^^^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask_sqlalchemy\model.py", line 22, in __get__
+    return cls.query_class(
+           ~~~~~~~~~~~~~~~^
+        cls, session=cls.__fsa__.session()  # type: ignore[arg-type]
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\query.py", line 276, in __init__
+    self._set_entities(entities)
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\query.py", line 289, in _set_entities
+    coercions.expect(
+    ~~~~~~~~~~~~~~~~^
+        roles.ColumnsClauseRole,
+        ^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<2 lines>...
+        post_inspect=True,
+        ^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\sql\coercions.py", line 388, in expect
+    insp._post_inspect
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\util\langhelpers.py", line 1338, in __get__
+    obj.__dict__[self.__name__] = result = self.fget(obj)
+                                           ~~~~~~~~~^^^^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\mapper.py", line 2724, in _post_inspect
+    self._check_configure()
+    ~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\mapper.py", line 2401, in _check_configure
+    _configure_registries({self.registry}, cascade=True)
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\mapper.py", line 4218, in _configure_registries
+    _do_configure_registries(registries, cascade)
+    ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\mapper.py", line 4255, in _do_configure_registries
+    raise e
+sqlalchemy.exc.InvalidRequestError: One or more mappers failed to initialize - can't proceed with initialization of other mappers. Triggering mapper: 'Mapper[AttendanceChangeRequest(attendance_change_requests)]'. Original exception was: Could not determine join condition between parent/child tables on relationship AttendanceChangeRequest.attendance_record - there are multiple foreign key paths linking the tables.  Specify the 'foreign_keys' argument, providing a list of those columns which should be counted as containing a foreign key reference to the parent table.
+
+[2026-02-09 13:17:57,843] ERROR in routes: Traceback (most recent call last):
+  File "C:\Users\preml\Desktop\office\AccessHub\backend\app\api\employee\routes.py", line 173, in get_today_attendance
+    employee = Employee.query.filter_by(user_id=user_id, is_active=True).first()
+               ^^^^^^^^^^^^^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask_sqlalchemy\model.py", line 22, in __get__
+    return cls.query_class(
+           ~~~~~~~~~~~~~~~^
+        cls, session=cls.__fsa__.session()  # type: ignore[arg-type]
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\query.py", line 276, in __init__
+    self._set_entities(entities)
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\query.py", line 289, in _set_entities
+    coercions.expect(
+    ~~~~~~~~~~~~~~~~^
+        roles.ColumnsClauseRole,
+        ^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<2 lines>...
+        post_inspect=True,
+        ^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\sql\coercions.py", line 388, in expect
+    insp._post_inspect
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\util\langhelpers.py", line 1338, in __get__
+    obj.__dict__[self.__name__] = result = self.fget(obj)
+                                           ~~~~~~~~~^^^^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\mapper.py", line 2724, in _post_inspect
+    self._check_configure()
+    ~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\mapper.py", line 2401, in _check_configure
+    _configure_registries({self.registry}, cascade=True)
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\mapper.py", line 4218, in _configure_registries
+    _do_configure_registries(registries, cascade)
+    ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\mapper.py", line 4255, in _do_configure_registries
+    raise e
+sqlalchemy.exc.InvalidRequestError: One or more mappers failed to initialize - can't proceed with initialization of other mappers. Triggering mapper: 'Mapper[AttendanceChangeRequest(attendance_change_requests)]'. Original exception was: Could not determine join condition between parent/child tables on relationship AttendanceChangeRequest.attendance_record - there are multiple foreign key paths linking the tables.  Specify the 'foreign_keys' argument, providing a list of those columns which should be counted as containing a foreign key reference to the parent table.
+
+[2026-02-09 13:17:57,855] ERROR in routes: Traceback (most recent call last):
+  File "C:\Users\preml\Desktop\office\AccessHub\backend\app\api\employee\routes.py", line 80, in get_employee_profile
+    employee = Employee.query.filter_by(user_id=user_id, is_active=True).first()
+               ^^^^^^^^^^^^^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask_sqlalchemy\model.py", line 22, in __get__
+    return cls.query_class(
+           ~~~~~~~~~~~~~~~^
+        cls, session=cls.__fsa__.session()  # type: ignore[arg-type]
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\query.py", line 276, in __init__
+    self._set_entities(entities)
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\query.py", line 289, in _set_entities
+    coercions.expect(
+    ~~~~~~~~~~~~~~~~^
+        roles.ColumnsClauseRole,
+        ^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<2 lines>...
+        post_inspect=True,
+        ^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\sql\coercions.py", line 388, in expect
+    insp._post_inspect
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\util\langhelpers.py", line 1338, in __get__
+    obj.__dict__[self.__name__] = result = self.fget(obj)
+                                           ~~~~~~~~~^^^^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\mapper.py", line 2724, in _post_inspect
+    self._check_configure()
+    ~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\mapper.py", line 2401, in _check_configure
+    _configure_registries({self.registry}, cascade=True)
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\mapper.py", line 4218, in _configure_registries
+    _do_configure_registries(registries, cascade)
+    ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\mapper.py", line 4255, in _do_configure_registries
+    raise e
+sqlalchemy.exc.InvalidRequestError: One or more mappers failed to initialize - can't proceed with initialization of other mappers. Triggering mapper: 'Mapper[AttendanceChangeRequest(attendance_change_requests)]'. Original exception was: Could not determine join condition between parent/child tables on relationship AttendanceChangeRequest.attendance_record - there are multiple foreign key paths linking the tables.  Specify the 'foreign_keys' argument, providing a list of those columns which should be counted as containing a foreign key reference to the parent table.
+
+[2026-02-09 13:17:57,934] ERROR in routes: Traceback (most recent call last):
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\relationships.py", line 2434, in _determine_joins
+    self.primaryjoin = join_condition(
+                       ~~~~~~~~~~~~~~^
+        self.parent_persist_selectable,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<2 lines>...
+        consider_as_foreign_keys=consider_as_foreign_keys,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\sql\util.py", line 121, in join_condition
+    return Join._join_condition(
+           ~~~~~~~~~~~~~~~~~~~~^
+        a,
+        ^^
+    ...<2 lines>...
+        consider_as_foreign_keys=consider_as_foreign_keys,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\sql\selectable.py", line 1435, in _join_condition
+    cls._joincond_trim_constraints(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        a, b, constraints, consider_as_foreign_keys
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\sql\selectable.py", line 1580, in _joincond_trim_constraints
+    raise exc.AmbiguousForeignKeysError(
+    ...<5 lines>...
+    )
+sqlalchemy.exc.AmbiguousForeignKeysError: Can't determine join between 'attendance_change_requests' and 'attendance_records'; tables have more than one foreign key constraint relationship between them. Please specify the 'onclause' of this join explicitly.
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\preml\Desktop\office\AccessHub\backend\app\api\employee\routes.py", line 335, in get_employee_leaves
+    employee = Employee.query.filter_by(user_id=user_id, is_active=True).first()
+               ^^^^^^^^^^^^^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask_sqlalchemy\model.py", line 22, in __get__
+    return cls.query_class(
+           ~~~~~~~~~~~~~~~^
+        cls, session=cls.__fsa__.session()  # type: ignore[arg-type]
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\query.py", line 276, in __init__
+    self._set_entities(entities)
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\query.py", line 289, in _set_entities
+    coercions.expect(
+    ~~~~~~~~~~~~~~~~^
+        roles.ColumnsClauseRole,
+        ^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<2 lines>...
+        post_inspect=True,
+        ^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\sql\coercions.py", line 388, in expect
+    insp._post_inspect
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\util\langhelpers.py", line 1338, in __get__
+    obj.__dict__[self.__name__] = result = self.fget(obj)
+                                           ~~~~~~~~~^^^^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\mapper.py", line 2724, in _post_inspect
+    self._check_configure()
+    ~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\mapper.py", line 2401, in _check_configure
+    _configure_registries({self.registry}, cascade=True)
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\mapper.py", line 4218, in _configure_registries
+    _do_configure_registries(registries, cascade)
+    ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\mapper.py", line 4259, in _do_configure_registries
+    mapper._post_configure_properties()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\mapper.py", line 2418, in _post_configure_properties
+    prop.init()
+    ~~~~~~~~~^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\interfaces.py", line 595, in init
+    self.do_init()
+    ~~~~~~~~~~~~^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\relationships.py", line 1657, in do_init
+    self._setup_join_conditions()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\relationships.py", line 1895, in _setup_join_conditions
+    self._join_condition = jc = JoinCondition(
+                                ~~~~~~~~~~~~~^
+        parent_persist_selectable=self.parent.persist_selectable,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<14 lines>...
+        can_be_synced_fn=self._columns_are_mapped,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\relationships.py", line 2321, in __init__
+    self._determine_joins()
+    ~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\relationships.py", line 2478, in _determine_joins
+    raise sa_exc.AmbiguousForeignKeysError(
+    ...<7 lines>...
+    ) from afe
+sqlalchemy.exc.AmbiguousForeignKeysError: Could not determine join condition between parent/child tables on relationship AttendanceChangeRequest.attendance_record - there are multiple foreign key paths linking the tables.  Specify the 'foreign_keys' argument, providing a list of those columns which should be counted as containing a foreign key reference to the parent table.
+
+[2026-02-09 13:17:58,169] ERROR in routes: Error fetching employee stats: One or more mappers failed to initialize - can't proceed with initialization of other mappers. Triggering mapper: 'Mapper[AttendanceChangeRequest(attendance_change_requests)]'. Original exception was: Could not determine join condition between parent/child tables on relationship AttendanceChangeRequest.attendance_record - there are multiple foreign key paths linking the tables.  Specify the 'foreign_keys' argument, providing a list of those columns which should be counted as containing a foreign key reference to the parent table.
+[2026-02-09 13:17:58,195] ERROR in routes: Traceback (most recent call last):
+  File "C:\Users\preml\Desktop\office\AccessHub\backend\app\api\employee\routes.py", line 513, in get_employee_stats_summary
+    employee = Employee.query.filter_by(user_id=user_id, is_active=True).first()
+               ^^^^^^^^^^^^^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask_sqlalchemy\model.py", line 22, in __get__
+    return cls.query_class(
+           ~~~~~~~~~~~~~~~^
+        cls, session=cls.__fsa__.session()  # type: ignore[arg-type]
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\query.py", line 276, in __init__
+    self._set_entities(entities)
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\query.py", line 289, in _set_entities
+    coercions.expect(
+    ~~~~~~~~~~~~~~~~^
+        roles.ColumnsClauseRole,
+        ^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<2 lines>...
+        post_inspect=True,
+        ^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\sql\coercions.py", line 388, in expect
+    insp._post_inspect
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\util\langhelpers.py", line 1338, in __get__
+    obj.__dict__[self.__name__] = result = self.fget(obj)
+                                           ~~~~~~~~~^^^^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\mapper.py", line 2724, in _post_inspect
+    self._check_configure()
+    ~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\mapper.py", line 2401, in _check_configure
+    _configure_registries({self.registry}, cascade=True)
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\mapper.py", line 4218, in _configure_registries
+    _do_configure_registries(registries, cascade)
+    ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\mapper.py", line 4255, in _do_configure_registries
+    raise e
+sqlalchemy.exc.InvalidRequestError: One or more mappers failed to initialize - can't proceed with initialization of other mappers. Triggering mapper: 'Mapper[AttendanceChangeRequest(attendance_change_requests)]'. Original exception was: Could not determine join condition between parent/child tables on relationship AttendanceChangeRequest.attendance_record - there are multiple foreign key paths linking the tables.  Specify the 'foreign_keys' argument, providing a list of those columns which should be counted as containing a foreign key reference to the parent table.
+
+[2026-02-09 13:17:58,232] ERROR in routes: Error fetching today's attendance: One or more mappers failed to initialize - can't proceed with initialization of other mappers. Triggering mapper: 'Mapper[AttendanceChangeRequest(attendance_change_requests)]'. Original exception was: Could not determine join condition between parent/child tables on relationship AttendanceChangeRequest.attendance_record - there are multiple foreign key paths linking the tables.  Specify the 'foreign_keys' argument, providing a list of those columns which should be counted as containing a foreign key reference to the parent table.
+[2026-02-09 13:17:58,241] ERROR in routes: Error fetching employee profile: One or more mappers failed to initialize - can't proceed with initialization of other mappers. Triggering mapper: 'Mapper[AttendanceChangeRequest(attendance_change_requests)]'. Original exception was: Could not determine join condition between parent/child tables on relationship AttendanceChangeRequest.attendance_record - there are multiple foreign key paths linking the tables.  Specify the 'foreign_keys' argument, providing a list of those columns which should be counted as containing a foreign key reference to the parent table.
+[2026-02-09 13:17:58,252] ERROR in routes: Traceback (most recent call last):
+  File "C:\Users\preml\Desktop\office\AccessHub\backend\app\api\employee\routes.py", line 173, in get_today_attendance
+    employee = Employee.query.filter_by(user_id=user_id, is_active=True).first()
+               ^^^^^^^^^^^^^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask_sqlalchemy\model.py", line 22, in __get__
+    return cls.query_class(
+           ~~~~~~~~~~~~~~~^
+        cls, session=cls.__fsa__.session()  # type: ignore[arg-type]
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\query.py", line 276, in __init__
+    self._set_entities(entities)
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\query.py", line 289, in _set_entities
+    coercions.expect(
+    ~~~~~~~~~~~~~~~~^
+        roles.ColumnsClauseRole,
+        ^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<2 lines>...
+        post_inspect=True,
+        ^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\sql\coercions.py", line 388, in expect
+    insp._post_inspect
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\util\langhelpers.py", line 1338, in __get__
+    obj.__dict__[self.__name__] = result = self.fget(obj)
+                                           ~~~~~~~~~^^^^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\mapper.py", line 2724, in _post_inspect
+    self._check_configure()
+    ~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\mapper.py", line 2401, in _check_configure
+    _configure_registries({self.registry}, cascade=True)
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\mapper.py", line 4218, in _configure_registries
+    _do_configure_registries(registries, cascade)
+    ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\mapper.py", line 4255, in _do_configure_registries
+    raise e
+sqlalchemy.exc.InvalidRequestError: One or more mappers failed to initialize - can't proceed with initialization of other mappers. Triggering mapper: 'Mapper[AttendanceChangeRequest(attendance_change_requests)]'. Original exception was: Could not determine join condition between parent/child tables on relationship AttendanceChangeRequest.attendance_record - there are multiple foreign key paths linking the tables.  Specify the 'foreign_keys' argument, providing a list of those columns which should be counted as containing a foreign key reference to the parent table.
+
+[2026-02-09 13:17:58,257] ERROR in routes: Traceback (most recent call last):
+  File "C:\Users\preml\Desktop\office\AccessHub\backend\app\api\employee\routes.py", line 80, in get_employee_profile
+    employee = Employee.query.filter_by(user_id=user_id, is_active=True).first()
+               ^^^^^^^^^^^^^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask_sqlalchemy\model.py", line 22, in __get__
+    return cls.query_class(
+           ~~~~~~~~~~~~~~~^
+        cls, session=cls.__fsa__.session()  # type: ignore[arg-type]
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\query.py", line 276, in __init__
+    self._set_entities(entities)
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\query.py", line 289, in _set_entities
+    coercions.expect(
+    ~~~~~~~~~~~~~~~~^
+        roles.ColumnsClauseRole,
+        ^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<2 lines>...
+        post_inspect=True,
+        ^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\sql\coercions.py", line 388, in expect
+    insp._post_inspect
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\util\langhelpers.py", line 1338, in __get__
+    obj.__dict__[self.__name__] = result = self.fget(obj)
+                                           ~~~~~~~~~^^^^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\mapper.py", line 2724, in _post_inspect
+    self._check_configure()
+    ~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\mapper.py", line 2401, in _check_configure
+    _configure_registries({self.registry}, cascade=True)
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\mapper.py", line 4218, in _configure_registries
+    _do_configure_registries(registries, cascade)
+    ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\mapper.py", line 4255, in _do_configure_registries
+    raise e
+sqlalchemy.exc.InvalidRequestError: One or more mappers failed to initialize - can't proceed with initialization of other mappers. Triggering mapper: 'Mapper[AttendanceChangeRequest(attendance_change_requests)]'. Original exception was: Could not determine join condition between parent/child tables on relationship AttendanceChangeRequest.attendance_record - there are multiple foreign key paths linking the tables.  Specify the 'foreign_keys' argument, providing a list of those columns which should be counted as containing a foreign key reference to the parent table.
+
+[2026-02-09 13:17:58,293] ERROR in routes: Error fetching employee leaves: One or more mappers failed to initialize - can't proceed with initialization of other mappers. Triggering mapper: 'Mapper[AttendanceChangeRequest(attendance_change_requests)]'. Original exception was: Could not determine join condition between parent/child tables on relationship AttendanceChangeRequest.attendance_record - there are multiple foreign key paths linking the tables.  Specify the 'foreign_keys' argument, providing a list of those columns which should be counted as containing a foreign key reference to the parent table.
+[2026-02-09 13:17:58,303] ERROR in routes: Traceback (most recent call last):
+  File "C:\Users\preml\Desktop\office\AccessHub\backend\app\api\employee\routes.py", line 335, in get_employee_leaves
+    employee = Employee.query.filter_by(user_id=user_id, is_active=True).first()
+               ^^^^^^^^^^^^^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask_sqlalchemy\model.py", line 22, in __get__
+    return cls.query_class(
+           ~~~~~~~~~~~~~~~^
+        cls, session=cls.__fsa__.session()  # type: ignore[arg-type]
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\query.py", line 276, in __init__
+    self._set_entities(entities)
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\query.py", line 289, in _set_entities
+    coercions.expect(
+    ~~~~~~~~~~~~~~~~^
+        roles.ColumnsClauseRole,
+        ^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<2 lines>...
+        post_inspect=True,
+        ^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\sql\coercions.py", line 388, in expect
+    insp._post_inspect
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\util\langhelpers.py", line 1338, in __get__
+    obj.__dict__[self.__name__] = result = self.fget(obj)
+                                           ~~~~~~~~~^^^^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\mapper.py", line 2724, in _post_inspect
+    self._check_configure()
+    ~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\mapper.py", line 2401, in _check_configure
+    _configure_registries({self.registry}, cascade=True)
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\mapper.py", line 4218, in _configure_registries
+    _do_configure_registries(registries, cascade)
+    ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\mapper.py", line 4255, in _do_configure_registries
+    raise e
+sqlalchemy.exc.InvalidRequestError: One or more mappers failed to initialize - can't proceed with initialization of other mappers. Triggering mapper: 'Mapper[AttendanceChangeRequest(attendance_change_requests)]'. Original exception was: Could not determine join condition between parent/child tables on relationship AttendanceChangeRequest.attendance_record - there are multiple foreign key paths linking the tables.  Specify the 'foreign_keys' argument, providing a list of those columns which should be counted as containing a foreign key reference to the parent table.
+
+[2026-02-09 13:17:58,408] ERROR in errors: Database error: One or more mappers failed to initialize - can't proceed with initialization of other mappers. Triggering mapper: 'Mapper[AttendanceChangeRequest(attendance_change_requests)]'. Original exception was: Could not determine join condition between parent/child tables on relationship AttendanceChangeRequest.attendance_record - there are multiple foreign key paths linking the tables.  Specify the 'foreign_keys' argument, providing a list of those columns which should be counted as containing a foreign key reference to the parent table.
+[2026-02-09 13:17:58,473] ERROR in errors: Database error: One or more mappers failed to initialize - can't proceed with initialization of other mappers. Triggering mapper: 'Mapper[AttendanceChangeRequest(attendance_change_requests)]'. Original exception was: Could not determine join condition between parent/child tables on relationship AttendanceChangeRequest.attendance_record - there are multiple foreign key paths linking the tables.  Specify the 'foreign_keys' argument, providing a list of those columns which should be counted as containing a foreign key reference to the parent table.
+[2026-02-09 13:18:06,258] ERROR in errors: Database error: One or more mappers failed to initialize - can't proceed with initialization of other mappers. Triggering mapper: 'Mapper[AttendanceChangeRequest(attendance_change_requests)]'. Original exception was: Could not determine join condition between parent/child tables on relationship AttendanceChangeRequest.attendance_record - there are multiple foreign key paths linking the tables.  Specify the 'foreign_keys' argument, providing a list of those columns which should be counted as containing a foreign key reference to the parent table.
+[2026-02-09 13:18:06,588] ERROR in errors: Database error: One or more mappers failed to initialize - can't proceed with initialization of other mappers. Triggering mapper: 'Mapper[AttendanceChangeRequest(attendance_change_requests)]'. Original exception was: Could not determine join condition between parent/child tables on relationship AttendanceChangeRequest.attendance_record - there are multiple foreign key paths linking the tables.  Specify the 'foreign_keys' argument, providing a list of those columns which should be counted as containing a foreign key reference to the parent table.
+[2026-02-09 13:18:11,541] ERROR in errors: Database error: One or more mappers failed to initialize - can't proceed with initialization of other mappers. Triggering mapper: 'Mapper[AttendanceChangeRequest(attendance_change_requests)]'. Original exception was: Could not determine join condition between parent/child tables on relationship AttendanceChangeRequest.attendance_record - there are multiple foreign key paths linking the tables.  Specify the 'foreign_keys' argument, providing a list of those columns which should be counted as containing a foreign key reference to the parent table.
+[2026-02-09 13:23:16,558] ERROR in routes: Unhandled error in auth login
+Traceback (most recent call last):
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\relationships.py", line 2434, in _determine_joins
+    self.primaryjoin = join_condition(
+                       ~~~~~~~~~~~~~~^
+        self.parent_persist_selectable,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<2 lines>...
+        consider_as_foreign_keys=consider_as_foreign_keys,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\sql\util.py", line 121, in join_condition
+    return Join._join_condition(
+           ~~~~~~~~~~~~~~~~~~~~^
+        a,
+        ^^
+    ...<2 lines>...
+        consider_as_foreign_keys=consider_as_foreign_keys,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\sql\selectable.py", line 1435, in _join_condition
+    cls._joincond_trim_constraints(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        a, b, constraints, consider_as_foreign_keys
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\sql\selectable.py", line 1580, in _joincond_trim_constraints
+    raise exc.AmbiguousForeignKeysError(
+    ...<5 lines>...
+    )
+sqlalchemy.exc.AmbiguousForeignKeysError: Can't determine join between 'attendance_change_requests' and 'attendance_records'; tables have more than one foreign key constraint relationship between them. Please specify the 'onclause' of this join explicitly.
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\preml\Desktop\office\AccessHub\backend\app\api\auth\routes.py", line 130, in login
+    result = AuthService.login(
+        username_or_email=data['username'],
+        password=data['password']
+    )
+  File "C:\Users\preml\Desktop\office\AccessHub\backend\app\services\auth_service.py", line 33, in login
+    user = User.query.filter(
+           ^^^^^^^^^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask_sqlalchemy\model.py", line 22, in __get__
+    return cls.query_class(
+           ~~~~~~~~~~~~~~~^
+        cls, session=cls.__fsa__.session()  # type: ignore[arg-type]
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\query.py", line 276, in __init__
+    self._set_entities(entities)
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\query.py", line 289, in _set_entities
+    coercions.expect(
+    ~~~~~~~~~~~~~~~~^
+        roles.ColumnsClauseRole,
+        ^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<2 lines>...
+        post_inspect=True,
+        ^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\sql\coercions.py", line 388, in expect
+    insp._post_inspect
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\util\langhelpers.py", line 1338, in __get__
+    obj.__dict__[self.__name__] = result = self.fget(obj)
+                                           ~~~~~~~~~^^^^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\mapper.py", line 2724, in _post_inspect
+    self._check_configure()
+    ~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\mapper.py", line 2401, in _check_configure
+    _configure_registries({self.registry}, cascade=True)
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\mapper.py", line 4218, in _configure_registries
+    _do_configure_registries(registries, cascade)
+    ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\mapper.py", line 4259, in _do_configure_registries
+    mapper._post_configure_properties()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\mapper.py", line 2418, in _post_configure_properties
+    prop.init()
+    ~~~~~~~~~^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\interfaces.py", line 595, in init
+    self.do_init()
+    ~~~~~~~~~~~~^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\relationships.py", line 1657, in do_init
+    self._setup_join_conditions()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\relationships.py", line 1895, in _setup_join_conditions
+    self._join_condition = jc = JoinCondition(
+                                ~~~~~~~~~~~~~^
+        parent_persist_selectable=self.parent.persist_selectable,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<14 lines>...
+        can_be_synced_fn=self._columns_are_mapped,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\relationships.py", line 2321, in __init__
+    self._determine_joins()
+    ~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\relationships.py", line 2478, in _determine_joins
+    raise sa_exc.AmbiguousForeignKeysError(
+    ...<7 lines>...
+    ) from afe
+sqlalchemy.exc.AmbiguousForeignKeysError: Could not determine join condition between parent/child tables on relationship AttendanceChangeRequest.attendance_record - there are multiple foreign key paths linking the tables.  Specify the 'foreign_keys' argument, providing a list of those columns which should be counted as containing a foreign key reference to the parent table.
+[2026-02-09 13:23:22,773] ERROR in routes: Unhandled error in auth login
+Traceback (most recent call last):
+  File "C:\Users\preml\Desktop\office\AccessHub\backend\app\api\auth\routes.py", line 130, in login
+    result = AuthService.login(
+        username_or_email=data['username'],
+        password=data['password']
+    )
+  File "C:\Users\preml\Desktop\office\AccessHub\backend\app\services\auth_service.py", line 33, in login
+    user = User.query.filter(
+           ^^^^^^^^^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask_sqlalchemy\model.py", line 22, in __get__
+    return cls.query_class(
+           ~~~~~~~~~~~~~~~^
+        cls, session=cls.__fsa__.session()  # type: ignore[arg-type]
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\query.py", line 276, in __init__
+    self._set_entities(entities)
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\query.py", line 289, in _set_entities
+    coercions.expect(
+    ~~~~~~~~~~~~~~~~^
+        roles.ColumnsClauseRole,
+        ^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<2 lines>...
+        post_inspect=True,
+        ^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\sql\coercions.py", line 388, in expect
+    insp._post_inspect
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\util\langhelpers.py", line 1338, in __get__
+    obj.__dict__[self.__name__] = result = self.fget(obj)
+                                           ~~~~~~~~~^^^^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\mapper.py", line 2724, in _post_inspect
+    self._check_configure()
+    ~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\mapper.py", line 2401, in _check_configure
+    _configure_registries({self.registry}, cascade=True)
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\mapper.py", line 4218, in _configure_registries
+    _do_configure_registries(registries, cascade)
+    ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\mapper.py", line 4255, in _do_configure_registries
+    raise e
+sqlalchemy.exc.InvalidRequestError: One or more mappers failed to initialize - can't proceed with initialization of other mappers. Triggering mapper: 'Mapper[AttendanceChangeRequest(attendance_change_requests)]'. Original exception was: Could not determine join condition between parent/child tables on relationship AttendanceChangeRequest.attendance_record - there are multiple foreign key paths linking the tables.  Specify the 'foreign_keys' argument, providing a list of those columns which should be counted as containing a foreign key reference to the parent table.
+[2026-02-09 13:25:04,308] ERROR in routes: Unhandled error in auth login
+Traceback (most recent call last):
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\relationships.py", line 2434, in _determine_joins
+    self.primaryjoin = join_condition(
+                       ~~~~~~~~~~~~~~^
+        self.parent_persist_selectable,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<2 lines>...
+        consider_as_foreign_keys=consider_as_foreign_keys,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\sql\util.py", line 121, in join_condition
+    return Join._join_condition(
+           ~~~~~~~~~~~~~~~~~~~~^
+        a,
+        ^^
+    ...<2 lines>...
+        consider_as_foreign_keys=consider_as_foreign_keys,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\sql\selectable.py", line 1435, in _join_condition
+    cls._joincond_trim_constraints(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        a, b, constraints, consider_as_foreign_keys
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\sql\selectable.py", line 1580, in _joincond_trim_constraints
+    raise exc.AmbiguousForeignKeysError(
+    ...<5 lines>...
+    )
+sqlalchemy.exc.AmbiguousForeignKeysError: Can't determine join between 'attendance_change_requests' and 'attendance_records'; tables have more than one foreign key constraint relationship between them. Please specify the 'onclause' of this join explicitly.
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\preml\Desktop\office\AccessHub\backend\app\api\auth\routes.py", line 130, in login
+    result = AuthService.login(
+        username_or_email=data['username'],
+        password=data['password']
+    )
+  File "C:\Users\preml\Desktop\office\AccessHub\backend\app\services\auth_service.py", line 33, in login
+    user = User.query.filter(
+           ^^^^^^^^^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask_sqlalchemy\model.py", line 22, in __get__
+    return cls.query_class(
+           ~~~~~~~~~~~~~~~^
+        cls, session=cls.__fsa__.session()  # type: ignore[arg-type]
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\query.py", line 276, in __init__
+    self._set_entities(entities)
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\query.py", line 289, in _set_entities
+    coercions.expect(
+    ~~~~~~~~~~~~~~~~^
+        roles.ColumnsClauseRole,
+        ^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<2 lines>...
+        post_inspect=True,
+        ^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\sql\coercions.py", line 388, in expect
+    insp._post_inspect
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\util\langhelpers.py", line 1338, in __get__
+    obj.__dict__[self.__name__] = result = self.fget(obj)
+                                           ~~~~~~~~~^^^^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\mapper.py", line 2724, in _post_inspect
+    self._check_configure()
+    ~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\mapper.py", line 2401, in _check_configure
+    _configure_registries({self.registry}, cascade=True)
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\mapper.py", line 4218, in _configure_registries
+    _do_configure_registries(registries, cascade)
+    ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\mapper.py", line 4259, in _do_configure_registries
+    mapper._post_configure_properties()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\mapper.py", line 2418, in _post_configure_properties
+    prop.init()
+    ~~~~~~~~~^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\interfaces.py", line 595, in init
+    self.do_init()
+    ~~~~~~~~~~~~^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\relationships.py", line 1657, in do_init
+    self._setup_join_conditions()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\relationships.py", line 1895, in _setup_join_conditions
+    self._join_condition = jc = JoinCondition(
+                                ~~~~~~~~~~~~~^
+        parent_persist_selectable=self.parent.persist_selectable,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<14 lines>...
+        can_be_synced_fn=self._columns_are_mapped,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\relationships.py", line 2321, in __init__
+    self._determine_joins()
+    ~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\relationships.py", line 2478, in _determine_joins
+    raise sa_exc.AmbiguousForeignKeysError(
+    ...<7 lines>...
+    ) from afe
+sqlalchemy.exc.AmbiguousForeignKeysError: Could not determine join condition between parent/child tables on relationship AttendanceChangeRequest.attendance_record - there are multiple foreign key paths linking the tables.  Specify the 'foreign_keys' argument, providing a list of those columns which should be counted as containing a foreign key reference to the parent table.
+[2026-02-09 13:27:40,962] ERROR in routes: Error fetching employee stats: name 'Attendance' is not defined
+[2026-02-09 13:27:40,968] ERROR in routes: Traceback (most recent call last):
+  File "C:\Users\preml\Desktop\office\AccessHub\backend\app\api\employee\routes.py", line 526, in get_employee_stats_summary
+    attendance_records = Attendance.query.filter(
+                         ^^^^^^^^^^
+NameError: name 'Attendance' is not defined
+
+[2026-02-09 13:27:41,163] ERROR in routes: Error fetching employee stats: name 'Attendance' is not defined
+[2026-02-09 13:27:41,166] ERROR in routes: Traceback (most recent call last):
+  File "C:\Users\preml\Desktop\office\AccessHub\backend\app\api\employee\routes.py", line 526, in get_employee_stats_summary
+    attendance_records = Attendance.query.filter(
+                         ^^^^^^^^^^
+NameError: name 'Attendance' is not defined
+
+[2026-02-09 13:27:57,325] ERROR in routes: Error fetching employee leaves: 'LeaveRequest' object has no attribute 'days_requested'
+[2026-02-09 13:27:57,329] ERROR in routes: Traceback (most recent call last):
+  File "C:\Users\preml\Desktop\office\AccessHub\backend\app\api\employee\routes.py", line 360, in get_employee_leaves
+    'days_requested': leave.days_requested,
+                      ^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'LeaveRequest' object has no attribute 'days_requested'
+
+[2026-02-09 13:27:57,667] ERROR in routes: Error fetching employee leaves: 'LeaveRequest' object has no attribute 'days_requested'
+[2026-02-09 13:27:57,670] ERROR in routes: Traceback (most recent call last):
+  File "C:\Users\preml\Desktop\office\AccessHub\backend\app\api\employee\routes.py", line 360, in get_employee_leaves
+    'days_requested': leave.days_requested,
+                      ^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'LeaveRequest' object has no attribute 'days_requested'
+
+[2026-02-09 13:28:14,261] ERROR in routes: Error applying for leave: name 'Leave' is not defined
+[2026-02-09 13:28:14,264] ERROR in routes: Traceback (most recent call last):
+  File "C:\Users\preml\Desktop\office\AccessHub\backend\app\api\employee\routes.py", line 470, in apply_for_leave
+    new_leave = Leave(
+                ^^^^^
+NameError: name 'Leave' is not defined
+
+[2026-02-09 13:28:23,266] ERROR in routes: Error applying for leave: name 'Leave' is not defined
+[2026-02-09 13:28:23,267] ERROR in routes: Traceback (most recent call last):
+  File "C:\Users\preml\Desktop\office\AccessHub\backend\app\api\employee\routes.py", line 470, in apply_for_leave
+    new_leave = Leave(
+                ^^^^^
+NameError: name 'Leave' is not defined
+
+[2026-02-09 13:37:15,914] ERROR in routes: Error fetching employee stats: 'Employee' object has no attribute 'employee_id'
+[2026-02-09 13:37:15,921] ERROR in routes: Traceback (most recent call last):
+  File "C:\Users\preml\Desktop\office\AccessHub\backend\app\api\employee\routes.py", line 568, in get_employee_stats_summary
+    'employee_id': employee.employee_id,
+                   ^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'Employee' object has no attribute 'employee_id'. Did you mean: 'employee_code'?
+
+[2026-02-09 13:37:16,067] ERROR in routes: Error fetching employee stats: 'Employee' object has no attribute 'employee_id'
+[2026-02-09 13:37:16,070] ERROR in routes: Traceback (most recent call last):
+  File "C:\Users\preml\Desktop\office\AccessHub\backend\app\api\employee\routes.py", line 568, in get_employee_stats_summary
+    'employee_id': employee.employee_id,
+                   ^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'Employee' object has no attribute 'employee_id'. Did you mean: 'employee_code'?
+
+[2026-02-09 13:43:21,561] ERROR in errors: Unhandled exception: 'Employee' object is not iterable
+Traceback (most recent call last):
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask_jwt_extended\view_decorators.py", line 170, in decorator
+    return current_app.ensure_sync(fn)(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\preml\Desktop\office\AccessHub\backend\app\utils\decorators.py", line 93, in wrapper
+    return fn(*args, **kwargs)
+  File "C:\Users\preml\Desktop\office\AccessHub\backend\app\utils\helpers.py", line 159, in decorated_function
+    return f(*args, **kwargs)
+  File "C:\Users\preml\Desktop\office\AccessHub\backend\app\api\leaves\routes.py", line 217, in list_leave_requests
+    result = paginate(query, page, per_page, LeaveRequestSchema)
+  File "C:\Users\preml\Desktop\office\AccessHub\backend\app\utils\helpers.py", line 75, in paginate
+    processed_items.append(schema().dump(item))
+                           ~~~~~~~~~~~~~^^^^^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\marshmallow\schema.py", line 549, in dump
+    result = self._serialize(processed_obj, many=many)
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\marshmallow\schema.py", line 517, in _serialize
+    value = field_obj.serialize(attr_name, obj, accessor=self.get_attribute)
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\marshmallow\fields.py", line 340, in serialize
+    return self._serialize(value, attr, obj, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\marshmallow\fields.py", line 1600, in _serialize
+    return self.mapping_type(value)
+           ~~~~~~~~~~~~~~~~~^^^^^^^
+TypeError: 'Employee' object is not iterable
+[2026-02-09 13:43:21,625] ERROR in errors: Unhandled exception: 'Employee' object is not iterable
+Traceback (most recent call last):
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask_jwt_extended\view_decorators.py", line 170, in decorator
+    return current_app.ensure_sync(fn)(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\preml\Desktop\office\AccessHub\backend\app\utils\decorators.py", line 93, in wrapper
+    return fn(*args, **kwargs)
+  File "C:\Users\preml\Desktop\office\AccessHub\backend\app\utils\helpers.py", line 159, in decorated_function
+    return f(*args, **kwargs)
+  File "C:\Users\preml\Desktop\office\AccessHub\backend\app\api\leaves\routes.py", line 217, in list_leave_requests
+    result = paginate(query, page, per_page, LeaveRequestSchema)
+  File "C:\Users\preml\Desktop\office\AccessHub\backend\app\utils\helpers.py", line 75, in paginate
+    processed_items.append(schema().dump(item))
+                           ~~~~~~~~~~~~~^^^^^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\marshmallow\schema.py", line 549, in dump
+    result = self._serialize(processed_obj, many=many)
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\marshmallow\schema.py", line 517, in _serialize
+    value = field_obj.serialize(attr_name, obj, accessor=self.get_attribute)
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\marshmallow\fields.py", line 340, in serialize
+    return self._serialize(value, attr, obj, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\marshmallow\fields.py", line 1600, in _serialize
+    return self.mapping_type(value)
+           ~~~~~~~~~~~~~~~~~^^^^^^^
+TypeError: 'Employee' object is not iterable
+[2026-02-09 13:43:41,847] ERROR in errors: Unhandled exception: 'NoneType' object is not subscriptable
+Traceback (most recent call last):
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask_jwt_extended\view_decorators.py", line 170, in decorator
+    return current_app.ensure_sync(fn)(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\preml\Desktop\office\AccessHub\backend\app\utils\decorators.py", line 93, in wrapper
+    return fn(*args, **kwargs)
+  File "C:\Users\preml\Desktop\office\AccessHub\backend\app\utils\helpers.py", line 123, in decorated_function
+    return f(*args, **kwargs)
+  File "C:\Users\preml\Desktop\office\AccessHub\backend\app\api\leaves\routes.py", line 101, in create_leave_request
+    employee = Employee.query.filter_by(user_id=current_user['id']).first()
+                                                ~~~~~~~~~~~~^^^^^^
+TypeError: 'NoneType' object is not subscriptable
+[2026-02-09 13:45:52,592] ERROR in errors: Unhandled exception: 'Employee' object is not iterable
+Traceback (most recent call last):
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask_jwt_extended\view_decorators.py", line 170, in decorator
+    return current_app.ensure_sync(fn)(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\preml\Desktop\office\AccessHub\backend\app\utils\decorators.py", line 93, in wrapper
+    return fn(*args, **kwargs)
+  File "C:\Users\preml\Desktop\office\AccessHub\backend\app\utils\helpers.py", line 123, in decorated_function
+    return f(*args, **kwargs)
+  File "C:\Users\preml\Desktop\office\AccessHub\backend\app\api\leaves\routes.py", line 124, in create_leave_request
+    data=schema.dump(leave_request),
+         ~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\marshmallow\schema.py", line 549, in dump
+    result = self._serialize(processed_obj, many=many)
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\marshmallow\schema.py", line 517, in _serialize
+    value = field_obj.serialize(attr_name, obj, accessor=self.get_attribute)
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\marshmallow\fields.py", line 340, in serialize
+    return self._serialize(value, attr, obj, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\marshmallow\fields.py", line 1600, in _serialize
+    return self.mapping_type(value)
+           ~~~~~~~~~~~~~~~~~^^^^^^^
+TypeError: 'Employee' object is not iterable
+[2026-02-09 13:49:02,393] ERROR in routes: Error in create_leave_request: 
+[2026-02-09 13:49:34,490] ERROR in routes: Error in create_leave_request: 
+[2026-02-09 13:52:24,067] ERROR in routes: Error in create_leave_request: 
+[2026-02-09 14:01:50,349] ERROR in routes: Error in create_leave_request: 
+[2026-02-09 14:51:53,045] ERROR in routes: Error in create_leave_request: 
+[2026-02-09 14:54:13,986] ERROR in routes: Error in create_leave_request: 
+[2026-02-09 14:55:12,822] ERROR in routes: Error in create_leave_request: 
+[2026-02-09 14:55:24,045] ERROR in routes: Error in create_leave_request: 
+[2026-02-09 15:08:55,898] ERROR in routes: Error fetching employee stats: 'Employee' object has no attribute 'employee_id'
+[2026-02-09 15:08:55,907] ERROR in routes: Traceback (most recent call last):
+  File "C:\Users\preml\Desktop\office\AccessHub\backend\app\api\employee\routes.py", line 568, in get_employee_stats_summary
+    'employee_id': employee.employee_id,
+                   ^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'Employee' object has no attribute 'employee_id'. Did you mean: 'employee_code'?
+
+[2026-02-09 15:08:56,640] ERROR in routes: Error fetching employee stats: 'Employee' object has no attribute 'employee_id'
+[2026-02-09 15:08:56,648] ERROR in routes: Traceback (most recent call last):
+  File "C:\Users\preml\Desktop\office\AccessHub\backend\app\api\employee\routes.py", line 568, in get_employee_stats_summary
+    'employee_id': employee.employee_id,
+                   ^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'Employee' object has no attribute 'employee_id'. Did you mean: 'employee_code'?
+
+[2026-02-09 15:09:35,245] ERROR in routes: Error in create_leave_request: 
+[2026-02-09 15:09:37,998] ERROR in routes: Error in create_leave_request: 
+[2026-02-09 15:09:45,886] ERROR in routes: Error in create_leave_request: 
+[2026-02-09 15:19:41,761] ERROR in routes: Error in create_leave_request: 
+[2026-02-09 15:43:16,903] ERROR in routes: Error in create_leave_request: Leave request overlaps with an existing pending request from 2026-02-10 to 2026-02-11
+[2026-02-09 15:43:44,657] ERROR in routes: Error fetching employee stats: 'Employee' object has no attribute 'employee_id'
+[2026-02-09 15:43:44,665] ERROR in routes: Traceback (most recent call last):
+  File "C:\Users\preml\Desktop\office\AccessHub\backend\app\api\employee\routes.py", line 568, in get_employee_stats_summary
+    'employee_id': employee.employee_id,
+                   ^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'Employee' object has no attribute 'employee_id'. Did you mean: 'employee_code'?
+
+[2026-02-09 15:43:44,814] ERROR in routes: Error fetching employee stats: 'Employee' object has no attribute 'employee_id'
+[2026-02-09 15:43:44,822] ERROR in routes: Traceback (most recent call last):
+  File "C:\Users\preml\Desktop\office\AccessHub\backend\app\api\employee\routes.py", line 568, in get_employee_stats_summary
+    'employee_id': employee.employee_id,
+                   ^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'Employee' object has no attribute 'employee_id'. Did you mean: 'employee_code'?
+

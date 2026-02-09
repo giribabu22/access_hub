@@ -210,6 +210,10 @@ def create_app():
                 "description": "Leave request management endpoints"
             },
             {
+                "name": "Attendance Change Requests",
+                "description": "Attendance correction and change request management endpoints"
+            },
+            {
                 "name": "Roles",
                 "description": "Role-based access control (RBAC) management endpoints"
             },
@@ -368,6 +372,9 @@ def create_app():
     
     from .api.leaves.routes import bp as leaves_v2_bp
     app.register_blueprint(leaves_v2_bp)
+    
+    from .api.attendance_change_requests.routes import bp as attendance_change_requests_bp
+    app.register_blueprint(attendance_change_requests_bp)
     
     from .api.roles.routes import bp as roles_v2_bp
     app.register_blueprint(roles_v2_bp)

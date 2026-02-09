@@ -51,7 +51,7 @@ function ManagerDashboard() {
             teamMembers: result.data.total_members,
             presentToday: result.data.present_today,
             pendingLeaves: result.data.pending_leaves,
-            lateArrivals: 0,
+            lateArrivals: result.data.late_arrivals,
             avgWorkHours: result.data.attendance_percentage
           });
         }
@@ -73,36 +73,27 @@ function ManagerDashboard() {
 
   const fetchRecentActivities = async () => {
     try {
-      // Mock data - replace with actual API
-      setRecentActivities([
-        {
-          id: 1,
-          type: 'leave_request',
-          employee: 'John Doe',
-          action: 'Leave request submitted',
-          time: '2 hours ago',
-          status: 'pending'
-        },
-        {
-          id: 2,
-          type: 'late_arrival',
-          employee: 'Jane Smith',
-          action: 'Arrived late',
-          time: '3 hours ago',
-          status: 'flagged'
-        },
-        {
-          id: 3,
-          type: 'attendance',
-          employee: 'Mike Johnson',
-          action: 'Checked in',
-          time: '4 hours ago',
-          status: 'success'
+      const token = authService.getAccessToken();
+      if (!token) return;
+
+      const response = await fetch('/api/manager/dashboard/activities', {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
         }
-      ]);
-      setLoading(false);
+      });
+
+      if (response.ok) {
+        const result = await response.json();
+        if (result.status === 'success') {
+          setRecentActivities(result.data.activities);
+        }
+      }
     } catch (error) {
       console.error('Error fetching recent activities:', error);
+      // Fallback to empty array instead of mock data
+      setRecentActivities([]);
+    } finally {
       setLoading(false);
     }
   };
@@ -223,8 +214,8 @@ function ManagerDashboard() {
                     {recentActivities.map((activity) => (
                       <div key={activity.id} className="flex items-start space-x-4 p-4 rounded-xl hover:bg-teal-50 transition-colors border border-transparent hover:border-gray-100">
                         <div className={`p-2 rounded-full ${activity.status === 'pending' ? 'bg-orange-100 text-orange-600' :
-                            activity.status === 'flagged' ? 'bg-red-100 text-red-600' :
-                              'bg-green-100 text-green-600'
+                          activity.status === 'flagged' ? 'bg-red-100 text-red-600' :
+                            'bg-green-100 text-green-600'
                           }`}>
                           {activity.type === 'leave_request' && <Calendar className="h-5 w-5" />}
                           {activity.type === 'late_arrival' && <AlertTriangle className="h-5 w-5" />}
@@ -238,8 +229,8 @@ function ManagerDashboard() {
                           <p className="text-xs text-gray-500 mt-1">{activity.time}</p>
                         </div>
                         <div className={`px-3 py-1 text-xs font-semibold rounded-full ${activity.status === 'pending' ? 'bg-orange-100 text-orange-800' :
-                            activity.status === 'flagged' ? 'bg-red-100 text-red-800' :
-                              'bg-green-100 text-green-800'
+                          activity.status === 'flagged' ? 'bg-red-100 text-red-800' :
+                            'bg-green-100 text-green-800'
                           }`}>
                           {activity.status}
                         </div>

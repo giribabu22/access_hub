@@ -1,253 +1,198 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
-import { authService } from '../../services/authService';
+import { managerAPI, managerLeaveAPI, managerAttendanceChangeAPI } from '../../services/managerServices';
+import { message } from 'antd';
 import '../../styles/Dashboard.css';
-
-
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'http://localhost:5001';
 
 const ManagerDashboard = () => {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
+
+  // State for stats and data
   const [stats, setStats] = useState({
     total_members: 0,
     present_today: 0,
     pending_leaves: 0,
+    pending_change_requests: 0,
     attendance_percentage: 0
   });
   const [teamMembers, setTeamMembers] = useState([]);
-  const [cameras, setCameras] = useState([]);
-  const [locations, setLocations] = useState([]);
+  const [organization, setOrganization] = useState(null);
   const [pendingLeaves, setPendingLeaves] = useState([]);
+  const [pendingChangeRequests, setPendingChangeRequests] = useState([]);
+  const [todayAttendance, setTodayAttendance] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetchManagerData();
-  }, []);
+    if (user) {
+      fetchManagerData();
+    }
+  }, [user]);
 
   const fetchManagerData = async () => {
+    setLoading(true);
+    setError(null);
     try {
-      setLoading(true);
-      setError(null);
-      await Promise.all([
-        fetchTeamStats(),
-        fetchTeamMembers(),
-        fetchCameras(),
-        fetchLocations(),
-        fetchPendingLeaves()
+      // Fetch all data in parallel
+      const [
+        teamStatsRes,
+        teamMembersRes,
+        orgRes,
+        pendingLeavesRes,
+        pendingChangesRes,
+        todayAttendanceRes
+      ] = await Promise.allSettled([
+        managerAPI.getTeamStats(),
+        managerAPI.getTeamMembers(),
+        managerAPI.getOrganizationInfo(),
+        managerLeaveAPI.getPendingLeaves({ per_page: 5 }),
+        managerAttendanceChangeAPI.getPendingRequests({ per_page: 5 }),
+        managerAPI.getTodayAttendance()
       ]);
+
+      // Process team stats
+      if (teamStatsRes.status === 'fulfilled' && teamStatsRes.value?.success) {
+        setStats(prev => ({ ...prev, ...teamStatsRes.value.data }));
+      }
+
+      // Process team members
+      if (teamMembersRes.status === 'fulfilled' && teamMembersRes.value?.success) {
+        setTeamMembers(teamMembersRes.value.data?.team_members || []);
+        if (!stats.total_members) {
+          setStats(prev => ({ ...prev, total_members: teamMembersRes.value.data?.team_members?.length || 0 }));
+        }
+      }
+
+      // Process organization info
+      if (orgRes.status === 'fulfilled' && orgRes.value?.success) {
+        setOrganization(orgRes.value.data);
+      }
+
+      // Process pending leaves
+      if (pendingLeavesRes.status === 'fulfilled' && pendingLeavesRes.value?.success) {
+        const leaves = pendingLeavesRes.value.data || [];
+        setPendingLeaves(leaves);
+        setStats(prev => ({ ...prev, pending_leaves: leaves.length }));
+      }
+
+      // Process pending change requests
+      if (pendingChangesRes.status === 'fulfilled' && pendingChangesRes.value?.success) {
+        const changes = pendingChangesRes.value.data || [];
+        setPendingChangeRequests(changes);
+        setStats(prev => ({ ...prev, pending_change_requests: changes.length }));
+      }
+
+      // Process today's attendance
+      if (todayAttendanceRes.status === 'fulfilled' && todayAttendanceRes.value?.success) {
+        const attendance = todayAttendanceRes.value.data || [];
+        setTodayAttendance(attendance);
+
+        // Calculate present count
+        const presentCount = attendance.filter(a => a.status === 'present' || a.check_in_time).length;
+        setStats(prev => ({
+          ...prev,
+          present_today: presentCount,
+          attendance_percentage: prev.total_members > 0
+            ? Math.round((presentCount / prev.total_members) * 100)
+            : 0
+        }));
+      }
+
     } catch (error) {
       console.error('Error fetching manager data:', error);
       setError('Failed to load dashboard data');
+      message.error('Failed to load dashboard data');
     } finally {
       setLoading(false);
     }
   };
 
-  const fetchTeamStats = async () => {
-    try {
-      const token = authService.getAccessToken();
-      if (!token) throw new Error('No authentication token');
-
-      const response = await fetch(`${API_BASE_URL}/api/manager/team/stats`, {
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json'
-        }
-      });
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-
-      const result = await response.json();
-      if (result.status === 'success') {
-        setStats(result.data);
-      } else {
-        throw new Error(result.message || 'Failed to fetch team stats');
-      }
-    } catch (error) {
-      console.error('Error fetching team stats:', error);
-      setError('Failed to load team statistics');
-    }
-  };
-
-  const fetchTeamMembers = async () => {
-    try {
-      const token = authService.getAccessToken();
-      if (!token) throw new Error('No authentication token');
-
-      const response = await fetch(`${API_BASE_URL}/api/manager/team/members`, {
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json'
-        }
-      });
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-
-      const result = await response.json();
-      if (result.status === 'success') {
-        setTeamMembers(result.data.team_members || []);
-      } else {
-        throw new Error(result.message || 'Failed to fetch team members');
-      }
-    } catch (error) {
-      console.error('Error fetching team members:', error);
-      setError('Failed to load team members');
-    }
-  };
-
-  const fetchCameras = async () => {
-    try {
-      const token = authService.getAccessToken();
-      if (!token) throw new Error('No authentication token');
-
-      const response = await fetch(`${API_BASE_URL}/api/manager/cameras`, {
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json'
-        }
-      });
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-
-      const result = await response.json();
-      if (result.status === 'success') {
-        setCameras(result.data.cameras || []);
-      } else {
-        throw new Error(result.message || 'Failed to fetch cameras');
-      }
-    } catch (error) {
-      console.error('Error fetching cameras:', error);
-      setError('Failed to load camera information');
-    }
-  };
-
-  const fetchLocations = async () => {
-    try {
-      const token = authService.getAccessToken();
-      if (!token) throw new Error('No authentication token');
-
-      const response = await fetch(`${API_BASE_URL}/api/manager/locations`, {
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json'
-        }
-      });
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-
-      const result = await response.json();
-      if (result.status === 'success') {
-        setLocations(result.data.locations || []);
-      } else {
-        throw new Error(result.message || 'Failed to fetch locations');
-      }
-    } catch (error) {
-      console.error('Error fetching locations:', error);
-      setError('Failed to load location information');
-    }
-  };
-
-  const fetchPendingLeaves = async () => {
-    try {
-      const token = authService.getAccessToken();
-      if (!token) throw new Error('No authentication token');
-
-      const response = await fetch(`${API_BASE_URL}/api/manager/leaves/pending?per_page=5`, {
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json'
-        }
-      });
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-
-      const result = await response.json();
-      if (result.status === 'success') {
-        setPendingLeaves(result.data.leaves || []);
-      } else {
-        throw new Error(result.message || 'Failed to fetch pending leaves');
-      }
-    } catch (error) {
-      console.error('Error fetching pending leaves:', error);
-      setError('Failed to load pending leave requests');
-    }
-  };
-
   const handleApproveLeave = async (leaveId) => {
     try {
-      const token = authService.getAccessToken();
-      if (!token) return;
+      const response = await managerLeaveAPI.approve(leaveId, 'Approved from dashboard');
 
-      const response = await fetch(`${API_BASE_URL}/api/manager/leaves/${leaveId}/approve`, {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          comments: 'Approved from dashboard'
-        })
-      });
-
-      if (response.ok) {
-        // Refresh the data
-        fetchPendingLeaves();
-        fetchTeamStats();
-        // You could add a toast notification here
-        console.log('Leave request approved successfully');
+      if (response.success) {
+        message.success('Leave request approved successfully');
+        // Refresh data
+        fetchManagerData();
       }
     } catch (error) {
-      console.error('Error approving leave:', error);
+      const errorMsg = error.response?.data?.message || 'Failed to approve leave request';
+      message.error(errorMsg);
     }
   };
 
   const handleRejectLeave = async (leaveId) => {
     try {
-      const token = authService.getAccessToken();
-      if (!token) return;
+      const notes = prompt('Please provide a reason for rejection:');
+      if (!notes) return;
 
-      const reason = prompt('Please provide a reason for rejection:');
-      if (!reason) return;
+      const response = await managerLeaveAPI.reject(leaveId, notes);
 
-      const response = await fetch(`${API_BASE_URL}/api/manager/leaves/${leaveId}/reject`, {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          comments: reason
-        })
-      });
-
-      if (response.ok) {
-        // Refresh the data
-        fetchPendingLeaves();
-        fetchTeamStats();
-        // You could add a toast notification here
-        console.log('Leave request rejected successfully');
+      if (response.success) {
+        message.success('Leave request rejected');
+        // Refresh data
+        fetchManagerData();
       }
     } catch (error) {
-      console.error('Error rejecting leave:', error);
+      const errorMsg = error.response?.data?.message || 'Failed to reject leave request';
+      message.error(errorMsg);
+    }
+  };
+
+  const handleApproveChangeRequest = async (requestId) => {
+    try {
+      const response = await managerAttendanceChangeAPI.approve(requestId, 'Approved from dashboard');
+
+      if (response.success) {
+        message.success('Attendance change request approved successfully');
+        // Refresh data
+        fetchManagerData();
+      }
+    } catch (error) {
+      const errorMsg = error.response?.data?.message || 'Failed to approve change request';
+      message.error(errorMsg);
+    }
+  };
+
+  const handleRejectChangeRequest = async (requestId) => {
+    try {
+      const notes = prompt('Please provide a reason for rejection:');
+      if (!notes) return;
+
+      const response = await managerAttendanceChangeAPI.reject(requestId, notes);
+
+      if (response.success) {
+        message.success('Attendance change request rejected');
+        // Refresh data
+        fetchManagerData();
+      }
+    } catch (error) {
+      const errorMsg = error.response?.data?.message || 'Failed to reject change request';
+      message.error(errorMsg);
     }
   };
 
   const handleLogout = async () => {
     await logout();
     navigate('/login');
+  };
+
+  const getStatusColor = (status) => {
+    const colors = {
+      pending: 'bg-yellow-100 text-yellow-800 border-yellow-300',
+      approved: 'bg-green-100 text-green-800 border-green-300',
+      rejected: 'bg-red-100 text-red-800 border-red-300'
+    };
+    return colors[status] || 'bg-gray-100 text-gray-800 border-gray-300';
+  };
+
+  const formatDate = (dateStr) => {
+    if (!dateStr) return '';
+    const date = new Date(dateStr);
+    return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
   };
 
   // Show loading screen
@@ -258,28 +203,6 @@ const ManagerDashboard = () => {
           <div className="animate-spin rounded-full h-16 w-16 border-b-4 border-teal-600 mx-auto mb-4"></div>
           <h2 className="text-2xl font-bold text-slate-900 mb-2">Loading Dashboard</h2>
           <p className="text-slate-600">Please wait while we fetch your data...</p>
-        </div>
-      </div>
-    );
-  }
-
-  // Show error screen
-  if (error && !stats.total_members && teamMembers.length === 0) {
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-teal-50 to-teal-50 flex items-center justify-center">
-        <div className="text-center">
-          <div className="text-6xl mb-4">❌</div>
-          <h2 className="text-2xl font-bold text-slate-900 mb-2">Failed to Load Dashboard</h2>
-          <p className="text-slate-600 mb-6">{error}</p>
-          <button
-            onClick={() => {
-              setError(null);
-              fetchManagerData();
-            }}
-            className="px-6 py-3 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition-colors"
-          >
-            Try Again
-          </button>
         </div>
       </div>
     );
@@ -299,6 +222,7 @@ const ManagerDashboard = () => {
               <br />
               <span className="text-sm text-white/80">
                 {user?.employee?.department?.name} • {user?.employee?.designation}
+                {organization && ` • ${organization.name}`}
               </span>
             </p>
           </div>
@@ -351,7 +275,7 @@ const ManagerDashboard = () => {
             </div>
           </div>
 
-          {/* Pending Leave Requests Card */}
+          {/* Pending Approvals Card */}
           <div className="group bg-white backdrop-blur-xl p-8 rounded-2xl border border-slate-200/50 hover:border-orange-400/50 shadow-lg hover:shadow-2xl transition-all duration-500 hover:translate-y-[-8px] overflow-hidden relative">
             <div className="absolute inset-0 bg-gradient-to-br from-orange-500/5 to-amber-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
             <div className="relative z-10">
@@ -361,11 +285,13 @@ const ManagerDashboard = () => {
                   <span className="text-lg">⚠️</span>
                 </div>
               </div>
-              <h3 className="text-xl font-bold text-slate-900 mb-2">Leave Requests</h3>
+              <h3 className="text-xl font-bold text-slate-900 mb-2">Pending Approvals</h3>
               <p className="text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-orange-600 to-amber-600 mb-3">
-                {loading ? '...' : stats.pending_leaves || 0}
+                {loading ? '...' : (stats.pending_leaves + stats.pending_change_requests) || 0}
               </p>
-              <p className="text-sm text-slate-600 font-medium">Pending your approval</p>
+              <p className="text-sm text-slate-600 font-medium">
+                {stats.pending_leaves} leaves, {stats.pending_change_requests} changes
+              </p>
             </div>
           </div>
 
@@ -379,11 +305,11 @@ const ManagerDashboard = () => {
                   <span className="text-lg">📈</span>
                 </div>
               </div>
-              <h3 className="text-xl font-bold text-slate-900 mb-2">Team Attendance</h3>
+              <h3 className="text-xl font-bold text-slate-900 mb-2">Attendance Rate</h3>
               <p className="text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-cyan-600 mb-3">
-                {loading ? '...' : `${Math.round(stats.attendance_percentage || 0)}%`}
+                {loading ? '...' : `${stats.attendance_percentage}%`}
               </p>
-              <p className="text-sm text-slate-600 font-medium">This month</p>
+              <p className="text-sm text-slate-600 font-medium">Today</p>
             </div>
           </div>
         </div>
@@ -393,7 +319,7 @@ const ManagerDashboard = () => {
           <h2 className="text-3xl font-black text-slate-900 mb-6">Quick Actions</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             <button
-              onClick={() => navigate('/manager/reports')}
+              onClick={() => navigate('/manager/attendance')}
               className="px-6 py-4 bg-gradient-to-r from-green-600 to-emerald-600 text-white font-bold rounded-xl hover:shadow-lg hover:translate-y-[-2px] transition-all duration-300"
             >
               ✅ Review Attendance
@@ -402,7 +328,7 @@ const ManagerDashboard = () => {
               onClick={() => navigate('/manager/leaves')}
               className="px-6 py-4 bg-gradient-to-r from-orange-600 to-amber-600 text-white font-bold rounded-xl hover:shadow-lg hover:translate-y-[-2px] transition-all duration-300"
             >
-              📋 Approve Leave Requests
+              📋 Approve Leaves
             </button>
             <button
               onClick={() => navigate('/manager/team')}
@@ -420,186 +346,225 @@ const ManagerDashboard = () => {
         </div>
 
         {/* Pending Approvals Section */}
-        <div className="mb-12">
-          <h2 className="text-3xl font-black text-slate-900 mb-6">Pending Leave Approvals</h2>
-          <div className="bg-teal-50/95 rounded-2xl shadow-lg border border-slate-200/50 p-8">
-            {loading ? (
-              <div className="text-center py-12">
-                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-teal-600 mx-auto mb-4"></div>
-                <p className="text-slate-600">Loading pending approvals...</p>
-              </div>
-            ) : pendingLeaves.length > 0 ? (
-              <div className="space-y-4">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-12">
+          {/* Pending Leave Requests */}
+          <div className="bg-white rounded-2xl shadow-lg p-6">
+            <div className="flex justify-between items-center mb-4">
+              <h3 className="text-2xl font-bold text-slate-900">Pending Leave Requests</h3>
+              <span className="px-3 py-1 bg-orange-100 text-orange-800 rounded-full text-sm font-semibold">
+                {stats.pending_leaves}
+              </span>
+            </div>
+            {pendingLeaves.length > 0 ? (
+              <div className="space-y-3">
                 {pendingLeaves.map((leave) => (
-                  <div key={leave.id} className="border border-slate-200 rounded-lg p-4 hover:shadow-md transition-shadow">
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center space-x-4">
-                        <div className="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center">
-                          <span className="text-orange-600 font-bold">
-                            {leave.employee?.name?.charAt(0) || '?'}
-                          </span>
-                        </div>
-                        <div>
-                          <h4 className="font-semibold text-slate-900">
-                            {leave.employee?.name || 'Unknown Employee'}
-                          </h4>
-                          <p className="text-sm text-slate-600">
-                            {leave.leave_type} • {new Date(leave.start_date).toLocaleDateString()} - {new Date(leave.end_date).toLocaleDateString()}
-                          </p>
-                          <p className="text-sm text-slate-500">{leave.reason}</p>
-                        </div>
+                  <div key={leave.id} className="border border-slate-200 rounded-lg p-4 hover:border-orange-400 transition-colors">
+                    <div className="flex justify-between items-start mb-2">
+                      <div>
+                        <span className="font-semibold text-slate-900">{leave.employee?.full_name || 'Unknown'}</span>
+                        <p className="text-sm text-slate-600 capitalize">{leave.leave_type} Leave</p>
                       </div>
-                      <div className="flex space-x-2">
-                        <button
-                          onClick={() => handleApproveLeave(leave.id)}
-                          className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
-                        >
-                          Approve
-                        </button>
-                        <button
-                          onClick={() => handleRejectLeave(leave.id)}
-                          className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
-                        >
-                          Reject
-                        </button>
+                      <span className={`px-3 py-1 rounded-full text-xs font-semibold border ${getStatusColor(leave.status)}`}>
+                        {leave.status}
+                      </span>
+                    </div>
+                    <p className="text-sm text-slate-600 mb-2">
+                      {formatDate(leave.start_date)} - {formatDate(leave.end_date)} ({leave.total_days} days)
+                    </p>
+                    <p className="text-sm text-slate-500 mb-3">{leave.reason}</p>
+                    <div className="flex space-x-2">
+                      <button
+                        onClick={() => handleApproveLeave(leave.id)}
+                        className="flex-1 px-3 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors text-sm font-medium"
+                      >
+                        ✓ Approve
+                      </button>
+                      <button
+                        onClick={() => handleRejectLeave(leave.id)}
+                        className="flex-1 px-3 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors text-sm font-medium"
+                      >
+                        ✕ Reject
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="text-center py-12">
+                <div className="text-5xl mb-3">✅</div>
+                <p className="text-slate-600">No pending leave requests</p>
+              </div>
+            )}
+          </div>
+
+          {/* Pending Attendance Change Requests */}
+          <div className="bg-white rounded-2xl shadow-lg p-6">
+            <div className="flex justify-between items-center mb-4">
+              <h3 className="text-2xl font-bold text-slate-900">Pending Change Requests</h3>
+              <span className="px-3 py-1 bg-purple-100 text-purple-800 rounded-full text-sm font-semibold">
+                {stats.pending_change_requests}
+              </span>
+            </div>
+            {pendingChangeRequests.length > 0 ? (
+              <div className="space-y-3">
+                {pendingChangeRequests.map((request) => (
+                  <div key={request.id} className="border border-slate-200 rounded-lg p-4 hover:border-purple-400 transition-colors">
+                    <div className="flex justify-between items-start mb-2">
+                      <div>
+                        <span className="font-semibold text-slate-900">{request.employee?.full_name || 'Unknown'}</span>
+                        <p className="text-sm text-slate-600 capitalize">{request.request_type?.replace('_', ' ')}</p>
+                      </div>
+                      <span className={`px-3 py-1 rounded-full text-xs font-semibold border ${getStatusColor(request.status)}`}>
+                        {request.status}
+                      </span>
+                    </div>
+                    <p className="text-sm text-slate-600 mb-2">
+                      Date: {formatDate(request.request_date)}
+                    </p>
+                    <p className="text-sm text-slate-500 mb-3">{request.reason}</p>
+                    <div className="flex space-x-2">
+                      <button
+                        onClick={() => handleApproveChangeRequest(request.id)}
+                        className="flex-1 px-3 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors text-sm font-medium"
+                      >
+                        ✓ Approve
+                      </button>
+                      <button
+                        onClick={() => handleRejectChangeRequest(request.id)}
+                        className="flex-1 px-3 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors text-sm font-medium"
+                      >
+                        ✕ Reject
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="text-center py-12">
+                <div className="text-5xl mb-3">✅</div>
+                <p className="text-slate-600">No pending change requests</p>
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* Organization & Team Overview */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-12">
+          {/* Organization Info */}
+          <div className="bg-gradient-to-br from-teal-50 to-teal-50 border-2 border-teal-200 rounded-2xl p-8">
+            <h3 className="text-2xl font-bold text-teal-900 mb-6">
+              {organization?.name || 'Organization'} Info
+            </h3>
+            <div className="space-y-4">
+              <div className="flex items-center justify-between">
+                <span className="text-lg font-medium text-slate-700">Department:</span>
+                <span className="text-lg font-bold text-teal-600">
+                  {user?.employee?.department?.name || 'N/A'}
+                </span>
+              </div>
+              <div className="flex items-center justify-between">
+                <span className="text-lg font-medium text-slate-700">Your Position:</span>
+                <span className="text-lg font-bold text-teal-600">
+                  {user?.employee?.designation || 'Manager'}
+                </span>
+              </div>
+              <div className="flex items-center justify-between">
+                <span className="text-lg font-medium text-slate-700">Employee Code:</span>
+                <span className="text-lg font-bold text-teal-600">
+                  {user?.employee?.employee_code || 'N/A'}
+                </span>
+              </div>
+              {organization && (
+                <>
+                  <div className="flex items-center justify-between">
+                    <span className="text-lg font-medium text-slate-700">Subscription:</span>
+                    <span className="text-lg font-bold text-teal-600 capitalize">
+                      {organization.subscription_plan || 'N/A'}
+                    </span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-lg font-medium text-slate-700">Status:</span>
+                    <span className={`px-3 py-1 rounded-full text-sm font-semibold ${organization.is_active ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
+                      }`}>
+                      {organization.is_active ? 'Active' : 'Inactive'}
+                    </span>
+                  </div>
+                </>
+              )}
+            </div>
+          </div>
+
+          {/* Team Overview */}
+          <div className="bg-gradient-to-br from-green-50 to-emerald-50 border-2 border-green-200 rounded-2xl p-8">
+            <h3 className="text-2xl font-bold text-green-900 mb-6">Team Overview</h3>
+            <div className="grid grid-cols-2 gap-4">
+              <div className="bg-white rounded-xl p-4 border border-green-300">
+                <div className="text-3xl font-bold text-green-600 mb-2">
+                  👥 {stats.total_members}
+                </div>
+                <div className="text-sm font-medium text-green-700">Total Members</div>
+              </div>
+              <div className="bg-white rounded-xl p-4 border border-green-300">
+                <div className="text-3xl font-bold text-green-600 mb-2">
+                  ✅ {stats.present_today}
+                </div>
+                <div className="text-sm font-medium text-green-700">Present Today</div>
+              </div>
+              <div className="bg-white rounded-xl p-4 border border-green-300">
+                <div className="text-3xl font-bold text-orange-600 mb-2">
+                  📋 {stats.pending_leaves}
+                </div>
+                <div className="text-sm font-medium text-green-700">Leave Requests</div>
+              </div>
+              <div className="bg-white rounded-xl p-4 border border-green-300">
+                <div className="text-3xl font-bold text-purple-600 mb-2">
+                  🔄 {stats.pending_change_requests}
+                </div>
+                <div className="text-sm font-medium text-green-700">Change Requests</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Recent Team Members */}
+        <div className="bg-white rounded-2xl shadow-lg p-8">
+          <h2 className="text-3xl font-black text-slate-900 mb-6">Your Team</h2>
+          {teamMembers.length > 0 ? (
+            <div>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                {teamMembers.slice(0, 6).map((member, index) => (
+                  <div key={member.id || index} className="border border-slate-200 rounded-lg p-4 hover:border-teal-400 transition-colors">
+                    <div className="flex items-center space-x-3">
+                      <div className="w-12 h-12 bg-teal-100 rounded-full flex items-center justify-center">
+                        <span className="text-lg font-bold text-teal-600">
+                          {member.name?.charAt(0) || member.full_name?.charAt(0) || '?'}
+                        </span>
+                      </div>
+                      <div className="flex-1">
+                        <h4 className="font-semibold text-slate-900">{member.name || member.full_name}</h4>
+                        <p className="text-sm text-slate-600">{member.position || member.designation || 'Employee'}</p>
                       </div>
                     </div>
                   </div>
                 ))}
-                <div className="text-center pt-4">
+              </div>
+              {teamMembers.length > 6 && (
+                <div className="text-center pt-6">
                   <button
-                    onClick={() => navigate('/manager/leaves')}
+                    onClick={() => navigate('/manager/team')}
                     className="text-teal-600 hover:text-teal-700 font-medium"
                   >
-                    View all pending requests →
+                    View all {teamMembers.length} team members →
                   </button>
                 </div>
-              </div>
-            ) : (
-              <div className="text-center py-12">
-                <div className="text-7xl mb-4">✅</div>
-                <h3 className="text-2xl font-bold text-slate-900 mb-2">All Caught Up!</h3>
-                <p className="text-lg text-slate-600">No pending leave requests at the moment.</p>
-              </div>
-            )}
-          </div>
-        </div>
-
-        {/* Organization Overview */}
-        <div className="mb-12">
-          <h2 className="text-3xl font-black text-slate-900 mb-6">Organization Overview</h2>
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            {/* Organization Info Card */}
-            <div className="bg-gradient-to-br from-teal-50 to-teal-50 border-2 border-teal-200 rounded-2xl p-8">
-              <h3 className="text-2xl font-bold text-teal-900 mb-6">Organization Details</h3>
-              <div className="space-y-4">
-                <div className="flex items-center justify-between">
-                  <span className="text-lg font-medium text-slate-700">Your Department:</span>
-                  <span className="text-lg font-bold text-teal-600">
-                    {user?.employee?.department?.name || 'N/A'}
-                  </span>
-                </div>
-                <div className="flex items-center justify-between">
-                  <span className="text-lg font-medium text-slate-700">Position:</span>
-                  <span className="text-lg font-bold text-teal-600">
-                    {user?.employee?.designation || 'N/A'}
-                  </span>
-                </div>
-                <div className="flex items-center justify-between">
-                  <span className="text-lg font-medium text-slate-700">Employee Code:</span>
-                  <span className="text-lg font-bold text-teal-600">
-                    {user?.employee?.employee_code || 'N/A'}
-                  </span>
-                </div>
-                <div className="flex items-center justify-between">
-                  <span className="text-lg font-medium text-slate-700">Shift:</span>
-                  <span className="text-lg font-bold text-teal-600">
-                    {user?.employee?.shift?.name || 'N/A'}
-                  </span>
-                </div>
-              </div>
+              )}
             </div>
-
-            {/* Resources Overview Card */}
-            <div className="bg-gradient-to-br from-green-50 to-emerald-50 border-2 border-green-200 rounded-2xl p-8">
-              <h3 className="text-2xl font-bold text-green-900 mb-6">Resource Overview</h3>
-              <div className="grid grid-cols-2 gap-4">
-                <div className="bg-teal-50/95 rounded-xl p-4 border border-green-300">
-                  <div className="text-3xl font-bold text-green-600 mb-2">
-                    📹 {loading ? '...' : cameras.length}
-                  </div>
-                  <div className="text-sm font-medium text-green-700">Cameras</div>
-                </div>
-                <div className="bg-teal-50/95 rounded-xl p-4 border border-green-300">
-                  <div className="text-3xl font-bold text-green-600 mb-2">
-                    📍 {loading ? '...' : locations.length}
-                  </div>
-                  <div className="text-sm font-medium text-green-700">Locations</div>
-                </div>
-                <div className="bg-teal-50/95 rounded-xl p-4 border border-green-300">
-                  <div className="text-3xl font-bold text-green-600 mb-2">
-                    👥 {loading ? '...' : stats.total_members || teamMembers.length}
-                  </div>
-                  <div className="text-sm font-medium text-green-700">Team Members</div>
-                </div>
-                <div className="bg-teal-50/95 rounded-xl p-4 border border-green-300">
-                  <div className="text-3xl font-bold text-green-600 mb-2">
-                    🏢 {user?.employee?.department?.code || 'N/A'}
-                  </div>
-                  <div className="text-sm font-medium text-green-700">Department Code</div>
-                </div>
-              </div>
+          ) : (
+            <div className="text-center py-12">
+              <div className="text-7xl mb-4">👥</div>
+              <p className="text-lg text-slate-600">No team data available</p>
             </div>
-          </div>
-        </div>
-
-        {/* Recent Team Activity */}
-        <div className="mb-12">
-          <h2 className="text-3xl font-black text-slate-900 mb-6">Recent Team Activity</h2>
-          <div className="bg-teal-50/95 rounded-2xl shadow-lg border border-slate-200/50 p-8">
-            {teamMembers.length > 0 ? (
-              <div className="space-y-4">
-                <h3 className="text-xl font-bold text-slate-900 mb-4">Your Team Members</h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                  {teamMembers.slice(0, 6).map((member, index) => (
-                    <div key={member.id || index} className="bg-slate-50 rounded-lg p-4">
-                      <div className="flex items-center space-x-3">
-                        <div className="w-10 h-10 bg-teal-100 rounded-full flex items-center justify-center">
-                          <span className="text-sm font-bold text-teal-600">
-                            {member.name?.charAt(0) || '?'}
-                          </span>
-                        </div>
-                        <div>
-                          <h4 className="font-medium text-slate-900">{member.name}</h4>
-                          <p className="text-sm text-slate-600">{member.position || 'Employee'}</p>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-                {teamMembers.length > 6 && (
-                  <div className="text-center pt-4">
-                    <button
-                      onClick={() => navigate('/manager/team')}
-                      className="text-teal-600 hover:text-teal-700 font-medium"
-                    >
-                      View all {teamMembers.length} team members →
-                    </button>
-                  </div>
-                )}
-              </div>
-            ) : (
-              <div className="text-center py-12">
-                <div className="text-7xl mb-4">👥</div>
-                <h3 className="text-2xl font-bold text-slate-900 mb-2">
-                  {loading ? 'Loading team data...' : 'No team data available'}
-                </h3>
-                <p className="text-lg text-slate-600">
-                  {loading ? 'Please wait while we fetch your team information.' : 'Team members will appear here once data is available.'}
-                </p>
-              </div>
-            )}
-          </div>
+          )}
         </div>
       </div>
     </div>

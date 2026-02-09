@@ -58,6 +58,7 @@ class Employee(db.Model):
     face_embeddings = db.relationship("FaceEmbedding", back_populates="employee", cascade="all, delete-orphan")
     attendance_records = db.relationship("AttendanceRecord", back_populates="employee")
     leave_requests = db.relationship("LeaveRequest", back_populates="employee")
+    attendance_change_requests = db.relationship("AttendanceChangeRequest", back_populates="employee")
     # Note: Since Department.manager_id has no FK constraint, we need to specify the join explicitly
     managed_departments = db.relationship(
         "Department",

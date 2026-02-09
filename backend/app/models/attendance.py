@@ -63,12 +63,16 @@ class AttendanceRecord(db.Model):
         default="auto_approved"
     )  # auto_approved, pending, approved, rejected
     
+    # Track manual modifications
+    is_modified = db.Column(db.Boolean, default=False)
+    modified_by_request_id = db.Column(db.String(36), db.ForeignKey("attendance_change_requests.id"), nullable=True)
+    
     # Additional notes
     notes = db.Column(db.Text)
     
     # Approval workflow
     approved_by = db.Column(db.String(36), db.ForeignKey("users.id"), nullable=True)
-    approver = db.relationship("User", foreign_keys=[approved_by])
+    approver = db.relationship("User", foreign_keys=[approved_by], overlaps="approved_attendance")
     
     # Audit timestamps
     created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
@@ -99,6 +103,8 @@ class AttendanceRecord(db.Model):
             "face_match_confidence": self.face_match_confidence,
             "liveness_verified": self.liveness_verified,
             "review_status": self.review_status,
+            "is_modified": self.is_modified,
+            "modified_by_request_id": self.modified_by_request_id,
             "notes": self.notes,
             "approved_by": self.approved_by,
             "created_at": self.created_at.isoformat() if self.created_at else None,

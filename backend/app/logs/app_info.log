@@ -27570,3 +27570,1588 @@ NameError: name 'Attendance' is not defined
 [2026-02-09 11:37:32,259] INFO in logging_config: OPTIONS http://localhost:5001/api/attendance/records/2cf9d9b2-859e-4ea3-bf9f-a256a3d224e0?start_date=2025-11-11&end_date=2026-02-09 - 404 (0.001s)
 [2026-02-09 11:37:32,566] INFO in logging_config: OPTIONS http://localhost:5001/api/attendance/records/3777a90f-e6c3-404f-ac81-d3dc8b66c849?start_date=2025-11-11&end_date=2026-02-09 - 404 (0.001s)
 [2026-02-09 11:37:32,569] INFO in logging_config: OPTIONS http://localhost:5001/api/attendance/records/385d993c-746a-43b8-9b80-8870165cfa70?start_date=2025-11-11&end_date=2026-02-09 - 404 (0.001s)
+[2026-02-09 12:59:02,963] WARNING in _internal:  * Debugger is active!
+[2026-02-09 13:00:23,137] INFO in logging_config: OPTIONS http://localhost:5001/api/stats/overview - 200 (0.001s)
+[2026-02-09 13:00:23,145] INFO in logging_config: OPTIONS http://localhost:5001/api/stats/overview - 200 (0.001s)
+[2026-02-09 13:00:23,146] INFO in logging_config: OPTIONS http://localhost:5001/api/v2/auth/me - 200 (0.008s)
+[2026-02-09 13:00:23,185] INFO in logging_config: OPTIONS http://localhost:5001/api/v2/auth/me - 200 (0.008s)
+[2026-02-09 13:00:23,372] INFO in logging_config: GET http://localhost:5001/api/stats/overview - 422 (0.018s)
+[2026-02-09 13:00:23,502] INFO in logging_config: GET http://localhost:5001/api/v2/auth/me - 422 (0.005s)
+[2026-02-09 13:00:23,543] INFO in logging_config: GET http://localhost:5001/api/stats/overview - 422 (0.007s)
+[2026-02-09 13:00:23,719] INFO in logging_config: GET http://localhost:5001/api/v2/auth/me - 422 (0.003s)
+[2026-02-09 13:00:26,095] INFO in logging_config: OPTIONS http://localhost:5001/api/v2/auth/refresh - 200 (0.001s)
+[2026-02-09 13:00:26,117] INFO in logging_config: OPTIONS http://localhost:5001/api/v2/auth/refresh - 200 (0.001s)
+[2026-02-09 13:00:26,362] INFO in logging_config: POST http://localhost:5001/api/v2/auth/refresh - 422 (0.008s)
+[2026-02-09 13:00:26,451] INFO in logging_config: POST http://localhost:5001/api/v2/auth/refresh - 422 (0.005s)
+[2026-02-09 13:01:44,692] WARNING in _internal:  * Debugger is active!
+[2026-02-09 13:02:09,845] INFO in logging_config: OPTIONS http://localhost:5001/api/v2/auth/login - 200 (0.001s)
+[2026-02-09 13:02:13,083] WARNING in performance: Slow request: POST http://localhost:5001/api/v2/auth/login took 2.948 seconds
+[2026-02-09 13:02:13,099] INFO in logging_config: POST http://localhost:5001/api/v2/auth/login - 200 (2.964s)
+[2026-02-09 13:02:14,158] INFO in logging_config: OPTIONS http://localhost:5001/api/subscriptions/organization/e48e7921-3b9d-41de-9ab2-142030c12dd3/status - 200 (0.068s)
+[2026-02-09 13:02:14,433] INFO in logging_config: OPTIONS http://localhost:5001/api/subscriptions/plans - 200 (0.001s)
+[2026-02-09 13:02:14,765] INFO in logging_config: GET http://localhost:5001/api/subscriptions/organization/e48e7921-3b9d-41de-9ab2-142030c12dd3/status - 401 (0.017s)
+[2026-02-09 13:02:14,930] INFO in logging_config: GET http://localhost:5001/api/subscriptions/plans - 200 (0.004s)
+[2026-02-09 13:02:15,194] INFO in logging_config: OPTIONS http://localhost:5001/api/v2/auth/refresh - 200 (0.002s)
+[2026-02-09 13:02:15,776] INFO in logging_config: GET http://localhost:5001/api/manager/team/stats - 404 (0.002s)
+[2026-02-09 13:02:15,988] INFO in logging_config: POST http://localhost:5001/api/v2/auth/refresh - 200 (0.038s)
+[2026-02-09 13:02:16,155] INFO in logging_config: GET http://localhost:5001/api/manager/team/stats - 404 (0.002s)
+[2026-02-09 13:02:16,177] INFO in logging_config: GET http://localhost:5001/api/subscriptions/organization/e48e7921-3b9d-41de-9ab2-142030c12dd3/status - 401 (0.004s)
+[2026-02-09 13:02:24,984] INFO in logging_config: OPTIONS http://localhost:5001/api/manager/team/members - 404 (0.002s)
+[2026-02-09 13:02:25,292] INFO in logging_config: OPTIONS http://localhost:5001/api/manager/cameras - 404 (0.002s)
+[2026-02-09 13:02:25,298] INFO in logging_config: OPTIONS http://localhost:5001/api/manager/locations - 404 (0.002s)
+[2026-02-09 13:02:25,306] INFO in logging_config: OPTIONS http://localhost:5001/api/manager/team/members - 404 (0.003s)
+[2026-02-09 13:02:25,323] INFO in logging_config: OPTIONS http://localhost:5001/api/manager/cameras - 404 (0.003s)
+[2026-02-09 13:02:25,339] INFO in logging_config: OPTIONS http://localhost:5001/api/manager/locations - 404 (0.004s)
+[2026-02-09 13:02:29,537] INFO in logging_config: GET http://localhost:5001/api/manager/leaves/pending?status=all - 404 (0.001s)
+[2026-02-09 13:02:29,879] INFO in logging_config: GET http://localhost:5001/api/manager/leaves/pending?status=all - 404 (0.004s)
+[2026-02-09 13:02:34,850] INFO in logging_config: GET http://localhost:5001/api/manager/reports/attendance?start_date=2026-01-31&end_date=2026-02-09 - 404 (0.005s)
+[2026-02-09 13:02:35,087] INFO in logging_config: GET http://localhost:5001/api/manager/reports/attendance?start_date=2026-01-31&end_date=2026-02-09 - 404 (0.006s)
+[2026-02-09 13:02:40,408] INFO in logging_config: GET http://localhost:5001/api/manager/team/stats - 404 (0.001s)
+[2026-02-09 13:02:40,760] INFO in logging_config: GET http://localhost:5001/api/manager/team/stats - 404 (0.001s)
+[2026-02-09 13:04:22,899] INFO in logging_config: OPTIONS http://localhost:5001/api/manager/team/members - 404 (0.006s)
+[2026-02-09 13:04:22,935] INFO in logging_config: OPTIONS http://localhost:5001/api/manager/cameras - 404 (0.007s)
+[2026-02-09 13:04:23,001] INFO in logging_config: OPTIONS http://localhost:5001/api/manager/locations - 404 (0.029s)
+[2026-02-09 13:04:23,016] INFO in logging_config: OPTIONS http://localhost:5001/api/manager/team/members - 404 (0.004s)
+[2026-02-09 13:04:23,064] INFO in logging_config: OPTIONS http://localhost:5001/api/manager/cameras - 404 (0.010s)
+[2026-02-09 13:04:23,109] INFO in logging_config: OPTIONS http://localhost:5001/api/manager/locations - 404 (0.016s)
+[2026-02-09 13:04:30,738] INFO in logging_config: GET http://localhost:5001/api/manager/leaves/pending?status=all - 404 (0.003s)
+[2026-02-09 13:04:30,980] INFO in logging_config: GET http://localhost:5001/api/manager/leaves/pending?status=all - 404 (0.001s)
+[2026-02-09 13:04:33,888] INFO in logging_config: GET http://localhost:5001/api/manager/reports/attendance?start_date=2026-01-31&end_date=2026-02-09 - 404 (0.002s)
+[2026-02-09 13:04:34,325] INFO in logging_config: GET http://localhost:5001/api/manager/reports/attendance?start_date=2026-01-31&end_date=2026-02-09 - 404 (0.024s)
+[2026-02-09 13:04:37,718] INFO in logging_config: GET http://localhost:5001/api/manager/leaves/pending?status=all - 404 (0.013s)
+[2026-02-09 13:04:37,873] INFO in logging_config: GET http://localhost:5001/api/manager/leaves/pending?status=all - 404 (0.005s)
+[2026-02-09 13:04:40,584] INFO in logging_config: GET http://localhost:5001/api/manager/team/stats - 404 (0.001s)
+[2026-02-09 13:04:41,000] INFO in logging_config: OPTIONS http://localhost:5001/api/v2/auth/logout - 200 (0.006s)
+[2026-02-09 13:04:41,068] INFO in logging_config: GET http://localhost:5001/api/manager/team/stats - 404 (0.007s)
+[2026-02-09 13:04:41,275] INFO in logging_config: POST http://localhost:5001/api/v2/auth/logout - 200 (0.007s)
+[2026-02-09 13:05:19,511] INFO in logging_config: OPTIONS http://localhost:5001/api/v2/auth/login - 200 (0.001s)
+[2026-02-09 13:05:23,845] WARNING in performance: Slow request: POST http://localhost:5001/api/v2/auth/login took 3.949 seconds
+[2026-02-09 13:05:23,859] INFO in logging_config: POST http://localhost:5001/api/v2/auth/login - 200 (3.964s)
+[2026-02-09 13:05:24,156] INFO in logging_config: OPTIONS http://localhost:5001/api/stats/overview - 200 (0.001s)
+[2026-02-09 13:05:24,479] INFO in logging_config: OPTIONS http://localhost:5001/api/stats/overview - 200 (0.003s)
+[2026-02-09 13:05:24,718] INFO in logging_config: GET http://localhost:5001/api/stats/overview - 200 (0.202s)
+[2026-02-09 13:05:25,209] INFO in logging_config: GET http://localhost:5001/api/stats/overview - 200 (0.131s)
+[2026-02-09 13:05:27,058] INFO in logging_config: OPTIONS http://localhost:5001/api/v2/organizations - 200 (0.009s)
+[2026-02-09 13:05:27,093] INFO in logging_config: OPTIONS http://localhost:5001/api/v2/organizations - 200 (0.001s)
+[2026-02-09 13:05:27,523] INFO in logging_config: GET http://localhost:5001/api/v2/organizations - 200 (0.232s)
+[2026-02-09 13:05:27,712] INFO in logging_config: GET http://localhost:5001/api/v2/organizations - 200 (0.170s)
+[2026-02-09 13:05:30,165] INFO in logging_config: OPTIONS http://localhost:5001/api/v2/organizations/e48e7921-3b9d-41de-9ab2-142030c12dd3 - 200 (0.011s)
+[2026-02-09 13:05:30,235] INFO in logging_config: OPTIONS http://localhost:5001/api/v2/organizations/e48e7921-3b9d-41de-9ab2-142030c12dd3 - 200 (0.011s)
+[2026-02-09 13:05:30,484] INFO in logging_config: GET http://localhost:5001/api/v2/organizations/e48e7921-3b9d-41de-9ab2-142030c12dd3 - 200 (0.078s)
+[2026-02-09 13:05:30,684] INFO in logging_config: GET http://localhost:5001/api/v2/organizations/e48e7921-3b9d-41de-9ab2-142030c12dd3 - 200 (0.073s)
+[2026-02-09 13:05:35,759] INFO in logging_config: OPTIONS http://localhost:5001/api/v2/employees?organization_id=e48e7921-3b9d-41de-9ab2-142030c12dd3&per_page=100 - 200 (0.001s)
+[2026-02-09 13:05:36,073] INFO in logging_config: OPTIONS http://localhost:5001/api/v2/departments?organization_id=e48e7921-3b9d-41de-9ab2-142030c12dd3&per_page=200&is_active=true - 200 (0.002s)
+[2026-02-09 13:05:36,081] INFO in logging_config: OPTIONS http://localhost:5001/api/v2/shifts?organization_id=e48e7921-3b9d-41de-9ab2-142030c12dd3&per_page=200&is_active=true - 200 (0.001s)
+[2026-02-09 13:05:36,091] INFO in logging_config: OPTIONS http://localhost:5001/api/v2/employees?organization_id=e48e7921-3b9d-41de-9ab2-142030c12dd3&per_page=100 - 200 (0.003s)
+[2026-02-09 13:05:36,104] INFO in logging_config: OPTIONS http://localhost:5001/api/v2/departments?organization_id=e48e7921-3b9d-41de-9ab2-142030c12dd3&per_page=200&is_active=true - 200 (0.001s)
+[2026-02-09 13:05:36,135] INFO in logging_config: OPTIONS http://localhost:5001/api/v2/shifts?organization_id=e48e7921-3b9d-41de-9ab2-142030c12dd3&per_page=200&is_active=true - 200 (0.007s)
+[2026-02-09 13:05:36,828] INFO in logging_config: GET http://localhost:5001/api/v2/employees?organization_id=e48e7921-3b9d-41de-9ab2-142030c12dd3&per_page=100 - 200 (0.677s)
+[2026-02-09 13:05:37,377] INFO in logging_config: GET http://localhost:5001/api/v2/employees?organization_id=e48e7921-3b9d-41de-9ab2-142030c12dd3&per_page=100 - 200 (0.209s)
+[2026-02-09 13:05:37,940] INFO in logging_config: GET http://localhost:5001/api/v2/departments?organization_id=e48e7921-3b9d-41de-9ab2-142030c12dd3&per_page=200&is_active=true - 200 (1.381s)
+[2026-02-09 13:05:38,205] INFO in logging_config: GET http://localhost:5001/api/v2/shifts?organization_id=e48e7921-3b9d-41de-9ab2-142030c12dd3&per_page=200&is_active=true - 200 (1.788s)
+[2026-02-09 13:05:39,395] INFO in logging_config: GET http://localhost:5001/api/v2/departments?organization_id=e48e7921-3b9d-41de-9ab2-142030c12dd3&per_page=200&is_active=true - 200 (0.535s)
+[2026-02-09 13:05:39,650] INFO in logging_config: GET http://localhost:5001/api/v2/shifts?organization_id=e48e7921-3b9d-41de-9ab2-142030c12dd3&per_page=200&is_active=true - 200 (0.476s)
+[2026-02-09 13:06:21,084] INFO in logging_config: OPTIONS http://localhost:5001/api/v2/auth/logout - 200 (0.001s)
+[2026-02-09 13:06:21,172] INFO in logging_config: OPTIONS http://localhost:5001/api/stats/overview - 200 (0.002s)
+[2026-02-09 13:06:21,331] INFO in logging_config: OPTIONS http://localhost:5001/api/stats/overview - 200 (0.017s)
+[2026-02-09 13:06:21,445] INFO in logging_config: POST http://localhost:5001/api/v2/auth/logout - 200 (0.026s)
+[2026-02-09 13:06:23,376] INFO in logging_config: GET http://localhost:5001/api/stats/overview - 200 (1.517s)
+[2026-02-09 13:06:24,446] INFO in logging_config: GET http://localhost:5001/api/stats/overview - 200 (0.371s)
+[2026-02-09 13:06:37,751] INFO in logging_config: OPTIONS http://localhost:5001/api/v2/auth/login - 200 (0.059s)
+[2026-02-09 13:06:38,370] INFO in logging_config: POST http://localhost:5001/api/v2/auth/login - 401 (0.158s)
+[2026-02-09 13:06:38,871] INFO in logging_config: OPTIONS http://localhost:5001/api/v2/auth/refresh - 200 (0.016s)
+[2026-02-09 13:06:39,251] INFO in logging_config: POST http://localhost:5001/api/v2/auth/refresh - 200 (0.114s)
+[2026-02-09 13:06:39,526] INFO in logging_config: POST http://localhost:5001/api/v2/auth/login - 401 (0.135s)
+[2026-02-09 13:08:36,201] INFO in logging_config: OPTIONS http://localhost:5001/api/v2/auth/login - 200 (0.001s)
+[2026-02-09 13:08:37,386] INFO in logging_config: POST http://localhost:5001/api/v2/auth/login - 401 (0.927s)
+[2026-02-09 13:08:37,406] INFO in logging_config: OPTIONS http://localhost:5001/api/v2/auth/refresh - 200 (0.001s)
+[2026-02-09 13:08:37,741] INFO in logging_config: POST http://localhost:5001/api/v2/auth/refresh - 200 (0.009s)
+[2026-02-09 13:08:38,789] INFO in logging_config: POST http://localhost:5001/api/v2/auth/login - 401 (0.808s)
+[2026-02-09 13:08:59,829] INFO in logging_config: OPTIONS http://localhost:5001/api/v2/auth/login - 200 (0.001s)
+[2026-02-09 13:09:01,071] INFO in logging_config: POST http://localhost:5001/api/v2/auth/login - 200 (0.884s)
+[2026-02-09 13:09:01,339] INFO in logging_config: OPTIONS http://localhost:5001/api/subscriptions/organization/e48e7921-3b9d-41de-9ab2-142030c12dd3/status - 200 (0.001s)
+[2026-02-09 13:09:01,646] INFO in logging_config: OPTIONS http://localhost:5001/api/subscriptions/plans - 200 (0.001s)
+[2026-02-09 13:09:01,689] INFO in logging_config: GET http://localhost:5001/api/subscriptions/organization/e48e7921-3b9d-41de-9ab2-142030c12dd3/status - 401 (0.010s)
+[2026-02-09 13:09:01,983] INFO in logging_config: GET http://localhost:5001/api/subscriptions/plans - 200 (0.003s)
+[2026-02-09 13:09:02,030] INFO in logging_config: OPTIONS http://localhost:5001/api/v2/auth/refresh - 200 (0.005s)
+[2026-02-09 13:09:02,378] INFO in logging_config: POST http://localhost:5001/api/v2/auth/refresh - 200 (0.010s)
+[2026-02-09 13:09:02,628] INFO in logging_config: GET http://localhost:5001/api/subscriptions/organization/e48e7921-3b9d-41de-9ab2-142030c12dd3/status - 401 (0.002s)
+[2026-02-09 13:09:04,857] ERROR in routes: Error fetching employee stats: name 'Attendance' is not defined
+[2026-02-09 13:09:04,877] INFO in logging_config: GET http://localhost:5001/api/employee/profile - 200 (0.043s)
+[2026-02-09 13:09:04,902] INFO in logging_config: GET http://localhost:5001/api/employee/attendance/today - 200 (0.079s)
+[2026-02-09 13:09:04,905] ERROR in routes: Traceback (most recent call last):
+  File "C:\Users\preml\Desktop\office\AccessHub\backend\app\api\employee\routes.py", line 526, in get_employee_stats_summary
+    attendance_records = Attendance.query.filter(
+                         ^^^^^^^^^^
+NameError: name 'Attendance' is not defined
+
+[2026-02-09 13:09:04,914] INFO in logging_config: GET http://localhost:5001/api/employee/stats/summary - 500 (0.100s)
+[2026-02-09 13:09:07,414] ERROR in routes: Error fetching employee stats: name 'Attendance' is not defined
+[2026-02-09 13:09:07,417] INFO in logging_config: GET http://localhost:5001/api/employee/attendance/today - 200 (0.019s)
+[2026-02-09 13:09:07,425] ERROR in routes: Traceback (most recent call last):
+  File "C:\Users\preml\Desktop\office\AccessHub\backend\app\api\employee\routes.py", line 526, in get_employee_stats_summary
+    attendance_records = Attendance.query.filter(
+                         ^^^^^^^^^^
+NameError: name 'Attendance' is not defined
+
+[2026-02-09 13:09:07,436] INFO in logging_config: GET http://localhost:5001/api/employee/profile - 200 (0.044s)
+[2026-02-09 13:09:07,450] INFO in logging_config: GET http://localhost:5001/api/employee/stats/summary - 500 (0.047s)
+[2026-02-09 13:09:11,864] ERROR in routes: Error fetching employee leaves: 'LeaveRequest' object has no attribute 'days_requested'
+[2026-02-09 13:09:11,874] ERROR in routes: Traceback (most recent call last):
+  File "C:\Users\preml\Desktop\office\AccessHub\backend\app\api\employee\routes.py", line 360, in get_employee_leaves
+    'days_requested': leave.days_requested,
+                      ^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'LeaveRequest' object has no attribute 'days_requested'
+
+[2026-02-09 13:09:11,877] INFO in logging_config: GET http://localhost:5001/api/employee/leaves - 500 (0.067s)
+[2026-02-09 13:09:12,086] ERROR in routes: Error fetching employee leaves: 'LeaveRequest' object has no attribute 'days_requested'
+[2026-02-09 13:09:12,091] ERROR in routes: Traceback (most recent call last):
+  File "C:\Users\preml\Desktop\office\AccessHub\backend\app\api\employee\routes.py", line 360, in get_employee_leaves
+    'days_requested': leave.days_requested,
+                      ^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'LeaveRequest' object has no attribute 'days_requested'
+
+[2026-02-09 13:09:12,099] INFO in logging_config: GET http://localhost:5001/api/employee/leaves - 500 (0.031s)
+[2026-02-09 13:09:27,671] INFO in logging_config: POST http://localhost:5001/api/employee/leaves - 400 (0.031s)
+[2026-02-09 13:09:32,377] INFO in logging_config: POST http://localhost:5001/api/employee/leaves - 400 (0.007s)
+[2026-02-09 13:09:46,814] ERROR in routes: Error applying for leave: name 'Leave' is not defined
+[2026-02-09 13:09:46,826] ERROR in routes: Traceback (most recent call last):
+  File "C:\Users\preml\Desktop\office\AccessHub\backend\app\api\employee\routes.py", line 470, in apply_for_leave
+    new_leave = Leave(
+                ^^^^^
+NameError: name 'Leave' is not defined
+
+[2026-02-09 13:09:46,829] INFO in logging_config: POST http://localhost:5001/api/employee/leaves - 500 (0.062s)
+[2026-02-09 13:10:01,159] INFO in logging_config: POST http://localhost:5001/api/employee/leaves - 400 (0.008s)
+[2026-02-09 13:10:07,537] ERROR in routes: Error applying for leave: name 'Leave' is not defined
+[2026-02-09 13:10:07,540] ERROR in routes: Traceback (most recent call last):
+  File "C:\Users\preml\Desktop\office\AccessHub\backend\app\api\employee\routes.py", line 470, in apply_for_leave
+    new_leave = Leave(
+                ^^^^^
+NameError: name 'Leave' is not defined
+
+[2026-02-09 13:10:07,543] INFO in logging_config: POST http://localhost:5001/api/employee/leaves - 500 (0.012s)
+[2026-02-09 13:10:40,369] ERROR in routes: Error applying for leave: name 'Leave' is not defined
+[2026-02-09 13:10:40,385] ERROR in routes: Traceback (most recent call last):
+  File "C:\Users\preml\Desktop\office\AccessHub\backend\app\api\employee\routes.py", line 470, in apply_for_leave
+    new_leave = Leave(
+                ^^^^^
+NameError: name 'Leave' is not defined
+
+[2026-02-09 13:10:40,451] INFO in logging_config: POST http://localhost:5001/api/employee/leaves - 500 (0.095s)
+[2026-02-09 13:12:28,590] INFO in logging_config: OPTIONS http://localhost:5001/api/v2/attendance?page=1&per_page=10&start_date=2026-01-10&end_date=2026-02-09 - 200 (0.001s)
+[2026-02-09 13:12:28,595] INFO in logging_config: OPTIONS http://localhost:5001/api/v2/attendance?page=1&per_page=10&start_date=2026-01-10&end_date=2026-02-09 - 200 (0.001s)
+[2026-02-09 13:12:28,909] INFO in logging_config: GET http://localhost:5001/api/v2/attendance?page=1&per_page=10&start_date=2026-01-10&end_date=2026-02-09 - 200 (0.070s)
+[2026-02-09 13:12:28,992] INFO in logging_config: GET http://localhost:5001/api/v2/attendance?page=1&per_page=10&start_date=2026-01-10&end_date=2026-02-09 - 200 (0.078s)
+[2026-02-09 13:14:41,031] ERROR in routes: Error fetching employee leaves: 'LeaveRequest' object has no attribute 'days_requested'
+[2026-02-09 13:14:41,034] ERROR in routes: Traceback (most recent call last):
+  File "C:\Users\preml\Desktop\office\AccessHub\backend\app\api\employee\routes.py", line 360, in get_employee_leaves
+    'days_requested': leave.days_requested,
+                      ^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'LeaveRequest' object has no attribute 'days_requested'
+
+[2026-02-09 13:14:41,037] INFO in logging_config: GET http://localhost:5001/api/employee/leaves - 500 (0.023s)
+[2026-02-09 13:14:41,256] ERROR in routes: Error fetching employee leaves: 'LeaveRequest' object has no attribute 'days_requested'
+[2026-02-09 13:14:41,257] ERROR in routes: Traceback (most recent call last):
+  File "C:\Users\preml\Desktop\office\AccessHub\backend\app\api\employee\routes.py", line 360, in get_employee_leaves
+    'days_requested': leave.days_requested,
+                      ^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'LeaveRequest' object has no attribute 'days_requested'
+
+[2026-02-09 13:14:41,259] INFO in logging_config: GET http://localhost:5001/api/employee/leaves - 500 (0.017s)
+[2026-02-09 13:14:53,153] ERROR in routes: Error applying for leave: name 'Leave' is not defined
+[2026-02-09 13:14:53,155] ERROR in routes: Traceback (most recent call last):
+  File "C:\Users\preml\Desktop\office\AccessHub\backend\app\api\employee\routes.py", line 470, in apply_for_leave
+    new_leave = Leave(
+                ^^^^^
+NameError: name 'Leave' is not defined
+
+[2026-02-09 13:14:53,157] INFO in logging_config: POST http://localhost:5001/api/employee/leaves - 500 (0.009s)
+[2026-02-09 13:17:41,721] ERROR in routes: Error fetching employee stats: name 'Attendance' is not defined
+[2026-02-09 13:17:41,730] INFO in logging_config: GET http://localhost:5001/api/employee/attendance/today - 200 (0.013s)
+[2026-02-09 13:17:41,734] ERROR in routes: Traceback (most recent call last):
+  File "C:\Users\preml\Desktop\office\AccessHub\backend\app\api\employee\routes.py", line 526, in get_employee_stats_summary
+    attendance_records = Attendance.query.filter(
+                         ^^^^^^^^^^
+NameError: name 'Attendance' is not defined
+
+[2026-02-09 13:17:41,739] INFO in logging_config: GET http://localhost:5001/api/employee/stats/summary - 500 (0.026s)
+[2026-02-09 13:17:41,747] INFO in logging_config: GET http://localhost:5001/api/employee/profile - 200 (0.024s)
+[2026-02-09 13:17:41,967] INFO in logging_config: GET http://localhost:5001/api/employee/attendance/today - 200 (0.005s)
+[2026-02-09 13:17:42,085] ERROR in routes: Error fetching employee stats: name 'Attendance' is not defined
+[2026-02-09 13:17:42,094] ERROR in routes: Traceback (most recent call last):
+  File "C:\Users\preml\Desktop\office\AccessHub\backend\app\api\employee\routes.py", line 526, in get_employee_stats_summary
+    attendance_records = Attendance.query.filter(
+                         ^^^^^^^^^^
+NameError: name 'Attendance' is not defined
+
+[2026-02-09 13:17:42,099] INFO in logging_config: GET http://localhost:5001/api/employee/stats/summary - 500 (0.024s)
+[2026-02-09 13:17:42,106] INFO in logging_config: GET http://localhost:5001/api/employee/profile - 200 (0.027s)
+[2026-02-09 13:17:57,033] WARNING in _internal:  * Debugger is active!
+[2026-02-09 13:17:57,758] ERROR in routes: Error fetching employee leaves: Could not determine join condition between parent/child tables on relationship AttendanceChangeRequest.attendance_record - there are multiple foreign key paths linking the tables.  Specify the 'foreign_keys' argument, providing a list of those columns which should be counted as containing a foreign key reference to the parent table.
+[2026-02-09 13:17:57,759] ERROR in routes: Error fetching employee stats: One or more mappers failed to initialize - can't proceed with initialization of other mappers. Triggering mapper: 'Mapper[AttendanceChangeRequest(attendance_change_requests)]'. Original exception was: Could not determine join condition between parent/child tables on relationship AttendanceChangeRequest.attendance_record - there are multiple foreign key paths linking the tables.  Specify the 'foreign_keys' argument, providing a list of those columns which should be counted as containing a foreign key reference to the parent table.
+[2026-02-09 13:17:57,760] ERROR in routes: Error fetching today's attendance: One or more mappers failed to initialize - can't proceed with initialization of other mappers. Triggering mapper: 'Mapper[AttendanceChangeRequest(attendance_change_requests)]'. Original exception was: Could not determine join condition between parent/child tables on relationship AttendanceChangeRequest.attendance_record - there are multiple foreign key paths linking the tables.  Specify the 'foreign_keys' argument, providing a list of those columns which should be counted as containing a foreign key reference to the parent table.
+[2026-02-09 13:17:57,760] ERROR in routes: Error fetching employee profile: One or more mappers failed to initialize - can't proceed with initialization of other mappers. Triggering mapper: 'Mapper[AttendanceChangeRequest(attendance_change_requests)]'. Original exception was: Could not determine join condition between parent/child tables on relationship AttendanceChangeRequest.attendance_record - there are multiple foreign key paths linking the tables.  Specify the 'foreign_keys' argument, providing a list of those columns which should be counted as containing a foreign key reference to the parent table.
+[2026-02-09 13:17:57,823] ERROR in routes: Traceback (most recent call last):
+  File "C:\Users\preml\Desktop\office\AccessHub\backend\app\api\employee\routes.py", line 513, in get_employee_stats_summary
+    employee = Employee.query.filter_by(user_id=user_id, is_active=True).first()
+               ^^^^^^^^^^^^^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask_sqlalchemy\model.py", line 22, in __get__
+    return cls.query_class(
+           ~~~~~~~~~~~~~~~^
+        cls, session=cls.__fsa__.session()  # type: ignore[arg-type]
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\query.py", line 276, in __init__
+    self._set_entities(entities)
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\query.py", line 289, in _set_entities
+    coercions.expect(
+    ~~~~~~~~~~~~~~~~^
+        roles.ColumnsClauseRole,
+        ^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<2 lines>...
+        post_inspect=True,
+        ^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\sql\coercions.py", line 388, in expect
+    insp._post_inspect
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\util\langhelpers.py", line 1338, in __get__
+    obj.__dict__[self.__name__] = result = self.fget(obj)
+                                           ~~~~~~~~~^^^^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\mapper.py", line 2724, in _post_inspect
+    self._check_configure()
+    ~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\mapper.py", line 2401, in _check_configure
+    _configure_registries({self.registry}, cascade=True)
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\mapper.py", line 4218, in _configure_registries
+    _do_configure_registries(registries, cascade)
+    ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\mapper.py", line 4255, in _do_configure_registries
+    raise e
+sqlalchemy.exc.InvalidRequestError: One or more mappers failed to initialize - can't proceed with initialization of other mappers. Triggering mapper: 'Mapper[AttendanceChangeRequest(attendance_change_requests)]'. Original exception was: Could not determine join condition between parent/child tables on relationship AttendanceChangeRequest.attendance_record - there are multiple foreign key paths linking the tables.  Specify the 'foreign_keys' argument, providing a list of those columns which should be counted as containing a foreign key reference to the parent table.
+
+[2026-02-09 13:17:57,832] INFO in logging_config: GET http://localhost:5001/api/employee/stats/summary - 500 (0.434s)
+[2026-02-09 13:17:57,843] ERROR in routes: Traceback (most recent call last):
+  File "C:\Users\preml\Desktop\office\AccessHub\backend\app\api\employee\routes.py", line 173, in get_today_attendance
+    employee = Employee.query.filter_by(user_id=user_id, is_active=True).first()
+               ^^^^^^^^^^^^^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask_sqlalchemy\model.py", line 22, in __get__
+    return cls.query_class(
+           ~~~~~~~~~~~~~~~^
+        cls, session=cls.__fsa__.session()  # type: ignore[arg-type]
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\query.py", line 276, in __init__
+    self._set_entities(entities)
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\query.py", line 289, in _set_entities
+    coercions.expect(
+    ~~~~~~~~~~~~~~~~^
+        roles.ColumnsClauseRole,
+        ^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<2 lines>...
+        post_inspect=True,
+        ^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\sql\coercions.py", line 388, in expect
+    insp._post_inspect
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\util\langhelpers.py", line 1338, in __get__
+    obj.__dict__[self.__name__] = result = self.fget(obj)
+                                           ~~~~~~~~~^^^^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\mapper.py", line 2724, in _post_inspect
+    self._check_configure()
+    ~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\mapper.py", line 2401, in _check_configure
+    _configure_registries({self.registry}, cascade=True)
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\mapper.py", line 4218, in _configure_registries
+    _do_configure_registries(registries, cascade)
+    ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\mapper.py", line 4255, in _do_configure_registries
+    raise e
+sqlalchemy.exc.InvalidRequestError: One or more mappers failed to initialize - can't proceed with initialization of other mappers. Triggering mapper: 'Mapper[AttendanceChangeRequest(attendance_change_requests)]'. Original exception was: Could not determine join condition between parent/child tables on relationship AttendanceChangeRequest.attendance_record - there are multiple foreign key paths linking the tables.  Specify the 'foreign_keys' argument, providing a list of those columns which should be counted as containing a foreign key reference to the parent table.
+
+[2026-02-09 13:17:57,855] ERROR in routes: Traceback (most recent call last):
+  File "C:\Users\preml\Desktop\office\AccessHub\backend\app\api\employee\routes.py", line 80, in get_employee_profile
+    employee = Employee.query.filter_by(user_id=user_id, is_active=True).first()
+               ^^^^^^^^^^^^^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask_sqlalchemy\model.py", line 22, in __get__
+    return cls.query_class(
+           ~~~~~~~~~~~~~~~^
+        cls, session=cls.__fsa__.session()  # type: ignore[arg-type]
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\query.py", line 276, in __init__
+    self._set_entities(entities)
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\query.py", line 289, in _set_entities
+    coercions.expect(
+    ~~~~~~~~~~~~~~~~^
+        roles.ColumnsClauseRole,
+        ^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<2 lines>...
+        post_inspect=True,
+        ^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\sql\coercions.py", line 388, in expect
+    insp._post_inspect
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\util\langhelpers.py", line 1338, in __get__
+    obj.__dict__[self.__name__] = result = self.fget(obj)
+                                           ~~~~~~~~~^^^^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\mapper.py", line 2724, in _post_inspect
+    self._check_configure()
+    ~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\mapper.py", line 2401, in _check_configure
+    _configure_registries({self.registry}, cascade=True)
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\mapper.py", line 4218, in _configure_registries
+    _do_configure_registries(registries, cascade)
+    ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\mapper.py", line 4255, in _do_configure_registries
+    raise e
+sqlalchemy.exc.InvalidRequestError: One or more mappers failed to initialize - can't proceed with initialization of other mappers. Triggering mapper: 'Mapper[AttendanceChangeRequest(attendance_change_requests)]'. Original exception was: Could not determine join condition between parent/child tables on relationship AttendanceChangeRequest.attendance_record - there are multiple foreign key paths linking the tables.  Specify the 'foreign_keys' argument, providing a list of those columns which should be counted as containing a foreign key reference to the parent table.
+
+[2026-02-09 13:17:57,862] INFO in logging_config: GET http://localhost:5001/api/employee/attendance/today - 500 (0.384s)
+[2026-02-09 13:17:57,876] INFO in logging_config: GET http://localhost:5001/api/employee/profile - 500 (0.207s)
+[2026-02-09 13:17:57,934] ERROR in routes: Traceback (most recent call last):
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\relationships.py", line 2434, in _determine_joins
+    self.primaryjoin = join_condition(
+                       ~~~~~~~~~~~~~~^
+        self.parent_persist_selectable,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<2 lines>...
+        consider_as_foreign_keys=consider_as_foreign_keys,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\sql\util.py", line 121, in join_condition
+    return Join._join_condition(
+           ~~~~~~~~~~~~~~~~~~~~^
+        a,
+        ^^
+    ...<2 lines>...
+        consider_as_foreign_keys=consider_as_foreign_keys,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\sql\selectable.py", line 1435, in _join_condition
+    cls._joincond_trim_constraints(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        a, b, constraints, consider_as_foreign_keys
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\sql\selectable.py", line 1580, in _joincond_trim_constraints
+    raise exc.AmbiguousForeignKeysError(
+    ...<5 lines>...
+    )
+sqlalchemy.exc.AmbiguousForeignKeysError: Can't determine join between 'attendance_change_requests' and 'attendance_records'; tables have more than one foreign key constraint relationship between them. Please specify the 'onclause' of this join explicitly.
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\preml\Desktop\office\AccessHub\backend\app\api\employee\routes.py", line 335, in get_employee_leaves
+    employee = Employee.query.filter_by(user_id=user_id, is_active=True).first()
+               ^^^^^^^^^^^^^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask_sqlalchemy\model.py", line 22, in __get__
+    return cls.query_class(
+           ~~~~~~~~~~~~~~~^
+        cls, session=cls.__fsa__.session()  # type: ignore[arg-type]
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\query.py", line 276, in __init__
+    self._set_entities(entities)
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\query.py", line 289, in _set_entities
+    coercions.expect(
+    ~~~~~~~~~~~~~~~~^
+        roles.ColumnsClauseRole,
+        ^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<2 lines>...
+        post_inspect=True,
+        ^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\sql\coercions.py", line 388, in expect
+    insp._post_inspect
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\util\langhelpers.py", line 1338, in __get__
+    obj.__dict__[self.__name__] = result = self.fget(obj)
+                                           ~~~~~~~~~^^^^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\mapper.py", line 2724, in _post_inspect
+    self._check_configure()
+    ~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\mapper.py", line 2401, in _check_configure
+    _configure_registries({self.registry}, cascade=True)
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\mapper.py", line 4218, in _configure_registries
+    _do_configure_registries(registries, cascade)
+    ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\mapper.py", line 4259, in _do_configure_registries
+    mapper._post_configure_properties()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\mapper.py", line 2418, in _post_configure_properties
+    prop.init()
+    ~~~~~~~~~^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\interfaces.py", line 595, in init
+    self.do_init()
+    ~~~~~~~~~~~~^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\relationships.py", line 1657, in do_init
+    self._setup_join_conditions()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\relationships.py", line 1895, in _setup_join_conditions
+    self._join_condition = jc = JoinCondition(
+                                ~~~~~~~~~~~~~^
+        parent_persist_selectable=self.parent.persist_selectable,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<14 lines>...
+        can_be_synced_fn=self._columns_are_mapped,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\relationships.py", line 2321, in __init__
+    self._determine_joins()
+    ~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\relationships.py", line 2478, in _determine_joins
+    raise sa_exc.AmbiguousForeignKeysError(
+    ...<7 lines>...
+    ) from afe
+sqlalchemy.exc.AmbiguousForeignKeysError: Could not determine join condition between parent/child tables on relationship AttendanceChangeRequest.attendance_record - there are multiple foreign key paths linking the tables.  Specify the 'foreign_keys' argument, providing a list of those columns which should be counted as containing a foreign key reference to the parent table.
+
+[2026-02-09 13:17:57,948] INFO in logging_config: GET http://localhost:5001/api/employee/leaves - 500 (0.594s)
+[2026-02-09 13:17:58,144] INFO in logging_config: OPTIONS http://localhost:5001/api/v2/attendance?page=1&per_page=10&start_date=2026-01-10&end_date=2026-02-09 - 200 (0.001s)
+[2026-02-09 13:17:58,155] INFO in logging_config: OPTIONS http://localhost:5001/api/v2/attendance?page=1&per_page=10&start_date=2026-01-10&end_date=2026-02-09 - 200 (0.001s)
+[2026-02-09 13:17:58,169] ERROR in routes: Error fetching employee stats: One or more mappers failed to initialize - can't proceed with initialization of other mappers. Triggering mapper: 'Mapper[AttendanceChangeRequest(attendance_change_requests)]'. Original exception was: Could not determine join condition between parent/child tables on relationship AttendanceChangeRequest.attendance_record - there are multiple foreign key paths linking the tables.  Specify the 'foreign_keys' argument, providing a list of those columns which should be counted as containing a foreign key reference to the parent table.
+[2026-02-09 13:17:58,195] ERROR in routes: Traceback (most recent call last):
+  File "C:\Users\preml\Desktop\office\AccessHub\backend\app\api\employee\routes.py", line 513, in get_employee_stats_summary
+    employee = Employee.query.filter_by(user_id=user_id, is_active=True).first()
+               ^^^^^^^^^^^^^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask_sqlalchemy\model.py", line 22, in __get__
+    return cls.query_class(
+           ~~~~~~~~~~~~~~~^
+        cls, session=cls.__fsa__.session()  # type: ignore[arg-type]
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\query.py", line 276, in __init__
+    self._set_entities(entities)
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\query.py", line 289, in _set_entities
+    coercions.expect(
+    ~~~~~~~~~~~~~~~~^
+        roles.ColumnsClauseRole,
+        ^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<2 lines>...
+        post_inspect=True,
+        ^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\sql\coercions.py", line 388, in expect
+    insp._post_inspect
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\util\langhelpers.py", line 1338, in __get__
+    obj.__dict__[self.__name__] = result = self.fget(obj)
+                                           ~~~~~~~~~^^^^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\mapper.py", line 2724, in _post_inspect
+    self._check_configure()
+    ~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\mapper.py", line 2401, in _check_configure
+    _configure_registries({self.registry}, cascade=True)
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\mapper.py", line 4218, in _configure_registries
+    _do_configure_registries(registries, cascade)
+    ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\mapper.py", line 4255, in _do_configure_registries
+    raise e
+sqlalchemy.exc.InvalidRequestError: One or more mappers failed to initialize - can't proceed with initialization of other mappers. Triggering mapper: 'Mapper[AttendanceChangeRequest(attendance_change_requests)]'. Original exception was: Could not determine join condition between parent/child tables on relationship AttendanceChangeRequest.attendance_record - there are multiple foreign key paths linking the tables.  Specify the 'foreign_keys' argument, providing a list of those columns which should be counted as containing a foreign key reference to the parent table.
+
+[2026-02-09 13:17:58,204] INFO in logging_config: GET http://localhost:5001/api/employee/stats/summary - 500 (0.037s)
+[2026-02-09 13:17:58,232] ERROR in routes: Error fetching today's attendance: One or more mappers failed to initialize - can't proceed with initialization of other mappers. Triggering mapper: 'Mapper[AttendanceChangeRequest(attendance_change_requests)]'. Original exception was: Could not determine join condition between parent/child tables on relationship AttendanceChangeRequest.attendance_record - there are multiple foreign key paths linking the tables.  Specify the 'foreign_keys' argument, providing a list of those columns which should be counted as containing a foreign key reference to the parent table.
+[2026-02-09 13:17:58,241] ERROR in routes: Error fetching employee profile: One or more mappers failed to initialize - can't proceed with initialization of other mappers. Triggering mapper: 'Mapper[AttendanceChangeRequest(attendance_change_requests)]'. Original exception was: Could not determine join condition between parent/child tables on relationship AttendanceChangeRequest.attendance_record - there are multiple foreign key paths linking the tables.  Specify the 'foreign_keys' argument, providing a list of those columns which should be counted as containing a foreign key reference to the parent table.
+[2026-02-09 13:17:58,252] ERROR in routes: Traceback (most recent call last):
+  File "C:\Users\preml\Desktop\office\AccessHub\backend\app\api\employee\routes.py", line 173, in get_today_attendance
+    employee = Employee.query.filter_by(user_id=user_id, is_active=True).first()
+               ^^^^^^^^^^^^^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask_sqlalchemy\model.py", line 22, in __get__
+    return cls.query_class(
+           ~~~~~~~~~~~~~~~^
+        cls, session=cls.__fsa__.session()  # type: ignore[arg-type]
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\query.py", line 276, in __init__
+    self._set_entities(entities)
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\query.py", line 289, in _set_entities
+    coercions.expect(
+    ~~~~~~~~~~~~~~~~^
+        roles.ColumnsClauseRole,
+        ^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<2 lines>...
+        post_inspect=True,
+        ^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\sql\coercions.py", line 388, in expect
+    insp._post_inspect
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\util\langhelpers.py", line 1338, in __get__
+    obj.__dict__[self.__name__] = result = self.fget(obj)
+                                           ~~~~~~~~~^^^^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\mapper.py", line 2724, in _post_inspect
+    self._check_configure()
+    ~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\mapper.py", line 2401, in _check_configure
+    _configure_registries({self.registry}, cascade=True)
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\mapper.py", line 4218, in _configure_registries
+    _do_configure_registries(registries, cascade)
+    ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\mapper.py", line 4255, in _do_configure_registries
+    raise e
+sqlalchemy.exc.InvalidRequestError: One or more mappers failed to initialize - can't proceed with initialization of other mappers. Triggering mapper: 'Mapper[AttendanceChangeRequest(attendance_change_requests)]'. Original exception was: Could not determine join condition between parent/child tables on relationship AttendanceChangeRequest.attendance_record - there are multiple foreign key paths linking the tables.  Specify the 'foreign_keys' argument, providing a list of those columns which should be counted as containing a foreign key reference to the parent table.
+
+[2026-02-09 13:17:58,257] ERROR in routes: Traceback (most recent call last):
+  File "C:\Users\preml\Desktop\office\AccessHub\backend\app\api\employee\routes.py", line 80, in get_employee_profile
+    employee = Employee.query.filter_by(user_id=user_id, is_active=True).first()
+               ^^^^^^^^^^^^^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask_sqlalchemy\model.py", line 22, in __get__
+    return cls.query_class(
+           ~~~~~~~~~~~~~~~^
+        cls, session=cls.__fsa__.session()  # type: ignore[arg-type]
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\query.py", line 276, in __init__
+    self._set_entities(entities)
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\query.py", line 289, in _set_entities
+    coercions.expect(
+    ~~~~~~~~~~~~~~~~^
+        roles.ColumnsClauseRole,
+        ^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<2 lines>...
+        post_inspect=True,
+        ^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\sql\coercions.py", line 388, in expect
+    insp._post_inspect
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\util\langhelpers.py", line 1338, in __get__
+    obj.__dict__[self.__name__] = result = self.fget(obj)
+                                           ~~~~~~~~~^^^^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\mapper.py", line 2724, in _post_inspect
+    self._check_configure()
+    ~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\mapper.py", line 2401, in _check_configure
+    _configure_registries({self.registry}, cascade=True)
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\mapper.py", line 4218, in _configure_registries
+    _do_configure_registries(registries, cascade)
+    ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\mapper.py", line 4255, in _do_configure_registries
+    raise e
+sqlalchemy.exc.InvalidRequestError: One or more mappers failed to initialize - can't proceed with initialization of other mappers. Triggering mapper: 'Mapper[AttendanceChangeRequest(attendance_change_requests)]'. Original exception was: Could not determine join condition between parent/child tables on relationship AttendanceChangeRequest.attendance_record - there are multiple foreign key paths linking the tables.  Specify the 'foreign_keys' argument, providing a list of those columns which should be counted as containing a foreign key reference to the parent table.
+
+[2026-02-09 13:17:58,259] INFO in logging_config: GET http://localhost:5001/api/employee/attendance/today - 500 (0.031s)
+[2026-02-09 13:17:58,263] INFO in logging_config: GET http://localhost:5001/api/employee/profile - 500 (0.025s)
+[2026-02-09 13:17:58,293] ERROR in routes: Error fetching employee leaves: One or more mappers failed to initialize - can't proceed with initialization of other mappers. Triggering mapper: 'Mapper[AttendanceChangeRequest(attendance_change_requests)]'. Original exception was: Could not determine join condition between parent/child tables on relationship AttendanceChangeRequest.attendance_record - there are multiple foreign key paths linking the tables.  Specify the 'foreign_keys' argument, providing a list of those columns which should be counted as containing a foreign key reference to the parent table.
+[2026-02-09 13:17:58,303] ERROR in routes: Traceback (most recent call last):
+  File "C:\Users\preml\Desktop\office\AccessHub\backend\app\api\employee\routes.py", line 335, in get_employee_leaves
+    employee = Employee.query.filter_by(user_id=user_id, is_active=True).first()
+               ^^^^^^^^^^^^^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask_sqlalchemy\model.py", line 22, in __get__
+    return cls.query_class(
+           ~~~~~~~~~~~~~~~^
+        cls, session=cls.__fsa__.session()  # type: ignore[arg-type]
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\query.py", line 276, in __init__
+    self._set_entities(entities)
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\query.py", line 289, in _set_entities
+    coercions.expect(
+    ~~~~~~~~~~~~~~~~^
+        roles.ColumnsClauseRole,
+        ^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<2 lines>...
+        post_inspect=True,
+        ^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\sql\coercions.py", line 388, in expect
+    insp._post_inspect
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\util\langhelpers.py", line 1338, in __get__
+    obj.__dict__[self.__name__] = result = self.fget(obj)
+                                           ~~~~~~~~~^^^^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\mapper.py", line 2724, in _post_inspect
+    self._check_configure()
+    ~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\mapper.py", line 2401, in _check_configure
+    _configure_registries({self.registry}, cascade=True)
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\mapper.py", line 4218, in _configure_registries
+    _do_configure_registries(registries, cascade)
+    ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\mapper.py", line 4255, in _do_configure_registries
+    raise e
+sqlalchemy.exc.InvalidRequestError: One or more mappers failed to initialize - can't proceed with initialization of other mappers. Triggering mapper: 'Mapper[AttendanceChangeRequest(attendance_change_requests)]'. Original exception was: Could not determine join condition between parent/child tables on relationship AttendanceChangeRequest.attendance_record - there are multiple foreign key paths linking the tables.  Specify the 'foreign_keys' argument, providing a list of those columns which should be counted as containing a foreign key reference to the parent table.
+
+[2026-02-09 13:17:58,309] INFO in logging_config: GET http://localhost:5001/api/employee/leaves - 500 (0.019s)
+[2026-02-09 13:17:58,408] ERROR in errors: Database error: One or more mappers failed to initialize - can't proceed with initialization of other mappers. Triggering mapper: 'Mapper[AttendanceChangeRequest(attendance_change_requests)]'. Original exception was: Could not determine join condition between parent/child tables on relationship AttendanceChangeRequest.attendance_record - there are multiple foreign key paths linking the tables.  Specify the 'foreign_keys' argument, providing a list of those columns which should be counted as containing a foreign key reference to the parent table.
+[2026-02-09 13:17:58,410] INFO in logging_config: GET http://localhost:5001/api/v2/attendance?page=1&per_page=10&start_date=2026-01-10&end_date=2026-02-09 - 500 (0.004s)
+[2026-02-09 13:17:58,473] ERROR in errors: Database error: One or more mappers failed to initialize - can't proceed with initialization of other mappers. Triggering mapper: 'Mapper[AttendanceChangeRequest(attendance_change_requests)]'. Original exception was: Could not determine join condition between parent/child tables on relationship AttendanceChangeRequest.attendance_record - there are multiple foreign key paths linking the tables.  Specify the 'foreign_keys' argument, providing a list of those columns which should be counted as containing a foreign key reference to the parent table.
+[2026-02-09 13:17:58,475] INFO in logging_config: GET http://localhost:5001/api/v2/attendance?page=1&per_page=10&start_date=2026-01-10&end_date=2026-02-09 - 500 (0.004s)
+[2026-02-09 13:18:05,914] INFO in logging_config: OPTIONS http://localhost:5001/api/v2/attendance?employee_id=0832d34a-b933-4657-91be-b2b4395938bc&start_date=2026-02-01&end_date=2026-02-28&per_page=100 - 200 (0.001s)
+[2026-02-09 13:18:06,223] INFO in logging_config: OPTIONS http://localhost:5001/api/v2/attendance?employee_id=0832d34a-b933-4657-91be-b2b4395938bc&start_date=2026-02-01&end_date=2026-02-28&per_page=100 - 200 (0.001s)
+[2026-02-09 13:18:06,258] ERROR in errors: Database error: One or more mappers failed to initialize - can't proceed with initialization of other mappers. Triggering mapper: 'Mapper[AttendanceChangeRequest(attendance_change_requests)]'. Original exception was: Could not determine join condition between parent/child tables on relationship AttendanceChangeRequest.attendance_record - there are multiple foreign key paths linking the tables.  Specify the 'foreign_keys' argument, providing a list of those columns which should be counted as containing a foreign key reference to the parent table.
+[2026-02-09 13:18:06,268] INFO in logging_config: GET http://localhost:5001/api/v2/attendance?employee_id=0832d34a-b933-4657-91be-b2b4395938bc&start_date=2026-02-01&end_date=2026-02-28&per_page=100 - 500 (0.014s)
+[2026-02-09 13:18:06,588] ERROR in errors: Database error: One or more mappers failed to initialize - can't proceed with initialization of other mappers. Triggering mapper: 'Mapper[AttendanceChangeRequest(attendance_change_requests)]'. Original exception was: Could not determine join condition between parent/child tables on relationship AttendanceChangeRequest.attendance_record - there are multiple foreign key paths linking the tables.  Specify the 'foreign_keys' argument, providing a list of those columns which should be counted as containing a foreign key reference to the parent table.
+[2026-02-09 13:18:06,590] INFO in logging_config: GET http://localhost:5001/api/v2/attendance?employee_id=0832d34a-b933-4657-91be-b2b4395938bc&start_date=2026-02-01&end_date=2026-02-28&per_page=100 - 500 (0.006s)
+[2026-02-09 13:18:11,286] INFO in logging_config: OPTIONS http://localhost:5001/api/v2/attendance?employee_id=0832d34a-b933-4657-91be-b2b4395938bc&start_date=2026-01-01&end_date=2026-01-31&per_page=100 - 200 (0.001s)
+[2026-02-09 13:18:11,541] ERROR in errors: Database error: One or more mappers failed to initialize - can't proceed with initialization of other mappers. Triggering mapper: 'Mapper[AttendanceChangeRequest(attendance_change_requests)]'. Original exception was: Could not determine join condition between parent/child tables on relationship AttendanceChangeRequest.attendance_record - there are multiple foreign key paths linking the tables.  Specify the 'foreign_keys' argument, providing a list of those columns which should be counted as containing a foreign key reference to the parent table.
+[2026-02-09 13:18:11,546] INFO in logging_config: GET http://localhost:5001/api/v2/attendance?employee_id=0832d34a-b933-4657-91be-b2b4395938bc&start_date=2026-01-01&end_date=2026-01-31&per_page=100 - 500 (0.007s)
+[2026-02-09 13:18:32,018] INFO in logging_config: OPTIONS http://localhost:5001/api/v2/auth/me - 200 (0.061s)
+[2026-02-09 13:18:32,271] INFO in logging_config: OPTIONS http://localhost:5001/api/v2/auth/me - 200 (0.001s)
+[2026-02-09 13:18:32,466] INFO in logging_config: GET http://localhost:5001/api/v2/auth/me - 500 (0.005s)
+[2026-02-09 13:18:32,800] INFO in logging_config: GET http://localhost:5001/api/v2/auth/me - 500 (0.004s)
+[2026-02-09 13:18:36,119] INFO in logging_config: OPTIONS http://localhost:5001/api/subscriptions/organization/e48e7921-3b9d-41de-9ab2-142030c12dd3/status - 200 (0.005s)
+[2026-02-09 13:18:36,137] INFO in logging_config: OPTIONS http://localhost:5001/api/subscriptions/plans - 200 (0.007s)
+[2026-02-09 13:18:36,176] INFO in logging_config: OPTIONS http://localhost:5001/api/v2/auth/refresh - 200 (0.033s)
+[2026-02-09 13:18:36,219] INFO in logging_config: OPTIONS http://localhost:5001/api/v2/auth/refresh - 200 (0.005s)
+[2026-02-09 13:18:36,358] INFO in logging_config: GET http://localhost:5001/api/subscriptions/organization/e48e7921-3b9d-41de-9ab2-142030c12dd3/status - 401 (0.004s)
+[2026-02-09 13:18:36,488] INFO in logging_config: GET http://localhost:5001/api/subscriptions/plans - 200 (0.002s)
+[2026-02-09 13:18:36,559] INFO in logging_config: POST http://localhost:5001/api/v2/auth/refresh - 422 (0.013s)
+[2026-02-09 13:18:36,591] INFO in logging_config: POST http://localhost:5001/api/v2/auth/refresh - 422 (0.015s)
+[2026-02-09 13:18:36,625] INFO in logging_config: POST http://localhost:5001/api/v2/auth/refresh - 500 (0.016s)
+[2026-02-09 13:19:04,457] WARNING in _internal:  * Debugger is active!
+[2026-02-09 13:20:33,312] WARNING in _internal:  * Debugger is active!
+[2026-02-09 13:20:51,572] WARNING in _internal:  * Debugger is active!
+[2026-02-09 13:23:15,888] INFO in logging_config: OPTIONS http://localhost:5001/api/v2/auth/login - 200 (0.002s)
+[2026-02-09 13:23:16,558] ERROR in routes: Unhandled error in auth login
+Traceback (most recent call last):
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\relationships.py", line 2434, in _determine_joins
+    self.primaryjoin = join_condition(
+                       ~~~~~~~~~~~~~~^
+        self.parent_persist_selectable,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<2 lines>...
+        consider_as_foreign_keys=consider_as_foreign_keys,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\sql\util.py", line 121, in join_condition
+    return Join._join_condition(
+           ~~~~~~~~~~~~~~~~~~~~^
+        a,
+        ^^
+    ...<2 lines>...
+        consider_as_foreign_keys=consider_as_foreign_keys,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\sql\selectable.py", line 1435, in _join_condition
+    cls._joincond_trim_constraints(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        a, b, constraints, consider_as_foreign_keys
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\sql\selectable.py", line 1580, in _joincond_trim_constraints
+    raise exc.AmbiguousForeignKeysError(
+    ...<5 lines>...
+    )
+sqlalchemy.exc.AmbiguousForeignKeysError: Can't determine join between 'attendance_change_requests' and 'attendance_records'; tables have more than one foreign key constraint relationship between them. Please specify the 'onclause' of this join explicitly.
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\preml\Desktop\office\AccessHub\backend\app\api\auth\routes.py", line 130, in login
+    result = AuthService.login(
+        username_or_email=data['username'],
+        password=data['password']
+    )
+  File "C:\Users\preml\Desktop\office\AccessHub\backend\app\services\auth_service.py", line 33, in login
+    user = User.query.filter(
+           ^^^^^^^^^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask_sqlalchemy\model.py", line 22, in __get__
+    return cls.query_class(
+           ~~~~~~~~~~~~~~~^
+        cls, session=cls.__fsa__.session()  # type: ignore[arg-type]
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\query.py", line 276, in __init__
+    self._set_entities(entities)
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\query.py", line 289, in _set_entities
+    coercions.expect(
+    ~~~~~~~~~~~~~~~~^
+        roles.ColumnsClauseRole,
+        ^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<2 lines>...
+        post_inspect=True,
+        ^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\sql\coercions.py", line 388, in expect
+    insp._post_inspect
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\util\langhelpers.py", line 1338, in __get__
+    obj.__dict__[self.__name__] = result = self.fget(obj)
+                                           ~~~~~~~~~^^^^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\mapper.py", line 2724, in _post_inspect
+    self._check_configure()
+    ~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\mapper.py", line 2401, in _check_configure
+    _configure_registries({self.registry}, cascade=True)
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\mapper.py", line 4218, in _configure_registries
+    _do_configure_registries(registries, cascade)
+    ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\mapper.py", line 4259, in _do_configure_registries
+    mapper._post_configure_properties()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\mapper.py", line 2418, in _post_configure_properties
+    prop.init()
+    ~~~~~~~~~^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\interfaces.py", line 595, in init
+    self.do_init()
+    ~~~~~~~~~~~~^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\relationships.py", line 1657, in do_init
+    self._setup_join_conditions()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\relationships.py", line 1895, in _setup_join_conditions
+    self._join_condition = jc = JoinCondition(
+                                ~~~~~~~~~~~~~^
+        parent_persist_selectable=self.parent.persist_selectable,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<14 lines>...
+        can_be_synced_fn=self._columns_are_mapped,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\relationships.py", line 2321, in __init__
+    self._determine_joins()
+    ~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\relationships.py", line 2478, in _determine_joins
+    raise sa_exc.AmbiguousForeignKeysError(
+    ...<7 lines>...
+    ) from afe
+sqlalchemy.exc.AmbiguousForeignKeysError: Could not determine join condition between parent/child tables on relationship AttendanceChangeRequest.attendance_record - there are multiple foreign key paths linking the tables.  Specify the 'foreign_keys' argument, providing a list of those columns which should be counted as containing a foreign key reference to the parent table.
+[2026-02-09 13:23:16,653] INFO in logging_config: POST http://localhost:5001/api/v2/auth/login - 500 (0.521s)
+[2026-02-09 13:23:16,999] INFO in logging_config: GET http://localhost:5001/api/stats/overview - 401 (0.001s)
+[2026-02-09 13:23:17,330] INFO in logging_config: GET http://localhost:5001/api/stats/overview - 401 (0.003s)
+[2026-02-09 13:23:22,432] INFO in logging_config: OPTIONS http://localhost:5001/api/v2/auth/login - 200 (0.001s)
+[2026-02-09 13:23:22,773] ERROR in routes: Unhandled error in auth login
+Traceback (most recent call last):
+  File "C:\Users\preml\Desktop\office\AccessHub\backend\app\api\auth\routes.py", line 130, in login
+    result = AuthService.login(
+        username_or_email=data['username'],
+        password=data['password']
+    )
+  File "C:\Users\preml\Desktop\office\AccessHub\backend\app\services\auth_service.py", line 33, in login
+    user = User.query.filter(
+           ^^^^^^^^^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask_sqlalchemy\model.py", line 22, in __get__
+    return cls.query_class(
+           ~~~~~~~~~~~~~~~^
+        cls, session=cls.__fsa__.session()  # type: ignore[arg-type]
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\query.py", line 276, in __init__
+    self._set_entities(entities)
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\query.py", line 289, in _set_entities
+    coercions.expect(
+    ~~~~~~~~~~~~~~~~^
+        roles.ColumnsClauseRole,
+        ^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<2 lines>...
+        post_inspect=True,
+        ^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\sql\coercions.py", line 388, in expect
+    insp._post_inspect
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\util\langhelpers.py", line 1338, in __get__
+    obj.__dict__[self.__name__] = result = self.fget(obj)
+                                           ~~~~~~~~~^^^^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\mapper.py", line 2724, in _post_inspect
+    self._check_configure()
+    ~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\mapper.py", line 2401, in _check_configure
+    _configure_registries({self.registry}, cascade=True)
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\mapper.py", line 4218, in _configure_registries
+    _do_configure_registries(registries, cascade)
+    ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\mapper.py", line 4255, in _do_configure_registries
+    raise e
+sqlalchemy.exc.InvalidRequestError: One or more mappers failed to initialize - can't proceed with initialization of other mappers. Triggering mapper: 'Mapper[AttendanceChangeRequest(attendance_change_requests)]'. Original exception was: Could not determine join condition between parent/child tables on relationship AttendanceChangeRequest.attendance_record - there are multiple foreign key paths linking the tables.  Specify the 'foreign_keys' argument, providing a list of those columns which should be counted as containing a foreign key reference to the parent table.
+[2026-02-09 13:23:22,853] INFO in logging_config: POST http://localhost:5001/api/v2/auth/login - 500 (0.082s)
+[2026-02-09 13:23:23,242] INFO in logging_config: GET http://localhost:5001/api/stats/overview - 401 (0.003s)
+[2026-02-09 13:23:23,562] INFO in logging_config: GET http://localhost:5001/api/stats/overview - 401 (0.001s)
+[2026-02-09 13:23:40,076] WARNING in _internal:  * Debugger is active!
+[2026-02-09 13:25:03,679] INFO in logging_config: OPTIONS http://localhost:5001/api/v2/auth/login - 200 (0.001s)
+[2026-02-09 13:25:04,308] ERROR in routes: Unhandled error in auth login
+Traceback (most recent call last):
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\relationships.py", line 2434, in _determine_joins
+    self.primaryjoin = join_condition(
+                       ~~~~~~~~~~~~~~^
+        self.parent_persist_selectable,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<2 lines>...
+        consider_as_foreign_keys=consider_as_foreign_keys,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\sql\util.py", line 121, in join_condition
+    return Join._join_condition(
+           ~~~~~~~~~~~~~~~~~~~~^
+        a,
+        ^^
+    ...<2 lines>...
+        consider_as_foreign_keys=consider_as_foreign_keys,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\sql\selectable.py", line 1435, in _join_condition
+    cls._joincond_trim_constraints(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        a, b, constraints, consider_as_foreign_keys
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\sql\selectable.py", line 1580, in _joincond_trim_constraints
+    raise exc.AmbiguousForeignKeysError(
+    ...<5 lines>...
+    )
+sqlalchemy.exc.AmbiguousForeignKeysError: Can't determine join between 'attendance_change_requests' and 'attendance_records'; tables have more than one foreign key constraint relationship between them. Please specify the 'onclause' of this join explicitly.
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\preml\Desktop\office\AccessHub\backend\app\api\auth\routes.py", line 130, in login
+    result = AuthService.login(
+        username_or_email=data['username'],
+        password=data['password']
+    )
+  File "C:\Users\preml\Desktop\office\AccessHub\backend\app\services\auth_service.py", line 33, in login
+    user = User.query.filter(
+           ^^^^^^^^^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask_sqlalchemy\model.py", line 22, in __get__
+    return cls.query_class(
+           ~~~~~~~~~~~~~~~^
+        cls, session=cls.__fsa__.session()  # type: ignore[arg-type]
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\query.py", line 276, in __init__
+    self._set_entities(entities)
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\query.py", line 289, in _set_entities
+    coercions.expect(
+    ~~~~~~~~~~~~~~~~^
+        roles.ColumnsClauseRole,
+        ^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<2 lines>...
+        post_inspect=True,
+        ^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\sql\coercions.py", line 388, in expect
+    insp._post_inspect
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\util\langhelpers.py", line 1338, in __get__
+    obj.__dict__[self.__name__] = result = self.fget(obj)
+                                           ~~~~~~~~~^^^^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\mapper.py", line 2724, in _post_inspect
+    self._check_configure()
+    ~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\mapper.py", line 2401, in _check_configure
+    _configure_registries({self.registry}, cascade=True)
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\mapper.py", line 4218, in _configure_registries
+    _do_configure_registries(registries, cascade)
+    ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\mapper.py", line 4259, in _do_configure_registries
+    mapper._post_configure_properties()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\mapper.py", line 2418, in _post_configure_properties
+    prop.init()
+    ~~~~~~~~~^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\interfaces.py", line 595, in init
+    self.do_init()
+    ~~~~~~~~~~~~^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\relationships.py", line 1657, in do_init
+    self._setup_join_conditions()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\relationships.py", line 1895, in _setup_join_conditions
+    self._join_condition = jc = JoinCondition(
+                                ~~~~~~~~~~~~~^
+        parent_persist_selectable=self.parent.persist_selectable,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<14 lines>...
+        can_be_synced_fn=self._columns_are_mapped,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\relationships.py", line 2321, in __init__
+    self._determine_joins()
+    ~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\relationships.py", line 2478, in _determine_joins
+    raise sa_exc.AmbiguousForeignKeysError(
+    ...<7 lines>...
+    ) from afe
+sqlalchemy.exc.AmbiguousForeignKeysError: Could not determine join condition between parent/child tables on relationship AttendanceChangeRequest.attendance_record - there are multiple foreign key paths linking the tables.  Specify the 'foreign_keys' argument, providing a list of those columns which should be counted as containing a foreign key reference to the parent table.
+[2026-02-09 13:25:04,389] INFO in logging_config: POST http://localhost:5001/api/v2/auth/login - 500 (0.445s)
+[2026-02-09 13:25:04,676] INFO in logging_config: GET http://localhost:5001/api/stats/overview - 401 (0.004s)
+[2026-02-09 13:25:05,007] INFO in logging_config: GET http://localhost:5001/api/stats/overview - 401 (0.001s)
+[2026-02-09 13:25:56,041] WARNING in _internal:  * Debugger is active!
+[2026-02-09 13:26:09,367] WARNING in _internal:  * Debugger is active!
+[2026-02-09 13:26:13,620] WARNING in _internal:  * Debugger is active!
+[2026-02-09 13:27:10,780] WARNING in _internal:  * Debugger is active!
+[2026-02-09 13:27:38,475] INFO in logging_config: OPTIONS http://localhost:5001/api/v2/auth/login - 200 (0.002s)
+[2026-02-09 13:27:40,296] INFO in logging_config: POST http://localhost:5001/api/v2/auth/login - 200 (1.572s)
+[2026-02-09 13:27:40,575] INFO in logging_config: OPTIONS http://localhost:5001/api/subscriptions/organization/e48e7921-3b9d-41de-9ab2-142030c12dd3/status - 200 (0.001s)
+[2026-02-09 13:27:40,894] INFO in logging_config: OPTIONS http://localhost:5001/api/subscriptions/plans - 200 (0.001s)
+[2026-02-09 13:27:40,911] INFO in logging_config: GET http://localhost:5001/api/subscriptions/organization/e48e7921-3b9d-41de-9ab2-142030c12dd3/status - 401 (0.010s)
+[2026-02-09 13:27:40,962] ERROR in routes: Error fetching employee stats: name 'Attendance' is not defined
+[2026-02-09 13:27:40,968] ERROR in routes: Traceback (most recent call last):
+  File "C:\Users\preml\Desktop\office\AccessHub\backend\app\api\employee\routes.py", line 526, in get_employee_stats_summary
+    attendance_records = Attendance.query.filter(
+                         ^^^^^^^^^^
+NameError: name 'Attendance' is not defined
+
+[2026-02-09 13:27:40,971] INFO in logging_config: GET http://localhost:5001/api/employee/stats/summary - 500 (0.038s)
+[2026-02-09 13:27:41,134] INFO in logging_config: GET http://localhost:5001/api/employee/attendance/today - 200 (0.185s)
+[2026-02-09 13:27:41,163] ERROR in routes: Error fetching employee stats: name 'Attendance' is not defined
+[2026-02-09 13:27:41,166] ERROR in routes: Traceback (most recent call last):
+  File "C:\Users\preml\Desktop\office\AccessHub\backend\app\api\employee\routes.py", line 526, in get_employee_stats_summary
+    attendance_records = Attendance.query.filter(
+                         ^^^^^^^^^^
+NameError: name 'Attendance' is not defined
+
+[2026-02-09 13:27:41,169] INFO in logging_config: GET http://localhost:5001/api/employee/stats/summary - 500 (0.015s)
+[2026-02-09 13:27:41,213] INFO in logging_config: GET http://localhost:5001/api/subscriptions/plans - 200 (0.000s)
+[2026-02-09 13:27:41,235] INFO in logging_config: GET http://localhost:5001/api/employee/profile - 200 (0.278s)
+[2026-02-09 13:27:41,253] INFO in logging_config: OPTIONS http://localhost:5001/api/v2/auth/refresh - 200 (0.001s)
+[2026-02-09 13:27:41,320] INFO in logging_config: GET http://localhost:5001/api/employee/attendance/today - 200 (0.013s)
+[2026-02-09 13:27:41,480] INFO in logging_config: GET http://localhost:5001/api/employee/profile - 200 (0.024s)
+[2026-02-09 13:27:41,642] INFO in logging_config: POST http://localhost:5001/api/v2/auth/refresh - 200 (0.008s)
+[2026-02-09 13:27:41,900] INFO in logging_config: GET http://localhost:5001/api/subscriptions/organization/e48e7921-3b9d-41de-9ab2-142030c12dd3/status - 401 (0.004s)
+[2026-02-09 13:27:49,019] INFO in logging_config: OPTIONS http://localhost:5001/api/v2/attendance?page=1&per_page=10&start_date=2026-01-10&end_date=2026-02-09 - 200 (0.001s)
+[2026-02-09 13:27:49,340] INFO in logging_config: OPTIONS http://localhost:5001/api/v2/attendance?page=1&per_page=10&start_date=2026-01-10&end_date=2026-02-09 - 200 (0.001s)
+[2026-02-09 13:27:49,452] INFO in logging_config: GET http://localhost:5001/api/v2/attendance?page=1&per_page=10&start_date=2026-01-10&end_date=2026-02-09 - 200 (0.097s)
+[2026-02-09 13:27:49,805] INFO in logging_config: GET http://localhost:5001/api/v2/attendance?page=1&per_page=10&start_date=2026-01-10&end_date=2026-02-09 - 200 (0.035s)
+[2026-02-09 13:27:57,325] ERROR in routes: Error fetching employee leaves: 'LeaveRequest' object has no attribute 'days_requested'
+[2026-02-09 13:27:57,329] ERROR in routes: Traceback (most recent call last):
+  File "C:\Users\preml\Desktop\office\AccessHub\backend\app\api\employee\routes.py", line 360, in get_employee_leaves
+    'days_requested': leave.days_requested,
+                      ^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'LeaveRequest' object has no attribute 'days_requested'
+
+[2026-02-09 13:27:57,332] INFO in logging_config: GET http://localhost:5001/api/employee/leaves - 500 (0.047s)
+[2026-02-09 13:27:57,667] ERROR in routes: Error fetching employee leaves: 'LeaveRequest' object has no attribute 'days_requested'
+[2026-02-09 13:27:57,670] ERROR in routes: Traceback (most recent call last):
+  File "C:\Users\preml\Desktop\office\AccessHub\backend\app\api\employee\routes.py", line 360, in get_employee_leaves
+    'days_requested': leave.days_requested,
+                      ^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'LeaveRequest' object has no attribute 'days_requested'
+
+[2026-02-09 13:27:57,672] INFO in logging_config: GET http://localhost:5001/api/employee/leaves - 500 (0.017s)
+[2026-02-09 13:28:14,261] ERROR in routes: Error applying for leave: name 'Leave' is not defined
+[2026-02-09 13:28:14,264] ERROR in routes: Traceback (most recent call last):
+  File "C:\Users\preml\Desktop\office\AccessHub\backend\app\api\employee\routes.py", line 470, in apply_for_leave
+    new_leave = Leave(
+                ^^^^^
+NameError: name 'Leave' is not defined
+
+[2026-02-09 13:28:14,267] INFO in logging_config: POST http://localhost:5001/api/employee/leaves - 500 (0.032s)
+[2026-02-09 13:28:23,266] ERROR in routes: Error applying for leave: name 'Leave' is not defined
+[2026-02-09 13:28:23,267] ERROR in routes: Traceback (most recent call last):
+  File "C:\Users\preml\Desktop\office\AccessHub\backend\app\api\employee\routes.py", line 470, in apply_for_leave
+    new_leave = Leave(
+                ^^^^^
+NameError: name 'Leave' is not defined
+
+[2026-02-09 13:28:23,271] INFO in logging_config: POST http://localhost:5001/api/employee/leaves - 500 (0.010s)
+[2026-02-09 13:32:36,712] INFO in logging_config: OPTIONS http://localhost:5001/api/v2/leaves?page=1&per_page=10 - 200 (0.002s)
+[2026-02-09 13:32:36,966] INFO in logging_config: GET http://localhost:5001/api/v2/leaves?page=1&per_page=10 - 422 (0.001s)
+[2026-02-09 13:33:06,078] WARNING in _internal:  * Debugger is active!
+[2026-02-09 13:33:27,464] WARNING in _internal:  * Debugger is active!
+[2026-02-09 13:34:00,106] INFO in logging_config: OPTIONS http://localhost:5001/api/v2/leaves - 200 (0.006s)
+[2026-02-09 13:34:00,366] INFO in logging_config: POST http://localhost:5001/api/v2/leaves - 422 (0.002s)
+[2026-02-09 13:34:06,848] INFO in logging_config: OPTIONS http://localhost:5001/api/v2/leaves - 200 (0.000s)
+[2026-02-09 13:34:07,172] INFO in logging_config: POST http://localhost:5001/api/v2/leaves - 422 (0.001s)
+[2026-02-09 13:36:49,647] WARNING in _internal:  * Debugger is active!
+[2026-02-09 13:36:54,805] INFO in logging_config: OPTIONS http://localhost:5001/api/v2/leaves - 200 (0.001s)
+[2026-02-09 13:36:55,871] INFO in logging_config: POST http://localhost:5001/api/v2/leaves - 403 (0.816s)
+[2026-02-09 13:37:03,567] INFO in logging_config: OPTIONS http://localhost:5001/api/v2/attendance?page=1&per_page=10&start_date=2026-01-10&end_date=2026-02-09 - 200 (0.001s)
+[2026-02-09 13:37:03,891] INFO in logging_config: OPTIONS http://localhost:5001/api/v2/attendance?page=1&per_page=10&start_date=2026-01-10&end_date=2026-02-09 - 200 (0.001s)
+[2026-02-09 13:37:04,010] INFO in logging_config: GET http://localhost:5001/api/v2/attendance?page=1&per_page=10&start_date=2026-01-10&end_date=2026-02-09 - 200 (0.104s)
+[2026-02-09 13:37:04,399] INFO in logging_config: GET http://localhost:5001/api/v2/attendance?page=1&per_page=10&start_date=2026-01-10&end_date=2026-02-09 - 200 (0.067s)
+[2026-02-09 13:37:15,914] ERROR in routes: Error fetching employee stats: 'Employee' object has no attribute 'employee_id'
+[2026-02-09 13:37:15,921] ERROR in routes: Traceback (most recent call last):
+  File "C:\Users\preml\Desktop\office\AccessHub\backend\app\api\employee\routes.py", line 568, in get_employee_stats_summary
+    'employee_id': employee.employee_id,
+                   ^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'Employee' object has no attribute 'employee_id'. Did you mean: 'employee_code'?
+
+[2026-02-09 13:37:15,923] INFO in logging_config: GET http://localhost:5001/api/employee/stats/summary - 500 (0.064s)
+[2026-02-09 13:37:15,990] INFO in logging_config: GET http://localhost:5001/api/employee/attendance/today - 200 (0.118s)
+[2026-02-09 13:37:16,032] INFO in logging_config: GET http://localhost:5001/api/employee/profile - 200 (0.154s)
+[2026-02-09 13:37:16,067] ERROR in routes: Error fetching employee stats: 'Employee' object has no attribute 'employee_id'
+[2026-02-09 13:37:16,070] ERROR in routes: Traceback (most recent call last):
+  File "C:\Users\preml\Desktop\office\AccessHub\backend\app\api\employee\routes.py", line 568, in get_employee_stats_summary
+    'employee_id': employee.employee_id,
+                   ^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'Employee' object has no attribute 'employee_id'. Did you mean: 'employee_code'?
+
+[2026-02-09 13:37:16,073] INFO in logging_config: GET http://localhost:5001/api/employee/stats/summary - 500 (0.024s)
+[2026-02-09 13:37:16,262] INFO in logging_config: GET http://localhost:5001/api/employee/attendance/today - 200 (0.009s)
+[2026-02-09 13:37:16,330] INFO in logging_config: GET http://localhost:5001/api/employee/profile - 200 (0.016s)
+[2026-02-09 13:37:26,861] INFO in logging_config: GET http://localhost:5001/api/employee/profile - 200 (0.036s)
+[2026-02-09 13:37:27,218] INFO in logging_config: GET http://localhost:5001/api/employee/profile - 200 (0.027s)
+[2026-02-09 13:37:45,029] INFO in logging_config: OPTIONS http://localhost:5001/api/v2/leaves?page=1&per_page=10 - 200 (0.001s)
+[2026-02-09 13:37:45,033] INFO in logging_config: OPTIONS http://localhost:5001/api/v2/leaves?page=1&per_page=10 - 200 (0.001s)
+[2026-02-09 13:37:45,284] INFO in logging_config: GET http://localhost:5001/api/v2/leaves?page=1&per_page=10 - 403 (0.009s)
+[2026-02-09 13:37:45,401] INFO in logging_config: GET http://localhost:5001/api/v2/leaves?page=1&per_page=10 - 403 (0.018s)
+[2026-02-09 13:38:01,752] INFO in logging_config: OPTIONS http://localhost:5001/api/v2/leaves - 200 (0.001s)
+[2026-02-09 13:38:02,089] INFO in logging_config: POST http://localhost:5001/api/v2/leaves - 403 (0.008s)
+[2026-02-09 13:38:09,718] INFO in logging_config: OPTIONS http://localhost:5001/api/v2/leaves - 200 (0.002s)
+[2026-02-09 13:38:10,121] INFO in logging_config: POST http://localhost:5001/api/v2/leaves - 403 (0.044s)
+[2026-02-09 13:39:04,281] WARNING in _internal:  * Debugger is active!
+[2026-02-09 13:39:53,965] WARNING in _internal:  * Debugger is active!
+[2026-02-09 13:40:33,235] WARNING in _internal:  * Debugger is active!
+[2026-02-09 13:40:57,349] INFO in logging_config: OPTIONS http://localhost:5001/api/v2/leaves - 200 (0.001s)
+[2026-02-09 13:40:57,615] INFO in logging_config: POST http://localhost:5001/api/v2/leaves - 400 (0.006s)
+[2026-02-09 13:42:03,274] WARNING in _internal:  * Debugger is active!
+[2026-02-09 13:42:22,989] WARNING in _internal:  * Debugger is active!
+[2026-02-09 13:43:18,923] WARNING in _internal:  * Debugger is active!
+[2026-02-09 13:43:19,186] INFO in logging_config: OPTIONS http://localhost:5001/api/v2/auth/me - 200 (0.003s)
+[2026-02-09 13:43:19,193] INFO in logging_config: OPTIONS http://localhost:5001/api/v2/auth/me - 200 (0.001s)
+[2026-02-09 13:43:19,200] INFO in logging_config: OPTIONS http://localhost:5001/api/subscriptions/organization/e48e7921-3b9d-41de-9ab2-142030c12dd3/status - 200 (0.002s)
+[2026-02-09 13:43:19,207] INFO in logging_config: OPTIONS http://localhost:5001/api/subscriptions/plans - 200 (0.001s)
+[2026-02-09 13:43:19,605] INFO in logging_config: GET http://localhost:5001/api/subscriptions/organization/e48e7921-3b9d-41de-9ab2-142030c12dd3/status - 401 (0.003s)
+[2026-02-09 13:43:19,832] INFO in logging_config: GET http://localhost:5001/api/subscriptions/plans - 200 (0.001s)
+[2026-02-09 13:43:20,170] INFO in logging_config: OPTIONS http://localhost:5001/api/v2/auth/refresh - 200 (0.001s)
+[2026-02-09 13:43:20,402] INFO in logging_config: GET http://localhost:5001/api/v2/auth/me - 200 (0.897s)
+[2026-02-09 13:43:20,517] INFO in logging_config: POST http://localhost:5001/api/v2/auth/refresh - 200 (0.007s)
+[2026-02-09 13:43:20,748] INFO in logging_config: GET http://localhost:5001/api/v2/auth/me - 200 (0.025s)
+[2026-02-09 13:43:21,224] INFO in logging_config: OPTIONS http://localhost:5001/api/v2/leaves?page=1&per_page=10 - 200 (0.001s)
+[2026-02-09 13:43:21,232] INFO in logging_config: OPTIONS http://localhost:5001/api/v2/leaves?page=1&per_page=10 - 200 (0.001s)
+[2026-02-09 13:43:21,247] INFO in logging_config: GET http://localhost:5001/api/subscriptions/organization/e48e7921-3b9d-41de-9ab2-142030c12dd3/status - 401 (0.004s)
+[2026-02-09 13:43:21,561] ERROR in errors: Unhandled exception: 'Employee' object is not iterable
+Traceback (most recent call last):
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask_jwt_extended\view_decorators.py", line 170, in decorator
+    return current_app.ensure_sync(fn)(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\preml\Desktop\office\AccessHub\backend\app\utils\decorators.py", line 93, in wrapper
+    return fn(*args, **kwargs)
+  File "C:\Users\preml\Desktop\office\AccessHub\backend\app\utils\helpers.py", line 159, in decorated_function
+    return f(*args, **kwargs)
+  File "C:\Users\preml\Desktop\office\AccessHub\backend\app\api\leaves\routes.py", line 217, in list_leave_requests
+    result = paginate(query, page, per_page, LeaveRequestSchema)
+  File "C:\Users\preml\Desktop\office\AccessHub\backend\app\utils\helpers.py", line 75, in paginate
+    processed_items.append(schema().dump(item))
+                           ~~~~~~~~~~~~~^^^^^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\marshmallow\schema.py", line 549, in dump
+    result = self._serialize(processed_obj, many=many)
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\marshmallow\schema.py", line 517, in _serialize
+    value = field_obj.serialize(attr_name, obj, accessor=self.get_attribute)
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\marshmallow\fields.py", line 340, in serialize
+    return self._serialize(value, attr, obj, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\marshmallow\fields.py", line 1600, in _serialize
+    return self.mapping_type(value)
+           ~~~~~~~~~~~~~~~~~^^^^^^^
+TypeError: 'Employee' object is not iterable
+[2026-02-09 13:43:21,603] INFO in logging_config: GET http://localhost:5001/api/v2/leaves?page=1&per_page=10 - 500 (0.121s)
+[2026-02-09 13:43:21,625] ERROR in errors: Unhandled exception: 'Employee' object is not iterable
+Traceback (most recent call last):
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask_jwt_extended\view_decorators.py", line 170, in decorator
+    return current_app.ensure_sync(fn)(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\preml\Desktop\office\AccessHub\backend\app\utils\decorators.py", line 93, in wrapper
+    return fn(*args, **kwargs)
+  File "C:\Users\preml\Desktop\office\AccessHub\backend\app\utils\helpers.py", line 159, in decorated_function
+    return f(*args, **kwargs)
+  File "C:\Users\preml\Desktop\office\AccessHub\backend\app\api\leaves\routes.py", line 217, in list_leave_requests
+    result = paginate(query, page, per_page, LeaveRequestSchema)
+  File "C:\Users\preml\Desktop\office\AccessHub\backend\app\utils\helpers.py", line 75, in paginate
+    processed_items.append(schema().dump(item))
+                           ~~~~~~~~~~~~~^^^^^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\marshmallow\schema.py", line 549, in dump
+    result = self._serialize(processed_obj, many=many)
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\marshmallow\schema.py", line 517, in _serialize
+    value = field_obj.serialize(attr_name, obj, accessor=self.get_attribute)
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\marshmallow\fields.py", line 340, in serialize
+    return self._serialize(value, attr, obj, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\marshmallow\fields.py", line 1600, in _serialize
+    return self.mapping_type(value)
+           ~~~~~~~~~~~~~~~~~^^^^^^^
+TypeError: 'Employee' object is not iterable
+[2026-02-09 13:43:21,634] INFO in logging_config: GET http://localhost:5001/api/v2/leaves?page=1&per_page=10 - 500 (0.024s)
+[2026-02-09 13:43:41,588] INFO in logging_config: OPTIONS http://localhost:5001/api/v2/leaves - 200 (0.001s)
+[2026-02-09 13:43:41,847] ERROR in errors: Unhandled exception: 'NoneType' object is not subscriptable
+Traceback (most recent call last):
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask_jwt_extended\view_decorators.py", line 170, in decorator
+    return current_app.ensure_sync(fn)(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\preml\Desktop\office\AccessHub\backend\app\utils\decorators.py", line 93, in wrapper
+    return fn(*args, **kwargs)
+  File "C:\Users\preml\Desktop\office\AccessHub\backend\app\utils\helpers.py", line 123, in decorated_function
+    return f(*args, **kwargs)
+  File "C:\Users\preml\Desktop\office\AccessHub\backend\app\api\leaves\routes.py", line 101, in create_leave_request
+    employee = Employee.query.filter_by(user_id=current_user['id']).first()
+                                                ~~~~~~~~~~~~^^^^^^
+TypeError: 'NoneType' object is not subscriptable
+[2026-02-09 13:43:41,851] INFO in logging_config: POST http://localhost:5001/api/v2/leaves - 500 (0.005s)
+[2026-02-09 13:44:55,038] WARNING in _internal:  * Debugger is active!
+[2026-02-09 13:45:22,725] WARNING in _internal:  * Debugger is active!
+[2026-02-09 13:45:51,583] INFO in logging_config: OPTIONS http://localhost:5001/api/v2/leaves - 200 (0.002s)
+[2026-02-09 13:45:52,592] ERROR in errors: Unhandled exception: 'Employee' object is not iterable
+Traceback (most recent call last):
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask_jwt_extended\view_decorators.py", line 170, in decorator
+    return current_app.ensure_sync(fn)(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\preml\Desktop\office\AccessHub\backend\app\utils\decorators.py", line 93, in wrapper
+    return fn(*args, **kwargs)
+  File "C:\Users\preml\Desktop\office\AccessHub\backend\app\utils\helpers.py", line 123, in decorated_function
+    return f(*args, **kwargs)
+  File "C:\Users\preml\Desktop\office\AccessHub\backend\app\api\leaves\routes.py", line 124, in create_leave_request
+    data=schema.dump(leave_request),
+         ~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\marshmallow\schema.py", line 549, in dump
+    result = self._serialize(processed_obj, many=many)
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\marshmallow\schema.py", line 517, in _serialize
+    value = field_obj.serialize(attr_name, obj, accessor=self.get_attribute)
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\marshmallow\fields.py", line 340, in serialize
+    return self._serialize(value, attr, obj, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\preml\AppData\Local\Programs\Python\Python313\Lib\site-packages\marshmallow\fields.py", line 1600, in _serialize
+    return self.mapping_type(value)
+           ~~~~~~~~~~~~~~~~~^^^^^^^
+TypeError: 'Employee' object is not iterable
+[2026-02-09 13:45:52,625] INFO in logging_config: POST http://localhost:5001/api/v2/leaves - 500 (0.789s)
+[2026-02-09 13:46:48,082] WARNING in _internal:  * Debugger is active!
+[2026-02-09 13:47:10,299] WARNING in _internal:  * Debugger is active!
+[2026-02-09 13:48:44,535] WARNING in _internal:  * Debugger is active!
+[2026-02-09 13:49:00,611] INFO in logging_config: OPTIONS http://localhost:5001/api/v2/leaves - 200 (0.009s)
+[2026-02-09 13:49:01,118] INFO in routes: Validated Data: {'leave_type': 'casual', 'start_date': datetime.date(2026, 2, 10), 'end_date': datetime.date(2026, 2, 12), 'total_days': 1.0, 'reason': 'aldalk sdaaskkd skd dsalksdalsd kfdsla asd sjkfeawjofowef dfsdljajsoj', 'duration_type': 'full_day'}
+[2026-02-09 13:49:02,393] ERROR in routes: Error in create_leave_request: 
+[2026-02-09 13:49:02,406] INFO in logging_config: POST http://localhost:5001/api/v2/leaves - 409 (1.547s)
+[2026-02-09 13:49:34,144] INFO in logging_config: OPTIONS http://localhost:5001/api/v2/leaves - 200 (0.001s)
+[2026-02-09 13:49:34,475] INFO in routes: Validated Data: {'leave_type': 'casual', 'start_date': datetime.date(2026, 2, 10), 'end_date': datetime.date(2026, 2, 12), 'total_days': 1.0, 'reason': 'heeleelasdlkalsjakdka fd fdjafljdaslkf jasdjfalsdfjlas flsdaj fa', 'duration_type': 'full_day'}
+[2026-02-09 13:49:34,490] ERROR in routes: Error in create_leave_request: 
+[2026-02-09 13:49:34,493] INFO in logging_config: POST http://localhost:5001/api/v2/leaves - 409 (0.023s)
+[2026-02-09 13:52:23,798] INFO in logging_config: OPTIONS http://localhost:5001/api/v2/leaves - 200 (0.001s)
+[2026-02-09 13:52:24,061] INFO in routes: Validated Data: {'leave_type': 'casual', 'start_date': datetime.date(2026, 2, 10), 'end_date': datetime.date(2026, 2, 12), 'total_days': 1.0, 'reason': 'heeleelasdlkalsjakdka fd fdjafljdaslkf jasdjfalsdfjlas flsdaj fa', 'duration_type': 'full_day'}
+[2026-02-09 13:52:24,067] ERROR in routes: Error in create_leave_request: 
+[2026-02-09 13:52:24,069] INFO in logging_config: POST http://localhost:5001/api/v2/leaves - 409 (0.009s)
+[2026-02-09 13:58:41,108] WARNING in _internal:  * Debugger is active!
+[2026-02-09 13:59:42,710] WARNING in _internal:  * Debugger is active!
+[2026-02-09 14:01:22,288] INFO in logging_config: OPTIONS http://localhost:5001/api/v2/auth/me - 200 (0.001s)
+[2026-02-09 14:01:22,291] INFO in logging_config: OPTIONS http://localhost:5001/api/v2/auth/me - 200 (0.000s)
+[2026-02-09 14:01:22,295] INFO in logging_config: OPTIONS http://localhost:5001/api/subscriptions/organization/e48e7921-3b9d-41de-9ab2-142030c12dd3/status - 200 (0.000s)
+[2026-02-09 14:01:22,297] INFO in logging_config: OPTIONS http://localhost:5001/api/subscriptions/plans - 200 (0.001s)
+[2026-02-09 14:01:22,803] INFO in logging_config: GET http://localhost:5001/api/subscriptions/organization/e48e7921-3b9d-41de-9ab2-142030c12dd3/status - 401 (0.003s)
+[2026-02-09 14:01:22,865] INFO in logging_config: GET http://localhost:5001/api/subscriptions/plans - 200 (0.001s)
+[2026-02-09 14:01:23,068] INFO in logging_config: GET http://localhost:5001/api/v2/auth/me - 200 (0.526s)
+[2026-02-09 14:01:23,090] INFO in logging_config: GET http://localhost:5001/api/v2/auth/me - 200 (0.018s)
+[2026-02-09 14:01:23,764] INFO in logging_config: OPTIONS http://localhost:5001/api/v2/auth/refresh - 200 (0.001s)
+[2026-02-09 14:01:24,032] INFO in logging_config: POST http://localhost:5001/api/v2/auth/refresh - 200 (0.010s)
+[2026-02-09 14:01:24,461] INFO in logging_config: OPTIONS http://localhost:5001/api/v2/leaves?page=1&per_page=10 - 200 (0.001s)
+[2026-02-09 14:01:24,780] INFO in logging_config: OPTIONS http://localhost:5001/api/v2/leaves?page=1&per_page=10 - 200 (0.002s)
+[2026-02-09 14:01:24,910] INFO in logging_config: GET http://localhost:5001/api/subscriptions/organization/e48e7921-3b9d-41de-9ab2-142030c12dd3/status - 401 (0.004s)
+[2026-02-09 14:01:24,914] INFO in logging_config: GET http://localhost:5001/api/v2/leaves?page=1&per_page=10 - 200 (0.119s)
+[2026-02-09 14:01:25,293] INFO in logging_config: GET http://localhost:5001/api/v2/leaves?page=1&per_page=10 - 200 (0.035s)
+[2026-02-09 14:01:50,090] INFO in logging_config: OPTIONS http://localhost:5001/api/v2/leaves - 200 (0.001s)
+[2026-02-09 14:01:50,339] INFO in routes: Validated Data: {'leave_type': 'sick', 'start_date': datetime.date(2026, 2, 10), 'end_date': datetime.date(2026, 2, 12), 'total_days': 1.0, 'reason': 'adaldlaslkaslssadafn adhfdhakjk', 'duration_type': 'full_day'}
+[2026-02-09 14:01:50,349] ERROR in routes: Error in create_leave_request: 
+[2026-02-09 14:01:50,350] INFO in logging_config: POST http://localhost:5001/api/v2/leaves - 409 (0.012s)
+[2026-02-09 14:02:41,382] INFO in logging_config: OPTIONS http://localhost:5001/api/v2/attendance?page=1&per_page=10&start_date=2026-01-10&end_date=2026-02-09 - 200 (0.000s)
+[2026-02-09 14:02:41,688] INFO in logging_config: OPTIONS http://localhost:5001/api/v2/attendance?page=1&per_page=10&start_date=2026-01-10&end_date=2026-02-09 - 200 (0.001s)
+[2026-02-09 14:02:41,750] INFO in logging_config: GET http://localhost:5001/api/v2/attendance?page=1&per_page=10&start_date=2026-01-10&end_date=2026-02-09 - 200 (0.032s)
+[2026-02-09 14:02:42,113] INFO in logging_config: GET http://localhost:5001/api/v2/attendance?page=1&per_page=10&start_date=2026-01-10&end_date=2026-02-09 - 200 (0.053s)
+[2026-02-09 14:02:49,078] INFO in logging_config: OPTIONS http://localhost:5001/api/v2/attendance?employee_id=0832d34a-b933-4657-91be-b2b4395938bc&start_date=2026-02-01&end_date=2026-02-28&per_page=100 - 200 (0.001s)
+[2026-02-09 14:02:49,080] INFO in logging_config: OPTIONS http://localhost:5001/api/v2/attendance?employee_id=0832d34a-b933-4657-91be-b2b4395938bc&start_date=2026-02-01&end_date=2026-02-28&per_page=100 - 200 (0.001s)
+[2026-02-09 14:02:49,371] INFO in logging_config: GET http://localhost:5001/api/v2/attendance?employee_id=0832d34a-b933-4657-91be-b2b4395938bc&start_date=2026-02-01&end_date=2026-02-28&per_page=100 - 200 (0.041s)
+[2026-02-09 14:02:49,437] INFO in logging_config: GET http://localhost:5001/api/v2/attendance?employee_id=0832d34a-b933-4657-91be-b2b4395938bc&start_date=2026-02-01&end_date=2026-02-28&per_page=100 - 200 (0.021s)
+[2026-02-09 14:03:27,186] INFO in logging_config: OPTIONS http://localhost:5001/api/v2/attendance?employee_id=0832d34a-b933-4657-91be-b2b4395938bc&start_date=2026-02-01&end_date=2026-02-28&per_page=100 - 200 (0.001s)
+[2026-02-09 14:03:27,189] INFO in logging_config: OPTIONS http://localhost:5001/api/v2/attendance?employee_id=0832d34a-b933-4657-91be-b2b4395938bc&start_date=2026-02-01&end_date=2026-02-28&per_page=100 - 200 (0.001s)
+[2026-02-09 14:03:27,468] INFO in logging_config: GET http://localhost:5001/api/v2/attendance?employee_id=0832d34a-b933-4657-91be-b2b4395938bc&start_date=2026-02-01&end_date=2026-02-28&per_page=100 - 200 (0.019s)
+[2026-02-09 14:03:27,570] INFO in logging_config: GET http://localhost:5001/api/v2/attendance?employee_id=0832d34a-b933-4657-91be-b2b4395938bc&start_date=2026-02-01&end_date=2026-02-28&per_page=100 - 200 (0.044s)
+[2026-02-09 14:03:29,432] INFO in logging_config: OPTIONS http://localhost:5001/api/v2/attendance?employee_id=0832d34a-b933-4657-91be-b2b4395938bc&start_date=2026-01-01&end_date=2026-01-31&per_page=100 - 200 (0.001s)
+[2026-02-09 14:03:29,792] INFO in logging_config: GET http://localhost:5001/api/v2/attendance?employee_id=0832d34a-b933-4657-91be-b2b4395938bc&start_date=2026-01-01&end_date=2026-01-31&per_page=100 - 200 (0.013s)
+[2026-02-09 14:03:36,447] WARNING in _internal:  * Debugger is active!
+[2026-02-09 14:03:45,052] INFO in logging_config: OPTIONS http://localhost:5001/api/v2/attendance?employee_id=0832d34a-b933-4657-91be-b2b4395938bc&start_date=2026-02-01&end_date=2026-02-28&per_page=100 - 200 (0.001s)
+[2026-02-09 14:03:45,056] INFO in logging_config: OPTIONS http://localhost:5001/api/v2/attendance?employee_id=0832d34a-b933-4657-91be-b2b4395938bc&start_date=2026-02-01&end_date=2026-02-28&per_page=100 - 200 (0.001s)
+[2026-02-09 14:03:46,060] INFO in logging_config: GET http://localhost:5001/api/v2/attendance?employee_id=0832d34a-b933-4657-91be-b2b4395938bc&start_date=2026-02-01&end_date=2026-02-28&per_page=100 - 200 (0.741s)
+[2026-02-09 14:03:46,098] INFO in logging_config: GET http://localhost:5001/api/v2/attendance?employee_id=0832d34a-b933-4657-91be-b2b4395938bc&start_date=2026-02-01&end_date=2026-02-28&per_page=100 - 200 (0.033s)
+[2026-02-09 14:03:48,192] INFO in logging_config: OPTIONS http://localhost:5001/api/v2/attendance?employee_id=0832d34a-b933-4657-91be-b2b4395938bc&start_date=2026-01-01&end_date=2026-01-31&per_page=100 - 200 (0.001s)
+[2026-02-09 14:03:48,466] INFO in logging_config: GET http://localhost:5001/api/v2/attendance?employee_id=0832d34a-b933-4657-91be-b2b4395938bc&start_date=2026-01-01&end_date=2026-01-31&per_page=100 - 200 (0.009s)
+[2026-02-09 14:03:52,356] WARNING in _internal:  * Debugger is active!
+[2026-02-09 14:04:02,814] WARNING in _internal:  * Debugger is active!
+[2026-02-09 14:49:02,920] WARNING in _internal:  * Debugger is active!
+[2026-02-09 14:51:32,623] INFO in logging_config: OPTIONS http://localhost:5001/api/v2/leaves?page=1&per_page=10 - 200 (0.002s)
+[2026-02-09 14:51:32,631] INFO in logging_config: OPTIONS http://localhost:5001/api/v2/leaves?page=1&per_page=10 - 200 (0.001s)
+[2026-02-09 14:51:33,921] INFO in logging_config: GET http://localhost:5001/api/v2/leaves?page=1&per_page=10 - 200 (1.056s)
+[2026-02-09 14:51:33,945] INFO in logging_config: GET http://localhost:5001/api/v2/leaves?page=1&per_page=10 - 200 (0.018s)
+[2026-02-09 14:51:52,750] INFO in logging_config: OPTIONS http://localhost:5001/api/v2/leaves - 200 (0.001s)
+[2026-02-09 14:51:53,012] INFO in routes: Validated Data: {'leave_type': 'sick', 'start_date': datetime.date(2026, 2, 10), 'end_date': datetime.date(2026, 2, 14), 'total_days': 1.0, 'reason': 'Apply for Leave\nLeave Type\nDuration Type\nLeave Period\n2026-02-10\n2026-02-14\nTotal Days\n1\nReason', 'duration_type': 'full_day'}
+[2026-02-09 14:51:53,045] ERROR in routes: Error in create_leave_request: 
+[2026-02-09 14:51:53,050] INFO in logging_config: POST http://localhost:5001/api/v2/leaves - 409 (0.040s)
+[2026-02-09 14:53:02,481] WARNING in _internal:  * Debugger is active!
+[2026-02-09 14:54:13,114] INFO in logging_config: OPTIONS http://localhost:5001/api/v2/leaves - 200 (0.001s)
+[2026-02-09 14:54:13,370] INFO in routes: Validated Data: {'leave_type': 'sick', 'start_date': datetime.date(2026, 2, 10), 'end_date': datetime.date(2026, 2, 14), 'total_days': 1.0, 'reason': 'Apply for Leave\nLeave Type\nDuration Type\nLeave Period\n2026-02-10\n2026-02-14\nTotal Days\n1\nReason', 'duration_type': 'full_day'}
+[2026-02-09 14:54:13,986] ERROR in routes: Error in create_leave_request: 
+[2026-02-09 14:54:13,988] INFO in logging_config: POST http://localhost:5001/api/v2/leaves - 409 (0.623s)
+[2026-02-09 14:54:25,758] WARNING in _internal:  * Debugger is active!
+[2026-02-09 14:55:11,879] INFO in logging_config: OPTIONS http://localhost:5001/api/v2/leaves - 200 (0.001s)
+[2026-02-09 14:55:12,130] INFO in routes: Validated Data: {'leave_type': 'sick', 'start_date': datetime.date(2026, 2, 10), 'end_date': datetime.date(2026, 2, 14), 'total_days': 1.0, 'reason': 'Apply for Leave\nLeave Type\nDuration Type\nLeave Period\n2026-02-10\n2026-02-14\nTotal Days\n1\nReason', 'duration_type': 'full_day'}
+[2026-02-09 14:55:12,822] ERROR in routes: Error in create_leave_request: 
+[2026-02-09 14:55:12,825] INFO in logging_config: POST http://localhost:5001/api/v2/leaves - 409 (0.697s)
+[2026-02-09 14:55:23,702] INFO in logging_config: OPTIONS http://localhost:5001/api/v2/leaves - 200 (0.001s)
+[2026-02-09 14:55:24,029] INFO in routes: Validated Data: {'leave_type': 'sick', 'start_date': datetime.date(2026, 2, 10), 'end_date': datetime.date(2026, 2, 14), 'total_days': 1.0, 'reason': 'Apply for Leave\nLeave Type\nDuration Type\nLeave Period\n2026-02-10\n2026-02-14\nTotal Days\n1\nReason', 'duration_type': 'full_day'}
+[2026-02-09 14:55:24,045] ERROR in routes: Error in create_leave_request: 
+[2026-02-09 14:55:24,048] INFO in logging_config: POST http://localhost:5001/api/v2/leaves - 409 (0.021s)
+[2026-02-09 14:56:11,803] WARNING in _internal:  * Debugger is active!
+[2026-02-09 14:57:12,427] INFO in logging_config: OPTIONS http://localhost:5001/api/v2/leaves - 200 (0.001s)
+[2026-02-09 14:57:12,688] INFO in routes: Validated Data: {'leave_type': 'sick', 'start_date': datetime.date(2026, 2, 10), 'end_date': datetime.date(2026, 2, 14), 'total_days': 1.0, 'reason': 'Apply for Leave\nLeave Type\nDuration Type\nLeave Period\n2026-02-10\n2026-02-14\nTotal Days\n1\nReason', 'duration_type': 'full_day'}
+[2026-02-09 14:57:13,476] INFO in logging_config: POST http://localhost:5001/api/v2/leaves - 201 (0.791s)
+[2026-02-09 14:57:13,509] INFO in logging_config: OPTIONS http://localhost:5001/api/v2/leaves?page=1&per_page=10 - 200 (0.001s)
+[2026-02-09 14:57:13,892] INFO in logging_config: GET http://localhost:5001/api/v2/leaves?page=1&per_page=10 - 200 (0.046s)
+[2026-02-09 14:57:22,839] INFO in logging_config: OPTIONS http://localhost:5001/api/v2/auth/me - 200 (0.001s)
+[2026-02-09 14:57:23,150] INFO in logging_config: OPTIONS http://localhost:5001/api/v2/auth/me - 200 (0.000s)
+[2026-02-09 14:57:23,178] INFO in logging_config: GET http://localhost:5001/api/v2/auth/me - 200 (0.021s)
+[2026-02-09 14:57:23,498] INFO in logging_config: GET http://localhost:5001/api/v2/auth/me - 200 (0.010s)
+[2026-02-09 14:57:24,734] INFO in logging_config: OPTIONS http://localhost:5001/api/subscriptions/organization/e48e7921-3b9d-41de-9ab2-142030c12dd3/status - 200 (0.001s)
+[2026-02-09 14:57:24,736] INFO in logging_config: OPTIONS http://localhost:5001/api/subscriptions/plans - 200 (0.001s)
+[2026-02-09 14:57:24,738] INFO in logging_config: OPTIONS http://localhost:5001/api/v2/leaves?page=1&per_page=10 - 200 (0.001s)
+[2026-02-09 14:57:24,745] INFO in logging_config: OPTIONS http://localhost:5001/api/v2/leaves?page=1&per_page=10 - 200 (0.001s)
+[2026-02-09 14:57:25,002] INFO in logging_config: GET http://localhost:5001/api/subscriptions/organization/e48e7921-3b9d-41de-9ab2-142030c12dd3/status - 401 (0.003s)
+[2026-02-09 14:57:25,062] INFO in logging_config: GET http://localhost:5001/api/subscriptions/plans - 200 (0.001s)
+[2026-02-09 14:57:25,101] INFO in logging_config: OPTIONS http://localhost:5001/api/v2/auth/refresh - 200 (0.001s)
+[2026-02-09 14:57:25,126] INFO in logging_config: GET http://localhost:5001/api/v2/leaves?page=1&per_page=10 - 200 (0.046s)
+[2026-02-09 14:57:25,343] INFO in logging_config: POST http://localhost:5001/api/v2/auth/refresh - 200 (0.005s)
+[2026-02-09 14:57:25,446] INFO in logging_config: GET http://localhost:5001/api/v2/leaves?page=1&per_page=10 - 200 (0.016s)
+[2026-02-09 14:57:25,467] INFO in logging_config: GET http://localhost:5001/api/subscriptions/organization/e48e7921-3b9d-41de-9ab2-142030c12dd3/status - 401 (0.002s)
+[2026-02-09 14:59:11,893] INFO in logging_config: OPTIONS http://localhost:5001/api/v2/auth/me - 200 (0.001s)
+[2026-02-09 14:59:11,895] INFO in logging_config: OPTIONS http://localhost:5001/api/v2/auth/me - 200 (0.001s)
+[2026-02-09 14:59:12,151] INFO in logging_config: GET http://localhost:5001/api/v2/auth/me - 200 (0.011s)
+[2026-02-09 14:59:12,242] INFO in logging_config: GET http://localhost:5001/api/v2/auth/me - 200 (0.011s)
+[2026-02-09 14:59:13,578] INFO in logging_config: OPTIONS http://localhost:5001/api/subscriptions/organization/e48e7921-3b9d-41de-9ab2-142030c12dd3/status - 200 (0.001s)
+[2026-02-09 14:59:13,887] INFO in logging_config: OPTIONS http://localhost:5001/api/subscriptions/plans - 200 (0.001s)
+[2026-02-09 14:59:13,911] INFO in logging_config: OPTIONS http://localhost:5001/api/v2/leaves?page=1&per_page=10 - 200 (0.003s)
+[2026-02-09 14:59:13,924] INFO in logging_config: OPTIONS http://localhost:5001/api/v2/leaves?page=1&per_page=10 - 200 (0.002s)
+[2026-02-09 14:59:14,022] INFO in logging_config: GET http://localhost:5001/api/subscriptions/organization/e48e7921-3b9d-41de-9ab2-142030c12dd3/status - 401 (0.011s)
+[2026-02-09 14:59:14,225] INFO in logging_config: GET http://localhost:5001/api/subscriptions/plans - 200 (0.001s)
+[2026-02-09 14:59:14,333] INFO in logging_config: GET http://localhost:5001/api/v2/leaves?page=1&per_page=10 - 200 (0.056s)
+[2026-02-09 14:59:14,429] INFO in logging_config: OPTIONS http://localhost:5001/api/v2/auth/refresh - 200 (0.002s)
+[2026-02-09 14:59:14,827] INFO in logging_config: GET http://localhost:5001/api/v2/leaves?page=1&per_page=10 - 200 (0.056s)
+[2026-02-09 14:59:15,204] INFO in logging_config: POST http://localhost:5001/api/v2/auth/refresh - 200 (0.403s)
+[2026-02-09 14:59:15,548] INFO in logging_config: GET http://localhost:5001/api/subscriptions/organization/e48e7921-3b9d-41de-9ab2-142030c12dd3/status - 401 (0.004s)
+[2026-02-09 15:01:30,391] WARNING in _internal:  * Debugger is active!
+[2026-02-09 15:01:43,035] INFO in logging_config: OPTIONS http://localhost:5001/api/v2/auth/me - 200 (0.002s)
+[2026-02-09 15:01:43,047] INFO in logging_config: OPTIONS http://localhost:5001/api/v2/auth/me - 200 (0.000s)
+[2026-02-09 15:01:43,838] INFO in logging_config: GET http://localhost:5001/api/v2/auth/me - 200 (0.561s)
+[2026-02-09 15:01:43,854] INFO in logging_config: GET http://localhost:5001/api/v2/auth/me - 200 (0.011s)
+[2026-02-09 15:01:48,530] INFO in logging_config: OPTIONS http://localhost:5001/api/v2/leaves?page=1&per_page=10 - 200 (0.002s)
+[2026-02-09 15:01:48,534] INFO in logging_config: OPTIONS http://localhost:5001/api/v2/leaves?page=1&per_page=10 - 200 (0.001s)
+[2026-02-09 15:01:48,549] INFO in logging_config: OPTIONS http://localhost:5001/api/subscriptions/plans - 200 (0.002s)
+[2026-02-09 15:01:48,561] INFO in logging_config: OPTIONS http://localhost:5001/api/subscriptions/organization/e48e7921-3b9d-41de-9ab2-142030c12dd3/status - 200 (0.002s)
+[2026-02-09 15:01:48,866] INFO in logging_config: GET http://localhost:5001/api/v2/leaves?page=1&per_page=10 - 200 (0.069s)
+[2026-02-09 15:01:48,874] INFO in logging_config: GET http://localhost:5001/api/subscriptions/plans - 200 (0.001s)
+[2026-02-09 15:01:48,947] INFO in logging_config: GET http://localhost:5001/api/subscriptions/organization/e48e7921-3b9d-41de-9ab2-142030c12dd3/status - 401 (0.005s)
+[2026-02-09 15:01:48,983] INFO in logging_config: GET http://localhost:5001/api/v2/leaves?page=1&per_page=10 - 200 (0.033s)
+[2026-02-09 15:01:49,281] INFO in logging_config: OPTIONS http://localhost:5001/api/v2/auth/refresh - 200 (0.007s)
+[2026-02-09 15:01:49,624] INFO in logging_config: POST http://localhost:5001/api/v2/auth/refresh - 200 (0.013s)
+[2026-02-09 15:01:49,891] INFO in logging_config: GET http://localhost:5001/api/subscriptions/organization/e48e7921-3b9d-41de-9ab2-142030c12dd3/status - 401 (0.004s)
+[2026-02-09 15:02:05,341] INFO in logging_config: OPTIONS http://localhost:5001/api/v2/attendance?page=1&per_page=10&start_date=2026-01-10&end_date=2026-02-09 - 200 (0.000s)
+[2026-02-09 15:02:05,656] INFO in logging_config: OPTIONS http://localhost:5001/api/v2/attendance?page=1&per_page=10&start_date=2026-01-10&end_date=2026-02-09 - 200 (0.001s)
+[2026-02-09 15:02:05,805] INFO in logging_config: GET http://localhost:5001/api/v2/attendance?page=1&per_page=10&start_date=2026-01-10&end_date=2026-02-09 - 200 (0.137s)
+[2026-02-09 15:02:06,173] INFO in logging_config: GET http://localhost:5001/api/v2/attendance?page=1&per_page=10&start_date=2026-01-10&end_date=2026-02-09 - 200 (0.048s)
+[2026-02-09 15:02:13,192] INFO in logging_config: OPTIONS http://localhost:5001/api/v2/attendance?employee_id=0832d34a-b933-4657-91be-b2b4395938bc&start_date=2026-02-01&end_date=2026-02-28&per_page=100 - 200 (0.001s)
+[2026-02-09 15:02:13,195] INFO in logging_config: OPTIONS http://localhost:5001/api/v2/attendance?employee_id=0832d34a-b933-4657-91be-b2b4395938bc&start_date=2026-02-01&end_date=2026-02-28&per_page=100 - 200 (0.001s)
+[2026-02-09 15:02:13,475] INFO in logging_config: GET http://localhost:5001/api/v2/attendance?employee_id=0832d34a-b933-4657-91be-b2b4395938bc&start_date=2026-02-01&end_date=2026-02-28&per_page=100 - 200 (0.040s)
+[2026-02-09 15:02:13,538] INFO in logging_config: GET http://localhost:5001/api/v2/attendance?employee_id=0832d34a-b933-4657-91be-b2b4395938bc&start_date=2026-02-01&end_date=2026-02-28&per_page=100 - 200 (0.016s)
+[2026-02-09 15:07:37,273] INFO in logging_config: OPTIONS http://localhost:5001/api/v2/attendance?organization_id=e48e7921-3b9d-41de-9ab2-142030c12dd3&employee_id=0832d34a-b933-4657-91be-b2b4395938bc&start_date=2026-02-01&end_date=2026-02-28&per_page=100 - 200 (0.001s)
+[2026-02-09 15:07:37,278] INFO in logging_config: OPTIONS http://localhost:5001/api/v2/attendance?organization_id=e48e7921-3b9d-41de-9ab2-142030c12dd3&employee_id=0832d34a-b933-4657-91be-b2b4395938bc&start_date=2026-02-01&end_date=2026-02-28&per_page=100 - 200 (0.001s)
+[2026-02-09 15:07:37,558] INFO in logging_config: GET http://localhost:5001/api/v2/attendance?organization_id=e48e7921-3b9d-41de-9ab2-142030c12dd3&employee_id=0832d34a-b933-4657-91be-b2b4395938bc&start_date=2026-02-01&end_date=2026-02-28&per_page=100 - 200 (0.035s)
+[2026-02-09 15:07:37,617] INFO in logging_config: GET http://localhost:5001/api/v2/attendance?organization_id=e48e7921-3b9d-41de-9ab2-142030c12dd3&employee_id=0832d34a-b933-4657-91be-b2b4395938bc&start_date=2026-02-01&end_date=2026-02-28&per_page=100 - 200 (0.017s)
+[2026-02-09 15:07:40,747] INFO in logging_config: OPTIONS http://localhost:5001/api/v2/attendance?organization_id=e48e7921-3b9d-41de-9ab2-142030c12dd3&employee_id=0832d34a-b933-4657-91be-b2b4395938bc&start_date=2026-01-01&end_date=2026-01-31&per_page=100 - 200 (0.002s)
+[2026-02-09 15:07:41,105] INFO in logging_config: GET http://localhost:5001/api/v2/attendance?organization_id=e48e7921-3b9d-41de-9ab2-142030c12dd3&employee_id=0832d34a-b933-4657-91be-b2b4395938bc&start_date=2026-01-01&end_date=2026-01-31&per_page=100 - 200 (0.015s)
+[2026-02-09 15:08:28,456] INFO in logging_config: OPTIONS http://localhost:5001/api/v2/attendance?organization_id=e48e7921-3b9d-41de-9ab2-142030c12dd3&employee_id=2cf9d9b2-859e-4ea3-bf9f-a256a3d224e0&start_date=2026-01-01&end_date=2026-01-31&per_page=100 - 200 (0.001s)
+[2026-02-09 15:08:28,985] INFO in logging_config: GET http://localhost:5001/api/v2/attendance?organization_id=e48e7921-3b9d-41de-9ab2-142030c12dd3&employee_id=2cf9d9b2-859e-4ea3-bf9f-a256a3d224e0&start_date=2026-01-01&end_date=2026-01-31&per_page=100 - 200 (0.263s)
+[2026-02-09 15:08:36,834] INFO in logging_config: OPTIONS http://localhost:5001/api/v2/attendance?organization_id=e48e7921-3b9d-41de-9ab2-142030c12dd3&employee_id=2cf9d9b2-859e-4ea3-bf9f-a256a3d224e0&start_date=2026-02-01&end_date=2026-02-28&per_page=100 - 200 (0.000s)
+[2026-02-09 15:08:37,144] INFO in logging_config: OPTIONS http://localhost:5001/api/v2/attendance?organization_id=e48e7921-3b9d-41de-9ab2-142030c12dd3&employee_id=2cf9d9b2-859e-4ea3-bf9f-a256a3d224e0&start_date=2026-02-01&end_date=2026-02-28&per_page=100 - 200 (0.001s)
+[2026-02-09 15:08:37,177] INFO in logging_config: GET http://localhost:5001/api/v2/attendance?organization_id=e48e7921-3b9d-41de-9ab2-142030c12dd3&employee_id=2cf9d9b2-859e-4ea3-bf9f-a256a3d224e0&start_date=2026-02-01&end_date=2026-02-28&per_page=100 - 200 (0.019s)
+[2026-02-09 15:08:37,516] INFO in logging_config: GET http://localhost:5001/api/v2/attendance?organization_id=e48e7921-3b9d-41de-9ab2-142030c12dd3&employee_id=2cf9d9b2-859e-4ea3-bf9f-a256a3d224e0&start_date=2026-02-01&end_date=2026-02-28&per_page=100 - 200 (0.017s)
+[2026-02-09 15:08:40,335] INFO in logging_config: OPTIONS http://localhost:5001/api/v2/attendance?organization_id=e48e7921-3b9d-41de-9ab2-142030c12dd3&employee_id=2cf9d9b2-859e-4ea3-bf9f-a256a3d224e0&start_date=2026-01-01&end_date=2026-01-31&per_page=100 - 200 (0.001s)
+[2026-02-09 15:08:40,665] INFO in logging_config: GET http://localhost:5001/api/v2/attendance?organization_id=e48e7921-3b9d-41de-9ab2-142030c12dd3&employee_id=2cf9d9b2-859e-4ea3-bf9f-a256a3d224e0&start_date=2026-01-01&end_date=2026-01-31&per_page=100 - 200 (0.075s)
+[2026-02-09 15:08:55,898] ERROR in routes: Error fetching employee stats: 'Employee' object has no attribute 'employee_id'
+[2026-02-09 15:08:55,907] ERROR in routes: Traceback (most recent call last):
+  File "C:\Users\preml\Desktop\office\AccessHub\backend\app\api\employee\routes.py", line 568, in get_employee_stats_summary
+    'employee_id': employee.employee_id,
+                   ^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'Employee' object has no attribute 'employee_id'. Did you mean: 'employee_code'?
+
+[2026-02-09 15:08:55,909] INFO in logging_config: GET http://localhost:5001/api/employee/stats/summary - 500 (0.057s)
+[2026-02-09 15:08:56,290] INFO in logging_config: GET http://localhost:5001/api/employee/profile - 200 (0.057s)
+[2026-02-09 15:08:56,439] INFO in logging_config: GET http://localhost:5001/api/employee/attendance/today - 200 (0.200s)
+[2026-02-09 15:08:56,640] ERROR in routes: Error fetching employee stats: 'Employee' object has no attribute 'employee_id'
+[2026-02-09 15:08:56,648] ERROR in routes: Traceback (most recent call last):
+  File "C:\Users\preml\Desktop\office\AccessHub\backend\app\api\employee\routes.py", line 568, in get_employee_stats_summary
+    'employee_id': employee.employee_id,
+                   ^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'Employee' object has no attribute 'employee_id'. Did you mean: 'employee_code'?
+
+[2026-02-09 15:08:56,654] INFO in logging_config: GET http://localhost:5001/api/employee/profile - 200 (0.028s)
+[2026-02-09 15:08:56,654] INFO in logging_config: GET http://localhost:5001/api/employee/stats/summary - 500 (0.402s)
+[2026-02-09 15:08:56,779] INFO in logging_config: GET http://localhost:5001/api/employee/attendance/today - 200 (0.011s)
+[2026-02-09 15:09:04,115] INFO in logging_config: OPTIONS http://localhost:5001/api/v2/attendance?page=1&per_page=10&start_date=2026-01-10&end_date=2026-02-09 - 200 (0.002s)
+[2026-02-09 15:09:04,435] INFO in logging_config: OPTIONS http://localhost:5001/api/v2/attendance?page=1&per_page=10&start_date=2026-01-10&end_date=2026-02-09 - 200 (0.001s)
+[2026-02-09 15:09:04,547] INFO in logging_config: GET http://localhost:5001/api/v2/attendance?page=1&per_page=10&start_date=2026-01-10&end_date=2026-02-09 - 200 (0.064s)
+[2026-02-09 15:09:04,928] INFO in logging_config: GET http://localhost:5001/api/v2/attendance?page=1&per_page=10&start_date=2026-01-10&end_date=2026-02-09 - 200 (0.062s)
+[2026-02-09 15:09:08,211] INFO in logging_config: OPTIONS http://localhost:5001/api/v2/leaves?page=1&per_page=10 - 200 (0.001s)
+[2026-02-09 15:09:08,218] INFO in logging_config: OPTIONS http://localhost:5001/api/v2/leaves?page=1&per_page=10 - 200 (0.002s)
+[2026-02-09 15:09:08,479] INFO in logging_config: GET http://localhost:5001/api/v2/leaves?page=1&per_page=10 - 200 (0.024s)
+[2026-02-09 15:09:08,569] INFO in logging_config: GET http://localhost:5001/api/v2/leaves?page=1&per_page=10 - 200 (0.015s)
+[2026-02-09 15:09:34,875] INFO in logging_config: OPTIONS http://localhost:5001/api/v2/leaves - 200 (0.001s)
+[2026-02-09 15:09:35,203] INFO in routes: Validated Data: {'leave_type': 'casual', 'start_date': datetime.date(2026, 2, 10), 'end_date': datetime.date(2026, 2, 11), 'total_days': 1.0, 'reason': 'Leave Type\nDuration Type\nLeave Period\n2026-02-10\n2026-02-11\nTotal Days\n1\n', 'duration_type': 'full_day'}
+[2026-02-09 15:09:35,245] ERROR in routes: Error in create_leave_request: 
+[2026-02-09 15:09:35,248] INFO in logging_config: POST http://localhost:5001/api/v2/leaves - 409 (0.048s)
+[2026-02-09 15:09:37,972] INFO in routes: Validated Data: {'leave_type': 'casual', 'start_date': datetime.date(2026, 2, 10), 'end_date': datetime.date(2026, 2, 11), 'total_days': 1.0, 'reason': 'Leave Type\nDuration Type\nLeave Period\n2026-02-10\n2026-02-11\nTotal Days\n1\n', 'duration_type': 'full_day'}
+[2026-02-09 15:09:37,998] ERROR in routes: Error in create_leave_request: 
+[2026-02-09 15:09:38,000] INFO in logging_config: POST http://localhost:5001/api/v2/leaves - 409 (0.030s)
+[2026-02-09 15:09:45,610] INFO in logging_config: OPTIONS http://localhost:5001/api/v2/leaves - 200 (0.001s)
+[2026-02-09 15:09:45,869] INFO in routes: Validated Data: {'leave_type': 'casual', 'start_date': datetime.date(2026, 2, 10), 'end_date': datetime.date(2026, 2, 11), 'total_days': 1.0, 'reason': 'Leave Type\nDuration Type\nLeave Period\n2026-02-10\n2026-02-11\nTotal Days\n1\n', 'duration_type': 'full_day'}
+[2026-02-09 15:09:45,886] ERROR in routes: Error in create_leave_request: 
+[2026-02-09 15:09:45,888] INFO in logging_config: POST http://localhost:5001/api/v2/leaves - 409 (0.021s)
+[2026-02-09 15:16:15,462] WARNING in _internal:  * Debugger is active!
+[2026-02-09 15:17:04,924] WARNING in _internal:  * Debugger is active!
+[2026-02-09 15:19:31,630] WARNING in _internal:  * Debugger is active!
+[2026-02-09 15:19:40,724] INFO in logging_config: OPTIONS http://localhost:5001/api/v2/leaves - 200 (0.003s)
+[2026-02-09 15:19:40,984] INFO in routes: Validated Data: {'leave_type': 'casual', 'start_date': datetime.date(2026, 2, 10), 'end_date': datetime.date(2026, 2, 11), 'total_days': 1.0, 'reason': 'Leave Type\nDuration Type\nLeave Period\n2026-02-10\n2026-02-11\nTotal Days\n1\n', 'duration_type': 'full_day'}
+[2026-02-09 15:19:41,761] ERROR in routes: Error in create_leave_request: 
+[2026-02-09 15:19:41,765] INFO in logging_config: POST http://localhost:5001/api/v2/leaves - 409 (0.785s)
+[2026-02-09 15:21:53,398] WARNING in _internal:  * Debugger is active!
+[2026-02-09 15:24:51,209] WARNING in _internal:  * Debugger is active!
+[2026-02-09 15:26:26,723] WARNING in _internal:  * Debugger is active!
+[2026-02-09 15:36:25,411] WARNING in _internal:  * Debugger is active!
+[2026-02-09 15:38:52,833] WARNING in _internal:  * Debugger is active!
+[2026-02-09 15:39:35,844] INFO in logging_config: OPTIONS http://localhost:5001/api/v2/leaves - 200 (0.002s)
+[2026-02-09 15:39:36,109] INFO in logging_config: POST http://localhost:5001/api/v2/leaves - 400 (0.011s)
+[2026-02-09 15:40:18,368] INFO in logging_config: OPTIONS http://localhost:5001/api/v2/leaves - 200 (0.001s)
+[2026-02-09 15:40:18,634] INFO in logging_config: POST http://localhost:5001/api/v2/leaves - 400 (0.004s)
+[2026-02-09 15:40:28,256] INFO in logging_config: OPTIONS http://localhost:5001/api/v2/leaves - 200 (0.000s)
+[2026-02-09 15:40:28,593] INFO in logging_config: POST http://localhost:5001/api/v2/leaves - 400 (0.003s)
+[2026-02-09 15:40:32,293] INFO in logging_config: POST http://localhost:5001/api/v2/leaves - 400 (0.003s)
+[2026-02-09 15:41:51,905] WARNING in _internal:  * Debugger is active!
+[2026-02-09 15:41:51,964] WARNING in _internal:  * Debugger is active!
+[2026-02-09 15:42:23,356] WARNING in _internal:  * Debugger is active!
+[2026-02-09 15:42:42,186] INFO in logging_config: OPTIONS http://localhost:5001/api/v2/leaves - 200 (0.002s)
+[2026-02-09 15:42:42,443] INFO in routes: Validated Data: {'leave_type': 'casual', 'start_date': datetime.date(2026, 2, 10), 'end_date': datetime.date(2026, 2, 11), 'total_days': 1.0, 'reason': 'Leave Period\n2026-02-10\n2026-02-12\nTotal Days\n1\n', 'duration_type': 'full_day'}
+[2026-02-09 15:42:43,387] INFO in logging_config: POST http://localhost:5001/api/v2/leaves - 201 (0.948s)
+[2026-02-09 15:42:43,439] INFO in logging_config: OPTIONS http://localhost:5001/api/v2/leaves?page=1&per_page=10 - 200 (0.001s)
+[2026-02-09 15:42:43,869] INFO in logging_config: GET http://localhost:5001/api/v2/leaves?page=1&per_page=10 - 200 (0.075s)
+[2026-02-09 15:43:16,620] INFO in logging_config: OPTIONS http://localhost:5001/api/v2/leaves - 200 (0.001s)
+[2026-02-09 15:43:16,871] INFO in routes: Validated Data: {'leave_type': 'earned', 'start_date': datetime.date(2026, 2, 10), 'end_date': datetime.date(2026, 2, 21), 'total_days': 1.0, 'reason': 'helloa a dafkjdflkajflkalkaskldfaj dsfka fdaskjlas lad', 'duration_type': 'full_day'}
+[2026-02-09 15:43:16,903] ERROR in routes: Error in create_leave_request: Leave request overlaps with an existing pending request from 2026-02-10 to 2026-02-11
+[2026-02-09 15:43:16,906] INFO in logging_config: POST http://localhost:5001/api/v2/leaves - 409 (0.038s)
+[2026-02-09 15:43:32,087] INFO in logging_config: OPTIONS http://localhost:5001/api/v2/leaves - 200 (0.001s)
+[2026-02-09 15:43:32,428] INFO in routes: Validated Data: {'leave_type': 'earned', 'start_date': datetime.date(2026, 2, 12), 'end_date': datetime.date(2026, 2, 19), 'total_days': 1.0, 'reason': 'helloa a dafkjdflkajflkalkaskldfaj dsfka fdaskjlas lad', 'duration_type': 'full_day'}
+[2026-02-09 15:43:32,473] INFO in logging_config: POST http://localhost:5001/api/v2/leaves - 201 (0.049s)
+[2026-02-09 15:43:32,669] INFO in logging_config: OPTIONS http://localhost:5001/api/v2/leaves?page=1&per_page=10 - 200 (0.001s)
+[2026-02-09 15:43:32,827] INFO in logging_config: GET http://localhost:5001/api/v2/leaves?page=1&per_page=10 - 200 (0.015s)
+[2026-02-09 15:43:43,730] INFO in logging_config: OPTIONS http://localhost:5001/api/v2/auth/logout - 200 (0.000s)
+[2026-02-09 15:43:44,086] INFO in logging_config: POST http://localhost:5001/api/v2/auth/logout - 200 (0.002s)
+[2026-02-09 15:43:44,657] ERROR in routes: Error fetching employee stats: 'Employee' object has no attribute 'employee_id'
+[2026-02-09 15:43:44,665] ERROR in routes: Traceback (most recent call last):
+  File "C:\Users\preml\Desktop\office\AccessHub\backend\app\api\employee\routes.py", line 568, in get_employee_stats_summary
+    'employee_id': employee.employee_id,
+                   ^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'Employee' object has no attribute 'employee_id'. Did you mean: 'employee_code'?
+
+[2026-02-09 15:43:44,673] INFO in logging_config: GET http://localhost:5001/api/employee/stats/summary - 500 (0.077s)
+[2026-02-09 15:43:44,814] ERROR in routes: Error fetching employee stats: 'Employee' object has no attribute 'employee_id'
+[2026-02-09 15:43:44,822] ERROR in routes: Traceback (most recent call last):
+  File "C:\Users\preml\Desktop\office\AccessHub\backend\app\api\employee\routes.py", line 568, in get_employee_stats_summary
+    'employee_id': employee.employee_id,
+                   ^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'Employee' object has no attribute 'employee_id'. Did you mean: 'employee_code'?
+
+[2026-02-09 15:43:44,827] INFO in logging_config: GET http://localhost:5001/api/employee/stats/summary - 500 (0.069s)
+[2026-02-09 15:43:44,939] INFO in logging_config: GET http://localhost:5001/api/employee/attendance/today - 200 (0.314s)
+[2026-02-09 15:43:44,943] INFO in logging_config: GET http://localhost:5001/api/employee/profile - 200 (0.324s)
+[2026-02-09 15:43:44,994] INFO in logging_config: GET http://localhost:5001/api/employee/attendance/today - 200 (0.016s)
+[2026-02-09 15:43:45,316] INFO in logging_config: GET http://localhost:5001/api/employee/profile - 200 (0.034s)
+[2026-02-09 15:43:47,966] INFO in logging_config: OPTIONS http://localhost:5001/api/v2/auth/login - 200 (0.001s)
+[2026-02-09 15:43:49,140] INFO in logging_config: POST http://localhost:5001/api/v2/auth/login - 200 (0.847s)
+[2026-02-09 15:43:49,332] INFO in logging_config: OPTIONS http://localhost:5001/api/subscriptions/organization/e48e7921-3b9d-41de-9ab2-142030c12dd3/status - 200 (0.001s)
+[2026-02-09 15:43:49,659] INFO in logging_config: OPTIONS http://localhost:5001/api/subscriptions/plans - 200 (0.001s)
+[2026-02-09 15:43:49,679] INFO in logging_config: GET http://localhost:5001/api/manager/team/stats - 404 (0.001s)
+[2026-02-09 15:43:49,690] INFO in logging_config: GET http://localhost:5001/api/subscriptions/organization/e48e7921-3b9d-41de-9ab2-142030c12dd3/status - 401 (0.002s)
+[2026-02-09 15:43:49,947] INFO in logging_config: GET http://localhost:5001/api/manager/team/stats - 404 (0.001s)
+[2026-02-09 15:43:49,980] INFO in logging_config: GET http://localhost:5001/api/subscriptions/plans - 200 (0.003s)
+[2026-02-09 15:43:50,020] INFO in logging_config: OPTIONS http://localhost:5001/api/v2/auth/refresh - 200 (0.001s)
+[2026-02-09 15:43:50,353] INFO in logging_config: POST http://localhost:5001/api/v2/auth/refresh - 200 (0.012s)
+[2026-02-09 15:43:50,598] INFO in logging_config: GET http://localhost:5001/api/subscriptions/organization/e48e7921-3b9d-41de-9ab2-142030c12dd3/status - 401 (0.003s)
+[2026-02-09 15:43:54,221] INFO in logging_config: GET http://localhost:5001/api/manager/leaves/pending?status=all - 404 (0.001s)
+[2026-02-09 15:43:54,549] INFO in logging_config: GET http://localhost:5001/api/manager/leaves/pending?status=all - 404 (0.001s)
+[2026-02-09 15:44:14,506] INFO in logging_config: GET http://localhost:5001/api/manager/team/stats - 404 (0.001s)
+[2026-02-09 15:44:14,758] INFO in logging_config: GET http://localhost:5001/api/manager/team/stats - 404 (0.002s)
+[2026-02-09 15:45:44,508] INFO in logging_config: OPTIONS http://localhost:5001/api/manager/team/members - 404 (0.003s)
+[2026-02-09 15:45:44,515] INFO in logging_config: OPTIONS http://localhost:5001/api/manager/locations - 404 (0.004s)
+[2026-02-09 15:45:44,520] INFO in logging_config: OPTIONS http://localhost:5001/api/manager/team/members - 404 (0.003s)
+[2026-02-09 15:45:44,524] INFO in logging_config: OPTIONS http://localhost:5001/api/manager/cameras - 404 (0.001s)
+[2026-02-09 15:45:44,537] INFO in logging_config: OPTIONS http://localhost:5001/api/manager/cameras - 404 (0.002s)
+[2026-02-09 15:45:44,547] INFO in logging_config: OPTIONS http://localhost:5001/api/manager/locations - 404 (0.004s)
+[2026-02-09 15:45:47,195] INFO in logging_config: GET http://localhost:5001/api/manager/leaves/pending?status=all - 404 (0.002s)
+[2026-02-09 15:45:47,451] INFO in logging_config: GET http://localhost:5001/api/manager/leaves/pending?status=all - 404 (0.001s)
+[2026-02-09 15:45:51,617] INFO in logging_config: GET http://localhost:5001/api/manager/reports/attendance?start_date=2026-01-31&end_date=2026-02-09 - 404 (0.001s)
+[2026-02-09 15:45:51,947] INFO in logging_config: GET http://localhost:5001/api/manager/reports/attendance?start_date=2026-01-31&end_date=2026-02-09 - 404 (0.002s)
+[2026-02-09 15:46:01,248] INFO in logging_config: GET http://localhost:5001/api/manager/reports/attendance?start_date=2025-12-31&end_date=2026-01-30 - 404 (0.001s)
+[2026-02-09 15:46:10,205] INFO in logging_config: GET http://localhost:5001/api/manager/team/stats - 404 (0.002s)
+[2026-02-09 15:46:10,548] INFO in logging_config: GET http://localhost:5001/api/manager/team/stats - 404 (0.002s)
+[2026-02-09 15:49:01,460] WARNING in _internal:  * Debugger is active!
+[2026-02-09 15:49:01,460] WARNING in _internal:  * Debugger is active!
+[2026-02-09 15:50:26,276] INFO in logging_config: OPTIONS http://localhost:5001/api/v2/auth/me - 200 (0.003s)
+[2026-02-09 15:50:26,285] INFO in logging_config: OPTIONS http://localhost:5001/api/v2/auth/me - 200 (0.002s)
+[2026-02-09 15:50:27,936] INFO in logging_config: GET http://localhost:5001/api/v2/auth/me - 200 (1.406s)
+[2026-02-09 15:50:27,995] INFO in logging_config: GET http://localhost:5001/api/v2/auth/me - 200 (0.034s)
+[2026-02-09 15:50:28,307] INFO in logging_config: GET http://localhost:5001/api/manager/dashboard/activities - 404 (0.005s)
+[2026-02-09 15:50:28,326] INFO in logging_config: GET http://localhost:5001/api/manager/team/stats - 404 (0.002s)
+[2026-02-09 15:50:28,481] INFO in logging_config: OPTIONS http://localhost:5001/api/subscriptions/organization/e48e7921-3b9d-41de-9ab2-142030c12dd3/status - 200 (0.008s)
+[2026-02-09 15:50:28,492] INFO in logging_config: OPTIONS http://localhost:5001/api/subscriptions/plans - 200 (0.004s)
+[2026-02-09 15:50:28,589] INFO in logging_config: GET http://localhost:5001/api/manager/dashboard/activities - 404 (0.003s)
+[2026-02-09 15:50:28,668] INFO in logging_config: GET http://localhost:5001/api/manager/team/stats - 404 (0.003s)
+[2026-02-09 15:50:28,729] INFO in logging_config: GET http://localhost:5001/api/subscriptions/organization/e48e7921-3b9d-41de-9ab2-142030c12dd3/status - 401 (0.009s)
+[2026-02-09 15:50:28,819] INFO in logging_config: GET http://localhost:5001/api/subscriptions/plans - 200 (0.001s)
+[2026-02-09 15:50:28,831] INFO in logging_config: OPTIONS http://localhost:5001/api/v2/auth/refresh - 200 (0.004s)
+[2026-02-09 15:50:29,109] INFO in logging_config: POST http://localhost:5001/api/v2/auth/refresh - 200 (0.022s)
+[2026-02-09 15:50:29,161] INFO in logging_config: GET http://localhost:5001/api/subscriptions/organization/e48e7921-3b9d-41de-9ab2-142030c12dd3/status - 401 (0.004s)
+[2026-02-09 15:50:33,153] INFO in logging_config: OPTIONS http://localhost:5001/api/manager/team/members - 404 (0.002s)
+[2026-02-09 15:50:33,469] INFO in logging_config: OPTIONS http://localhost:5001/api/manager/cameras - 404 (0.001s)
+[2026-02-09 15:50:33,478] INFO in logging_config: OPTIONS http://localhost:5001/api/manager/locations - 404 (0.006s)
+[2026-02-09 15:50:33,486] INFO in logging_config: OPTIONS http://localhost:5001/api/manager/team/members - 404 (0.002s)
+[2026-02-09 15:50:33,495] INFO in logging_config: OPTIONS http://localhost:5001/api/manager/cameras - 404 (0.003s)
+[2026-02-09 15:50:33,500] INFO in logging_config: OPTIONS http://localhost:5001/api/manager/locations - 404 (0.001s)
+[2026-02-09 15:50:35,843] INFO in logging_config: GET http://localhost:5001/api/manager/leaves/pending?status=all - 404 (0.001s)
+[2026-02-09 15:50:36,166] INFO in logging_config: GET http://localhost:5001/api/manager/leaves/pending?status=all - 404 (0.001s)
+[2026-02-09 15:50:38,778] INFO in logging_config: GET http://localhost:5001/api/manager/reports/attendance?start_date=2026-01-31&end_date=2026-02-09 - 404 (0.002s)
+[2026-02-09 15:50:39,029] INFO in logging_config: GET http://localhost:5001/api/manager/reports/attendance?start_date=2026-01-31&end_date=2026-02-09 - 404 (0.003s)
+[2026-02-09 15:50:45,781] INFO in logging_config: GET http://localhost:5001/api/manager/team/stats - 404 (0.001s)
+[2026-02-09 15:50:45,791] INFO in logging_config: GET http://localhost:5001/api/manager/dashboard/activities - 404 (0.002s)
+[2026-02-09 15:50:50,415] INFO in logging_config: GET http://localhost:5001/api/manager/team/stats - 404 (0.002s)
+[2026-02-09 15:50:50,424] INFO in logging_config: GET http://localhost:5001/api/manager/dashboard/activities - 404 (0.003s)
+[2026-02-09 15:50:59,918] INFO in logging_config: OPTIONS http://localhost:5001/api/manager/team/members - 404 (0.001s)
+[2026-02-09 15:50:59,921] INFO in logging_config: OPTIONS http://localhost:5001/api/manager/cameras - 404 (0.002s)
+[2026-02-09 15:50:59,928] INFO in logging_config: OPTIONS http://localhost:5001/api/manager/locations - 404 (0.003s)
+[2026-02-09 15:50:59,937] INFO in logging_config: OPTIONS http://localhost:5001/api/manager/team/members - 404 (0.002s)
+[2026-02-09 15:50:59,954] INFO in logging_config: OPTIONS http://localhost:5001/api/manager/cameras - 404 (0.003s)
+[2026-02-09 15:50:59,962] INFO in logging_config: OPTIONS http://localhost:5001/api/manager/locations - 404 (0.001s)
+[2026-02-09 15:52:03,313] WARNING in _internal:  * Debugger is active!
+[2026-02-09 15:52:03,314] WARNING in _internal:  * Debugger is active!
+[2026-02-09 15:53:29,605] WARNING in _internal:  * Debugger is active!
+[2026-02-09 15:53:47,814] INFO in logging_config: GET http://localhost:5001/api/manager/team/stats - 404 (0.006s)
+[2026-02-09 15:53:47,818] INFO in logging_config: GET http://localhost:5001/api/manager/dashboard/activities - 404 (0.001s)
+[2026-02-09 15:53:48,055] INFO in logging_config: GET http://localhost:5001/api/manager/team/stats - 404 (0.002s)
+[2026-02-09 15:53:48,145] INFO in logging_config: GET http://localhost:5001/api/manager/dashboard/activities - 404 (0.001s)
+[2026-02-09 15:53:57,846] INFO in logging_config: OPTIONS http://localhost:5001/api/v2/auth/logout - 200 (0.012s)
+[2026-02-09 15:53:58,112] INFO in logging_config: POST http://localhost:5001/api/v2/auth/logout - 200 (0.034s)
+[2026-02-09 15:54:00,034] INFO in logging_config: OPTIONS http://localhost:5001/api/v2/auth/login - 200 (0.001s)
+[2026-02-09 15:54:07,205] WARNING in performance: Slow request: POST http://localhost:5001/api/v2/auth/login took 6.736 seconds
+[2026-02-09 15:54:07,218] INFO in logging_config: POST http://localhost:5001/api/v2/auth/login - 200 (6.749s)
+[2026-02-09 15:54:09,603] INFO in logging_config: OPTIONS http://localhost:5001/api/subscriptions/organization/e48e7921-3b9d-41de-9ab2-142030c12dd3/status - 200 (0.001s)
+[2026-02-09 15:54:09,621] INFO in logging_config: GET http://localhost:5001/api/manager/team/stats - 404 (0.003s)
+[2026-02-09 15:54:09,632] INFO in logging_config: GET http://localhost:5001/api/manager/dashboard/activities - 404 (0.002s)
+[2026-02-09 15:54:09,952] INFO in logging_config: GET http://localhost:5001/api/subscriptions/organization/e48e7921-3b9d-41de-9ab2-142030c12dd3/status - 401 (0.003s)
+[2026-02-09 15:54:10,219] INFO in logging_config: OPTIONS http://localhost:5001/api/subscriptions/plans - 200 (0.005s)
+[2026-02-09 15:54:10,240] INFO in logging_config: OPTIONS http://localhost:5001/api/v2/auth/refresh - 200 (0.001s)
+[2026-02-09 15:54:10,328] INFO in logging_config: GET http://localhost:5001/api/subscriptions/plans - 200 (0.001s)
+[2026-02-09 15:54:10,581] INFO in logging_config: POST http://localhost:5001/api/v2/auth/refresh - 200 (0.012s)
+[2026-02-09 15:54:10,640] INFO in logging_config: GET http://localhost:5001/api/subscriptions/organization/e48e7921-3b9d-41de-9ab2-142030c12dd3/status - 401 (0.001s)
+[2026-02-09 15:54:12,107] INFO in logging_config: GET http://localhost:5001/api/manager/team/stats - 404 (0.001s)
+[2026-02-09 15:54:12,111] INFO in logging_config: GET http://localhost:5001/api/manager/dashboard/activities - 404 (0.001s)
+[2026-02-09 15:54:12,131] INFO in logging_config: GET http://localhost:5001/api/manager/team/stats - 404 (0.001s)
+[2026-02-09 15:54:12,477] INFO in logging_config: GET http://localhost:5001/api/manager/dashboard/activities - 404 (0.002s)
+[2026-02-09 15:54:12,492] INFO in logging_config: GET http://localhost:5001/api/manager/team/stats - 404 (0.004s)
+[2026-02-09 15:54:12,543] INFO in logging_config: GET http://localhost:5001/api/manager/dashboard/activities - 404 (0.001s)
+[2026-02-09 15:54:19,911] INFO in logging_config: OPTIONS http://localhost:5001/api/manager/team/members - 404 (0.003s)
+[2026-02-09 15:54:19,915] INFO in logging_config: OPTIONS http://localhost:5001/api/manager/cameras - 404 (0.002s)
+[2026-02-09 15:54:19,920] INFO in logging_config: OPTIONS http://localhost:5001/api/manager/locations - 404 (0.002s)
+[2026-02-09 15:54:19,928] INFO in logging_config: OPTIONS http://localhost:5001/api/manager/team/members - 404 (0.004s)
+[2026-02-09 15:54:19,938] INFO in logging_config: OPTIONS http://localhost:5001/api/manager/cameras - 404 (0.003s)
+[2026-02-09 15:54:19,963] INFO in logging_config: OPTIONS http://localhost:5001/api/manager/locations - 404 (0.007s)
+[2026-02-09 15:54:22,363] INFO in logging_config: GET http://localhost:5001/api/manager/leaves/pending?status=all - 404 (0.002s)
+[2026-02-09 15:54:22,713] INFO in logging_config: GET http://localhost:5001/api/manager/leaves/pending?status=all - 404 (0.001s)
+[2026-02-09 15:54:25,782] INFO in logging_config: GET http://localhost:5001/api/manager/reports/attendance?start_date=2026-01-31&end_date=2026-02-09 - 404 (0.001s)
+[2026-02-09 15:54:26,054] INFO in logging_config: GET http://localhost:5001/api/manager/reports/attendance?start_date=2026-01-31&end_date=2026-02-09 - 404 (0.002s)
+[2026-02-09 15:54:27,059] INFO in logging_config: GET http://localhost:5001/api/manager/team/stats - 404 (0.002s)
+[2026-02-09 15:54:27,397] INFO in logging_config: GET http://localhost:5001/api/manager/dashboard/activities - 404 (0.002s)
+[2026-02-09 15:54:27,421] INFO in logging_config: GET http://localhost:5001/api/manager/team/stats - 404 (0.005s)
+[2026-02-09 15:54:27,745] INFO in logging_config: GET http://localhost:5001/api/manager/dashboard/activities - 404 (0.005s)
+[2026-02-09 15:57:01,630] WARNING in _internal:  * Debugger is active!
+[2026-02-09 15:57:01,738] WARNING in _internal:  * Debugger is active!
+[2026-02-09 15:58:04,504] INFO in logging_config: OPTIONS http://localhost:5001/api/v2/auth/me - 200 (0.001s)
+[2026-02-09 15:58:04,506] INFO in logging_config: OPTIONS http://localhost:5001/api/v2/auth/me - 200 (0.000s)
+[2026-02-09 15:58:05,453] INFO in logging_config: GET http://localhost:5001/api/v2/auth/me - 200 (0.701s)
+[2026-02-09 15:58:05,474] INFO in logging_config: GET http://localhost:5001/api/v2/auth/me - 200 (0.016s)
+[2026-02-09 15:58:05,832] INFO in logging_config: GET http://localhost:5001/api/manager/team/stats - 404 (0.001s)
+[2026-02-09 15:58:05,834] INFO in logging_config: GET http://localhost:5001/api/manager/dashboard/activities - 404 (0.001s)
+[2026-02-09 15:58:05,877] INFO in logging_config: GET http://localhost:5001/api/manager/team/stats - 404 (0.006s)
+[2026-02-09 15:58:06,064] INFO in logging_config: OPTIONS http://localhost:5001/api/subscriptions/plans - 200 (0.000s)
+[2026-02-09 15:58:06,075] INFO in logging_config: OPTIONS http://localhost:5001/api/subscriptions/organization/e48e7921-3b9d-41de-9ab2-142030c12dd3/status - 200 (0.005s)
+[2026-02-09 15:58:06,172] INFO in logging_config: GET http://localhost:5001/api/manager/dashboard/activities - 404 (0.001s)
+[2026-02-09 15:58:06,306] INFO in logging_config: GET http://localhost:5001/api/subscriptions/plans - 200 (0.001s)
+[2026-02-09 15:58:06,400] INFO in logging_config: GET http://localhost:5001/api/subscriptions/organization/e48e7921-3b9d-41de-9ab2-142030c12dd3/status - 401 (0.003s)
+[2026-02-09 15:58:06,424] INFO in logging_config: OPTIONS http://localhost:5001/api/v2/auth/refresh - 200 (0.001s)
+[2026-02-09 15:58:06,751] INFO in logging_config: POST http://localhost:5001/api/v2/auth/refresh - 200 (0.010s)
+[2026-02-09 15:58:07,013] INFO in logging_config: GET http://localhost:5001/api/subscriptions/organization/e48e7921-3b9d-41de-9ab2-142030c12dd3/status - 401 (0.004s)
+[2026-02-09 15:58:13,552] INFO in logging_config: OPTIONS http://localhost:5001/api/manager/team/members - 404 (0.004s)
+[2026-02-09 15:58:13,858] INFO in logging_config: OPTIONS http://localhost:5001/api/manager/cameras - 404 (0.002s)
+[2026-02-09 15:58:13,869] INFO in logging_config: OPTIONS http://localhost:5001/api/manager/locations - 404 (0.008s)
+[2026-02-09 15:58:13,883] INFO in logging_config: OPTIONS http://localhost:5001/api/manager/team/members - 404 (0.008s)
+[2026-02-09 15:58:13,894] INFO in logging_config: OPTIONS http://localhost:5001/api/manager/cameras - 404 (0.004s)
+[2026-02-09 15:58:13,920] INFO in logging_config: OPTIONS http://localhost:5001/api/manager/locations - 404 (0.003s)
+[2026-02-09 15:58:17,401] INFO in logging_config: GET http://localhost:5001/api/manager/leaves/pending?status=all - 404 (0.002s)
+[2026-02-09 15:58:17,728] INFO in logging_config: GET http://localhost:5001/api/manager/leaves/pending?status=all - 404 (0.001s)
+[2026-02-09 15:58:20,400] INFO in logging_config: GET http://localhost:5001/api/manager/reports/attendance?start_date=2026-01-31&end_date=2026-02-09 - 404 (0.001s)
+[2026-02-09 15:58:20,666] INFO in logging_config: GET http://localhost:5001/api/manager/reports/attendance?start_date=2026-01-31&end_date=2026-02-09 - 404 (0.003s)
+[2026-02-09 15:58:22,192] INFO in logging_config: GET http://localhost:5001/api/manager/team/stats - 404 (0.015s)
+[2026-02-09 15:58:22,440] INFO in logging_config: GET http://localhost:5001/api/manager/dashboard/activities - 404 (0.003s)
+[2026-02-09 15:58:22,618] INFO in logging_config: GET http://localhost:5001/api/manager/team/stats - 404 (0.002s)
+[2026-02-09 15:58:22,803] INFO in logging_config: GET http://localhost:5001/api/manager/dashboard/activities - 404 (0.007s)
+[2026-02-09 16:01:45,367] WARNING in _internal:  * Debugger is active!
+[2026-02-09 16:01:45,389] WARNING in _internal:  * Debugger is active!
