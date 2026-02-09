@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { DatePicker, Input, Select, Table, Tag, message } from 'antd';
+import { DatePicker, Input, Select, Table, Tag, message, Button, TimePicker } from 'antd';
 import moment from 'moment';
 import { attendanceService } from '../../../services/organizationsService';
 
@@ -17,6 +17,10 @@ const EmployeeAttendanceLogs = ({ employees = [], onEmployeeClick, organizationI
         pageSize: 10,
         total: 0
     });
+
+    // Editing State
+    const [editingId, setEditingId] = useState(null);
+    const [editForm, setEditForm] = useState({});
 
     useEffect(() => {
         fetchLogs();
@@ -87,6 +91,45 @@ const EmployeeAttendanceLogs = ({ employees = [], onEmployeeClick, organizationI
         }));
     };
 
+    const isEditing = (record) => record.id === editingId;
+
+    const startEditing = (record) => {
+        setEditingId(record.id);
+        setEditForm({
+            ...record,
+            check_in_time: record.check_in_time ? moment(record.check_in_time) : null,
+            check_out_time: record.check_out_time ? moment(record.check_out_time) : null,
+        });
+    };
+
+    const cancelEditing = () => {
+        setEditingId(null);
+        setEditForm({});
+    };
+
+    const saveEditing = async (id) => {
+        try {
+            setLoading(true);
+            const payload = {
+                status: editForm.status,
+                check_in_time: editForm.check_in_time ? editForm.check_in_time.toISOString() : null,
+                check_out_time: editForm.check_out_time ? editForm.check_out_time.toISOString() : null,
+            };
+
+            const response = await attendanceService.update(id, payload);
+            if (response.success) {
+                message.success('Attendance updated successfully');
+                setEditingId(null);
+                fetchLogs();
+            }
+        } catch (error) {
+            console.error('Error saving attendance:', error);
+            message.error('Failed to update attendance');
+        } finally {
+            setLoading(false);
+        }
+    };
+
     const columns = [
         {
             title: 'Employee',
@@ -119,37 +162,72 @@ const EmployeeAttendanceLogs = ({ employees = [], onEmployeeClick, organizationI
             title: 'Check In',
             dataIndex: 'check_in_time',
             key: 'check_in_time',
-            render: (text) => text ? (
-                <span className="font-mono text-gray-700 bg-teal-50 px-2 py-0.5 rounded border border-gray-200 text-xs">
-                    {moment(text).format('HH:mm:ss')}
-                </span>
-            ) : '-'
+            render: (text, record) => {
+                if (isEditing(record)) {
+                    return (
+                        <TimePicker
+                            value={editForm.check_in_time}
+                            onChange={(time) => setEditForm({ ...editForm, check_in_time: time })}
+                            format="HH:mm:ss"
+                            size="small"
+                        />
+                    );
+                }
+                return text ? (
+                    <span className="font-mono text-gray-700 bg-teal-50 px-2 py-0.5 rounded border border-gray-200 text-xs">
+                        {moment(text).format('HH:mm:ss')}
+                    </span>
+                ) : '-'
+            }
         },
         {
             title: 'Check Out',
             dataIndex: 'check_out_time',
             key: 'check_out_time',
-            render: (text) => text ? (
-                <span className="font-mono text-gray-700 bg-teal-50 px-2 py-0.5 rounded border border-gray-200 text-xs">
-                    {moment(text).format('HH:mm:ss')}
-                </span>
-            ) : (
-                <span className="text-xs text-green-600 font-medium bg-green-50 px-2 py-0.5 rounded-full border border-green-100">
-                    Active
-                </span>
-            )
-        },
-        {
-            title: 'Location',
-            dataIndex: 'location_check_in',
-            key: 'location',
-            render: (loc) => <span className="text-xs">{loc?.name || 'Main Entrance'}</span>
+            render: (text, record) => {
+                if (isEditing(record)) {
+                    return (
+                        <TimePicker
+                            value={editForm.check_out_time}
+                            onChange={(time) => setEditForm({ ...editForm, check_out_time: time })}
+                            format="HH:mm:ss"
+                            size="small"
+                        />
+                    );
+                }
+                return text ? (
+                    <span className="font-mono text-gray-700 bg-teal-50 px-2 py-0.5 rounded border border-gray-200 text-xs">
+                        {moment(text).format('HH:mm:ss')}
+                    </span>
+                ) : (
+                    <span className="text-xs text-green-600 font-medium bg-green-50 px-2 py-0.5 rounded-full border border-green-100">
+                        Active
+                    </span>
+                )
+            }
         },
         {
             title: 'Status',
             dataIndex: 'status',
             key: 'status',
             render: (status, record) => {
+                if (isEditing(record)) {
+                    return (
+                        <Select
+                            value={editForm.status}
+                            onChange={(value) => setEditForm({ ...editForm, status: value })}
+                            size="small"
+                            className="w-24"
+                        >
+                            <Option value="present">PRESENT</Option>
+                            <Option value="absent">ABSENT</Option>
+                            <Option value="late">LATE</Option>
+                            <Option value="half_day">HALF DAY</Option>
+                            <Option value="on_leave">ON LEAVE</Option>
+                            <Option value="holiday">HOLIDAY</Option>
+                        </Select>
+                    );
+                }
                 let color = 'green';
                 let text = status ? status.toUpperCase() : 'PRESENT';
 
@@ -167,6 +245,41 @@ const EmployeeAttendanceLogs = ({ employees = [], onEmployeeClick, organizationI
                 return <Tag color={color} style={{ fontSize: '10px', lineHeight: '18px' }}>{text}</Tag>;
             }
         },
+        {
+            title: 'Actions',
+            key: 'actions',
+            render: (_, record) => {
+                if (isEditing(record)) {
+                    return (
+                        <div className="flex gap-2">
+                            <Button
+                                type="primary"
+                                size="small"
+                                onClick={() => saveEditing(record.id)}
+                                className="bg-teal-600 hover:bg-teal-700"
+                            >
+                                Save
+                            </Button>
+                            <Button
+                                size="small"
+                                onClick={cancelEditing}
+                            >
+                                Cancel
+                            </Button>
+                        </div>
+                    );
+                }
+                return (
+                    <Button
+                        size="small"
+                        onClick={() => startEditing(record)}
+                        className="text-teal-600 border-teal-600 hover:text-teal-700 hover:border-teal-700"
+                    >
+                        Edit
+                    </Button>
+                );
+            }
+        }
     ];
 
     return (
