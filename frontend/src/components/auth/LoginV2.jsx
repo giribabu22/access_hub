@@ -9,7 +9,7 @@ const LoginV2 = () => {
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  
+
   const navigate = useNavigate();
   const location = useLocation();
   const { login, isAuthenticated, user } = useAuth();
@@ -53,7 +53,7 @@ const LoginV2 = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     if (!formData.username || !formData.password) {
       setError('Please enter both username and password');
       return;
@@ -64,13 +64,13 @@ const LoginV2 = () => {
 
     try {
       const response = await login(formData.username, formData.password);
-      
+
       // Navigate based on role (use role.id or role.name)
       const roleIdentifier = response.user?.role?.id || response.user?.role?.name;
       console.log('Login successful, redirecting...', { roleIdentifier });
       const from = location.state?.from?.pathname || getDefaultRoute(roleIdentifier);
       navigate(from, { replace: true });
-      
+
     } catch (err) {
       setError(err.message || 'Login failed. Please check your credentials.');
     } finally {
@@ -83,11 +83,11 @@ const LoginV2 = () => {
   };
 
   return (
-    <div className="flex min-h-screen bg-gradient-to-br from-indigo-600 via-purple-600 to-purple-700 relative overflow-hidden">
+    <div className="flex min-h-screen bg-gradient-to-br from-teal-600 via-teal-500 to-cyan-600 relative overflow-hidden">
       {/* Animated Background Elements */}
-      <div className="absolute top-20 left-10 w-72 h-72 bg-indigo-400/20 rounded-full blur-3xl animate-pulse"></div>
-      <div className="absolute -bottom-20 -right-20 w-96 h-96 bg-purple-400/20 rounded-full blur-3xl animate-pulse delay-700"></div>
-      <div className="absolute top-1/2 left-1/3 w-80 h-80 bg-indigo-500/10 rounded-full blur-3xl animate-float"></div>
+      <div className="absolute top-20 left-10 w-72 h-72 bg-teal-400/30 rounded-full blur-3xl animate-pulse"></div>
+      <div className="absolute -bottom-20 -right-20 w-96 h-96 bg-cyan-400/30 rounded-full blur-3xl animate-pulse delay-700"></div>
+      <div className="absolute top-1/2 left-1/3 w-80 h-80 bg-teal-500/20 rounded-full blur-3xl animate-float"></div>
 
       {/* Left Section - Brand & Features */}
       <div className="hidden lg:flex flex-1 flex-col justify-center items-center px-8 py-8 text-white relative z-10">
@@ -139,7 +139,7 @@ const LoginV2 = () => {
       </div>
 
       {/* Right Section - Login Form */}
-      <div className="flex flex-1 items-center justify-center p-4 sm:p-6 bg-white/95 backdrop-blur-sm relative z-10">
+      <div className="flex flex-1 items-center justify-center p-4 sm:p-6 bg-gradient-to-br from-white to-teal-50/30 backdrop-blur-sm relative z-10">
         <div className="w-full max-w-sm">
           <div className="mb-6 animate-fadeInUp">
             <h2 className="text-3xl font-black text-gray-900 mb-2">Welcome</h2>
@@ -155,7 +155,7 @@ const LoginV2 = () => {
 
           <form onSubmit={handleSubmit} className="flex flex-col gap-4">
             <div className="flex flex-col group">
-              <label htmlFor="username" className="text-sm font-bold text-gray-800 mb-2 group-focus-within:text-indigo-600 transition-colors">
+              <label htmlFor="username" className="text-sm font-bold text-gray-800 mb-2 group-focus-within:text-teal-600 transition-colors">
                 Username or Email
               </label>
               <div className="relative">
@@ -165,7 +165,7 @@ const LoginV2 = () => {
                   name="username"
                   value={formData.username}
                   onChange={handleChange}
-                  className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl text-base bg-gray-50 transition-all duration-300 focus:outline-none focus:border-indigo-500 focus:bg-white focus:ring-4 focus:ring-indigo-100 hover:border-gray-300 disabled:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-60 shadow-sm hover:shadow-md"
+                  className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl text-base bg-teal-50 transition-all duration-300 focus:outline-none focus:border-teal-500 focus:bg-white focus:ring-4 focus:ring-teal-100 hover:border-gray-300 disabled:bg-teal-100 disabled:cursor-not-allowed disabled:opacity-60 shadow-sm hover:shadow-md"
                   placeholder="you@example.com"
                   required
                   disabled={isLoading}
@@ -176,7 +176,7 @@ const LoginV2 = () => {
             </div>
 
             <div className="flex flex-col group">
-              <label htmlFor="password" className="text-sm font-bold text-gray-800 mb-2 group-focus-within:text-indigo-600 transition-colors">
+              <label htmlFor="password" className="text-sm font-bold text-gray-800 mb-2 group-focus-within:text-teal-600 transition-colors">
                 Password
               </label>
               <div className="relative">
@@ -186,7 +186,7 @@ const LoginV2 = () => {
                   name="password"
                   value={formData.password}
                   onChange={handleChange}
-                  className="w-full px-4 py-3 pr-14 border-2 border-gray-200 rounded-xl text-base bg-gray-50 transition-all duration-300 focus:outline-none focus:border-indigo-500 focus:bg-white focus:ring-4 focus:ring-indigo-100 hover:border-gray-300 disabled:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-60 shadow-sm hover:shadow-md"
+                  className="w-full px-4 py-3 pr-14 border-2 border-gray-200 rounded-xl text-base bg-teal-50 transition-all duration-300 focus:outline-none focus:border-teal-500 focus:bg-white focus:ring-4 focus:ring-teal-100 hover:border-gray-300 disabled:bg-teal-100 disabled:cursor-not-allowed disabled:opacity-60 shadow-sm hover:shadow-md"
                   placeholder="••••••••"
                   required
                   disabled={isLoading}
@@ -205,13 +205,13 @@ const LoginV2 = () => {
             </div>
 
             <div className="flex justify-between items-center text-sm gap-4 pt-1">
-              <label className="flex items-center gap-2 cursor-pointer hover:text-indigo-600 transition-colors group">
-                <input type="checkbox" className="w-4 h-4 rounded border-2 border-gray-300 accent-indigo-600 cursor-pointer" />
-                <span className="text-gray-700 group-hover:text-indigo-600 font-medium">Remember me</span>
+              <label className="flex items-center gap-2 cursor-pointer hover:text-teal-600 transition-colors group">
+                <input type="checkbox" className="w-4 h-4 rounded border-2 border-gray-300 accent-teal-600 cursor-pointer" />
+                <span className="text-gray-700 group-hover:text-teal-600 font-medium">Remember me</span>
               </label>
               <button
                 type="button"
-                className="bg-none border-none text-indigo-600 font-semibold cursor-pointer hover:text-indigo-700 hover:underline underline-offset-2 transition-colors"
+                className="bg-none border-none text-teal-600 font-semibold cursor-pointer hover:text-teal-700 hover:underline underline-offset-2 transition-colors"
                 onClick={handleForgotPassword}
               >
                 Forgot Password?
@@ -220,7 +220,7 @@ const LoginV2 = () => {
 
             <button
               type="submit"
-              className="py-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white border-none rounded-xl text-base font-bold cursor-pointer transition-all duration-300 flex items-center justify-center gap-3 mt-3 hover:enabled:shadow-xl hover:enabled:translate-y-[-2px] active:enabled:translate-y-0 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:enabled:shadow-2xl"
+              className="py-3 bg-gradient-to-r from-teal-600 to-cyan-600 text-white border-none rounded-xl text-base font-bold cursor-pointer transition-all duration-300 flex items-center justify-center gap-3 mt-3 hover:enabled:shadow-xl hover:enabled:shadow-teal-500/50 hover:enabled:translate-y-[-2px] active:enabled:translate-y-0 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:enabled:shadow-2xl"
               disabled={isLoading || !formData.username || !formData.password}
             >
               {isLoading ? (

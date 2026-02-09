@@ -116,7 +116,7 @@ function AttendanceMarking() {
     };
 
     return (
-        <div className="min-h-screen bg-gray-50 p-4 sm:p-6">
+        <div className="min-h-screen bg-teal-50 p-4 sm:p-6">
             <div className="max-w-2xl mx-auto">
                 {/* Header */}
                 <div className="mb-6 flex items-center">
@@ -130,7 +130,7 @@ function AttendanceMarking() {
                 </div>
 
                 {/* Camera View */}
-                <div className="bg-white rounded-xl shadow-lg overflow-hidden mb-6 relative">
+                <div className="bg-teal-50/95 rounded-xl shadow-lg overflow-hidden mb-6 relative">
                     <div className="aspect-video bg-black relative">
                         {!stream && !error && (
                             <div className="absolute inset-0 flex items-center justify-center text-white">

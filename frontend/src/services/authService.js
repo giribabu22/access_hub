@@ -1,130 +1,41 @@
-import axios from 'axios';
 
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'http://localhost:5001';
-const AUTH_API_URL = `${API_BASE_URL}/api/v2/auth`;
-
-// Token storage keys
-
-const ACCESS_TOKEN_KEY = 'accesshub_access_token';
-const REFRESH_TOKEN_KEY = 'accesshub_refresh_token';
-const USER_KEY = 'accesshub_user_data';
+import { authAPI } from './api';
+import { tokenUtils } from '../utils/tokenUtils';
 
 class AuthService {
-  constructor() {
-    this.api = axios.create({
-      baseURL: API_BASE_URL,
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-
-    // Request interceptor to add token
-    this.api.interceptors.request.use(
-      (config) => {
-        const token = this.getAccessToken();
-        if (token) {
-          config.headers.Authorization = `Bearer ${token}`;
-        }
-        return config;
-      },
-      (error) => Promise.reject(error)
-    );
-
-    // Response interceptor to handle token refresh
-    this.api.interceptors.response.use(
-      (response) => response,
-      async (error) => {
-        const originalRequest = error.config;
-
-        // If error is 401 and we haven't tried to refresh yet
-        if (error.response?.status === 401 && !originalRequest._retry) {
-          originalRequest._retry = true;
-
-          try {
-            const refreshToken = this.getRefreshToken();
-            if (refreshToken) {
-              const response = await axios.post(
-                `${AUTH_API_URL}/refresh`,
-                {},
-                {
-                  headers: {
-                    Authorization: `Bearer ${refreshToken}`,
-                  },
-                }
-              );
-
-              if (response.data.success) {
-                const { access_token, refresh_token } = response.data.data;
-                this.setAccessToken(access_token);
-                if (refresh_token) {
-                  this.setRefreshToken(refresh_token);
-                }
-
-                // Retry original request with new token
-                originalRequest.headers.Authorization = `Bearer ${access_token}`;
-                return this.api(originalRequest);
-              }
-            }
-          } catch (refreshError) {
-            // Refresh failed, clear tokens and redirect to login
-            this.clearTokens();
-            window.location.href = '/login';
-            return Promise.reject(refreshError);
-          }
-        }
-
-        return Promise.reject(error);
-      }
-    );
-  }
-
-  // Token management
+  // Token management delegates to tokenUtils
   setAccessToken(token) {
-    localStorage.setItem(ACCESS_TOKEN_KEY, token);
-    // Backwards-compatibility: some legacy pages read `localStorage.getItem('token')`
-    try {
-      localStorage.setItem('token', token);
-    } catch (e) {
-      // ignore storage errors
-    }
+    tokenUtils.setAccessToken(token);
   }
 
   getAccessToken() {
-    // Prefer new key, fall back to legacy `token` key for older pages
-    return localStorage.getItem(ACCESS_TOKEN_KEY) || localStorage.getItem('token');
+    return tokenUtils.getAccessToken();
   }
 
   setRefreshToken(token) {
-    localStorage.setItem(REFRESH_TOKEN_KEY, token);
-    try {
-      // legacy key that some code may expect
-      localStorage.setItem('refresh_token', token);
-    } catch (e) {}
+    tokenUtils.setRefreshToken(token);
   }
 
   getRefreshToken() {
-    return localStorage.getItem(REFRESH_TOKEN_KEY) || localStorage.getItem('refresh_token');
+    return tokenUtils.getRefreshToken();
   }
 
   setUser(user) {
-    localStorage.setItem(USER_KEY, JSON.stringify(user));
+    tokenUtils.setUser(user);
   }
 
   getUser() {
-    const user = localStorage.getItem(USER_KEY);
-    return user ? JSON.parse(user) : null;
+    return tokenUtils.getUser();
   }
 
   clearTokens() {
-    localStorage.removeItem(ACCESS_TOKEN_KEY);
-    localStorage.removeItem(REFRESH_TOKEN_KEY);
-    localStorage.removeItem(USER_KEY);
+    tokenUtils.clearTokens();
   }
 
   // Auth API methods
   async login(username, password) {
     try {
-      const response = await this.api.post(`${AUTH_API_URL}/login`, {
+      const response = await authAPI.login({
         username,
         password,
       });
@@ -147,7 +58,7 @@ class AuthService {
 
   async logout() {
     try {
-      await this.api.post(`${AUTH_API_URL}/logout`);
+      await authAPI.logout();
     } catch (error) {
       // ignore
     } finally {
@@ -162,15 +73,7 @@ class AuthService {
     }
 
     try {
-      const response = await axios.post(
-        `${AUTH_API_URL}/refresh`,
-        {},
-        {
-          headers: {
-            Authorization: `Bearer ${refreshToken}`,
-          },
-        }
-      );
+      const response = await authAPI.refreshToken(refreshToken);
 
       if (response.data.success) {
         const { access_token, refresh_token } = response.data.data;
@@ -190,7 +93,7 @@ class AuthService {
 
   async getCurrentUser() {
     try {
-      const response = await this.api.get(`${AUTH_API_URL}/me`);
+      const response = await authAPI.getCurrentUser();
 
       if (response.data.success) {
         const user = response.data.data.user;
@@ -206,7 +109,7 @@ class AuthService {
 
   async changePassword(oldPassword, newPassword) {
     try {
-      const response = await this.api.post(`${AUTH_API_URL}/change-password`, {
+      const response = await authAPI.changePassword({
         old_password: oldPassword,
         new_password: newPassword,
       });
@@ -220,7 +123,7 @@ class AuthService {
 
   async forgotPassword(email) {
     try {
-      const response = await this.api.post(`${AUTH_API_URL}/forgot-password`, {
+      const response = await authAPI.forgotPassword({
         email,
       });
 
@@ -232,7 +135,7 @@ class AuthService {
   }
 
   isAuthenticated() {
-    return !!this.getAccessToken();
+    return tokenUtils.isAuthenticated();
   }
 
   getUserRole() {

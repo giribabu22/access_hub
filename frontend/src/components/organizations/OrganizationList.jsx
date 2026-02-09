@@ -73,20 +73,20 @@ const OrganizationList = ({ showCreateButton = true, basePath = '/super-admin/or
   }
 
   return (
-    <div className="bg-gradient-to-br from-slate-50 via-indigo-50 to-purple-50 min-h-full">
+    <div className="bg-gradient-to-br from-slate-50 via-teal-50 to-teal-50 min-h-full">
       {/* Page Header */}
-      <div className="bg-white/80 backdrop-blur-sm border-b border-slate-200/60 sticky top-0 z-30 shadow-sm">
+      <div className="bg-teal-50/90 backdrop-blur-sm border-b border-slate-200/60 sticky top-0 z-30 shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-3xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
+              <h1 className="text-3xl font-bold bg-gradient-to-r from-teal-600 to-teal-600 bg-clip-text text-transparent">
                 Organizations
               </h1>
               <p className="text-slate-600 mt-1">Manage all organizations in the system</p>
             </div>
             {showCreateButton && (
               <button
-                className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-semibold rounded-xl hover:shadow-lg hover:shadow-indigo-400/30 transition-all duration-300"
+                className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-teal-600 to-teal-600 text-white font-semibold rounded-xl hover:shadow-lg hover:shadow-teal-400/30 transition-all duration-300"
                 onClick={handleCreateOrganization}
               >
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -100,7 +100,7 @@ const OrganizationList = ({ showCreateButton = true, basePath = '/super-admin/or
       </div>
 
       {/* Quick Actions Bar */}
-      <div className="bg-white border-b border-gray-200 sticky top-20 z-20 shadow-sm">
+      <div className="bg-teal-50/95 border-b border-gray-200 sticky top-20 z-20 shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-wrap gap-3 py-4 items-center justify-between">
             <p className="text-gray-600 font-medium">Total Organizations: {organizations.length}</p>
@@ -121,7 +121,7 @@ const OrganizationList = ({ showCreateButton = true, basePath = '/super-admin/or
               placeholder="🔍 Search by name or code..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full px-6 py-3 border-2 border-slate-200 rounded-xl focus:outline-none focus:border-indigo-500 focus:ring-4 focus:ring-indigo-100 bg-white shadow-sm hover:shadow-md transition-all text-lg"
+              className="w-full px-6 py-3 border-2 border-slate-200 rounded-xl focus:outline-none focus:border-teal-500 focus:ring-4 focus:ring-teal-100 bg-teal-50/95 shadow-sm hover:shadow-md transition-all text-lg"
             />
           </div>
 
@@ -129,8 +129,8 @@ const OrganizationList = ({ showCreateButton = true, basePath = '/super-admin/or
           <div className="md:col-span-2 flex gap-3 flex-wrap">
             <button
               className={`px-6 py-3 rounded-xl font-bold transition-all duration-300 ${filterStatus === 'all'
-                ? 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-lg'
-                : 'bg-white text-slate-700 border-2 border-slate-200 hover:border-indigo-300'
+                ? 'bg-gradient-to-r from-teal-600 to-teal-600 text-white shadow-lg'
+                : 'bg-white text-slate-700 border-2 border-slate-200 hover:border-teal-300'
                 }`}
               onClick={() => setFilterStatus('all')}
             >
@@ -169,7 +169,7 @@ const OrganizationList = ({ showCreateButton = true, basePath = '/super-admin/or
             </p>
             {!searchTerm && filterStatus === 'all' && (
               <button
-                className="px-8 py-4 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-bold rounded-xl hover:shadow-lg hover:translate-y-[-2px] transition-all duration-300 text-lg"
+                className="px-8 py-4 bg-gradient-to-r from-teal-600 to-teal-600 text-white font-bold rounded-xl hover:shadow-lg hover:translate-y-[-2px] transition-all duration-300 text-lg"
                 onClick={handleCreateOrganization}
               >
                 ➕ Create Organization
@@ -181,10 +181,10 @@ const OrganizationList = ({ showCreateButton = true, basePath = '/super-admin/or
             {filteredOrganizations.map((org) => (
               <div
                 key={org.id}
-                className="bg-white rounded-2xl border border-slate-200 shadow-lg hover:shadow-2xl transition-all duration-500 hover:translate-y-[-8px] overflow-hidden group"
+                className="bg-teal-50/95 rounded-2xl border border-slate-200 shadow-lg hover:shadow-2xl transition-all duration-500 hover:translate-y-[-8px] overflow-hidden group"
               >
                 {/* Card Header */}
-                <div className="bg-gradient-to-r from-indigo-500/10 to-purple-500/10 border-b border-slate-200 px-6 py-4 flex items-center justify-between">
+                <div className="bg-gradient-to-r from-teal-500/10 to-teal-500/10 border-b border-slate-200 px-6 py-4 flex items-center justify-between">
                   <div className="text-4xl">🏢</div>
                   <span className={`px-4 py-2 rounded-full font-bold text-sm ${org.is_active
                     ? 'bg-green-100 text-green-700'
@@ -197,7 +197,7 @@ const OrganizationList = ({ showCreateButton = true, basePath = '/super-admin/or
                 {/* Card Body */}
                 <div className="px-6 py-6">
                   <h3 className="text-2xl font-bold text-slate-900 mb-2">{org.name}</h3>
-                  <p className="text-sm text-slate-600 mb-4 font-medium">Code: <span className="text-indigo-600 font-bold">{org.code || 'N/A'}</span></p>
+                  <p className="text-sm text-slate-600 mb-4 font-medium">Code: <span className="text-teal-600 font-bold">{org.code || 'N/A'}</span></p>
                   {org.description && (
                     <p className="text-slate-600 text-sm mb-6 line-clamp-2">{org.description}</p>
                   )}
@@ -205,7 +205,7 @@ const OrganizationList = ({ showCreateButton = true, basePath = '/super-admin/or
                   {/* Stats */}
                   <div className="grid grid-cols-3 gap-4 mb-6 p-4 bg-slate-50 rounded-xl">
                     <div className="text-center">
-                      <p className="text-2xl font-black text-purple-600">{org.cameras_count || 0}</p>
+                      <p className="text-2xl font-black text-teal-600">{org.cameras_count || 0}</p>
                       <p className="text-xs text-slate-600 font-semibold mt-1">Cameras</p>
                     </div>
                     <div className="text-center">
@@ -217,7 +217,7 @@ const OrganizationList = ({ showCreateButton = true, basePath = '/super-admin/or
                   {/* Actions */}
                   <div className="flex gap-3">
                     <button
-                      className="flex-1 px-4 py-2 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-bold rounded-lg hover:shadow-lg transition-all duration-300 text-sm"
+                      className="flex-1 px-4 py-2 bg-gradient-to-r from-teal-600 to-teal-600 text-white font-bold rounded-lg hover:shadow-lg transition-all duration-300 text-sm"
                       onClick={() => handleViewOrganization(org.id)}
                     >
                       View Details →

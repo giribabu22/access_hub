@@ -131,7 +131,7 @@ const OrganizationRules = ({ organizationId, organization, onUpdate }) => {
         {!isEditing ? (
           <button
             onClick={() => setIsEditing(true)}
-            className="px-6 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-semibold rounded-lg hover:shadow-lg transition-all duration-300 hover:-translate-y-0.5"
+            className="px-6 py-3 bg-gradient-to-r from-teal-600 to-teal-600 text-white font-semibold rounded-lg hover:shadow-lg transition-all duration-300 hover:-translate-y-0.5"
           >
             ✏️ Edit Rules
           </button>
@@ -139,7 +139,7 @@ const OrganizationRules = ({ organizationId, organization, onUpdate }) => {
           <div className="flex gap-3">
             <button
               onClick={handleCancel}
-              className="px-6 py-3 bg-gray-100 text-gray-700 font-semibold rounded-lg hover:bg-gray-200 transition-all"
+              className="px-6 py-3 bg-teal-100 text-gray-700 font-semibold rounded-lg hover:bg-gray-200 transition-all"
             >
               Cancel
             </button>
@@ -156,7 +156,7 @@ const OrganizationRules = ({ organizationId, organization, onUpdate }) => {
 
       <Form form={form} layout="vertical" onFinish={handleSubmit} disabled={!isEditing}>
         {/* Working Hours Section */}
-        <div className="bg-white rounded-xl p-6 shadow-md border border-gray-200 mb-6">
+        <div className="bg-teal-50/95 rounded-xl p-6 shadow-md border border-gray-200 mb-6">
           <h3 className="text-xl font-bold text-gray-900 mb-6 pb-3 border-b-2 border-gray-200 flex items-center gap-2">
             🕐 Working Hours Configuration
           </h3>
@@ -207,7 +207,7 @@ const OrganizationRules = ({ organizationId, organization, onUpdate }) => {
         </div>
 
         {/* Attendance Rules Section */}
-        <div className="bg-white rounded-xl p-6 shadow-md border border-gray-200 mb-6">
+        <div className="bg-teal-50/95 rounded-xl p-6 shadow-md border border-gray-200 mb-6">
           <h3 className="text-xl font-bold text-gray-900 mb-6 pb-3 border-b-2 border-gray-200 flex items-center gap-2">
             📋 Attendance Rules
           </h3>
@@ -277,7 +277,7 @@ const OrganizationRules = ({ organizationId, organization, onUpdate }) => {
         </div>
 
         {/* Face Recognition Settings Section */}
-        <div className="bg-white rounded-xl p-6 shadow-md border border-gray-200 mb-6">
+        <div className="bg-teal-50/95 rounded-xl p-6 shadow-md border border-gray-200 mb-6">
           <h3 className="text-xl font-bold text-gray-900 mb-6 pb-3 border-b-2 border-gray-200 flex items-center gap-2">
             😊 Face Recognition Settings
           </h3>

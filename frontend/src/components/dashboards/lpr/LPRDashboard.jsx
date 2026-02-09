@@ -29,13 +29,13 @@ const LPRDashboard = () => {
                     <div className="flex gap-2">
                         <button
                             onClick={() => navigate('/org-admin/lpr/search')}
-                            className="px-4 py-2 bg-white border border-slate-300 rounded-lg text-slate-700 font-medium hover:bg-slate-50"
+                            className="px-4 py-2 bg-teal-50/95 border border-slate-300 rounded-lg text-slate-700 font-medium hover:bg-slate-50"
                         >
                             🔍 Smart Search
                         </button>
                         <button
                             onClick={() => navigate('/org-admin/lpr/alerts')}
-                            className="px-4 py-2 bg-white border border-slate-300 rounded-lg text-slate-700 font-medium hover:bg-slate-50"
+                            className="px-4 py-2 bg-teal-50/95 border border-slate-300 rounded-lg text-slate-700 font-medium hover:bg-slate-50"
                         >
                             🛡️ Security Alerts
                         </button>
@@ -58,10 +58,10 @@ const LPRDashboard = () => {
                     </div>
 
                     {/* Recent Entries */}
-                    <div className="bg-white rounded-2xl shadow-lg border border-slate-200 overflow-hidden flex flex-col h-full">
+                    <div className="bg-teal-50/95 rounded-2xl shadow-lg border border-slate-200 overflow-hidden flex flex-col h-full">
                         <div className="p-4 border-b border-slate-100 flex justify-between items-center">
                             <h3 className="font-bold text-slate-900">Recent Entries</h3>
-                            <span className="text-xs text-indigo-600 font-medium cursor-pointer">View All</span>
+                            <span className="text-xs text-teal-600 font-medium cursor-pointer">View All</span>
                         </div>
                         <div className="overflow-y-auto flex-1 p-2 space-y-2">
                             {[1, 2, 3, 4, 5].map((item) => (
@@ -95,7 +95,7 @@ const LPRDashboard = () => {
                         { label: 'Security Alerts', value: '0', color: 'green' },
                         { label: 'Blacklisted Attempts', value: '0', color: 'red' },
                     ].map((stat, idx) => (
-                        <div key={idx} className="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
+                        <div key={idx} className="bg-teal-50/95 p-4 rounded-xl border border-slate-200 shadow-sm">
                             <p className="text-slate-500 text-sm font-medium">{stat.label}</p>
                             <p className={`text-2xl font-black text-${stat.color}-600`}>{stat.value}</p>
                         </div>

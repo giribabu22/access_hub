@@ -58,7 +58,7 @@ const FaceEmbeddingsList = () => {
       {/* Main Content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {/* Filter */}
-        <div className="bg-white rounded-2xl shadow-lg p-6 mb-8 border border-slate-200">
+        <div className="bg-teal-50/95 rounded-2xl shadow-lg p-6 mb-8 border border-slate-200">
           <div className="flex gap-4 flex-wrap">
             <select
               value={filterQuality}
@@ -92,7 +92,7 @@ const FaceEmbeddingsList = () => {
             {filteredEmbeddings.map(emb => (
               <div
                 key={emb.id}
-                className="bg-white rounded-2xl shadow-lg p-6 border border-slate-200 hover:shadow-2xl hover:border-pink-300 transition-all duration-300 group"
+                className="bg-teal-50/95 rounded-2xl shadow-lg p-6 border border-slate-200 hover:shadow-2xl hover:border-pink-300 transition-all duration-300 group"
               >
                 <div className="flex items-start justify-between mb-4">
                   <div className="text-3xl">🎯</div>
@@ -128,7 +128,7 @@ const FaceEmbeddingsList = () => {
             ))}
           </div>
         ) : (
-          <div className="bg-white rounded-2xl shadow-lg p-12 text-center border border-slate-200">
+          <div className="bg-teal-50/95 rounded-2xl shadow-lg p-12 text-center border border-slate-200">
             <p className="text-slate-600 text-lg">No embeddings found</p>
           </div>
         )}

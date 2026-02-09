@@ -141,7 +141,7 @@ const OrganizationLocations = ({ organizationId, organization }) => {
   if (loading) {
     return (
       <div className="flex items-center justify-center py-12">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-teal-600"></div>
       </div>
     );
   }
@@ -156,7 +156,7 @@ const OrganizationLocations = ({ organizationId, organization }) => {
         </div>
         <button
           onClick={handleCreateLocation}
-          className="px-6 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-semibold rounded-lg hover:shadow-lg transition-all duration-300 hover:-translate-y-0.5"
+          className="px-6 py-3 bg-gradient-to-r from-teal-600 to-teal-600 text-white font-semibold rounded-lg hover:shadow-lg transition-all duration-300 hover:-translate-y-0.5"
         >
           ➕ Add Location
         </button>
@@ -169,15 +169,15 @@ const OrganizationLocations = ({ organizationId, organization }) => {
           placeholder="🔍 Search by location name..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
-          className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+          className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent"
         />
         <div className="flex gap-2 flex-wrap">
           <button
             onClick={() => setFilterStatus('all')}
             className={`px-4 py-2 rounded-lg font-semibold transition-all ${
               filterStatus === 'all'
-                ? 'bg-indigo-600 text-white'
-                : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                ? 'bg-teal-600 text-white'
+                : 'bg-teal-100 text-gray-700 hover:bg-gray-200'
             }`}
           >
             All
@@ -187,7 +187,7 @@ const OrganizationLocations = ({ organizationId, organization }) => {
             className={`px-4 py-2 rounded-lg font-semibold transition-all ${
               filterStatus === 'active'
                 ? 'bg-green-600 text-white'
-                : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                : 'bg-teal-100 text-gray-700 hover:bg-gray-200'
             }`}
           >
             Active
@@ -197,7 +197,7 @@ const OrganizationLocations = ({ organizationId, organization }) => {
             className={`px-4 py-2 rounded-lg font-semibold transition-all ${
               filterStatus === 'inactive'
                 ? 'bg-orange-600 text-white'
-                : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                : 'bg-teal-100 text-gray-700 hover:bg-gray-200'
             }`}
           >
             Inactive
@@ -211,8 +211,8 @@ const OrganizationLocations = ({ organizationId, organization }) => {
           onClick={() => setFilterType('all')}
           className={`px-4 py-2 rounded-lg font-semibold transition-all ${
             filterType === 'all'
-              ? 'bg-indigo-600 text-white'
-              : 'bg-white border-2 border-gray-200 text-gray-700 hover:border-indigo-300'
+              ? 'bg-teal-600 text-white'
+              : 'bg-teal-50/95 border-2 border-gray-200 text-gray-700 hover:border-teal-300'
           }`}
         >
           All Types
@@ -222,7 +222,7 @@ const OrganizationLocations = ({ organizationId, organization }) => {
           className={`px-4 py-2 rounded-lg font-semibold transition-all ${
             filterType === LOCATION_TYPES.ENTRY
               ? 'bg-green-600 text-white'
-              : 'bg-white border-2 border-gray-200 text-gray-700 hover:border-green-300'
+              : 'bg-teal-50/95 border-2 border-gray-200 text-gray-700 hover:border-green-300'
           }`}
         >
           🚪 Entry
@@ -232,7 +232,7 @@ const OrganizationLocations = ({ organizationId, organization }) => {
           className={`px-4 py-2 rounded-lg font-semibold transition-all ${
             filterType === LOCATION_TYPES.EXIT
               ? 'bg-orange-600 text-white'
-              : 'bg-white border-2 border-gray-200 text-gray-700 hover:border-orange-300'
+              : 'bg-teal-50/95 border-2 border-gray-200 text-gray-700 hover:border-orange-300'
           }`}
         >
           🚶 Exit
@@ -242,7 +242,7 @@ const OrganizationLocations = ({ organizationId, organization }) => {
           className={`px-4 py-2 rounded-lg font-semibold transition-all ${
             filterType === LOCATION_TYPES.BOTH
               ? 'bg-blue-600 text-white'
-              : 'bg-white border-2 border-gray-200 text-gray-700 hover:border-blue-300'
+              : 'bg-teal-50/95 border-2 border-gray-200 text-gray-700 hover:border-blue-300'
           }`}
         >
           🔄 Both
@@ -251,7 +251,7 @@ const OrganizationLocations = ({ organizationId, organization }) => {
 
       {/* Locations Grid */}
       {filteredLocations.length === 0 ? (
-        <div className="text-center py-12 bg-gray-50 rounded-xl">
+        <div className="text-center py-12 bg-teal-50 rounded-xl">
           <div className="text-6xl mb-4">📍</div>
           <h3 className="text-xl font-bold text-gray-900 mb-2">No locations found</h3>
           <p className="text-gray-600 mb-6">
@@ -262,7 +262,7 @@ const OrganizationLocations = ({ organizationId, organization }) => {
           {!searchTerm && filterStatus === 'all' && filterType === 'all' && (
             <button
               onClick={handleCreateLocation}
-              className="px-6 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-semibold rounded-lg hover:shadow-lg transition-all"
+              className="px-6 py-3 bg-gradient-to-r from-teal-600 to-teal-600 text-white font-semibold rounded-lg hover:shadow-lg transition-all"
             >
               ➕ Add Location
             </button>
@@ -273,10 +273,10 @@ const OrganizationLocations = ({ organizationId, organization }) => {
           {filteredLocations.map((location) => (
             <div
               key={location.id}
-              className="bg-white rounded-xl border border-gray-200 shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1 overflow-hidden"
+              className="bg-teal-50/95 rounded-xl border border-gray-200 shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1 overflow-hidden"
             >
               {/* Card Header */}
-              <div className="bg-gradient-to-r from-indigo-500/10 to-purple-500/10 px-4 py-3 border-b border-gray-200 flex items-center justify-between">
+              <div className="bg-gradient-to-r from-teal-500/10 to-teal-500/10 px-4 py-3 border-b border-gray-200 flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <span className="text-3xl">{getLocationTypeIcon(location.location_type)}</span>
                   <span className="font-bold text-gray-900 text-sm">
@@ -314,7 +314,7 @@ const OrganizationLocations = ({ organizationId, organization }) => {
                   {location.camera_count !== undefined && (
                     <div className="flex items-center gap-2">
                       <span className="text-gray-500">Cameras:</span>
-                      <span className="font-semibold text-indigo-600">{location.camera_count || 0}</span>
+                      <span className="font-semibold text-teal-600">{location.camera_count || 0}</span>
                     </div>
                   )}
                 </div>
@@ -337,7 +337,7 @@ const OrganizationLocations = ({ organizationId, organization }) => {
                 <div className="flex gap-2">
                   <button
                     onClick={() => handleEditLocation(location)}
-                    className="flex-1 px-3 py-2 bg-indigo-50 text-indigo-600 rounded-lg hover:bg-indigo-100 transition-all text-sm font-semibold"
+                    className="flex-1 px-3 py-2 bg-teal-50 text-teal-600 rounded-lg hover:bg-teal-100 transition-all text-sm font-semibold"
                   >
                     Edit
                   </button>
@@ -429,13 +429,13 @@ const OrganizationLocations = ({ organizationId, organization }) => {
                 setShowModal(false);
                 form.resetFields();
               }}
-              className="px-6 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-all font-semibold"
+              className="px-6 py-2 bg-teal-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-all font-semibold"
             >
               Cancel
             </button>
             <button
               type="submit"
-              className="px-6 py-2 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-lg hover:shadow-lg transition-all font-semibold"
+              className="px-6 py-2 bg-gradient-to-r from-teal-600 to-teal-600 text-white rounded-lg hover:shadow-lg transition-all font-semibold"
             >
               {editingLocation ? 'Update Location' : 'Create Location'}
             </button>

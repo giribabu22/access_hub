@@ -56,7 +56,7 @@ const AnomaliesList = () => {
       {/* Main Content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {/* Filter */}
-        <div className="bg-white rounded-2xl shadow-lg p-6 mb-8 border border-slate-200">
+        <div className="bg-teal-50/95 rounded-2xl shadow-lg p-6 mb-8 border border-slate-200">
           <div className="flex gap-4 flex-wrap">
             <select
               value={filterSeverity}
@@ -139,7 +139,7 @@ const AnomaliesList = () => {
             ))}
           </div>
         ) : (
-          <div className="bg-white rounded-2xl shadow-lg p-12 text-center border border-slate-200">
+          <div className="bg-teal-50/95 rounded-2xl shadow-lg p-12 text-center border border-slate-200">
             <p className="text-slate-600 text-lg">No anomalies detected</p>
           </div>
         )}

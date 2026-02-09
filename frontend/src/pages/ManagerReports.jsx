@@ -185,7 +185,7 @@ function ManagerReports() {
   };
 
   const ReportCard = ({ icon: Icon, title, value, subtitle, color = "blue" }) => (
-    <div className="bg-white rounded-lg shadow p-6">
+    <div className="bg-teal-50/95 rounded-lg shadow p-6">
       <div className="flex items-center">
         <div className={`p-3 bg-${color}-100 rounded-lg`}>
           <Icon className={`h-6 w-6 text-${color}-600`} />
@@ -200,7 +200,7 @@ function ManagerReports() {
   );
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-teal-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Header */}
         <div className="mb-8">
@@ -211,7 +211,7 @@ function ManagerReports() {
         </div>
 
         {/* Report Controls */}
-        <div className="bg-white rounded-lg shadow mb-8">
+        <div className="bg-teal-50/95 rounded-lg shadow mb-8">
           <div className="p-6">
             <div className="flex flex-col sm:flex-row gap-4">
               {/* Report Type */}
@@ -325,13 +325,13 @@ function ManagerReports() {
                 </div>
 
                 {/* Employee Attendance Table */}
-                <div className="bg-white rounded-lg shadow overflow-hidden">
+                <div className="bg-teal-50/95 rounded-lg shadow overflow-hidden">
                   <div className="px-6 py-4 border-b border-gray-200">
                     <h3 className="text-lg font-medium text-gray-900">Employee Attendance Details</h3>
                   </div>
                   <div className="overflow-x-auto">
                     <table className="min-w-full divide-y divide-gray-200">
-                      <thead className="bg-gray-50">
+                      <thead className="bg-teal-50">
                         <tr>
                           <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                             Employee
@@ -352,7 +352,7 @@ function ManagerReports() {
                       </thead>
                       <tbody className="bg-white divide-y divide-gray-200">
                         {reportData.employeeStats.map((employee, index) => (
-                          <tr key={index} className="hover:bg-gray-50">
+                          <tr key={index} className="hover:bg-teal-50">
                             <td className="px-6 py-4 whitespace-nowrap">
                               <div className="text-sm font-medium text-gray-900">{employee.name}</div>
                             </td>
@@ -421,13 +421,13 @@ function ManagerReports() {
                 </div>
 
                 {/* Performance Table */}
-                <div className="bg-white rounded-lg shadow overflow-hidden">
+                <div className="bg-teal-50/95 rounded-lg shadow overflow-hidden">
                   <div className="px-6 py-4 border-b border-gray-200">
                     <h3 className="text-lg font-medium text-gray-900">Employee Performance</h3>
                   </div>
                   <div className="overflow-x-auto">
                     <table className="min-w-full divide-y divide-gray-200">
-                      <thead className="bg-gray-50">
+                      <thead className="bg-teal-50">
                         <tr>
                           <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                             Employee
@@ -445,7 +445,7 @@ function ManagerReports() {
                       </thead>
                       <tbody className="bg-white divide-y divide-gray-200">
                         {reportData.employeePerformance.map((employee, index) => (
-                          <tr key={index} className="hover:bg-gray-50">
+                          <tr key={index} className="hover:bg-teal-50">
                             <td className="px-6 py-4 whitespace-nowrap">
                               <div className="text-sm font-medium text-gray-900">{employee.name}</div>
                             </td>
@@ -524,13 +524,13 @@ function ManagerReports() {
                 </div>
 
                 {/* Leave Breakdown Table */}
-                <div className="bg-white rounded-lg shadow overflow-hidden">
+                <div className="bg-teal-50/95 rounded-lg shadow overflow-hidden">
                   <div className="px-6 py-4 border-b border-gray-200">
                     <h3 className="text-lg font-medium text-gray-900">Leave Type Breakdown</h3>
                   </div>
                   <div className="overflow-x-auto">
                     <table className="min-w-full divide-y divide-gray-200">
-                      <thead className="bg-gray-50">
+                      <thead className="bg-teal-50">
                         <tr>
                           <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                             Leave Type
@@ -545,7 +545,7 @@ function ManagerReports() {
                       </thead>
                       <tbody className="bg-white divide-y divide-gray-200">
                         {reportData.leaveBreakdown.map((leave, index) => (
-                          <tr key={index} className="hover:bg-gray-50">
+                          <tr key={index} className="hover:bg-teal-50">
                             <td className="px-6 py-4 whitespace-nowrap">
                               <div className="text-sm font-medium text-gray-900">{leave.type}</div>
                             </td>

@@ -124,7 +124,7 @@ function ManagerLeaves() {
         );
       default:
         return (
-          <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
+          <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-teal-100 text-gray-800">
             Unknown
           </span>
         );
@@ -234,7 +234,7 @@ function ManagerLeaves() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-teal-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Header */}
         <div className="mb-8">
@@ -246,7 +246,7 @@ function ManagerLeaves() {
 
         {/* Stats Cards */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-          <div className="bg-white rounded-lg shadow p-6">
+          <div className="bg-teal-50/95 rounded-lg shadow p-6">
             <div className="flex items-center">
               <div className="p-2 bg-yellow-100 rounded-lg">
                 <AlertCircle className="h-6 w-6 text-yellow-600" />
@@ -259,7 +259,7 @@ function ManagerLeaves() {
               </div>
             </div>
           </div>
-          <div className="bg-white rounded-lg shadow p-6">
+          <div className="bg-teal-50/95 rounded-lg shadow p-6">
             <div className="flex items-center">
               <div className="p-2 bg-green-100 rounded-lg">
                 <CheckCircle className="h-6 w-6 text-green-600" />
@@ -272,7 +272,7 @@ function ManagerLeaves() {
               </div>
             </div>
           </div>
-          <div className="bg-white rounded-lg shadow p-6">
+          <div className="bg-teal-50/95 rounded-lg shadow p-6">
             <div className="flex items-center">
               <div className="p-2 bg-red-100 rounded-lg">
                 <XCircle className="h-6 w-6 text-red-600" />
@@ -285,7 +285,7 @@ function ManagerLeaves() {
               </div>
             </div>
           </div>
-          <div className="bg-white rounded-lg shadow p-6">
+          <div className="bg-teal-50/95 rounded-lg shadow p-6">
             <div className="flex items-center">
               <div className="p-2 bg-blue-100 rounded-lg">
                 <Calendar className="h-6 w-6 text-blue-600" />
@@ -299,7 +299,7 @@ function ManagerLeaves() {
         </div>
 
         {/* Filters */}
-        <div className="bg-white rounded-lg shadow mb-8">
+        <div className="bg-teal-50/95 rounded-lg shadow mb-8">
           <div className="p-6">
             <div className="flex flex-col sm:flex-row gap-4">
               <div className="flex-1">
@@ -334,10 +334,10 @@ function ManagerLeaves() {
         </div>
 
         {/* Leave Requests Table */}
-        <div className="bg-white rounded-lg shadow overflow-hidden">
+        <div className="bg-teal-50/95 rounded-lg shadow overflow-hidden">
           <div className="overflow-x-auto">
             <table className="min-w-full divide-y divide-gray-200">
-              <thead className="bg-gray-50">
+              <thead className="bg-teal-50">
                 <tr>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                     Employee
@@ -361,7 +361,7 @@ function ManagerLeaves() {
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
                 {filteredRequests.map((request) => (
-                  <tr key={request.id} className="hover:bg-gray-50">
+                  <tr key={request.id} className="hover:bg-teal-50">
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div>
                         <div className="text-sm font-medium text-gray-900">{request.employeeName}</div>
@@ -421,7 +421,7 @@ function ManagerLeaves() {
         </div>
 
         {filteredRequests.length === 0 && (
-          <div className="bg-white rounded-lg shadow p-8 text-center">
+          <div className="bg-teal-50/95 rounded-lg shadow p-8 text-center">
             <Calendar className="h-12 w-12 text-gray-400 mx-auto mb-4" />
             <h3 className="text-lg font-medium text-gray-900 mb-2">No leave requests found</h3>
             <p className="text-gray-600">
@@ -438,9 +438,9 @@ function ManagerLeaves() {
         <div className="fixed inset-0 z-50 overflow-y-auto">
           <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
             <div className="fixed inset-0 transition-opacity" aria-hidden="true">
-              <div className="absolute inset-0 bg-gray-500 opacity-75"></div>
+              <div className="absolute inset-0 bg-teal-500 opacity-75"></div>
             </div>
-            <div className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-2xl sm:w-full">
+            <div className="inline-block align-bottom bg-teal-50/95 rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-2xl sm:w-full">
               <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
                 <div className="sm:flex sm:items-start">
                   <div className="mt-3 text-center sm:mt-0 sm:text-left w-full">
@@ -494,10 +494,10 @@ function ManagerLeaves() {
                   </div>
                 </div>
               </div>
-              <div className="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+              <div className="bg-teal-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
                 <button
                   type="button"
-                  className="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
+                  className="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-teal-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
                   onClick={() => setShowModal(false)}
                 >
                   Close

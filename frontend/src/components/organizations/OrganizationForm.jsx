@@ -302,7 +302,7 @@ const OrganizationForm = () => {
       {/* Header */}
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 mb-8">
         <div className="text-center">
-          <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-2xl mb-4 shadow-lg">
+          <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r from-teal-500 to-teal-600 rounded-2xl mb-4 shadow-lg">
             <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
             </svg>
@@ -318,9 +318,9 @@ const OrganizationForm = () => {
 
       {initialLoading ? (
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="bg-white rounded-2xl shadow-lg p-12 border border-slate-200 text-center">
-            <div className="inline-flex items-center justify-center w-12 h-12 bg-indigo-100 rounded-full mb-4">
-              <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-indigo-600"></div>
+          <div className="bg-teal-50/95 rounded-2xl shadow-lg p-12 border border-slate-200 text-center">
+            <div className="inline-flex items-center justify-center w-12 h-12 bg-teal-100 rounded-full mb-4">
+              <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-teal-600"></div>
             </div>
             <h3 className="text-lg font-semibold text-slate-900 mb-2">Loading Organization</h3>
             <p className="text-slate-600">Please wait while we fetch the organization details...</p>
@@ -329,9 +329,9 @@ const OrganizationForm = () => {
       ) : (
         <form onSubmit={handleSubmit} className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Basic Information */}
-          <div className="bg-white/90 backdrop-blur-sm rounded-2xl shadow-xl p-8 mb-6 border border-slate-200/50">
-            <div className="flex items-center gap-3 mb-6 pb-4 border-b border-indigo-100">
-              <div className="flex items-center justify-center w-10 h-10 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-xl">
+          <div className="bg-teal-50/95 backdrop-blur-sm rounded-2xl shadow-xl p-8 mb-6 border border-slate-200/50">
+            <div className="flex items-center gap-3 mb-6 pb-4 border-b border-teal-100">
+              <div className="flex items-center justify-center w-10 h-10 bg-gradient-to-r from-teal-500 to-teal-600 rounded-xl">
                 <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                 </svg>
@@ -351,7 +351,7 @@ const OrganizationForm = () => {
                   onChange={handleChange}
                   className={`w-full px-4 py-3 rounded-lg border-2 transition-all duration-300 focus:outline-none ${errors.name
                     ? 'border-red-500 bg-red-50 focus:ring-2 focus:ring-red-200'
-                    : 'border-slate-200 bg-white focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200'
+                    : 'border-slate-200 bg-white focus:border-teal-500 focus:ring-2 focus:ring-teal-200'
                     }`}
                   placeholder="Enter organization name"
                   maxLength={255}
@@ -371,7 +371,7 @@ const OrganizationForm = () => {
                   onChange={handleChange}
                   className={`w-full px-4 py-3 rounded-lg border-2 transition-all duration-300 focus:outline-none ${errors.code
                     ? 'border-red-500 bg-red-50 focus:ring-2 focus:ring-red-200'
-                    : 'border-slate-200 bg-white focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200'
+                    : 'border-slate-200 bg-white focus:border-teal-500 focus:ring-2 focus:ring-teal-200'
                     }`}
                   placeholder="e.g., ORG001"
                   maxLength={50}
@@ -387,7 +387,7 @@ const OrganizationForm = () => {
                 name="organization_type"
                 value={formData.organization_type}
                 onChange={handleChange}
-                className="w-full px-4 py-3 rounded-lg border-2 border-slate-200 bg-white focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 transition-all duration-300 focus:outline-none"
+                className="w-full px-4 py-3 rounded-lg border-2 border-slate-200 bg-white focus:border-teal-500 focus:ring-2 focus:ring-teal-200 transition-all duration-300 focus:outline-none"
               >
                 <option value={ORGANIZATION_TYPES.SCHOOL}>🏫 School</option>
                 <option value={ORGANIZATION_TYPES.OFFICE}>🏢 Office</option>
@@ -398,9 +398,9 @@ const OrganizationForm = () => {
           </div>
 
           {/* Address Information */}
-          <div className="bg-white/90 backdrop-blur-sm rounded-2xl shadow-xl p-8 mb-6 border border-slate-200/50">
+          <div className="bg-teal-50/95 backdrop-blur-sm rounded-2xl shadow-xl p-8 mb-6 border border-slate-200/50">
             <div className="flex items-center gap-3 mb-6 pb-4 border-b border-purple-100">
-              <div className="flex items-center justify-center w-10 h-10 bg-gradient-to-r from-purple-500 to-pink-600 rounded-xl">
+              <div className="flex items-center justify-center w-10 h-10 bg-gradient-to-r from-cyan-500 to-pink-600 rounded-xl">
                 <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -423,7 +423,7 @@ const OrganizationForm = () => {
           </div>
 
           {/* Contact Information */}
-          <div className="bg-white/90 backdrop-blur-sm rounded-2xl shadow-xl p-8 mb-6 border border-slate-200/50">
+          <div className="bg-teal-50/95 backdrop-blur-sm rounded-2xl shadow-xl p-8 mb-6 border border-slate-200/50">
             <div className="flex items-center gap-3 mb-6 pb-4 border-b border-blue-100">
               <div className="flex items-center justify-center w-10 h-10 bg-gradient-to-r from-blue-500 to-cyan-600 rounded-xl">
                 <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -466,7 +466,7 @@ const OrganizationForm = () => {
           </div>
 
           {/* Working Hours */}
-          <div className="bg-white/90 backdrop-blur-sm rounded-2xl shadow-xl p-8 mb-6 border border-slate-200/50">
+          <div className="bg-teal-50/95 backdrop-blur-sm rounded-2xl shadow-xl p-8 mb-6 border border-slate-200/50">
             <div className="flex items-center gap-3 mb-6 pb-4 border-b border-green-100">
               <div className="flex items-center justify-center w-10 h-10 bg-gradient-to-r from-green-500 to-emerald-600 rounded-xl">
                 <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -555,9 +555,9 @@ const OrganizationForm = () => {
           </div>
 
           {/* Feature Configuration */}
-          <div className="bg-white/90 backdrop-blur-sm rounded-2xl shadow-xl p-8 mb-6 border border-slate-200/50">
-            <div className="flex items-center gap-3 mb-6 pb-4 border-b border-indigo-100">
-              <div className="flex items-center justify-center w-10 h-10 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-xl">
+          <div className="bg-teal-50/95 backdrop-blur-sm rounded-2xl shadow-xl p-8 mb-6 border border-slate-200/50">
+            <div className="flex items-center gap-3 mb-6 pb-4 border-b border-teal-100">
+              <div className="flex items-center justify-center w-10 h-10 bg-gradient-to-r from-teal-500 to-teal-600 rounded-xl">
                 <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -589,7 +589,7 @@ const OrganizationForm = () => {
             <button
               type="submit"
               disabled={loading}
-              className="px-8 py-3 rounded-xl bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-semibold hover:shadow-lg hover:shadow-indigo-400/30 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 justify-center"
+              className="px-8 py-3 rounded-xl bg-gradient-to-r from-teal-600 to-teal-600 text-white font-semibold hover:shadow-lg hover:shadow-teal-400/30 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 justify-center"
             >
               {loading ? (
                 <>

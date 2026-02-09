@@ -38,12 +38,12 @@ const VisitorsList = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 pt-24 pb-12">
       {/* Sticky Header */}
-      <div className="sticky top-20 bg-gradient-to-r from-indigo-600 to-blue-600 text-white shadow-xl z-40">
+      <div className="sticky top-20 bg-gradient-to-r from-teal-600 to-blue-600 text-white shadow-xl z-40">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="flex items-center justify-between">
             <div>
               <h1 className="text-4xl font-bold mb-2">👤 Visitors Management</h1>
-              <p className="text-indigo-100">Manage and track all registered visitors</p>
+              <p className="text-teal-100">Manage and track all registered visitors</p>
             </div>
             <button
               onClick={() => navigate('/super-admin/dashboard')}
@@ -58,7 +58,7 @@ const VisitorsList = () => {
       {/* Main Content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {/* Search and Filter */}
-        <div className="bg-white rounded-2xl shadow-lg p-6 mb-8 border border-slate-200">
+        <div className="bg-teal-50/95 rounded-2xl shadow-lg p-6 mb-8 border border-slate-200">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div>
               <label className="block text-sm font-semibold text-slate-700 mb-2">🔍 Search</label>
@@ -67,7 +67,7 @@ const VisitorsList = () => {
                 placeholder="Search by name or email..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full px-4 py-3 rounded-lg border-2 border-slate-200 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 transition-all"
+                className="w-full px-4 py-3 rounded-lg border-2 border-slate-200 focus:border-teal-500 focus:ring-2 focus:ring-teal-200 transition-all"
               />
             </div>
             <div>
@@ -75,7 +75,7 @@ const VisitorsList = () => {
               <select
                 value={filterStatus}
                 onChange={(e) => setFilterStatus(e.target.value)}
-                className="w-full px-4 py-3 rounded-lg border-2 border-slate-200 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 transition-all"
+                className="w-full px-4 py-3 rounded-lg border-2 border-slate-200 focus:border-teal-500 focus:ring-2 focus:ring-teal-200 transition-all"
               >
                 <option value="all">All Visitors</option>
                 <option value="active">Active</option>
@@ -85,7 +85,7 @@ const VisitorsList = () => {
             <div className="flex items-end">
               <button
                 onClick={fetchVisitors}
-                className="w-full px-6 py-3 bg-gradient-to-r from-indigo-600 to-blue-600 text-white font-semibold rounded-lg hover:shadow-lg transition-all"
+                className="w-full px-6 py-3 bg-gradient-to-r from-teal-600 to-blue-600 text-white font-semibold rounded-lg hover:shadow-lg transition-all"
               >
                 🔄 Refresh
               </button>
@@ -106,7 +106,7 @@ const VisitorsList = () => {
             {filteredVisitors.map(visitor => (
               <div
                 key={visitor.id}
-                className="bg-white rounded-2xl shadow-lg p-6 border border-slate-200 hover:shadow-2xl hover:border-indigo-300 transition-all duration-300 group"
+                className="bg-teal-50/95 rounded-2xl shadow-lg p-6 border border-slate-200 hover:shadow-2xl hover:border-teal-300 transition-all duration-300 group"
               >
                 <div className="flex items-start justify-between mb-4">
                   <div className="text-3xl">👤</div>
@@ -127,7 +127,7 @@ const VisitorsList = () => {
                 </div>
                 <button
                   onClick={() => message.info('Visitor detail view coming soon')}
-                  className="w-full px-4 py-2 bg-gradient-to-r from-indigo-500 to-blue-500 text-white rounded-lg font-semibold hover:shadow-lg transition-all group-hover:translate-y-[-2px]"
+                  className="w-full px-4 py-2 bg-gradient-to-r from-teal-500 to-blue-500 text-white rounded-lg font-semibold hover:shadow-lg transition-all group-hover:translate-y-[-2px]"
                 >
                   View Profile
                 </button>
@@ -135,7 +135,7 @@ const VisitorsList = () => {
             ))}
           </div>
         ) : (
-          <div className="bg-white rounded-2xl shadow-lg p-12 text-center border border-slate-200">
+          <div className="bg-teal-50/95 rounded-2xl shadow-lg p-12 text-center border border-slate-200">
             <p className="text-slate-600 text-lg">No visitors found</p>
           </div>
         )}

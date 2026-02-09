@@ -51,8 +51,8 @@ const Unauthorized = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-600 via-purple-600 to-purple-700 flex items-center justify-center p-4">
-      <div className="max-w-md w-full bg-white rounded-2xl shadow-2xl p-8 sm:p-12 text-center animate-fadeInUp">
+    <div className="min-h-screen bg-gradient-to-br from-teal-600 via-purple-600 to-teal-700 flex items-center justify-center p-4">
+      <div className="max-w-md w-full bg-teal-50/95 rounded-2xl shadow-2xl p-8 sm:p-12 text-center animate-fadeInUp">
         <div className="text-8xl mb-6">🚫</div>
         <h1 className="text-4xl font-black text-slate-900 mb-4">Access Denied</h1>
         <p className="text-xl text-slate-600 mb-4 font-medium">
@@ -60,7 +60,7 @@ const Unauthorized = () => {
         </p>
         <div className="bg-blue-50 border border-blue-200 rounded-xl p-4 mb-8">
           <p className="text-sm text-slate-700 mb-2">
-            Your current role: <strong className="text-indigo-600 text-base">
+            Your current role: <strong className="text-teal-600 text-base">
               {typeof user?.role === 'string' 
                 ? user.role 
                 : user?.role?.id || user?.role?.name || 'Unknown'
@@ -81,7 +81,7 @@ const Unauthorized = () => {
           </button>
           <button 
             onClick={handleGoHome} 
-            className="px-6 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-bold rounded-lg hover:shadow-lg hover:translate-y-[-2px] transition-all duration-300"
+            className="px-6 py-3 bg-gradient-to-r from-teal-600 to-teal-600 text-white font-bold rounded-lg hover:shadow-lg hover:translate-y-[-2px] transition-all duration-300"
           >
             Go to Dashboard
           </button>

@@ -70,7 +70,7 @@ const BlacklistManagement = ({ organizationId }) => {
     };
 
     return (
-        <div className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
+        <div className="bg-teal-50/95 rounded-xl border border-slate-200 shadow-sm overflow-hidden">
             <div className="p-6 border-b border-slate-200 flex justify-between items-center bg-red-50">
                 <div>
                     <h3 className="text-xl font-bold text-red-900 flex items-center gap-2">

@@ -73,18 +73,18 @@ const SecurityGateEntry = ({ organizationId, organization }) => {
 
   return (
     <div className="max-w-4xl mx-auto space-y-6">
-      <div className="bg-white rounded-xl shadow-md p-8">
+      <div className="bg-teal-50/95 rounded-xl shadow-md p-8">
         <h3 className="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2">
           🚪 Security Gate Entry/Exit
         </h3>
 
         {/* Mode Toggle */}
-        <div className="flex gap-2 mb-6 bg-gray-100 p-1 rounded-lg w-fit">
+        <div className="flex gap-2 mb-6 bg-teal-100 p-1 rounded-lg w-fit">
           <button
             onClick={() => setEntryMode('search')}
             className={`px-6 py-2.5 font-semibold rounded-md transition-all duration-300 ${
               entryMode === 'search'
-                ? 'bg-white text-indigo-600 shadow-md'
+                ? 'bg-white text-teal-600 shadow-md'
                 : 'text-gray-600 hover:text-gray-900'
             }`}
           >
@@ -94,7 +94,7 @@ const SecurityGateEntry = ({ organizationId, organization }) => {
             onClick={() => setEntryMode('manual')}
             className={`px-6 py-2.5 font-semibold rounded-md transition-all duration-300 ${
               entryMode === 'manual'
-                ? 'bg-white text-indigo-600 shadow-md'
+                ? 'bg-white text-teal-600 shadow-md'
                 : 'text-gray-600 hover:text-gray-900'
             }`}
           >
@@ -115,14 +115,14 @@ const SecurityGateEntry = ({ organizationId, organization }) => {
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Type to search..."
-                className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all duration-300"
+                className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 transition-all duration-300"
               />
             </div>
 
             {/* Search Results */}
             {loading && (
               <div className="flex justify-center py-8">
-                <div className="w-8 h-8 border-4 border-gray-200 border-t-indigo-600 rounded-full animate-spin"></div>
+                <div className="w-8 h-8 border-4 border-gray-200 border-t-teal-600 rounded-full animate-spin"></div>
               </div>
             )}
 
@@ -132,7 +132,7 @@ const SecurityGateEntry = ({ organizationId, organization }) => {
                 {visitors.map((visitor) => (
                   <div
                     key={visitor.id}
-                    className="p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors duration-200"
+                    className="p-4 border border-gray-200 rounded-lg hover:bg-teal-50 transition-colors duration-200"
                   >
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-4">
@@ -196,14 +196,14 @@ const SecurityGateEntry = ({ organizationId, organization }) => {
               <input
                 type="text"
                 placeholder="Visitor Name (from slip)"
-                className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
               />
               <input
                 type="text"
                 placeholder="Mobile Number (from slip)"
-                className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
               />
-              <select className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
+              <select className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500">
                 <option value="">Select Action</option>
                 <option value="building_entry">Building Entry</option>
                 <option value="building_exit">Building Exit</option>
@@ -211,9 +211,9 @@ const SecurityGateEntry = ({ organizationId, organization }) => {
               <textarea
                 placeholder="Additional notes (optional)"
                 rows={3}
-                className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
               />
-              <button className="w-full px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-lg transition-all duration-300">
+              <button className="w-full px-6 py-3 bg-teal-600 hover:bg-teal-700 text-white font-semibold rounded-lg transition-all duration-300">
                 Record Manual Entry
               </button>
             </div>

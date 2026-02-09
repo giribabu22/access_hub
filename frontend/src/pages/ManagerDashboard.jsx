@@ -114,14 +114,14 @@ function ManagerDashboard() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600"></div>
+      <div className="min-h-screen flex items-center justify-center bg-teal-50">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-teal-600"></div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 pb-12">
+    <div className="min-h-screen bg-teal-50 pb-12">
       <DashboardHeader
         title="Manager Dashboard"
         subtitle={`Welcome back, ${user?.full_name || user?.username}. Manage your team and track performance.`}
@@ -178,7 +178,7 @@ function ManagerDashboard() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Quick Actions */}
           <div className="lg:col-span-1">
-            <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+            <div className="bg-teal-50/95 rounded-2xl shadow-sm border border-gray-100 p-6">
               <h2 className="text-lg font-bold text-gray-900 mb-4">Quick Actions</h2>
               <div className="space-y-4">
                 <QuickActionButton
@@ -211,7 +211,7 @@ function ManagerDashboard() {
 
           {/* Recent Activities */}
           <div className="lg:col-span-2">
-            <div className="bg-white rounded-2xl shadow-sm border border-gray-100">
+            <div className="bg-teal-50/95 rounded-2xl shadow-sm border border-gray-100">
               <div className="p-6 border-b border-gray-100">
                 <h2 className="text-lg font-bold text-gray-900">Recent Activities</h2>
               </div>
@@ -221,7 +221,7 @@ function ManagerDashboard() {
                 ) : (
                   <div className="space-y-4">
                     {recentActivities.map((activity) => (
-                      <div key={activity.id} className="flex items-start space-x-4 p-4 rounded-xl hover:bg-gray-50 transition-colors border border-transparent hover:border-gray-100">
+                      <div key={activity.id} className="flex items-start space-x-4 p-4 rounded-xl hover:bg-teal-50 transition-colors border border-transparent hover:border-gray-100">
                         <div className={`p-2 rounded-full ${activity.status === 'pending' ? 'bg-orange-100 text-orange-600' :
                             activity.status === 'flagged' ? 'bg-red-100 text-red-600' :
                               'bg-green-100 text-green-600'

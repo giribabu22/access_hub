@@ -140,7 +140,7 @@ function EmployeeLeaves() {
   };
 
   const LeaveBalanceCard = ({ title, total, used, remaining, color }) => (
-    <div className="bg-white rounded-lg shadow p-6">
+    <div className="bg-teal-50/95 rounded-lg shadow p-6">
       <div className="flex items-center justify-between">
         <div>
           <h3 className="text-sm font-medium text-gray-900">{title}</h3>
@@ -164,14 +164,14 @@ function EmployeeLeaves() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+      <div className="min-h-screen flex items-center justify-center bg-teal-50">
         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-teal-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Header */}
         <div className="flex justify-between items-center mb-8">
@@ -210,7 +210,7 @@ function EmployeeLeaves() {
               color="green"
             />
           )}
-          <div className="bg-white rounded-lg shadow p-6 flex items-center justify-center">
+          <div className="bg-teal-50/95 rounded-lg shadow p-6 flex items-center justify-center">
             <div className="text-center">
               <Calendar className="h-12 w-12 text-gray-400 mx-auto mb-2" />
               <h3 className="text-sm font-medium text-gray-900">Total Requests</h3>
@@ -221,7 +221,7 @@ function EmployeeLeaves() {
         </div>
 
         {/* Filters */}
-        <div className="bg-white rounded-lg shadow mb-6">
+        <div className="bg-teal-50/95 rounded-lg shadow mb-6">
           <div className="p-6">
             <div className="flex flex-col sm:flex-row gap-4">
               <div className="flex-1">
@@ -253,7 +253,7 @@ function EmployeeLeaves() {
         </div>
 
         {/* Leave Requests Table */}
-        <div className="bg-white rounded-lg shadow overflow-hidden">
+        <div className="bg-teal-50/95 rounded-lg shadow overflow-hidden">
           <div className="px-6 py-4 border-b border-gray-200">
             <h3 className="text-lg font-medium text-gray-900">Leave Requests</h3>
           </div>
@@ -272,7 +272,7 @@ function EmployeeLeaves() {
           ) : (
             <div className="overflow-x-auto">
               <table className="min-w-full divide-y divide-gray-200">
-                <thead className="bg-gray-50">
+                <thead className="bg-teal-50">
                   <tr>
                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                       Leave Type
@@ -296,7 +296,7 @@ function EmployeeLeaves() {
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-200">
                   {filteredRequests.map((request, index) => (
-                    <tr key={request.id || index} className="hover:bg-gray-50">
+                    <tr key={request.id || index} className="hover:bg-teal-50">
                       <td className="px-6 py-4 whitespace-nowrap">
                         <div className="text-sm font-medium text-gray-900">{request.leave_type}</div>
                         <div className="text-sm text-gray-500 truncate max-w-xs" title={request.reason}>
@@ -409,7 +409,7 @@ function EmployeeLeaves() {
                   <button
                     type="button"
                     onClick={() => setShowApplyModal(false)}
-                    className="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50"
+                    className="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-teal-50"
                   >
                     Cancel
                   </button>

@@ -46,7 +46,7 @@ const LPRAlerts = () => {
                 <div className="flex gap-4 mb-6 border-b border-slate-200">
                     <button
                         onClick={() => setActiveTab('alerts')}
-                        className={`pb-3 px-4 font-semibold text-sm transition-colors ${activeTab === 'alerts' ? 'text-indigo-600 border-b-2 border-indigo-600' : 'text-slate-500 hover:text-slate-700'}`}
+                        className={`pb-3 px-4 font-semibold text-sm transition-colors ${activeTab === 'alerts' ? 'text-teal-600 border-b-2 border-teal-600' : 'text-slate-500 hover:text-slate-700'}`}
                     >
                         Recent Alerts
                     </button>
@@ -65,7 +65,7 @@ const LPRAlerts = () => {
                 </div>
 
                 {/* Tab Content */}
-                <div className="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+                <div className="bg-teal-50/95 rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
                     {activeTab === 'alerts' && (
                         <div className="divide-y divide-slate-100">
                             <div className="p-4 bg-red-50 flex items-start gap-4">
@@ -77,7 +77,7 @@ const LPRAlerts = () => {
                                     <p className="text-red-700 text-sm mt-1">Vehicle <span className="font-mono font-bold">KA 04 XX 0000</span> attempted entry at Gate 1.</p>
                                     <p className="text-red-500 text-xs mt-2">2 minutes ago</p>
                                 </div>
-                                <button className="px-3 py-1 bg-white border border-red-200 text-red-600 rounded text-sm font-medium hover:bg-red-50">View Clip</button>
+                                <button className="px-3 py-1 bg-teal-50/95 border border-red-200 text-red-600 rounded text-sm font-medium hover:bg-red-50">View Clip</button>
                             </div>
                             <div className="p-4 flex items-start gap-4">
                                 <div className="w-10 h-10 rounded-full bg-orange-100 flex items-center justify-center text-orange-600">
@@ -88,7 +88,7 @@ const LPRAlerts = () => {
                                     <p className="text-slate-600 text-sm mt-1">Unknown vehicle loitering near Back Gate.</p>
                                     <p className="text-slate-400 text-xs mt-2">2 hours ago</p>
                                 </div>
-                                <button className="px-3 py-1 bg-white border border-slate-200 text-slate-600 rounded text-sm font-medium hover:bg-slate-50">View Clip</button>
+                                <button className="px-3 py-1 bg-teal-50/95 border border-slate-200 text-slate-600 rounded text-sm font-medium hover:bg-slate-50">View Clip</button>
                             </div>
                         </div>
                     )}

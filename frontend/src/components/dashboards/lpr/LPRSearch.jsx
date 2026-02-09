@@ -34,7 +34,7 @@ const LPRSearch = () => {
                 </div>
 
                 {/* Search Bar */}
-                <div className="bg-white p-6 rounded-2xl shadow-lg border border-slate-200 mb-8">
+                <div className="bg-teal-50/95 p-6 rounded-2xl shadow-lg border border-slate-200 mb-8">
                     <div className="flex flex-col md:flex-row gap-4">
                         <div className="flex-1">
                             <label className="block text-sm font-semibold text-slate-700 mb-2">License Plate / Vehicle</label>
@@ -43,18 +43,18 @@ const LPRSearch = () => {
                                 placeholder="e.g., KA 01 AB 1234"
                                 value={searchQuery}
                                 onChange={(e) => setSearchQuery(e.target.value)}
-                                className="w-full px-4 py-3 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                                className="w-full px-4 py-3 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-teal-500"
                             />
                         </div>
                         <div className="flex-1">
                             <label className="block text-sm font-semibold text-slate-700 mb-2">Date Range</label>
                             <input
                                 type="date"
-                                className="w-full px-4 py-3 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                                className="w-full px-4 py-3 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-teal-500"
                             />
                         </div>
                         <div className="flex items-end">
-                            <button className="w-full md:w-auto px-8 py-3 bg-indigo-600 text-white font-bold rounded-xl hover:bg-indigo-700 transition-colors">
+                            <button className="w-full md:w-auto px-8 py-3 bg-teal-600 text-white font-bold rounded-xl hover:bg-teal-700 transition-colors">
                                 Search Footage
                             </button>
                         </div>
@@ -64,7 +64,7 @@ const LPRSearch = () => {
                 {/* Results Grid */}
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     {/* Mock Result 1 */}
-                    <div className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden group hover:shadow-lg transition-all">
+                    <div className="bg-teal-50/95 rounded-xl shadow-sm border border-slate-200 overflow-hidden group hover:shadow-lg transition-all">
                         <div className="aspect-video bg-slate-200 relative">
                             <div className="absolute inset-0 flex items-center justify-center text-slate-400">Video Placeholder</div>
                             <div className="absolute bottom-2 right-2 bg-black/70 text-white px-2 py-0.5 rounded text-xs">00:15</div>
@@ -75,14 +75,14 @@ const LPRSearch = () => {
                                 <span className="text-xs font-mono bg-slate-100 px-2 py-1 rounded text-slate-600">Gate 1</span>
                             </div>
                             <p className="text-sm text-slate-500 mb-4">Today, 10:42 AM</p>
-                            <button className="w-full py-2 bg-indigo-50 text-indigo-600 font-semibold rounded-lg hover:bg-indigo-100 transition-colors">
+                            <button className="w-full py-2 bg-teal-50 text-teal-600 font-semibold rounded-lg hover:bg-teal-100 transition-colors">
                                 Play Clip
                             </button>
                         </div>
                     </div>
 
                     {/* Mock Result 2 */}
-                    <div className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden group hover:shadow-lg transition-all">
+                    <div className="bg-teal-50/95 rounded-xl shadow-sm border border-slate-200 overflow-hidden group hover:shadow-lg transition-all">
                         <div className="aspect-video bg-slate-200 relative">
                             <div className="absolute inset-0 flex items-center justify-center text-slate-400">Video Placeholder</div>
                             <div className="absolute bottom-2 right-2 bg-black/70 text-white px-2 py-0.5 rounded text-xs">00:22</div>
@@ -93,7 +93,7 @@ const LPRSearch = () => {
                                 <span className="text-xs font-mono bg-slate-100 px-2 py-1 rounded text-slate-600">Gate 2</span>
                             </div>
                             <p className="text-sm text-slate-500 mb-4">Yesterday, 06:15 PM</p>
-                            <button className="w-full py-2 bg-indigo-50 text-indigo-600 font-semibold rounded-lg hover:bg-indigo-100 transition-colors">
+                            <button className="w-full py-2 bg-teal-50 text-teal-600 font-semibold rounded-lg hover:bg-teal-100 transition-colors">
                                 Play Clip
                             </button>
                         </div>

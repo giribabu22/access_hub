@@ -24,7 +24,7 @@ class Settings(BaseSettings):
 
     # Optional
     redis_url: Optional[str] = Field(None, env=["REDIS_URL"])
-    cors_origin: Optional[str] = Field("http://localhost:3000", env=["CORS_ORIGIN"])
+    cors_origin: Optional[str] = Field("http://localhost:5001", env=["CORS_ORIGIN"])
     csrf_cookie_name: Optional[str] = Field("csrf_token", env=["CSRF_COOKIE_NAME"])
     session_cookie_name: Optional[str] = Field("vms_session", env=["SESSION_COOKIE_NAME"])
     session_cookie_samesite: Optional[str] = Field("Lax", env=["SESSION_COOKIE_SAMESITE"])

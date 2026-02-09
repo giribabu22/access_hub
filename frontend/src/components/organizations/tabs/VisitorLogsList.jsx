@@ -220,7 +220,7 @@ const VisitorLogsList = ({ organizationId, refreshTrigger }) => {
           <div className="bg-white rounded-xl shadow-md overflow-hidden border border-gray-100">
           {loading ? (
             <div className="flex justify-center items-center py-12">
-              <div className="w-8 h-8 border-4 border-gray-200 border-t-indigo-600 rounded-full animate-spin"></div>
+              <div className="w-8 h-8 border-4 border-gray-200 border-t-teal-600 rounded-full animate-spin"></div>
             </div>
           ) : visitors.length === 0 ? (
             <div className="text-center py-12">
@@ -358,10 +358,10 @@ const VisitorLogsList = ({ organizationId, refreshTrigger }) => {
 
       {/* Alerts Tab */}
       {selectedTab === 'alerts' && (
-        <div className="bg-white rounded-xl shadow-md overflow-hidden">
+        <div className="bg-teal-50/95 rounded-xl shadow-md overflow-hidden">
           {loading ? (
             <div className="flex justify-center items-center py-12">
-              <div className="w-8 h-8 border-4 border-gray-200 border-t-indigo-600 rounded-full animate-spin"></div>
+              <div className="w-8 h-8 border-4 border-gray-200 border-t-teal-600 rounded-full animate-spin"></div>
             </div>
           ) : alerts.length === 0 ? (
             <div className="text-center py-12">

@@ -41,7 +41,7 @@ const GlobalHeader = ({ title = "Dashboard", showBack = false, onBack = null, dy
 
   return (
     <div className="w-full">
-      <div className="sticky top-0 z-50 bg-gradient-to-r from-indigo-600 via-purple-600 to-purple-700 shadow-xl border-b border-purple-400/30">
+      <div className="sticky top-0 z-50 bg-gradient-to-r from-teal-600 via-purple-600 to-teal-700 shadow-xl border-b border-purple-400/30">
         <div className="max-w-full px-4 sm:px-6 lg:px-8 py-6">
           <div className="flex items-center justify-between gap-4">
             {/* Left Section - Back Button & Title */}
@@ -91,9 +91,9 @@ const GlobalHeader = ({ title = "Dashboard", showBack = false, onBack = null, dy
 
               {/* Profile Menu Popup */}
               {showProfileMenu && (
-                <div className="absolute right-0 mt-3 w-72 bg-white rounded-2xl shadow-2xl border border-gray-200 overflow-hidden z-50 animate-in fade-in duration-200">
+                <div className="absolute right-0 mt-3 w-72 bg-teal-50/95 rounded-2xl shadow-2xl border border-gray-200 overflow-hidden z-50 animate-in fade-in duration-200">
                   {/* Profile Info Section */}
-                  <div className="bg-gradient-to-r from-indigo-500 to-purple-500 p-6 text-white">
+                  <div className="bg-gradient-to-r from-teal-500 to-teal-500 p-6 text-white">
                     <div className="flex items-center gap-4">
                       <div className="w-16 h-16 rounded-full bg-white/30 flex items-center justify-center">
                         <svg
@@ -136,13 +136,13 @@ const GlobalHeader = ({ title = "Dashboard", showBack = false, onBack = null, dy
                   {/* User Info Details */}
                   <div className="p-4 border-b border-gray-200 space-y-3">
                     <div className="grid grid-cols-2 gap-3">
-                      <div className="bg-gray-50 p-3 rounded-lg">
+                      <div className="bg-teal-50 p-3 rounded-lg">
                         <p className="text-xs text-gray-500 font-semibold">Username</p>
                         <p className="text-sm font-bold text-gray-900 truncate">
                           {user?.username || 'N/A'}
                         </p>
                       </div>
-                      <div className="bg-gray-50 p-3 rounded-lg">
+                      <div className="bg-teal-50 p-3 rounded-lg">
                         <p className="text-xs text-gray-500 font-semibold">Status</p>
                         <p className="text-sm font-bold text-green-600 flex items-center gap-1">
                           <span className="w-2 h-2 bg-green-600 rounded-full"></span>
@@ -150,7 +150,7 @@ const GlobalHeader = ({ title = "Dashboard", showBack = false, onBack = null, dy
                         </p>
                       </div>
                     </div>
-                    <div className="bg-gray-50 p-3 rounded-lg">
+                    <div className="bg-teal-50 p-3 rounded-lg">
                       <p className="text-xs text-gray-500 font-semibold">Email</p>
                       <p className="text-sm font-bold text-gray-900 truncate">
                         {user?.email || 'N/A'}
@@ -165,7 +165,7 @@ const GlobalHeader = ({ title = "Dashboard", showBack = false, onBack = null, dy
                         navigate('/profile');
                         setShowProfileMenu(false);
                       }}
-                      className="w-full px-4 py-3 text-left text-gray-700 hover:bg-gray-100 rounded-lg font-medium transition-colors duration-200 flex items-center gap-2"
+                      className="w-full px-4 py-3 text-left text-gray-700 hover:bg-teal-100 rounded-lg font-medium transition-colors duration-200 flex items-center gap-2"
                     >
                       <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
@@ -177,7 +177,7 @@ const GlobalHeader = ({ title = "Dashboard", showBack = false, onBack = null, dy
                         navigate('/settings');
                         setShowProfileMenu(false);
                       }}
-                      className="w-full px-4 py-3 text-left text-gray-700 hover:bg-gray-100 rounded-lg font-medium transition-colors duration-200 flex items-center gap-2"
+                      className="w-full px-4 py-3 text-left text-gray-700 hover:bg-teal-100 rounded-lg font-medium transition-colors duration-200 flex items-center gap-2"
                     >
                       <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />

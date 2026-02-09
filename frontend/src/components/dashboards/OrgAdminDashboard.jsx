@@ -7,6 +7,8 @@ import DashboardHeader from '../common/dashboard/DashboardHeader';
 import StatCard from '../common/dashboard/StatCard';
 import QuickActionButton from '../common/dashboard/QuickActionButton';
 
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'http://localhost:5001';
+
 const OrgAdminDashboard = () => {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
@@ -14,8 +16,6 @@ const OrgAdminDashboard = () => {
     departments: 0,
     employees: 0,
     presentToday: 0,
-    leaveRequests: 0,
-    cameras: 0,
     leaveRequests: 0,
     cameras: 0,
     locations: 0,
@@ -28,6 +28,7 @@ const OrgAdminDashboard = () => {
     if (user?.organization_id) {
       fetchOrganizationStats();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
 
   const fetchOrganizationStats = async () => {
@@ -40,7 +41,7 @@ const OrgAdminDashboard = () => {
         throw new Error('No authentication token or organization ID');
       }
 
-      const response = await fetch(`http://localhost:5001/api/v2/organizations/${user.organization_id}/stats`, {
+      const response = await fetch(`${API_BASE_URL}/api/v2/organizations/${user.organization_id}/stats`, {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
@@ -58,7 +59,6 @@ const OrgAdminDashboard = () => {
           employees: result.data.employees_count || 0,
           presentToday: result.data.present_today || 0,
           leaveRequests: result.data.pending_leaves || 0,
-          cameras: result.data.cameras_count || 0,
           cameras: result.data.cameras_count || 0,
           locations: result.data.locations_count || 0,
           organization: result.data.organization || null
@@ -80,7 +80,7 @@ const OrgAdminDashboard = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-indigo-50 to-purple-50">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-teal-50 to-teal-50">
       <DashboardHeader
         title="Dashboard"
         user={user}
@@ -266,13 +266,13 @@ const OrgAdminDashboard = () => {
           <p className="text-lg text-yellow-800 mb-6">
             Department and Employee management features coming in Phase 3!
           </p>
-          <div className="bg-white rounded-xl p-6 border border-yellow-300">
+          <div className="bg-teal-50/95 rounded-xl p-6 border border-yellow-300">
             <h4 className="text-xl font-bold text-slate-900 mb-4">Your Profile</h4>
             <div className="space-y-2 text-slate-700">
-              <p><strong className="text-indigo-600">Email:</strong> {user?.email}</p>
-              <p><strong className="text-indigo-600">Username:</strong> {user?.username}</p>
-              <p><strong className="text-indigo-600">Role:</strong> {user?.role?.name}</p>
-              <p><strong className="text-indigo-600">Organization:</strong> {user?.organization_id || 'Not assigned'}</p>
+              <p><strong className="text-teal-600">Email:</strong> {user?.email}</p>
+              <p><strong className="text-teal-600">Username:</strong> {user?.username}</p>
+              <p><strong className="text-teal-600">Role:</strong> {user?.role?.name}</p>
+              <p><strong className="text-teal-600">Organization:</strong> {user?.organization_id || 'Not assigned'}</p>
             </div>
           </div>
         </div>

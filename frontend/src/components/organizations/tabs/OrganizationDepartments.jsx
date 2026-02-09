@@ -102,19 +102,19 @@ const OrganizationDepartments = ({ organizationId, organization }) => {
           <h2 className="text-2xl font-bold">Departments</h2>
           <p className="text-gray-600 mt-1">Manage departments for {organization?.name}</p>
         </div>
-        <button onClick={openCreate} className="px-4 py-2 bg-indigo-600 text-white rounded-lg">➕ Create Department</button>
+        <button onClick={openCreate} className="px-4 py-2 bg-teal-600 text-white rounded-lg">➕ Create Department</button>
       </div>
 
       {departments.length === 0 ? (
-        <div className="text-center py-12 bg-gray-50 rounded-xl">
+        <div className="text-center py-12 bg-teal-50 rounded-xl">
           <div className="text-6xl mb-4">🏷️</div>
           <h3 className="text-xl font-bold">No departments</h3>
           <p className="text-gray-600">Create a department to get started</p>
         </div>
       ) : (
-        <div className="overflow-x-auto bg-white rounded-xl shadow-md">
+        <div className="overflow-x-auto bg-teal-50/95 rounded-xl shadow-md">
           <table className="w-full">
-            <thead className="bg-gray-50 border-b">
+            <thead className="bg-teal-50 border-b">
               <tr>
                 <th className="px-6 py-3 text-left">Name</th>
                 <th className="px-6 py-3 text-left">Code</th>
@@ -124,7 +124,7 @@ const OrganizationDepartments = ({ organizationId, organization }) => {
             </thead>
             <tbody className="divide-y">
               {departments.map((d) => (
-                <tr key={d.id} className="hover:bg-gray-50">
+                <tr key={d.id} className="hover:bg-teal-50">
                   <td className="px-6 py-4">{d.name}</td>
                   <td className="px-6 py-4">{d.code || '-'}</td>
                   <td className="px-6 py-4">
@@ -134,7 +134,7 @@ const OrganizationDepartments = ({ organizationId, organization }) => {
                   </td>
                   <td className="px-6 py-4 text-right">
                     <div className="flex justify-end gap-2">
-                      <button onClick={() => openEdit(d)} className="px-3 py-1 bg-indigo-50 text-indigo-600 rounded">Edit</button>
+                      <button onClick={() => openEdit(d)} className="px-3 py-1 bg-teal-50 text-teal-600 rounded">Edit</button>
                       <button onClick={() => handleDelete(d)} className="px-3 py-1 bg-red-50 text-red-600 rounded">Delete</button>
                     </div>
                   </td>
@@ -168,8 +168,8 @@ const OrganizationDepartments = ({ organizationId, organization }) => {
           )}
 
           <div className="flex justify-end gap-2 mt-4">
-            <button type="button" onClick={() => { setShowModal(false); form.resetFields(); }} className="px-4 py-2 bg-gray-100 rounded">Cancel</button>
-            <button type="submit" className="px-4 py-2 bg-indigo-600 text-white rounded">Save</button>
+            <button type="button" onClick={() => { setShowModal(false); form.resetFields(); }} className="px-4 py-2 bg-teal-100 rounded">Cancel</button>
+            <button type="submit" className="px-4 py-2 bg-teal-600 text-white rounded">Save</button>
           </div>
         </Form>
       </Modal>

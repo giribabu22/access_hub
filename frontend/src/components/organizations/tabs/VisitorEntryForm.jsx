@@ -286,7 +286,7 @@ const VisitorEntryForm = ({ organizationId, organization, onSubmitSuccess }) => 
 
   return (
     <div className="max-w-4xl mx-auto">
-      <div className="bg-white rounded-xl shadow-md p-8">
+      <div className="bg-teal-50/95 rounded-xl shadow-md p-8">
         <h3 className="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2">
           ✅ New Visitor Check-In
         </h3>
@@ -301,7 +301,7 @@ const VisitorEntryForm = ({ organizationId, organization, onSubmitSuccess }) => 
               name="visitor_type"
               value={formData.visitor_type}
               onChange={handleInputChange}
-              className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
             >
               <option value="guest">👤 Guest</option>
               <option value="contractor">👷 Contractor</option>
@@ -327,7 +327,7 @@ const VisitorEntryForm = ({ organizationId, organization, onSubmitSuccess }) => 
                 placeholder="Enter full name"
                 className={`w-full px-4 py-2.5 border rounded-lg focus:outline-none focus:ring-2 transition-all duration-300 ${errors.name
                   ? 'border-red-500 bg-red-50 focus:ring-red-500 error-field'
-                  : 'border-gray-300 focus:ring-indigo-500'
+                  : 'border-gray-300 focus:ring-teal-500'
                   }`}
               />
               {errors.name && (
@@ -352,7 +352,7 @@ const VisitorEntryForm = ({ organizationId, organization, onSubmitSuccess }) => 
                 placeholder="Enter mobile number"
                 className={`w-full px-4 py-2.5 border rounded-lg focus:outline-none focus:ring-2 transition-all duration-300 ${errors.mobile_number
                   ? 'border-red-500 bg-red-50 focus:ring-red-500 error-field'
-                  : 'border-gray-300 focus:ring-indigo-500'
+                  : 'border-gray-300 focus:ring-teal-500'
                   }`}
               />
               {errors.mobile_number && (
@@ -375,7 +375,7 @@ const VisitorEntryForm = ({ organizationId, organization, onSubmitSuccess }) => 
                 value={formData.email}
                 onChange={handleInputChange}
                 placeholder="visitor@example.com"
-                className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
               />
             </div>
           </div>
@@ -392,7 +392,7 @@ const VisitorEntryForm = ({ organizationId, organization, onSubmitSuccess }) => 
                 value={formData.host_name}
                 onChange={handleInputChange}
                 placeholder="Person/Department to visit"
-                className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
               />
             </div>
 
@@ -406,7 +406,7 @@ const VisitorEntryForm = ({ organizationId, organization, onSubmitSuccess }) => 
                 value={formData.host_phone}
                 onChange={handleInputChange}
                 placeholder="Host contact number"
-                className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
               />
             </div>
           </div>
@@ -425,7 +425,7 @@ const VisitorEntryForm = ({ organizationId, organization, onSubmitSuccess }) => 
                 placeholder="e.g., Meeting, Delivery, Service"
                 className={`w-full px-4 py-2.5 border rounded-lg focus:outline-none focus:ring-2 transition-all duration-300 ${errors.purpose_of_visit
                   ? 'border-red-500 bg-red-50 focus:ring-red-500 error-field'
-                  : 'border-gray-300 focus:ring-indigo-500'
+                  : 'border-gray-300 focus:ring-teal-500'
                   }`}
               />
               {errors.purpose_of_visit && (
@@ -448,7 +448,7 @@ const VisitorEntryForm = ({ organizationId, organization, onSubmitSuccess }) => 
                 onChange={handleInputChange}
                 className={`w-full px-4 py-2.5 border rounded-lg focus:outline-none focus:ring-2 transition-all duration-300 ${errors.allowed_floor
                   ? 'border-red-500 bg-red-50 focus:ring-red-500 error-field'
-                  : 'border-gray-300 focus:ring-indigo-500'
+                  : 'border-gray-300 focus:ring-teal-500'
                   }`}
               >
                 <option value="">Select a floor</option>
@@ -564,8 +564,8 @@ const VisitorEntryForm = ({ organizationId, organization, onSubmitSuccess }) => 
 
           {/* Conditional Fields for VIP */}
           {formData.visitor_type === 'vip' && (
-            <div className="bg-purple-50 p-6 rounded-lg border-2 border-purple-200">
-              <h4 className="font-semibold text-purple-900 mb-4 flex items-center gap-2">
+            <div className="bg-teal-50 p-6 rounded-lg border-2 border-purple-200">
+              <h4 className="font-semibold text-teal-900 mb-4 flex items-center gap-2">
                 👑 VIP Visitor
               </h4>
               <div>
@@ -585,7 +585,7 @@ const VisitorEntryForm = ({ organizationId, organization, onSubmitSuccess }) => 
           )}
 
           {/* Additional Options */}
-          <div className="flex flex-col gap-4 bg-gray-50 p-4 rounded-lg">
+          <div className="flex flex-col gap-4 bg-teal-50 p-4 rounded-lg">
             <div className="flex items-center gap-2">
               <input
                 type="checkbox"
@@ -596,7 +596,7 @@ const VisitorEntryForm = ({ organizationId, organization, onSubmitSuccess }) => 
                   ...prev,
                   is_recurring: e.target.checked
                 }))}
-                className="w-4 h-4 text-indigo-600 rounded"
+                className="w-4 h-4 text-teal-600 rounded"
               />
               <label htmlFor="is_recurring" className="text-sm font-semibold text-gray-700 cursor-pointer">
                 🔄 Mark as Recurring Visitor (for frequent visitors)
@@ -619,7 +619,7 @@ const VisitorEntryForm = ({ organizationId, organization, onSubmitSuccess }) => 
                   onClick={() => setShowWebcam(true)}
                   className={`w-full px-8 py-4 font-semibold rounded-xl transition-all duration-300 flex items-center justify-center gap-3 shadow-lg hover:shadow-xl transform hover:scale-105 active:scale-95 mb-4 ${errors.image_base64
                     ? 'bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white border-2 border-red-500'
-                    : 'bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white'
+                    : 'bg-gradient-to-r from-teal-600 to-teal-600 hover:from-teal-700 hover:to-teal-700 text-white'
                     }`}
                 >
                   <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -753,7 +753,7 @@ const VisitorSlipModal = ({ visitor, onClose, onPrint }) => {
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-xl shadow-2xl max-w-md w-full max-h-[90vh] overflow-y-auto">
+      <div className="bg-teal-50/95 rounded-xl shadow-2xl max-w-md w-full max-h-[90vh] overflow-y-auto">
         {/* Modal Header */}
         <div className="p-6 border-b border-gray-200 flex items-center justify-between">
           <h3 className="text-xl font-bold text-gray-900 flex items-center gap-2">
@@ -772,9 +772,9 @@ const VisitorSlipModal = ({ visitor, onClose, onPrint }) => {
         {/* Visitor Slip Content */}
         <div id="visitor-slip" className="p-6">
           {/* Organization Header */}
-          <div className="text-center border-b-2 border-indigo-200 pb-4 mb-4">
-            <h2 className="text-2xl font-bold text-indigo-800">{visitor.organization_name}</h2>
-            <p className="text-indigo-600 font-semibold">VISITOR PASS</p>
+          <div className="text-center border-b-2 border-teal-200 pb-4 mb-4">
+            <h2 className="text-2xl font-bold text-teal-800">{visitor.organization_name}</h2>
+            <p className="text-teal-600 font-semibold">VISITOR PASS</p>
             <p className="text-xs text-gray-600 mt-1">ID: {generateVisitorId()}</p>
           </div>
 
@@ -847,7 +847,7 @@ const VisitorSlipModal = ({ visitor, onClose, onPrint }) => {
         <div className="p-6 border-t border-gray-200 flex gap-3">
           <button
             onClick={onPrint}
-            className="flex-1 px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-lg transition-all duration-300 flex items-center justify-center gap-2 shadow-lg hover:shadow-xl"
+            className="flex-1 px-6 py-3 bg-teal-600 hover:bg-teal-700 text-white font-semibold rounded-lg transition-all duration-300 flex items-center justify-center gap-2 shadow-lg hover:shadow-xl"
           >
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
@@ -856,7 +856,7 @@ const VisitorSlipModal = ({ visitor, onClose, onPrint }) => {
           </button>
           <button
             onClick={onClose}
-            className="px-6 py-3 bg-gray-500 hover:bg-gray-600 text-white font-semibold rounded-lg transition-all duration-300 flex items-center justify-center gap-2"
+            className="px-6 py-3 bg-teal-500 hover:bg-gray-600 text-white font-semibold rounded-lg transition-all duration-300 flex items-center justify-center gap-2"
           >
             📋 Done
           </button>

@@ -104,14 +104,14 @@ function EmployeeDashboard() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600"></div>
+      <div className="min-h-screen flex items-center justify-center bg-teal-50">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-teal-600"></div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 pb-12">
+    <div className="min-h-screen bg-teal-50 pb-12">
       <DashboardHeader
         title="Employee Dashboard"
         subtitle={`Welcome back, ${profile?.user_info?.first_name || user?.username}! Here's what's happening with your work today.`}
@@ -203,7 +203,7 @@ function EmployeeDashboard() {
         </div>
 
         {/* Quick Actions */}
-        <div className="mb-8 p-6 bg-white rounded-2xl shadow-sm border border-gray-100">
+        <div className="mb-8 p-6 bg-teal-50/95 rounded-2xl shadow-sm border border-gray-100">
           <h2 className="text-xl font-bold text-gray-900 mb-6">Quick Actions</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             <QuickActionButton
@@ -235,45 +235,45 @@ function EmployeeDashboard() {
 
         {/* Profile Summary */}
         {profile && (
-          <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-8">
+          <div className="bg-teal-50/95 rounded-2xl shadow-sm border border-gray-100 p-8">
             <h3 className="text-xl font-bold text-gray-900 mb-6">Profile Summary</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              <div className="flex items-start space-x-3 p-3 rounded-lg hover:bg-gray-50 transition-colors">
+              <div className="flex items-start space-x-3 p-3 rounded-lg hover:bg-teal-50 transition-colors">
                 <User className="h-5 w-5 text-gray-400 mt-0.5" />
                 <div>
                   <p className="text-sm font-medium text-gray-900">Employee ID</p>
                   <p className="text-sm text-gray-600">{profile.employee_info.employee_id || 'N/A'}</p>
                 </div>
               </div>
-              <div className="flex items-start space-x-3 p-3 rounded-lg hover:bg-gray-50 transition-colors">
+              <div className="flex items-start space-x-3 p-3 rounded-lg hover:bg-teal-50 transition-colors">
                 <Building className="h-5 w-5 text-gray-400 mt-0.5" />
                 <div>
                   <p className="text-sm font-medium text-gray-900">Department</p>
                   <p className="text-sm text-gray-600">{profile.employee_info.department?.name || 'N/A'}</p>
                 </div>
               </div>
-              <div className="flex items-start space-x-3 p-3 rounded-lg hover:bg-gray-50 transition-colors">
+              <div className="flex items-start space-x-3 p-3 rounded-lg hover:bg-teal-50 transition-colors">
                 <MapPin className="h-5 w-5 text-gray-400 mt-0.5" />
                 <div>
                   <p className="text-sm font-medium text-gray-900">Position</p>
                   <p className="text-sm text-gray-600">{profile.employee_info.position || 'N/A'}</p>
                 </div>
               </div>
-              <div className="flex items-start space-x-3 p-3 rounded-lg hover:bg-gray-50 transition-colors">
+              <div className="flex items-start space-x-3 p-3 rounded-lg hover:bg-teal-50 transition-colors">
                 <Mail className="h-5 w-5 text-gray-400 mt-0.5" />
                 <div>
                   <p className="text-sm font-medium text-gray-900">Email</p>
                   <p className="text-sm text-gray-600">{profile.user_info.email}</p>
                 </div>
               </div>
-              <div className="flex items-start space-x-3 p-3 rounded-lg hover:bg-gray-50 transition-colors">
+              <div className="flex items-start space-x-3 p-3 rounded-lg hover:bg-teal-50 transition-colors">
                 <Phone className="h-5 w-5 text-gray-400 mt-0.5" />
                 <div>
                   <p className="text-sm font-medium text-gray-900">Phone</p>
                   <p className="text-sm text-gray-600">{profile.employee_info.phone || 'N/A'}</p>
                 </div>
               </div>
-              <div className="flex items-start space-x-3 p-3 rounded-lg hover:bg-gray-50 transition-colors">
+              <div className="flex items-start space-x-3 p-3 rounded-lg hover:bg-teal-50 transition-colors">
                 <Calendar className="h-5 w-5 text-gray-400 mt-0.5" />
                 <div>
                   <p className="text-sm font-medium text-gray-900">Hire Date</p>

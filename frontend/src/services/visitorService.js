@@ -24,7 +24,7 @@ export const visitorService = {
 
       console.log('🌐 Making API call to create visitor:', {
         endpoint,
-        fullUrl: `${api.defaults.baseURL || 'http://localhost:5001'}${endpoint}`,
+        fullUrl: `${api.defaults.baseURL}${endpoint}`,
         organizationId,
         visitorDataKeys: Object.keys(visitorData),
         hasImage: !!visitorData.image_base64,
@@ -50,7 +50,7 @@ export const visitorService = {
         data: error.response?.data,
         message: error.message,
         endpoint: `${ORG_VISITOR_API_BASE}/${organizationId}/visitors`,
-        fullUrl: `${api.defaults.baseURL || 'http://localhost:5001'}${ORG_VISITOR_API_BASE}/${organizationId}/visitors`,
+        fullUrl: `${api.defaults.baseURL}${ORG_VISITOR_API_BASE}/${organizationId}/visitors`,
         requestHeaders: error.config?.headers,
         requestData: error.config?.data
       });

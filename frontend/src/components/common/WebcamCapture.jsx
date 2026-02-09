@@ -5,22 +5,52 @@ const WebcamCapture = ({ onImageCapture, onBack }) => {
   const videoRef = useRef(null);
   const canvasRef = useRef(null);
   const streamRef = useRef(null);
+  const isMountedRef = useRef(true);
+  const isCapturingRef = useRef(false);
   const [isStreaming, setIsStreaming] = useState(false);
   const [capturedImage, setCapturedImage] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  // Clean up stream on unmount
+  // Clean up stream on unmount - AGGRESSIVE CLEANUP
   useEffect(() => {
     return () => {
-      if (streamRef.current) {
-        const tracks = streamRef.current.getTracks();
-        tracks.forEach(track => track.stop());
+      console.log('🛑🛑🛑 WebcamCapture UNMOUNTING - Initiating aggressive cleanup...');
+      try {
+        // Stop all tracks
+        if (streamRef.current) {
+          const tracks = streamRef.current.getTracks();
+          console.log(`Unmount cleanup: Found ${tracks.length} tracks`);
+          tracks.forEach((track, i) => {
+            track.enabled = false;
+            track.stop();
+            console.log(`Unmount: Track ${i + 1} disabled and stopped`);
+          });
+          streamRef.current = null;
+        }
+        
+        // Clear video element
+        if (videoRef.current) {
+          videoRef.current.pause();
+          videoRef.current.srcObject = null;
+          videoRef.current.src = '';
+          videoRef.current.style.display = 'none';
+          console.log('Unmount: Video element cleared');
+        }
+        
+        console.log('🛑🛑🛑 UNMOUNT CLEANUP COMPLETE - All camera resources released');
+      } catch (error) {
+        console.error('Error during unmount cleanup:', error);
       }
     };
   }, []);
 
   const startWebcam = useCallback(async () => {
+    if (!isMountedRef.current) {
+      console.log('⚠️ Component not mounted, aborting startWebcam');
+      return;
+    }
+    
     try {
       setIsLoading(true);
       setError(null);
@@ -33,6 +63,13 @@ const WebcamCapture = ({ onImageCapture, onBack }) => {
 
       console.log('Requesting camera access...');
       
+      // Stop any existing stream first
+      if (streamRef.current) {
+        const existingTracks = streamRef.current.getTracks();
+        existingTracks.forEach(track => track.stop());
+        streamRef.current = null;
+      }
+      
       // Request permission explicitly
       const stream = await navigator.mediaDevices.getUserMedia({
         video: { 
@@ -44,6 +81,12 @@ const WebcamCapture = ({ onImageCapture, onBack }) => {
       });
       
       console.log('Camera stream received:', stream);
+      
+      if (!isMountedRef.current) {
+        console.log('⚠️ Component unmounted during getUserMedia, stopping stream');
+        stream.getTracks().forEach(track => track.stop());
+        return;
+      }
       
       // Wait for video element to be available
       const waitForVideoElement = () => {
@@ -72,41 +115,58 @@ const WebcamCapture = ({ onImageCapture, onBack }) => {
       try {
         const videoElement = await waitForVideoElement();
         
+        if (!isMountedRef.current) {
+          console.log('⚠️ Component unmounted, stopping stream');
+          stream.getTracks().forEach(track => track.stop());
+          return;
+        }
+        
         videoElement.srcObject = stream;
         streamRef.current = stream;
         
         console.log('Stream attached to video element');
         
+        let timeoutId = null;
+        
         // Wait for video to be ready and playing
         videoElement.onloadedmetadata = () => {
           console.log('Video metadata loaded');
-          if (videoElement) {
+          if (videoElement && isMountedRef.current) {
             videoElement.play().then(() => {
               console.log('Video playing');
-              setIsStreaming(true);
-              setIsLoading(false);
+              if (isMountedRef.current) {
+                setIsStreaming(true);
+                setIsLoading(false);
+              }
               message.success('📹 Camera ready! Position yourself and click capture');
             }).catch(error => {
               console.error('Error playing video:', error);
-              setError('Failed to start video playback');
-              setIsLoading(false);
+              if (isMountedRef.current) {
+                setError('Failed to start video playback');
+                setIsLoading(false);
+              }
             });
           }
         };
         
-        // Fallback timeout in case onloadedmetadata doesn't fire
-        setTimeout(() => {
-          if (videoElement && streamRef.current && !isStreaming) {
+        // Fallback timeout with proper cleanup
+        timeoutId = setTimeout(() => {
+          if (!isCapturingRef.current && isMountedRef.current && videoElement && streamRef.current && !isStreaming) {
             console.log('Fallback: Setting streaming to true');
             setIsStreaming(true);
             setIsLoading(false);
           }
         }, 3000);
         
+        // Store timeout ID for cleanup if needed
+        videoElement.timeoutId = timeoutId;
+        
       } catch (videoError) {
         console.error('Video element error:', videoError);
-        setError('Failed to initialize video preview');
-        setIsLoading(false);
+        if (isMountedRef.current) {
+          setError('Failed to initialize video preview');
+          setIsLoading(false);
+        }
       }
     } catch (error) {
       console.error('Error accessing webcam:', error);
@@ -126,46 +186,106 @@ const WebcamCapture = ({ onImageCapture, onBack }) => {
             video: true,
             audio: false
           });
-          if (videoRef.current && basicStream) {
+          if (isMountedRef.current && videoRef.current && basicStream) {
             videoRef.current.srcObject = basicStream;
             streamRef.current = basicStream;
             videoRef.current.onloadedmetadata = () => {
               videoRef.current.play().then(() => {
-                setIsStreaming(true);
-                setIsLoading(false);
+                if (isMountedRef.current) {
+                  setIsStreaming(true);
+                  setIsLoading(false);
+                }
                 message.success('📹 Camera ready with basic settings');
               });
             };
             return;
+          } else if (!isMountedRef.current) {
+            basicStream.getTracks().forEach(track => track.stop());
           }
         } catch (basicError) {
           errorMessage = '❌ Camera access failed. Please check your camera permissions.';
         }
       }
       
-      setError(errorMessage);
-      setIsLoading(false);
-      message.error(errorMessage);
+      if (isMountedRef.current) {
+        setError(errorMessage);
+        setIsLoading(false);
+        message.error(errorMessage);
+      }
     }
-  }, [isStreaming]);
+  }, []);
 
   // Auto-start webcam on component mount
   useEffect(() => {
-    console.log('WebcamCapture mounted, starting webcam...');
+    isMountedRef.current = true;
+    console.log('✨ WebcamCapture mounted');
     startWebcam();
-  }, [startWebcam]);
+    
+    // Cleanup on unmount
+    return () => {
+      isMountedRef.current = false;
+      console.log('✨ WebcamCapture UNMOUNTING - Stopping all resources');
+      
+      if (streamRef.current) {
+        const tracks = streamRef.current.getTracks();
+        tracks.forEach(track => {
+          track.enabled = false;
+          track.stop();
+        });
+        streamRef.current = null;
+      }
+      
+      if (videoRef.current) {
+        videoRef.current.pause();
+        videoRef.current.autoplay = false;
+        videoRef.current.srcObject = null;
+        videoRef.current.src = '';
+      }
+    };
+  }, []);
 
   const stopWebcam = () => {
-    if (streamRef.current) {
-      const tracks = streamRef.current.getTracks();
-      tracks.forEach(track => track.stop());
-      streamRef.current = null;
+    try {
+      console.log('🛑 STOPPING CAMERA - Nuclear mode...');
+      
+      // Step 1: Stop all tracks in the stream
+      if (streamRef.current) {
+        console.log('🔴 Found stream, stopping all tracks...');
+        const tracks = streamRef.current.getTracks();
+        console.log(`🔴 Total tracks to stop: ${tracks}======= ${tracks.length}`);
+        console.log(`Total tracks found: ${tracks.length}`);
+        
+        tracks.forEach((track, index) => {
+          console.log(`[${index + 1}/${tracks.length}] Stopping: ${track.kind}`);
+          track.enabled = false;
+          track.stop();
+          console.log(`[${index + 1}/${tracks.length}] ✅ Track stopped`);
+        });
+        
+        streamRef.current = null;
+        console.log('✅ Stream reference nullified');
+      }
+      
+      // Step 2: Clear video element completely
+      if (videoRef.current) {
+        console.log('🔴 Clearing video element...');
+        videoRef.current.pause();
+        videoRef.current.autoplay = false;
+        videoRef.current.srcObject = null;
+        videoRef.current.src = '';
+        videoRef.current.currentTime = 0;
+        videoRef.current.style.display = 'none';
+        console.log('✅ Video element completely cleared');
+      }
+      
+      // Step 3: Update state
+      setIsStreaming(false);
+      setError(null);
+      
+      console.log('🎬 ✅ CAMERA COMPLETELY STOPPED');
+    } catch (error) {
+      console.error('❌ ERROR in stopWebcam:', error);
     }
-    if (videoRef.current) {
-      videoRef.current.srcObject = null;
-    }
-    setIsStreaming(false);
-    setError(null);
   };
 
   const captureImage = () => {
@@ -174,30 +294,46 @@ const WebcamCapture = ({ onImageCapture, onBack }) => {
       return;
     }
 
-    const canvas = canvasRef.current;
-    const video = videoRef.current;
-    const context = canvas.getContext('2d');
+    try {
+      isCapturingRef.current = true;
+      console.log('📸 Image capture initiated - setting capturing flag');
+      
+      const canvas = canvasRef.current;
+      const video = videoRef.current;
+      const context = canvas.getContext('2d');
 
-    // Set canvas dimensions to match video
-    canvas.width = video.videoWidth;
-    canvas.height = video.videoHeight;
+      // Set canvas dimensions to match video
+      canvas.width = video.videoWidth;
+      canvas.height = video.videoHeight;
 
-    // Draw video frame to canvas
-    context.drawImage(video, 0, 0, canvas.width, canvas.height);
+      // Draw video frame to canvas
+      context.drawImage(video, 0, 0, canvas.width, canvas.height);
 
-    // Convert canvas to base64
-    const base64Image = canvas.toDataURL('image/jpeg', 0.95);
-    setCapturedImage(base64Image);
-    
-    console.log('📸 Image captured automatically calling onImageCapture...');
-    
-    // Automatically send image to parent component
-    if (onImageCapture) {
-      onImageCapture(base64Image);
-      console.log('✅ Image sent to parent component automatically');
+      // Convert canvas to base64
+      const base64Image = canvas.toDataURL('image/jpeg', 0.95);
+      
+      console.log('📸 Image captured, stopping camera and sending to parent...');
+      
+      // Stop the webcam immediately and aggressively
+      console.log('🛑 Calling stopWebcam from captureImage');
+      stopWebcam();
+      
+      // Set captured image
+      setCapturedImage(base64Image);
+      
+      // Automatically send image to parent component
+      if (onImageCapture) {
+        onImageCapture(base64Image);
+        console.log('✅ Image sent to parent component');
+      }
+      
+      message.success('📸 Photo captured and camera closed!');
+    } catch (error) {
+      console.error('Error capturing image:', error);
+      message.error('Failed to capture image');
+    } finally {
+      isCapturingRef.current = false;
     }
-    
-    message.success('📸 Photo captured and stored successfully!');
   };
 
   const confirmImage = () => {
@@ -243,7 +379,7 @@ const WebcamCapture = ({ onImageCapture, onBack }) => {
       )}
 
       {/* Camera Preview Area */}
-      <div className="relative border-2 border-dashed border-indigo-300 rounded-xl overflow-hidden bg-gradient-to-br from-slate-50 to-slate-100 shadow-inner">
+      <div className="relative border-2 border-dashed border-teal-300 rounded-xl overflow-hidden bg-gradient-to-br from-slate-50 to-slate-100 shadow-inner">
         <div className="aspect-video bg-gradient-to-br from-slate-800 to-slate-900 flex items-center justify-center relative">
           
           {/* Live Video Preview */}
@@ -259,7 +395,8 @@ const WebcamCapture = ({ onImageCapture, onBack }) => {
                   width: '100%', 
                   height: '100%', 
                   objectFit: 'cover',
-                  display: isStreaming ? 'block' : 'none'
+                  display: isStreaming ? 'block' : 'none',
+                  visibility: isStreaming ? 'visible' : 'hidden'
                 }}
                 onLoadedMetadata={() => console.log('Video metadata loaded from element')}
                 onPlay={() => console.log('Video started playing')}
@@ -269,7 +406,7 @@ const WebcamCapture = ({ onImageCapture, onBack }) => {
               {/* Live indicator - only show when actually streaming */}
               {isStreaming && (
                 <div className="absolute top-4 left-4 bg-red-500 text-white px-3 py-1 rounded-full text-xs font-semibold flex items-center gap-2 animate-pulse">
-                  <div className="w-2 h-2 bg-white rounded-full"></div>
+                  <div className="w-2 h-2 bg-teal-50/95 rounded-full"></div>
                   LIVE
                 </div>
               )}
@@ -304,7 +441,7 @@ const WebcamCapture = ({ onImageCapture, onBack }) => {
           {isLoading && (
             <div className="text-center text-white p-8">
               <div className="space-y-4">
-                <div className="animate-spin w-12 h-12 border-4 border-indigo-500 border-t-transparent rounded-full mx-auto"></div>
+                <div className="animate-spin w-12 h-12 border-4 border-teal-500 border-t-transparent rounded-full mx-auto"></div>
                 <p className="text-lg font-semibold">📹 Starting Camera...</p>
                 <p className="text-sm text-slate-300">Please allow camera permissions</p>
                 <p className="text-xs text-slate-400">Look for permission popup in your browser</p>
@@ -331,7 +468,7 @@ const WebcamCapture = ({ onImageCapture, onBack }) => {
           {!isStreaming && !capturedImage && !isLoading && !error && (
             <div className="text-center text-white p-8">
               <div className="space-y-4">
-                <div className="text-indigo-400">
+                <div className="text-teal-400">
                   <svg className="w-16 h-16 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -354,7 +491,7 @@ const WebcamCapture = ({ onImageCapture, onBack }) => {
         {!isStreaming && !capturedImage && !isLoading && (
           <button
             onClick={startWebcam}
-            className="px-8 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-semibold rounded-xl transition-all duration-300 flex items-center gap-3 shadow-lg hover:shadow-xl transform hover:scale-105 active:scale-95"
+            className="px-8 py-3 bg-gradient-to-r from-teal-600 to-teal-600 hover:from-teal-700 hover:to-teal-700 text-white font-semibold rounded-xl transition-all duration-300 flex items-center gap-3 shadow-lg hover:shadow-xl transform hover:scale-105 active:scale-95"
           >
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />

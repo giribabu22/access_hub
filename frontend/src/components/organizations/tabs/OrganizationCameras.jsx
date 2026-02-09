@@ -217,7 +217,7 @@ const OrganizationCameras = ({ organizationId, organization }) => {
         label: '🟢 Online',
       },
       [CAMERA_STATUS.OFFLINE]: {
-        bg: 'bg-gray-100',
+        bg: 'bg-teal-100',
         text: 'text-gray-700',
         label: '⚫ Offline',
       },
@@ -265,7 +265,7 @@ const OrganizationCameras = ({ organizationId, organization }) => {
   if (loading) {
     return (
       <div className="flex items-center justify-center py-12">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-teal-600"></div>
       </div>
     );
   }
@@ -276,7 +276,7 @@ const OrganizationCameras = ({ organizationId, organization }) => {
       <div className="flex justify-between items-center flex-wrap gap-4 bg-gradient-to-r from-pink-50 to-rose-50 p-6 rounded-xl border border-pink-200">
         <div>
           <h2 className="text-3xl font-bold text-gray-900 flex items-center gap-2">
-            <svg className="w-8 h-8 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg className="w-8 h-8 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
             </svg>
             Camera Management
@@ -289,7 +289,7 @@ const OrganizationCameras = ({ organizationId, organization }) => {
             disabled={!hasCreatePermission}
             className={`px-6 py-3 rounded-lg font-semibold transition-all duration-300 ${
               hasCreatePermission
-                ? 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white hover:shadow-lg hover:-translate-y-0.5 cursor-pointer'
+                ? 'bg-gradient-to-r from-teal-600 to-teal-600 text-white hover:shadow-lg hover:-translate-y-0.5 cursor-pointer'
                 : 'bg-gray-300 text-gray-500 cursor-not-allowed opacity-60'
             }`}
           >
@@ -310,15 +310,15 @@ const OrganizationCameras = ({ organizationId, organization }) => {
           placeholder="Search by camera name..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
-          className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+          className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent"
         />
         <div className="flex gap-2 flex-wrap">
           <button
             onClick={() => setFilterStatus('all')}
             className={`px-4 py-2 rounded-lg font-semibold transition-all ${
               filterStatus === 'all'
-                ? 'bg-indigo-600 text-white'
-                : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                ? 'bg-teal-600 text-white'
+                : 'bg-teal-100 text-gray-700 hover:bg-gray-200'
             }`}
           >
             All
@@ -328,7 +328,7 @@ const OrganizationCameras = ({ organizationId, organization }) => {
             className={`px-4 py-2 rounded-lg font-semibold transition-all ${
               filterStatus === 'active'
                 ? 'bg-green-600 text-white'
-                : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                : 'bg-teal-100 text-gray-700 hover:bg-gray-200'
             }`}
           >
             Active
@@ -338,7 +338,7 @@ const OrganizationCameras = ({ organizationId, organization }) => {
             className={`px-4 py-2 rounded-lg font-semibold transition-all ${
               filterStatus === 'inactive'
                 ? 'bg-orange-600 text-white'
-                : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                : 'bg-teal-100 text-gray-700 hover:bg-gray-200'
             }`}
           >
             Inactive
@@ -352,8 +352,8 @@ const OrganizationCameras = ({ organizationId, organization }) => {
           onClick={() => setFilterType('all')}
           className={`px-4 py-2 rounded-lg font-semibold transition-all ${
             filterType === 'all'
-              ? 'bg-indigo-600 text-white'
-              : 'bg-white border-2 border-gray-200 text-gray-700 hover:border-indigo-300'
+              ? 'bg-teal-600 text-white'
+              : 'bg-teal-50/95 border-2 border-gray-200 text-gray-700 hover:border-teal-300'
           }`}
         >
           All Types
@@ -363,7 +363,7 @@ const OrganizationCameras = ({ organizationId, organization }) => {
           className={`px-4 py-2 rounded-lg font-semibold transition-all ${
             filterType === CAMERA_TYPES.CHECK_IN
               ? 'bg-blue-600 text-white'
-              : 'bg-white border-2 border-gray-200 text-gray-700 hover:border-blue-300'
+              : 'bg-teal-50/95 border-2 border-gray-200 text-gray-700 hover:border-blue-300'
           }`}
         >
           ← Check-In
@@ -373,7 +373,7 @@ const OrganizationCameras = ({ organizationId, organization }) => {
           className={`px-4 py-2 rounded-lg font-semibold transition-all ${
             filterType === CAMERA_TYPES.CHECK_OUT
               ? 'bg-green-600 text-white'
-              : 'bg-white border-2 border-gray-200 text-gray-700 hover:border-green-300'
+              : 'bg-teal-50/95 border-2 border-gray-200 text-gray-700 hover:border-green-300'
           }`}
         >
           → Check-Out
@@ -382,8 +382,8 @@ const OrganizationCameras = ({ organizationId, organization }) => {
           onClick={() => setFilterType(CAMERA_TYPES.CCTV)}
           className={`px-4 py-2 rounded-lg font-semibold transition-all ${
             filterType === CAMERA_TYPES.CCTV
-              ? 'bg-purple-600 text-white'
-              : 'bg-white border-2 border-gray-200 text-gray-700 hover:border-purple-300'
+              ? 'bg-teal-600 text-white'
+              : 'bg-teal-50/95 border-2 border-gray-200 text-gray-700 hover:border-purple-300'
           }`}
         >
           ⦿ CCTV
@@ -392,7 +392,7 @@ const OrganizationCameras = ({ organizationId, organization }) => {
 
       {/* Cameras Grid */}
       {filteredCameras.length === 0 ? (
-        <div className="text-center py-12 bg-gray-50 rounded-xl">
+        <div className="text-center py-12 bg-teal-50 rounded-xl">
           <div className="mb-4 flex justify-center">
             <svg className="w-16 h-16 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
@@ -407,7 +407,7 @@ const OrganizationCameras = ({ organizationId, organization }) => {
           {!searchTerm && filterStatus === 'all' && filterType === 'all' && (
             <button
               onClick={handleCreateCamera}
-              className="px-6 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-semibold rounded-lg hover:shadow-lg transition-all"
+              className="px-6 py-3 bg-gradient-to-r from-teal-600 to-teal-600 text-white font-semibold rounded-lg hover:shadow-lg transition-all"
             >
               <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
@@ -421,12 +421,12 @@ const OrganizationCameras = ({ organizationId, organization }) => {
           {filteredCameras.map((camera) => (
             <div
               key={camera.id}
-              className="bg-white rounded-xl border border-gray-200 shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1 overflow-hidden"
+              className="bg-teal-50/95 rounded-xl border border-gray-200 shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1 overflow-hidden"
             >
               {/* Card Header */}
-              <div className="bg-gradient-to-r from-indigo-500/10 to-purple-500/10 px-4 py-3 border-b border-gray-200 flex items-center justify-between">
+              <div className="bg-gradient-to-r from-teal-500/10 to-teal-500/10 px-4 py-3 border-b border-gray-200 flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                  <div className="text-indigo-600">{getCameraTypeIcon(camera.camera_type)}</div>
+                  <div className="text-teal-600">{getCameraTypeIcon(camera.camera_type)}</div>
                   <div>
                     <span className="font-bold text-gray-900 text-sm">
                       {camera.camera_type?.replace('_', ' ')}
@@ -482,7 +482,7 @@ const OrganizationCameras = ({ organizationId, organization }) => {
                 <div className="flex gap-2">
                   <button
                     onClick={() => handleEditCamera(camera)}
-                    className="flex-1 px-3 py-2 bg-indigo-50 text-indigo-600 rounded-lg hover:bg-indigo-100 transition-all text-sm font-semibold"
+                    className="flex-1 px-3 py-2 bg-teal-50 text-teal-600 rounded-lg hover:bg-teal-100 transition-all text-sm font-semibold"
                   >
                     Edit
                   </button>
@@ -584,9 +584,9 @@ const OrganizationCameras = ({ organizationId, organization }) => {
           </div>
 
           {/* Attendance Management Section */}
-          <div className="mt-6 p-4 bg-gradient-to-r from-indigo-50 to-purple-50 rounded-lg border border-indigo-200">
+          <div className="mt-6 p-4 bg-gradient-to-r from-teal-50 to-teal-50 rounded-lg border border-teal-200">
             <h3 className="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
-              <svg className="w-5 h-5 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-5 h-5 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
               </svg>
               Attendance Management Settings
@@ -665,13 +665,13 @@ const OrganizationCameras = ({ organizationId, organization }) => {
                 setShowModal(false);
                 form.resetFields();
               }}
-              className="px-6 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-all font-semibold"
+              className="px-6 py-2 bg-teal-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-all font-semibold"
             >
               Cancel
             </button>
             <button
               type="submit"
-              className="px-6 py-2 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-lg hover:shadow-lg transition-all font-semibold"
+              className="px-6 py-2 bg-gradient-to-r from-teal-600 to-teal-600 text-white rounded-lg hover:shadow-lg transition-all font-semibold"
             >
               {editingCamera ? 'Update Camera' : 'Create Camera'}
             </button>

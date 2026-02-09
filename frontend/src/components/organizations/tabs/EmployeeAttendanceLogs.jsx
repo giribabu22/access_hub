@@ -97,11 +97,11 @@ const EmployeeAttendanceLogs = ({ employees = [], onEmployeeClick, organizationI
                     className="flex items-center gap-3 cursor-pointer group"
                     onClick={() => onEmployeeClick && onEmployeeClick(employee.id)}
                 >
-                    <div className="w-8 h-8 bg-indigo-100 group-hover:bg-indigo-200 transition-colors rounded-full flex items-center justify-center text-indigo-600 font-bold text-xs">
+                    <div className="w-8 h-8 bg-teal-100 group-hover:bg-teal-200 transition-colors rounded-full flex items-center justify-center text-teal-600 font-bold text-xs">
                         {employee?.full_name?.charAt(0).toUpperCase()}
                     </div>
                     <div>
-                        <div className="font-medium text-gray-900 group-hover:text-indigo-600 transition-colors">
+                        <div className="font-medium text-gray-900 group-hover:text-teal-600 transition-colors">
                             {employee?.full_name || 'Unknown'}
                         </div>
                         <div className="text-xs text-gray-500">{employee?.employee_code || 'N/A'}</div>
@@ -120,7 +120,7 @@ const EmployeeAttendanceLogs = ({ employees = [], onEmployeeClick, organizationI
             dataIndex: 'check_in_time',
             key: 'check_in_time',
             render: (text) => text ? (
-                <span className="font-mono text-gray-700 bg-gray-50 px-2 py-0.5 rounded border border-gray-200 text-xs">
+                <span className="font-mono text-gray-700 bg-teal-50 px-2 py-0.5 rounded border border-gray-200 text-xs">
                     {moment(text).format('HH:mm:ss')}
                 </span>
             ) : '-'
@@ -130,7 +130,7 @@ const EmployeeAttendanceLogs = ({ employees = [], onEmployeeClick, organizationI
             dataIndex: 'check_out_time',
             key: 'check_out_time',
             render: (text) => text ? (
-                <span className="font-mono text-gray-700 bg-gray-50 px-2 py-0.5 rounded border border-gray-200 text-xs">
+                <span className="font-mono text-gray-700 bg-teal-50 px-2 py-0.5 rounded border border-gray-200 text-xs">
                     {moment(text).format('HH:mm:ss')}
                 </span>
             ) : (
@@ -172,7 +172,7 @@ const EmployeeAttendanceLogs = ({ employees = [], onEmployeeClick, organizationI
     return (
         <div className="space-y-3">
             {/* Filters */}
-            <div className="bg-white p-3 rounded-lg shadow-sm border border-gray-200 flex flex-wrap gap-3 items-center justify-between">
+            <div className="bg-teal-50/95 p-3 rounded-lg shadow-sm border border-gray-200 flex flex-wrap gap-3 items-center justify-between">
                 <div className="flex gap-3 flex-1 min-w-[300px]">
                     <Input
                         prefix={<span>🔍</span>}
@@ -203,14 +203,14 @@ const EmployeeAttendanceLogs = ({ employees = [], onEmployeeClick, organizationI
                 </div>
                 <button
                     onClick={fetchLogs}
-                    className="text-indigo-600 hover:text-indigo-800 font-medium text-xs flex items-center gap-1"
+                    className="text-teal-600 hover:text-teal-800 font-medium text-xs flex items-center gap-1"
                 >
                     🔄 Refresh
                 </button>
             </div>
 
             {/* Table */}
-            <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+            <div className="bg-teal-50/95 rounded-lg shadow-sm border border-gray-200 overflow-hidden">
                 <Table
                     dataSource={logs}
                     columns={columns}

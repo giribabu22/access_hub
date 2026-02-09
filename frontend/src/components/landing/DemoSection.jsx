@@ -17,7 +17,7 @@ const DemoSection = () => {
         { label: 'Active Employees', value: '156', color: 'text-green-600' },
         { label: 'Visitors Today', value: '43', color: 'text-blue-600' },
         { label: 'Camera Alerts', value: '2', color: 'text-orange-600' },
-        { label: 'Locations', value: '3', color: 'text-purple-600' }
+        { label: 'Locations', value: '3', color: 'text-teal-600' }
       ]
     },
     visitor: {
@@ -68,7 +68,7 @@ const DemoSection = () => {
                   onClick={() => setActiveDemo(key)}
                   className={`px-4 py-2 rounded-lg font-medium transition-all ${
                     activeDemo === key
-                      ? 'bg-indigo-600 text-white'
+                      ? 'bg-teal-600 text-white'
                       : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
                   }`}
                 >
@@ -77,7 +77,7 @@ const DemoSection = () => {
               ))}
             </div>
 
-            <div className="bg-white rounded-2xl p-8 shadow-lg">
+            <div className="bg-teal-50/95 rounded-2xl p-8 shadow-lg">
               <div className="text-6xl mb-6 text-center">{currentDemo.image}</div>
               <h3 className="text-2xl font-bold text-gray-900 mb-4">
                 {currentDemo.title}
@@ -90,7 +90,7 @@ const DemoSection = () => {
               {activeDemo === 'dashboard' && (
                 <div className="grid grid-cols-2 gap-4">
                   {currentDemo.stats.map((stat, index) => (
-                    <div key={index} className="bg-gray-50 rounded-lg p-4 text-center">
+                    <div key={index} className="bg-teal-50 rounded-lg p-4 text-center">
                       <div className={`text-2xl font-bold ${stat.color}`}>
                         {stat.value}
                       </div>
@@ -104,7 +104,7 @@ const DemoSection = () => {
                 <div className="space-y-3">
                   {currentDemo.steps.map((step, index) => (
                     <div key={index} className="flex items-center gap-3">
-                      <div className="w-8 h-8 bg-indigo-600 text-white rounded-full flex items-center justify-center text-sm font-bold">
+                      <div className="w-8 h-8 bg-teal-600 text-white rounded-full flex items-center justify-center text-sm font-bold">
                         {index + 1}
                       </div>
                       <span className="text-gray-700">{step}</span>
@@ -118,7 +118,7 @@ const DemoSection = () => {
                   {currentDemo.charts.map((chart, index) => (
                     <div key={index} className="flex justify-between items-center py-2 border-b border-gray-200">
                       <span className="text-gray-700">{chart.label}</span>
-                      <span className="font-semibold text-indigo-600">{chart.value}</span>
+                      <span className="font-semibold text-teal-600">{chart.value}</span>
                     </div>
                   ))}
                 </div>
@@ -127,7 +127,7 @@ const DemoSection = () => {
           </div>
 
           {/* Mock Interface */}
-          <div className="bg-gradient-to-br from-indigo-600 to-purple-600 rounded-2xl p-8 text-white">
+          <div className="bg-gradient-to-br from-teal-600 to-teal-600 rounded-2xl p-8 text-white">
             <div className="bg-white bg-opacity-10 backdrop-blur rounded-xl p-6 mb-6">
               <div className="flex items-center gap-3 mb-4">
                 <div className="w-3 h-3 bg-red-400 rounded-full"></div>
@@ -143,10 +143,10 @@ const DemoSection = () => {
 
             <div className="text-center">
               <h4 className="text-xl font-semibold mb-2">Ready to get started?</h4>
-              <p className="text-indigo-100 mb-6">
+              <p className="text-teal-100 mb-6">
                 Experience the full power of AccessHub VMS with our 14-day free trial
               </p>
-              <button className="bg-white text-indigo-600 hover:bg-gray-50 px-6 py-3 rounded-lg font-semibold transition-colors flex items-center gap-2 mx-auto">
+              <button className="bg-white text-teal-600 hover:bg-teal-50 px-6 py-3 rounded-lg font-semibold transition-colors flex items-center gap-2 mx-auto">
                 Start Free Trial <ArrowRight className="w-4 h-4" />
               </button>
             </div>

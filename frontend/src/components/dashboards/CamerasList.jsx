@@ -86,7 +86,7 @@ const CamerasList = () => {
       {/* Main Content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {/* Search and Filter */}
-        <div className="bg-white rounded-2xl shadow-lg p-6 mb-8 border border-slate-200">
+        <div className="bg-teal-50/95 rounded-2xl shadow-lg p-6 mb-8 border border-slate-200">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div>
               <label className="block text-sm font-semibold text-slate-700 mb-2">🔍 Search</label>
@@ -134,7 +134,7 @@ const CamerasList = () => {
             {filteredCameras.map(cam => (
               <div
                 key={cam.id}
-                className="bg-white rounded-2xl shadow-lg p-6 border border-slate-200 hover:shadow-2xl hover:border-blue-300 transition-all duration-300 group"
+                className="bg-teal-50/95 rounded-2xl shadow-lg p-6 border border-slate-200 hover:shadow-2xl hover:border-blue-300 transition-all duration-300 group"
               >
                 <div className="flex items-start justify-between mb-4">
                   <div className="text-3xl">📹</div>
@@ -165,7 +165,7 @@ const CamerasList = () => {
             ))}
           </div>
         ) : (
-          <div className="bg-white rounded-2xl shadow-lg p-12 text-center border border-slate-200">
+          <div className="bg-teal-50/95 rounded-2xl shadow-lg p-12 text-center border border-slate-200">
             <p className="text-slate-600 text-lg">No cameras found</p>
           </div>
         )}

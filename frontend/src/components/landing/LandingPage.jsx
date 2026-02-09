@@ -57,7 +57,7 @@ const LandingPage = () => {
       icon: '📹',
       title: 'Camera Integration',
       description: 'Real-time video monitoring, facial recognition, and automated security alerts.',
-      color: 'from-purple-500 to-pink-500',
+      color: 'from-cyan-500 to-pink-500',
       details: ['AI-powered facial recognition', 'Motion detection', 'Live streaming', '24/7 recording']
     },
     {
@@ -78,7 +78,7 @@ const LandingPage = () => {
       icon: '🏢',
       title: 'Multi-Location Support',
       description: 'Manage multiple offices, floors, and departments from a single dashboard.',
-      color: 'from-indigo-500 to-purple-600',
+      color: 'from-teal-500 to-teal-600',
       details: ['Centralized management', 'Location-specific rules', 'Cross-site reporting', 'Unified dashboard']
     },
     {
@@ -237,7 +237,7 @@ const LandingPage = () => {
     //   description: 'Perfect for small teams getting started',
     //   icon: '📦',
     //   color: 'border-gray-200 bg-white',
-    //   buttonStyle: 'bg-gray-100 text-gray-800 hover:bg-gray-200',
+    //   buttonStyle: 'bg-teal-100 text-gray-800 hover:bg-gray-200',
     //   popular: false,
     //   features: [
     //     '5 employees',
@@ -310,8 +310,8 @@ const LandingPage = () => {
     //   period: '',
     //   description: 'Unlimited scale for large enterprises',
     //   icon: '🏢',
-    //   color: 'border-purple-200 bg-purple-50',
-    //   buttonStyle: 'bg-purple-600 text-white hover:bg-purple-700',
+    //   color: 'border-purple-200 bg-teal-50',
+    //   buttonStyle: 'bg-teal-600 text-white hover:bg-teal-700',
     //   popular: false,
     //   features: [
     //     'Unlimited employees',
@@ -409,7 +409,7 @@ const LandingPage = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {features.map((feature, index) => (
-              <div key={index} className="bg-white rounded-lg p-6 border border-slate-200 hover:border-slate-300 transition-colors">
+              <div key={index} className="bg-teal-50/95 rounded-lg p-6 border border-slate-200 hover:border-slate-300 transition-colors">
                 <div className="text-3xl mb-4">{feature.icon}</div>
                 <h3 className="text-lg font-semibold text-slate-900 mb-2">{feature.title}</h3>
                 <p className="text-slate-600 text-sm mb-4">{feature.description}</p>
@@ -446,11 +446,11 @@ const LandingPage = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {integrations.map((category, categoryIndex) => (
-              <div key={categoryIndex} className="bg-gray-50 rounded-2xl p-6">
+              <div key={categoryIndex} className="bg-teal-50 rounded-2xl p-6">
                 <h3 className="text-lg font-semibold text-gray-900 mb-4">{category.category}</h3>
                 <div className="space-y-3">
                   {category.items.map((item, itemIndex) => (
-                    <div key={itemIndex} className="flex items-center space-x-3 p-3 bg-white rounded-lg hover:shadow-sm transition-shadow">
+                    <div key={itemIndex} className="flex items-center space-x-3 p-3 bg-teal-50/95 rounded-lg hover:shadow-sm transition-shadow">
                       <div className="text-2xl">{item.logo}</div>
                       <div>
                         <div className="font-medium text-gray-900">{item.name}</div>
@@ -479,7 +479,7 @@ const LandingPage = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {testimonials.map((testimonial, index) => (
-              <div key={index} className="bg-gradient-to-br from-indigo-50 to-white rounded-2xl p-8 border border-indigo-100">
+              <div key={index} className="bg-gradient-to-br from-teal-50 to-white rounded-2xl p-8 border border-teal-100">
                 <div className="text-4xl mb-4">{testimonial.avatar}</div>
                 <blockquote className="text-gray-700 mb-6 italic">
                   "{testimonial.quote}"
@@ -487,7 +487,7 @@ const LandingPage = () => {
                 <div>
                   <div className="font-semibold text-gray-900">{testimonial.author}</div>
                   <div className="text-sm text-gray-600">{testimonial.role}</div>
-                  <div className="text-sm text-indigo-600 font-medium">{testimonial.company}</div>
+                  <div className="text-sm text-teal-600 font-medium">{testimonial.company}</div>
                 </div>
               </div>
             ))}
@@ -496,7 +496,7 @@ const LandingPage = () => {
       </section>
 
       {/* FAQ Section */}
-      <section className="py-20 bg-gray-50">
+      <section className="py-20 bg-teal-50">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold text-gray-900 mb-4">
@@ -509,7 +509,7 @@ const LandingPage = () => {
 
           <div className="space-y-6">
             {faqItems.map((faq, index) => (
-              <div key={index} className="bg-white rounded-xl p-6 border border-gray-200">
+              <div key={index} className="bg-teal-50/95 rounded-xl p-6 border border-gray-200">
                 <h3 className="text-lg font-semibold text-gray-900 mb-3">{faq.question}</h3>
                 <p className="text-gray-600">{faq.answer}</p>
               </div>
@@ -518,7 +518,7 @@ const LandingPage = () => {
 
           <div className="text-center mt-12">
             <p className="text-gray-600 mb-4">Still have questions?</p>
-            <button className="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-3 rounded-lg font-semibold transition-colors">
+            <button className="bg-teal-600 hover:bg-teal-700 text-white px-6 py-3 rounded-lg font-semibold transition-colors">
               Contact Support
             </button>
           </div>
@@ -539,11 +539,11 @@ const LandingPage = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {integrations.map((category, categoryIndex) => (
-              <div key={categoryIndex} className="bg-gray-50 rounded-2xl p-6">
+              <div key={categoryIndex} className="bg-teal-50 rounded-2xl p-6">
                 <h3 className="text-lg font-semibold text-gray-900 mb-4">{category.category}</h3>
                 <div className="space-y-3">
                   {category.items.map((item, itemIndex) => (
-                    <div key={itemIndex} className="flex items-center space-x-3 p-3 bg-white rounded-lg hover:shadow-sm transition-shadow">
+                    <div key={itemIndex} className="flex items-center space-x-3 p-3 bg-teal-50/95 rounded-lg hover:shadow-sm transition-shadow">
                       <div className="text-2xl">{item.logo}</div>
                       <div>
                         <div className="font-medium text-gray-900">{item.name}</div>
@@ -572,7 +572,7 @@ const LandingPage = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {useCases.map((useCase, index) => (
-              <div key={index} className="bg-white rounded-2xl p-8 border border-gray-200 hover:border-gray-300 hover:shadow-lg transition-all duration-300">
+              <div key={index} className="bg-teal-50/95 rounded-2xl p-8 border border-gray-200 hover:border-gray-300 hover:shadow-lg transition-all duration-300">
                 <div className="flex items-center mb-6">
                   <div className="text-4xl mr-4">{useCase.icon}</div>
                   <div>
@@ -613,7 +613,7 @@ const LandingPage = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {testimonials.map((testimonial, index) => (
-              <div key={index} className="bg-gradient-to-br from-indigo-50 to-white rounded-2xl p-8 border border-indigo-100">
+              <div key={index} className="bg-gradient-to-br from-teal-50 to-white rounded-2xl p-8 border border-teal-100">
                 <div className="text-4xl mb-4">{testimonial.avatar}</div>
                 <blockquote className="text-gray-700 mb-6 italic">
                   "{testimonial.quote}"
@@ -621,7 +621,7 @@ const LandingPage = () => {
                 <div>
                   <div className="font-semibold text-gray-900">{testimonial.author}</div>
                   <div className="text-sm text-gray-600">{testimonial.role}</div>
-                  <div className="text-sm text-indigo-600 font-medium">{testimonial.company}</div>
+                  <div className="text-sm text-teal-600 font-medium">{testimonial.company}</div>
                 </div>
               </div>
             ))}
@@ -630,7 +630,7 @@ const LandingPage = () => {
       </section>
 
       {/* FAQ Section */}
-      <section className="py-20 bg-gray-50">
+      <section className="py-20 bg-teal-50">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold text-gray-900 mb-4">
@@ -643,7 +643,7 @@ const LandingPage = () => {
 
           <div className="space-y-6">
             {faqItems.map((faq, index) => (
-              <div key={index} className="bg-white rounded-xl p-6 border border-gray-200">
+              <div key={index} className="bg-teal-50/95 rounded-xl p-6 border border-gray-200">
                 <h3 className="text-lg font-semibold text-gray-900 mb-3">{faq.question}</h3>
                 <p className="text-gray-600">{faq.answer}</p>
               </div>
@@ -652,7 +652,7 @@ const LandingPage = () => {
 
           <div className="text-center mt-12">
             <p className="text-gray-600 mb-4">Still have questions?</p>
-            <button className="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-3 rounded-lg font-semibold transition-colors">
+            <button className="bg-teal-600 hover:bg-teal-700 text-white px-6 py-3 rounded-lg font-semibold transition-colors">
               Contact Support
             </button>
           </div>
@@ -667,7 +667,7 @@ const LandingPage = () => {
               <div key={plan.id} className={`relative rounded-2xl p-8 ${plan.color} border-2 transition-all duration-300 hover:shadow-xl hover:scale-105`}>
                 {plan.popular && (
                   <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
-                    <div className="bg-indigo-600 text-white px-4 py-2 rounded-full text-sm font-semibold">
+                    <div className="bg-teal-600 text-white px-4 py-2 rounded-full text-sm font-semibold">
                       Most Popular
                     </div>
                   </div>
@@ -705,12 +705,12 @@ const LandingPage = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 bg-gradient-to-r from-indigo-600 to-purple-600">
+      <section className="py-20 bg-gradient-to-r from-teal-600 to-teal-600">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-4xl font-bold text-white mb-4">
             Ready to Transform Your Workplace?
           </h2>
-          <p className="text-xl text-indigo-100 mb-8">
+          <p className="text-xl text-teal-100 mb-8">
             Join thousands of organizations already using AccessHub VMS to secure and streamline their operations.
           </p>
         </div>
@@ -724,7 +724,7 @@ const LandingPage = () => {
             </p>
           </div>
 
-          <div className="bg-white rounded-2xl shadow-xl p-8">
+          <div className="bg-teal-50/95 rounded-2xl shadow-xl p-8">
             {formSubmitted ? (
               <div className="text-center py-12">
                 <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -746,7 +746,7 @@ const LandingPage = () => {
                       required
                       value={contactForm.name}
                       onChange={(e) => updateContactForm('name', e.target.value)}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent"
                       placeholder="Your full name"
                     />
                   </div>
@@ -760,7 +760,7 @@ const LandingPage = () => {
                       required
                       value={contactForm.email}
                       onChange={(e) => updateContactForm('email', e.target.value)}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent"
                       placeholder="your@company.com"
                     />
                   </div>
@@ -775,7 +775,7 @@ const LandingPage = () => {
                     id="company"
                     value={contactForm.company}
                     onChange={(e) => updateContactForm('company', e.target.value)}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent"
                     placeholder="Your company name"
                   />
                 </div>
@@ -790,7 +790,7 @@ const LandingPage = () => {
                     required
                     value={contactForm.message}
                     onChange={(e) => updateContactForm('message', e.target.value)}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent"
                     placeholder="Tell us about your requirements and how we can help..."
                   />
                 </div>
@@ -798,7 +798,7 @@ const LandingPage = () => {
                 <div className="text-center">
                   <button
                     type="submit"
-                    className="bg-indigo-600 hover:bg-indigo-700 text-white px-8 py-4 rounded-lg font-semibold transition-colors inline-flex items-center gap-2"
+                    className="bg-teal-600 hover:bg-teal-700 text-white px-8 py-4 rounded-lg font-semibold transition-colors inline-flex items-center gap-2"
                   >
                     Send Message
                     <ArrowRight className="w-5 h-5" />
@@ -810,21 +810,21 @@ const LandingPage = () => {
 
           <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
             <div className="p-6">
-              <div className="w-12 h-12 bg-indigo-100 rounded-lg flex items-center justify-center mx-auto mb-4">
+              <div className="w-12 h-12 bg-teal-100 rounded-lg flex items-center justify-center mx-auto mb-4">
                 <span className="text-2xl">📧</span>
               </div>
               <h3 className="font-semibold text-gray-900 mb-2">Email</h3>
               <p className="text-gray-600">support@accesshub.com</p>
             </div>
             <div className="p-6">
-              <div className="w-12 h-12 bg-indigo-100 rounded-lg flex items-center justify-center mx-auto mb-4">
+              <div className="w-12 h-12 bg-teal-100 rounded-lg flex items-center justify-center mx-auto mb-4">
                 <span className="text-2xl">📞</span>
               </div>
               <h3 className="font-semibold text-gray-900 mb-2">Phone</h3>
               <p className="text-gray-600">+1 (555) 123-4567</p>
             </div>
             <div className="p-6">
-              <div className="w-12 h-12 bg-indigo-100 rounded-lg flex items-center justify-center mx-auto mb-4">
+              <div className="w-12 h-12 bg-teal-100 rounded-lg flex items-center justify-center mx-auto mb-4">
                 <span className="text-2xl">🕒</span>
               </div>
               <h3 className="font-semibold text-gray-900 mb-2">Response Time</h3>

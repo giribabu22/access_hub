@@ -67,11 +67,11 @@ const SuperAdminDashboard = () => {
   // Render loading state
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-indigo-50 to-purple-50 flex items-center justify-center">
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-teal-50 to-teal-50 flex items-center justify-center">
         <div className="flex flex-col items-center gap-6">
-          <div className="w-20 h-20 rounded-full border-4 border-indigo-200 border-t-indigo-600 animate-spin"></div>
+          <div className="w-20 h-20 rounded-full border-4 border-teal-200 border-t-teal-600 animate-spin"></div>
           <p className="text-2xl font-bold text-slate-600">Loading dashboard...</p>
-          <div className="h-1 w-48 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full animate-pulse"></div>
+          <div className="h-1 w-48 bg-gradient-to-r from-teal-500 to-teal-500 rounded-full animate-pulse"></div>
         </div>
       </div>
     );
@@ -80,14 +80,14 @@ const SuperAdminDashboard = () => {
   // Render error state
   if (error && !statsData) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-indigo-50 to-purple-50 flex items-center justify-center p-4">
-        <div className="max-w-md w-full bg-white rounded-2xl border-2 border-red-200 shadow-2xl p-8 text-center">
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-teal-50 to-teal-50 flex items-center justify-center p-4">
+        <div className="max-w-md w-full bg-teal-50/95 rounded-2xl border-2 border-red-200 shadow-2xl p-8 text-center">
           <div className="text-6xl mb-4">⚠️</div>
           <h2 className="text-2xl font-bold text-slate-900 mb-3">Error Loading Dashboard</h2>
           <p className="text-slate-600 mb-8 text-lg">{error}</p>
           <button
             onClick={() => fetchDashboardStats()}
-            className="w-full px-6 py-4 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-xl font-bold text-lg hover:shadow-lg hover:translate-y-[-2px] transition-all duration-300 active:translate-y-0"
+            className="w-full px-6 py-4 bg-gradient-to-r from-teal-600 to-teal-600 text-white rounded-xl font-bold text-lg hover:shadow-lg hover:translate-y-[-2px] transition-all duration-300 active:translate-y-0"
           >
             🔄 Retry
           </button>
@@ -114,7 +114,7 @@ const SuperAdminDashboard = () => {
   // Since I can't easily inject imports at the top without replacing the whole file, I will rewrite the return statement and rely on a separate edit for imports.)
 
   return (
-    <div className="bg-gradient-to-br from-slate-50 via-indigo-50 to-purple-50 min-h-full">
+    <div className="bg-gradient-to-br from-slate-50 via-teal-50 to-teal-50 min-h-full">
       <DashboardHeader
         title="Super Admin Dashboard"
         subtitle="System overview and management"
@@ -200,7 +200,7 @@ const SuperAdminDashboard = () => {
             subtitle={
               <>
                 <span className="text-blue-600 font-bold">{faceEmbeddings.primary}</span> primary •
-                <span className="text-indigo-600 font-bold"> {(faceEmbeddings.avg_quality * 100).toFixed(1)}%</span> quality
+                <span className="text-teal-600 font-bold"> {(faceEmbeddings.avg_quality * 100).toFixed(1)}%</span> quality
               </>
             }
             onClick={() => navigate('/super-admin/face-embeddings')}

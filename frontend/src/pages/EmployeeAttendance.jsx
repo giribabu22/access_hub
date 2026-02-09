@@ -130,7 +130,7 @@ function EmployeeAttendance() {
   };
 
   const StatCard = ({ icon: Icon, title, value, subtitle, color = "blue" }) => (
-    <div className="bg-white rounded-lg shadow p-6">
+    <div className="bg-teal-50/95 rounded-lg shadow p-6">
       <div className="flex items-center">
         <div className={`p-3 bg-${color}-100 rounded-lg`}>
           <Icon className={`h-6 w-6 text-${color}-600`} />
@@ -146,14 +146,14 @@ function EmployeeAttendance() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+      <div className="min-h-screen flex items-center justify-center bg-teal-50">
         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-teal-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Header */}
         <div className="mb-8">
@@ -165,12 +165,12 @@ function EmployeeAttendance() {
 
         {/* View Toggle */}
         <div className="flex justify-end mb-6">
-          <div className="bg-white rounded-lg shadow p-1 flex items-center space-x-1">
+          <div className="bg-teal-50/95 rounded-lg shadow p-1 flex items-center space-x-1">
             <button
               onClick={() => setViewType('list')}
               className={`px-4 py-2 rounded-md flex items-center text-sm font-medium transition-colors ${viewType === 'list'
                 ? 'bg-blue-50 text-blue-700'
-                : 'text-gray-600 hover:bg-gray-50'
+                : 'text-gray-600 hover:bg-teal-50'
                 }`}
             >
               <List className="w-4 h-4 mr-2" />
@@ -180,7 +180,7 @@ function EmployeeAttendance() {
               onClick={() => setViewType('calendar')}
               className={`px-4 py-2 rounded-md flex items-center text-sm font-medium transition-colors ${viewType === 'calendar'
                 ? 'bg-blue-50 text-blue-700'
-                : 'text-gray-600 hover:bg-gray-50'
+                : 'text-gray-600 hover:bg-teal-50'
                 }`}
             >
               <CalendarDays className="w-4 h-4 mr-2" />
@@ -190,7 +190,7 @@ function EmployeeAttendance() {
         </div>
 
         {viewType === 'calendar' ? (
-          <div className="bg-white rounded-lg shadow p-6">
+          <div className="bg-teal-50/95 rounded-lg shadow p-6">
             <EmployeeAttendanceCalendar
               viewMode="employee"
               selectedEmployeeId={user?.employee_id || user?.id} // Fallback to user.id if employee_id not set
@@ -200,7 +200,7 @@ function EmployeeAttendance() {
         ) : (
           <>
             {/* Filters */}
-            <div className="bg-white rounded-lg shadow mb-8">
+            <div className="bg-teal-50/95 rounded-lg shadow mb-8">
               <div className="p-6">
                 <div className="flex flex-col sm:flex-row gap-4">
                   <div className="flex-1">
@@ -276,7 +276,7 @@ function EmployeeAttendance() {
             </div>
 
             {/* Attendance History Table */}
-            <div className="bg-white rounded-lg shadow overflow-hidden">
+            <div className="bg-teal-50/95 rounded-lg shadow overflow-hidden">
               <div className="px-6 py-4 border-b border-gray-200">
                 <h3 className="text-lg font-medium text-gray-900">Attendance History</h3>
               </div>
@@ -291,7 +291,7 @@ function EmployeeAttendance() {
                 <>
                   <div className="overflow-x-auto">
                     <table className="min-w-full divide-y divide-gray-200">
-                      <thead className="bg-gray-50">
+                      <thead className="bg-teal-50">
                         <tr>
                           <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                             Date
@@ -315,7 +315,7 @@ function EmployeeAttendance() {
                       </thead>
                       <tbody className="bg-white divide-y divide-gray-200">
                         {attendanceHistory.map((record, index) => (
-                          <tr key={record.id || index} className="hover:bg-gray-50">
+                          <tr key={record.id || index} className="hover:bg-teal-50">
                             <td className="px-6 py-4 whitespace-nowrap">
                               <div className="text-sm font-medium text-gray-900">
                                 {formatDate(record.date)}
@@ -357,14 +357,14 @@ function EmployeeAttendance() {
                         <button
                           onClick={() => setCurrentPage(Math.max(currentPage - 1, 1))}
                           disabled={currentPage === 1}
-                          className="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+                          className="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-teal-50 disabled:opacity-50 disabled:cursor-not-allowed"
                         >
                           Previous
                         </button>
                         <button
                           onClick={() => setCurrentPage(Math.min(currentPage + 1, totalPages))}
                           disabled={currentPage === totalPages}
-                          className="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+                          className="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-teal-50 disabled:opacity-50 disabled:cursor-not-allowed"
                         >
                           Next
                         </button>
@@ -381,14 +381,14 @@ function EmployeeAttendance() {
                             <button
                               onClick={() => setCurrentPage(Math.max(currentPage - 1, 1))}
                               disabled={currentPage === 1}
-                              className="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+                              className="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-teal-50 disabled:opacity-50 disabled:cursor-not-allowed"
                             >
                               <ChevronLeft className="h-5 w-5" />
                             </button>
                             <button
                               onClick={() => setCurrentPage(Math.min(currentPage + 1, totalPages))}
                               disabled={currentPage === totalPages}
-                              className="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+                              className="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-teal-50 disabled:opacity-50 disabled:cursor-not-allowed"
                             >
                               <ChevronRight className="h-5 w-5" />
                             </button>
