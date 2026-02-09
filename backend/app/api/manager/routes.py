@@ -29,10 +29,11 @@ def get_team_members():
     Get team members under the manager's supervision with attendance status
     """
     try:
-        from flask_jwt_extended import get_jwt_identity
+        from flask_jwt_extended import get_jwt_identity, get_jwt
         manager_id = get_jwt_identity()
         organization_id = g.organization_id
-        manager_department_id = g.jwt_claims.get('department_id')
+        claims = get_jwt()
+        manager_department_id = claims.get('department_id')
         
         # Get employees in the manager's organization and department
         employees_query = Employee.query.filter_by(
@@ -45,22 +46,28 @@ def get_team_members():
             employees_query = employees_query.filter(Employee.department_id == manager_department_id)
         
         employees = employees_query.all()
+        current_app.logger.info(f"Found {len(employees)} employees in team.")
         
         # Get today's attendance and leaves for context
-        today = datetime.utcnow().date()
+        today_start = datetime.utcnow().replace(hour=0, minute=0, second=0, microsecond=0)
+        today_end = today_start + timedelta(days=1)
+        
+        current_app.logger.info(f"Fetching team members for Manager: {manager_id}, Org: {organization_id}, Dept: {manager_department_id}")
         
         # Get attendance records for today
         attendance_records = AttendanceRecord.query.filter(
-            AttendanceRecord.check_in_time >= today,
-            AttendanceRecord.check_in_time < today + timedelta(days=1),
+            AttendanceRecord.check_in_time >= today_start,
+            AttendanceRecord.check_in_time < today_end,
             AttendanceRecord.organization_id == organization_id
         ).all()
         attendance_map = {r.employee_id: r for r in attendance_records}
         
         # Get active leaves for today
+        # Note: LeaveRequest dates are currently Date objects, so we use today (date) for comparison
+        today_date = today_start.date()
         active_leaves = LeaveRequest.query.filter(
-            LeaveRequest.start_date <= today,
-            LeaveRequest.end_date >= today,
+            LeaveRequest.start_date <= today_date,
+            LeaveRequest.end_date >= today_date,
             LeaveRequest.status == 'approved',
             LeaveRequest.organization_id == organization_id
         ).all()
@@ -98,20 +105,29 @@ def get_team_members():
                 else:
                     emergency_contact = str(employee.emergency_contact)
 
+            # Get profile image URL
+            profile_image = None
+            try:
+                primary_image = employee.get_primary_image()
+                if primary_image and hasattr(primary_image, 'image_path'):
+                    profile_image = f"/uploads/{primary_image.image_path}"
+            except:
+                pass
+            
             team_members.append({
                 'id': employee.id,
                 'user_id': employee.user_id,
-                'employee_id': employee.employee_id,
-                'name': f"{employee.user.first_name} {employee.user.last_name}",
+                'employee_code': employee.employee_code,
+                'name': employee.full_name,
                 'email': employee.user.email,
                 'role': employee.user.role.name if employee.user.role else None,
-                'position': employee.position,
-                'phone': employee.phone,
-                'hire_date': employee.hire_date.isoformat() if employee.hire_date else None,
+                'designation': employee.designation,
+                'phone': employee.phone_number,
+                'joining_date': employee.joining_date.isoformat() if employee.joining_date else None,
                 'status': status,
                 'attendance_status': attendance_status,
                 'last_seen': last_seen,
-                'profile_image': employee.profile_image_url,
+                'profile_image': profile_image,
                 'department': employee.department.name if employee.department else 'N/A',
                 'emergency_contact': emergency_contact
             })
@@ -141,8 +157,10 @@ def get_dashboard_activities():
     Get recent activities for manager dashboard
     """
     try:
+        from flask_jwt_extended import get_jwt
         organization_id = g.organization_id
-        manager_department_id = g.jwt_claims.get('department_id')
+        claims = get_jwt()
+        manager_department_id = claims.get('department_id')
         
         activities = []
         
@@ -161,7 +179,7 @@ def get_dashboard_activities():
             activities.append({
                 'id': f"leave_{leave.id}",
                 'type': 'leave_request',
-                'employee': f"{leave.employee.user.first_name} {leave.employee.user.last_name}",
+                'employee': leave.employee.full_name,
                 'action': 'Submitted leave request',
                 'time': leave.created_at.isoformat(),
                 'timestamp': leave.created_at.timestamp(),
@@ -194,7 +212,7 @@ def get_dashboard_activities():
             activities.append({
                 'id': f"att_{record.id}",
                 'type': 'late_arrival' if status == 'flagged' else 'attendance',
-                'employee': f"{record.employee.user.first_name} {record.employee.user.last_name}",
+                'employee': record.employee.full_name,
                 'action': action,
                 'time': record.check_in_time.isoformat(),
                 'timestamp': record.check_in_time.timestamp(),
@@ -247,8 +265,10 @@ def get_team_stats():
     Get team statistics for the manager's dashboard
     """
     try:
+        from flask_jwt_extended import get_jwt
         organization_id = g.organization_id
-        manager_department_id = g.jwt_claims.get('department_id')
+        claims = get_jwt()
+        manager_department_id = claims.get('department_id')
         
         # Get current date range
         today = datetime.utcnow().date()
@@ -304,13 +324,23 @@ def get_team_stats():
         actual_attendance = len(attendance_records)
         attendance_percentage = (actual_attendance / expected_attendance * 100) if expected_attendance > 0 else 0
         
+        # Get organization-wide employee count
+        org_total_employees = Employee.query.filter_by(
+            organization_id=organization_id,
+            is_active=True
+        ).join(User).filter(User.is_active == True).count()
+        
+        # Get organization and department names
+        organization = Organization.query.get(organization_id)
+        department = Department.query.get(manager_department_id) if manager_department_id else None
+        
         return jsonify({
             'status': 'success',
             'data': {
                 'total_members': total_members,
-                'total_organization_members': Organization.query.get(organization_id).employees.filter(Employee.is_active==True).count(),
-                'organization_name': Organization.query.get(organization_id).name,
-                'department_name': Department.query.get(manager_department_id).name if manager_department_id else 'All Departments',
+                'total_organization_members': org_total_employees,
+                'organization_name': organization.name if organization else 'Unknown Organization',
+                'department_name': department.name if department else 'All Departments',
                 'present_today': present_today,
                 'pending_leaves': pending_leaves,
                 'late_arrivals': late_arrivals,
@@ -335,8 +365,10 @@ def get_pending_leave_requests():
     Get pending leave requests for approval
     """
     try:
+        from flask_jwt_extended import get_jwt
         organization_id = g.organization_id
-        manager_department_id = g.jwt_claims.get('department_id')
+        claims = get_jwt()
+        manager_department_id = claims.get('department_id')
         
         # Get pagination parameters
         page = int(request.args.get('page', 1))
@@ -363,8 +395,8 @@ def get_pending_leave_requests():
         for leave in leaves.items:
             leave_requests.append({
                 'id': leave.id,
-                'employee_name': f"{leave.employee.user.first_name} {leave.employee.user.last_name}",
-                'employee_id': leave.employee.employee_id,
+                'employee_name': leave.employee.full_name,
+                'employee_code': leave.employee.employee_code,
                 'leave_type': leave.leave_type,
                 'start_date': leave.start_date.isoformat(),
                 'end_date': leave.end_date.isoformat(),
@@ -398,7 +430,7 @@ def get_pending_leave_requests():
             'message': 'Failed to fetch leave requests'
         }), 500
 
-@bp.route('/api/manager/leaves/<int:leave_id>/approve', methods=['POST'])
+@bp.route('/api/manager/leaves/<leave_id>/approve', methods=['POST'])
 @jwt_required()
 @tenant_required
 @manager_required
@@ -407,8 +439,10 @@ def approve_leave_request(leave_id):
     Approve a leave request
     """
     try:
+        from flask_jwt_extended import get_jwt
         organization_id = g.organization_id
-        manager_department_id = g.jwt_claims.get('department_id')
+        claims = get_jwt()
+        manager_department_id = claims.get('department_id')
         
         # Get leave request and verify it belongs to manager's organization
         leave_query = LeaveRequest.query.join(Employee).filter(
@@ -460,7 +494,7 @@ def approve_leave_request(leave_id):
             'message': 'Failed to approve leave request'
         }), 500
 
-@bp.route('/api/manager/leaves/<int:leave_id>/reject', methods=['POST'])
+@bp.route('/api/manager/leaves/<leave_id>/reject', methods=['POST'])
 @jwt_required()
 @tenant_required
 @manager_required
@@ -469,8 +503,10 @@ def reject_leave_request(leave_id):
     Reject a leave request
     """
     try:
+        from flask_jwt_extended import get_jwt
         organization_id = g.organization_id
-        manager_department_id = g.jwt_claims.get('department_id')
+        claims = get_jwt()
+        manager_department_id = claims.get('department_id')
         
         # Get leave request and verify it belongs to manager's organization
         leave_query = LeaveRequest.query.join(Employee).filter(
@@ -537,8 +573,10 @@ def get_attendance_report():
     Get attendance report for team members
     """
     try:
+        from flask_jwt_extended import get_jwt
         organization_id = g.organization_id
-        manager_department_id = g.jwt_claims.get('department_id')
+        claims = get_jwt()
+        manager_department_id = claims.get('department_id')
         
         # Get date range parameters
         start_date_str = request.args.get('start_date')
@@ -583,8 +621,8 @@ def get_attendance_report():
         employee_stats = {}
         for employee in employees:
             employee_stats[employee.id] = {
-                'employee_id': employee.employee_id,
-                'name': f"{employee.user.first_name} {employee.user.last_name}",
+                'employee_code': employee.employee_code,
+                'name': employee.full_name,
                 'present_days': 0,
                 'total_working_days': (end_date - start_date).days + 1,
                 'attendance_percentage': 0
@@ -639,8 +677,10 @@ def get_leaves_report():
     Get leaves report for team members
     """
     try:
+        from flask_jwt_extended import get_jwt
         organization_id = g.organization_id
-        manager_department_id = g.jwt_claims.get('department_id')
+        claims = get_jwt()
+        manager_department_id = claims.get('department_id')
         
         # Get date range parameters
         start_date_str = request.args.get('start_date')
@@ -815,4 +855,223 @@ def get_manager_locations():
         return jsonify({
             'status': 'error',
             'message': 'Failed to fetch locations'
+        }), 500
+
+
+@bp.route('/api/manager/reports/team-performance', methods=['GET'])
+@jwt_required()
+@tenant_required
+@manager_required
+def get_team_performance_report():
+    """
+    Generate comprehensive team performance report
+    Includes attendance, leaves, demographics, and overall team statistics
+    """
+    try:
+        from flask_jwt_extended import get_jwt
+        organization_id = g.organization_id
+        claims = get_jwt()
+        manager_department_id = claims.get('department_id')
+        
+        # Get date range parameters (default to current month)
+        start_date_str = request.args.get('start_date')
+        end_date_str = request.args.get('end_date')
+        
+        if start_date_str:
+            start_date = datetime.strptime(start_date_str, '%Y-%m-%d').date()
+        else:
+            start_date = datetime.utcnow().date().replace(day=1)
+        
+        if end_date_str:
+            end_date = datetime.strptime(end_date_str, '%Y-%m-%d').date()
+        else:
+            end_date = datetime.utcnow().date()
+        
+        # Get organization details
+        organization = Organization.query.get(organization_id)
+        
+        # Base employee query
+        employees_query = Employee.query.filter_by(
+            organization_id=organization_id,
+            is_active=True
+        ).join(User).filter(User.is_active == True)
+        
+        # If manager has department context, filter by department
+        if manager_department_id:
+            employees_query = employees_query.filter(Employee.department_id == manager_department_id)
+            department = Department.query.get(manager_department_id)
+            department_name = department.name if department else 'Unknown'
+        else:
+            department_name = 'All Departments'
+        
+        employees = employees_query.all()
+        total_team_members = len(employees)
+        
+        # Get organization-wide employee count for comparison
+        org_total_employees = Employee.query.filter_by(
+            organization_id=organization_id,
+            is_active=True
+        ).join(User).filter(User.is_active == True).count()
+        
+        # Attendance Statistics
+        attendance_query = AttendanceRecord.query.join(Employee).filter(
+            Employee.organization_id == organization_id,
+            AttendanceRecord.check_in_time >= start_date,
+            AttendanceRecord.check_in_time <= end_date
+        )
+        if manager_department_id:
+            attendance_query = attendance_query.filter(Employee.department_id == manager_department_id)
+        
+        attendance_records = attendance_query.all()
+        
+        # Calculate working days
+        working_days = (end_date - start_date).days + 1
+        expected_attendance = total_team_members * working_days
+        actual_attendance = len(attendance_records)
+        avg_attendance_rate = (actual_attendance / expected_attendance * 100) if expected_attendance > 0 else 0
+        
+        # Late arrivals (after 9:30 AM IST = 4:00 AM UTC)
+        late_limit_time = datetime.strptime('04:00', '%H:%M').time()
+        late_arrivals = len([a for a in attendance_records if a.check_in_time.time() > late_limit_time])
+        
+        # Leave Statistics
+        leaves_query = LeaveRequest.query.join(Employee).filter(
+            Employee.organization_id == organization_id,
+            LeaveRequest.start_date <= end_date,
+            LeaveRequest.end_date >= start_date
+        )
+        if manager_department_id:
+            leaves_query = leaves_query.filter(Employee.department_id == manager_department_id)
+        
+        all_leaves = leaves_query.all()
+        
+        leave_stats = {
+            'pending': 0,
+            'approved': 0,
+            'rejected': 0,
+            'total_leave_days': 0
+        }
+        
+        leave_type_breakdown = {}
+        
+        for leave in all_leaves:
+            leave_stats[leave.status] = leave_stats.get(leave.status, 0) + 1
+            if leave.status == 'approved':
+                leave_stats['total_leave_days'] += leave.total_days
+            
+            # Track leave types
+            if leave.leave_type not in leave_type_breakdown:
+                leave_type_breakdown[leave.leave_type] = {'count': 0, 'days': 0}
+            leave_type_breakdown[leave.leave_type]['count'] += 1
+            if leave.status == 'approved':
+                leave_type_breakdown[leave.leave_type]['days'] += leave.total_days
+        
+        # Department Breakdown (if viewing all departments)
+        department_breakdown = []
+        if not manager_department_id:
+            departments = Department.query.filter_by(organization_id=organization_id).all()
+            for dept in departments:
+                dept_emp_count = Employee.query.filter_by(
+                    department_id=dept.id,
+                    is_active=True
+                ).join(User).filter(User.is_active == True).count()
+                
+                dept_attendance = AttendanceRecord.query.join(Employee).filter(
+                    Employee.department_id == dept.id,
+                    AttendanceRecord.check_in_time >= start_date,
+                    AttendanceRecord.check_in_time <= end_date
+                ).count()
+                
+                dept_expected = dept_emp_count * working_days
+                dept_rate = (dept_attendance / dept_expected * 100) if dept_expected > 0 else 0
+                
+                department_breakdown.append({
+                    'id': dept.id,
+                    'name': dept.name,
+                    'employee_count': dept_emp_count,
+                    'attendance_rate': round(dept_rate, 2)
+                })
+        
+        # Employee Demographics
+        gender_breakdown = {}
+        employment_type_breakdown = {}
+        
+        for emp in employees:
+            # Gender
+            gender = emp.gender or 'not_specified'
+            gender_breakdown[gender] = gender_breakdown.get(gender, 0) + 1
+            
+            # Employment type
+            emp_type = emp.employment_type or 'not_specified'
+            employment_type_breakdown[emp_type] = employment_type_breakdown.get(emp_type, 0) + 1
+        
+        # Top performers (by attendance)
+        employee_attendance_stats = {}
+        for record in attendance_records:
+            if record.employee_id not in employee_attendance_stats:
+                employee_attendance_stats[record.employee_id] = {'count': 0, 'employee': record.employee}
+            employee_attendance_stats[record.employee_id]['count'] += 1
+        
+        top_performers = []
+        for emp_id, stats in sorted(employee_attendance_stats.items(), key=lambda x: x[1]['count'], reverse=True)[:5]:
+            emp = stats['employee']
+            attendance_rate = (stats['count'] / working_days * 100)
+            top_performers.append({
+                'employee_code': emp.employee_code,
+                'name': emp.full_name,
+                'attendance_days': stats['count'],
+                'attendance_rate': round(attendance_rate, 2)
+            })
+        
+        # Build comprehensive report
+        report_data = {
+            'organization': {
+                'id': organization_id,
+                'name': organization.name if organization else 'Unknown',
+                'total_employees': org_total_employees
+            },
+            'report_scope': {
+                'department': department_name,
+                'date_range': {
+                    'start_date': start_date.isoformat(),
+                    'end_date': end_date.isoformat(),
+                    'working_days': working_days
+                }
+            },
+            'team_summary': {
+                'total_team_members': total_team_members,
+                'active_employees': total_team_members,
+                'department_count': len(department_breakdown) if department_breakdown else 1
+            },
+            'attendance_summary': {
+                'total_attendance_records': actual_attendance,
+                'expected_attendance': expected_attendance,
+                'average_attendance_rate': round(avg_attendance_rate, 2),
+                'late_arrivals': late_arrivals,
+                'late_arrival_rate': round((late_arrivals / actual_attendance * 100) if actual_attendance > 0 else 0, 2)
+            },
+            'leave_summary': leave_stats,
+            'leave_type_breakdown': leave_type_breakdown,
+            'demographics': {
+                'gender_breakdown': gender_breakdown,
+                'employment_type_breakdown': employment_type_breakdown
+            },
+            'top_performers': top_performers
+        }
+        
+        # Add department breakdown if applicable
+        if department_breakdown:
+            report_data['department_breakdown'] = department_breakdown
+        
+        return jsonify({
+            'status': 'success',
+            'data': report_data
+        }), 200
+        
+    except Exception as e:
+        current_app.logger.error(f"Error generating team performance report: {str(e)}")
+        current_app.logger.error(traceback.format_exc())
+        return jsonify({
+            'status': 'error',
+            'message': 'Failed to generate team performance report'
         }), 500

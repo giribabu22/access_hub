@@ -57,7 +57,7 @@ def create_jwt_payload(user):
     department_id = None
     organization_id = user.organization_id
     
-    if user.role and user.role.name in ['manager', 'employee', 'org_admin']:
+    if user.role and user.role.name.lower() in ['manager', 'employee', 'org_admin']:
         from ..models.employee import Employee
         from ..models.department import Department
         
@@ -68,7 +68,7 @@ def create_jwt_payload(user):
                 organization_id = employee.organization_id
                 
             # Manager-specific department logic
-            if user.role.name == 'manager':
+            if user.role.name.lower() == 'manager':
                 department = Department.query.filter_by(manager_id=employee.id).first()
                 if department:
                     department_id = department.id
@@ -77,7 +77,7 @@ def create_jwt_payload(user):
                     # assume they manage their assigned department
                     department_id = employee.department_id
             # For regular employees, we might want their department_id too if needed
-            elif user.role.name == 'employee':
+            elif user.role.name.lower() == 'employee':
                 department_id = employee.department_id
     
     claims = {

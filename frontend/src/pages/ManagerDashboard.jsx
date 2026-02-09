@@ -10,6 +10,7 @@ import {
 } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import { authService } from '../services/authService';
+import { API_BASE } from '../services/api';
 import DashboardHeader from '../components/common/dashboard/DashboardHeader';
 import StatCard from '../components/common/dashboard/StatCard';
 import QuickActionButton from '../components/common/dashboard/QuickActionButton';
@@ -19,6 +20,9 @@ function ManagerDashboard() {
   const navigate = useNavigate();
   const [stats, setStats] = useState({
     teamMembers: 0,
+    totalOrgMembers: 0,
+    orgName: '',
+    deptName: '',
     presentToday: 0,
     pendingLeaves: 0,
     lateArrivals: 0,
@@ -37,7 +41,7 @@ function ManagerDashboard() {
       const token = authService.getAccessToken();
       if (!token) return;
 
-      const response = await fetch('/api/manager/team/stats', {
+      const response = await fetch(`${API_BASE}/api/manager/team/stats`, {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
@@ -49,6 +53,9 @@ function ManagerDashboard() {
         if (result.status === 'success') {
           setStats({
             teamMembers: result.data.total_members,
+            totalOrgMembers: result.data.total_organization_members,
+            orgName: result.data.organization_name,
+            deptName: result.data.department_name,
             presentToday: result.data.present_today,
             pendingLeaves: result.data.pending_leaves,
             lateArrivals: result.data.late_arrivals,
@@ -61,6 +68,9 @@ function ManagerDashboard() {
       // Keep mock data as fallback
       setStats({
         teamMembers: 12,
+        totalOrgMembers: 100,
+        orgName: 'AccessHub',
+        deptName: 'Engineering',
         presentToday: 10,
         pendingLeaves: 3,
         lateArrivals: 2,
@@ -76,7 +86,7 @@ function ManagerDashboard() {
       const token = authService.getAccessToken();
       if (!token) return;
 
-      const response = await fetch('/api/manager/dashboard/activities', {
+      const response = await fetch(`${API_BASE}/api/manager/dashboard/activities`, {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
@@ -115,7 +125,7 @@ function ManagerDashboard() {
     <div className="min-h-screen bg-teal-50 pb-12">
       <DashboardHeader
         title="Manager Dashboard"
-        subtitle={`Welcome back, ${user?.full_name || user?.username}. Manage your team and track performance.`}
+        subtitle={stats.orgName ? `${stats.deptName} • ${stats.orgName}` : `Welcome back, ${user?.full_name || user?.username}.`}
         user={user}
         onLogout={handleLogout}
         onRefresh={() => {
@@ -134,7 +144,7 @@ function ManagerDashboard() {
             title="Team Members"
             value={stats.teamMembers}
             color="blue"
-            subtitle="Total reporting to you"
+            subtitle={`of ${stats.totalOrgMembers} in Organization`}
           />
           <StatCard
             icon={<UserCheck className="w-6 h-6" />}

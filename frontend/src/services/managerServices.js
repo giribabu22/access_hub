@@ -65,32 +65,68 @@ export const managerAPI = {
 
 // Leave Request Management for Managers
 export const managerLeaveAPI = {
-    // Get pending leave requests
+    // Get pending leave requests - use manager endpoint
     getPendingLeaves: async (params = {}) => {
-        const response = await api.get('/api/v2/leaves', {
+        const response = await api.get('/api/manager/leaves/pending', { params });
+        return response.data;
+    },
+
+    // Get all leave requests with filters
+    getAllLeaves: async (params = {}) => {
+        const response = await api.get('/api/manager/leaves/pending', {
             params: {
-                status: 'pending',
+                status: 'all',
                 ...params
             }
         });
         return response.data;
     },
 
-    // Get all leave requests with filters
-    getAllLeaves: async (params = {}) => {
-        const response = await api.get('/api/v2/leaves', { params });
+    // Approve leave request - use manager endpoint
+    approve: async (leaveId, comments = '') => {
+        const response = await api.post(`/api/manager/leaves/${leaveId}/approve`, { comments });
         return response.data;
     },
 
-    // Approve leave request
-    approve: async (leaveId, notes = '') => {
-        const response = await api.post(`/api/v2/leaves/${leaveId}/approve`, { approval_notes: notes });
+    // Reject leave request - use manager endpoint  
+    reject: async (leaveId, comments) => {
+        const response = await api.post(`/api/manager/leaves/${leaveId}/reject`, { comments });
+        return response.data;
+    }
+};
+
+// Manager Reports API
+export const managerReportsAPI = {
+    // Get attendance report
+    getAttendanceReport: async (startDate, endDate) => {
+        const response = await api.get('/api/manager/reports/attendance', {
+            params: {
+                start_date: startDate,
+                end_date: endDate
+            }
+        });
         return response.data;
     },
 
-    // Reject leave request
-    reject: async (leaveId, notes) => {
-        const response = await api.post(`/api/v2/leaves/${leaveId}/reject`, { status: 'rejected', approval_notes: notes });
+    // Get leaves report
+    getLeavesReport: async (startDate, endDate) => {
+        const response = await api.get('/api/manager/reports/leaves', {
+            params: {
+                start_date: startDate,
+                end_date: endDate
+            }
+        });
+        return response.data;
+    },
+
+    // Get team performance report
+    getTeamPerformanceReport: async (startDate, endDate) => {
+        const response = await api.get('/api/manager/reports/team-performance', {
+            params: {
+                start_date: startDate,
+                end_date: endDate
+            }
+        });
         return response.data;
     }
 };
@@ -131,5 +167,6 @@ export const managerAttendanceChangeAPI = {
 export default {
     managerAPI,
     managerLeaveAPI,
+    managerReportsAPI,
     managerAttendanceChangeAPI
 };
