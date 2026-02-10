@@ -1,4 +1,4 @@
-from flask import Flask, send_from_directory, jsonify, request
+from flask import Flask, app, send_from_directory, jsonify, request
 from .config import Config
 from .extensions import db, migrate, bcrypt, socketio, jwt, cache
 from flask_cors import CORS
@@ -319,6 +319,7 @@ def create_app():
     from .users.routes import bp as users_bp
     app.register_blueprint(users_bp)
 
+
     # Register visitors blueprint if its optional ML deps are available
     try:
         from .visitors.routes import bp as visitors_bp
@@ -378,6 +379,9 @@ def create_app():
     
     from .api.roles.routes import bp as roles_v2_bp
     app.register_blueprint(roles_v2_bp)
+
+    from .api.embedding_gen.routes import face_enroll_bp
+    app.register_blueprint(face_enroll_bp)
     
     from .api.manager.routes import bp as manager_v2_bp
     app.register_blueprint(manager_v2_bp)

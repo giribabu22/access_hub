@@ -74,6 +74,23 @@ services:
       timeout: 5s
       retries: 60
 
+  qdrant_api:
+    build:
+      context: ./qdrant-api
+      dockerfile: Dockerfile
+    environment:
+      QDRANT_HOST: qdrant
+      QDRANT_PORT: "6333"
+      VECTOR_SIZE: "512"
+      COLLECTION_NAME: vector-embeddings_AMS
+    ports:
+      - "8000:8000"
+    depends_on:
+      - qdrant
+    networks:
+      - core_net   # 🔹 on shared network
+    restart: unless-stopped
+
 volumes:
   pgdata:
   qdrant_data:
