@@ -1,13 +1,10 @@
 import React, { useState, useEffect } from 'react';
 
 import { ArrowRight, Check } from '../icons/Icons';
-import SubscriptionModal from '../subscription/SubscriptionModal';
 import DemoSection from './DemoSection';
 import { statsAPI } from '../../services/api';
 
 const LandingPage = () => {
-
-  const [showSubscriptionModal, setShowSubscriptionModal] = useState(false);
 
   const [systemStats, setSystemStats] = useState(null);
   const [contactForm, setContactForm] = useState({
@@ -196,11 +193,7 @@ const LandingPage = () => {
     },
     {
       question: 'What support options are available?',
-      answer: 'We provide email support during business hours, comprehensive documentation, and video tutorials. Phone support is available for Enterprise plans.'
-    },
-    {
-      question: 'How does pricing work for multiple locations?',
-      answer: 'Pricing is per location with volume discounts starting at 5+ locations. Contact us for custom pricing on larger deployments.'
+      answer: 'We provide email support during business hours, comprehensive documentation, and video tutorials.'
     }
   ];
 
@@ -228,112 +221,9 @@ const LandingPage = () => {
     }
   ];
 
-  const subscriptionPlans = [
-    // {
-    //   id: 'free',
-    //   name: 'Free',
-    //   price: '$0',
-    //   period: '/month',
-    //   description: 'Perfect for small teams getting started',
-    //   icon: '📦',
-    //   color: 'border-gray-200 bg-white',
-    //   buttonStyle: 'bg-teal-100 text-gray-800 hover:bg-gray-200',
-    //   popular: false,
-    //   features: [
-    //     '5 employees',
-    //     '2 cameras',
-    //     '1 location',
-    //     'Basic reporting',
-    //     'Email support'
-    //   ],
-    //   limits: {
-    //     employees: 5,
-    //     cameras: 2,
-    //     locations: 1
-    //   }
-    // },
-    // {
-    //   id: 'starter',
-    //   name: 'Starter',
-    //   price: '$29',
-    //   period: '/month',
-    //   description: 'Great for growing businesses',
-    //   icon: '🚀',
-    //   color: 'border-blue-200 bg-blue-50',
-    //   buttonStyle: 'bg-blue-600 text-white hover:bg-blue-700',
-    //   popular: true,
-    //   features: [
-    //     '50 employees',
-    //     '10 cameras',
-    //     '3 locations',
-    //     'Advanced analytics',
-    //     'Visitor management',
-    //     'Priority support',
-    //     'Mobile app access'
-    //   ],
-    //   limits: {
-    //     employees: 50,
-    //     cameras: 10,
-    //     locations: 3
-    //   }
-    // },
-    // {
-    //   id: 'professional',
-    //   name: 'Professional',
-    //   price: '$99',
-    //   period: '/month',
-    //   description: 'For established organizations',
-    //   icon: '👑',
-    //   color: 'border-green-200 bg-green-50',
-    //   buttonStyle: 'bg-green-600 text-white hover:bg-green-700',
-    //   popular: false,
-    //   features: [
-    //     '200 employees',
-    //     '50 cameras',
-    //     '10 locations',
-    //     'Custom integrations',
-    //     'API access',
-    //     'Advanced security',
-    //     '24/7 phone support',
-    //     'Custom branding'
-    //   ],
-    //   limits: {
-    //     employees: 200,
-    //     cameras: 50,
-    //     locations: 10
-    //   }
-    // },
-    // {
-    //   id: 'enterprise',
-    //   name: 'Enterprise',
-    //   price: 'Custom',
-    //   period: '',
-    //   description: 'Unlimited scale for large enterprises',
-    //   icon: '🏢',
-    //   color: 'border-purple-200 bg-teal-50',
-    //   buttonStyle: 'bg-teal-600 text-white hover:bg-teal-700',
-    //   popular: false,
-    //   features: [
-    //     'Unlimited employees',
-    //     'Unlimited cameras',
-    //     'Unlimited locations',
-    //     'Dedicated support',
-    //     'Custom development',
-    //     'On-premise deployment',
-    //     'SLA guarantee',
-    //     'Training included'
-    //   ],
-    //   limits: {
-    //     employees: -1,
-    //     cameras: -1,
-    //     locations: -1
-    //   }
-    // }
-  ];
 
-  const handleGetStarted = () => {
-    setShowSubscriptionModal(true);
-  };
+
+
 
   const handleContactSubmit = async (e) => {
     e.preventDefault();
@@ -369,16 +259,10 @@ const LandingPage = () => {
             </p>
             <div className="mt-10 flex justify-center gap-x-6">
               <button
-                onClick={() => handleGetStarted()}
+                onClick={() => window.location.href = '/login'}
                 className="group inline-flex items-center justify-center rounded-full py-3 px-6 text-sm font-semibold focus:outline-none bg-slate-900 text-white hover:bg-slate-700 transition-colors"
               >
                 Get started
-              </button>
-              <button
-                onClick={() => setShowSubscriptionModal(true)}
-                className="group inline-flex ring-1 items-center justify-center rounded-full py-3 px-6 text-sm focus:outline-none ring-slate-200 text-slate-700 hover:text-slate-900 hover:ring-slate-300 transition-colors"
-              >
-                View pricing
               </button>
             </div>
 
@@ -659,50 +543,7 @@ const LandingPage = () => {
         </div>
       </section>
 
-      {/* Subscription Plans Section */}
-      <section className="py-20 bg-gradient-to-br from-gray-50 to-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {subscriptionPlans.map((plan) => (
-              <div key={plan.id} className={`relative rounded-2xl p-8 ${plan.color} border-2 transition-all duration-300 hover:shadow-xl hover:scale-105`}>
-                {plan.popular && (
-                  <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
-                    <div className="bg-teal-600 text-white px-4 py-2 rounded-full text-sm font-semibold">
-                      Most Popular
-                    </div>
-                  </div>
-                )}
 
-                <div className="text-center mb-6">
-                  <div className="text-4xl mb-4">{plan.icon}</div>
-                  <h3 className="text-2xl font-bold text-gray-900 mb-2">{plan.name}</h3>
-                  <div className="mb-2">
-                    <span className="text-4xl font-bold text-gray-900">{plan.price}</span>
-                    <span className="text-gray-600">{plan.period}</span>
-                  </div>
-                  <p className="text-gray-600">{plan.description}</p>
-                </div>
-
-                <ul className="space-y-3 mb-8">
-                  {plan.features.map((feature, index) => (
-                    <li key={index} className="flex items-center gap-3">
-                      <Check className="w-5 h-5 text-green-600 flex-shrink-0" />
-                      <span className="text-gray-700">{feature}</span>
-                    </li>
-                  ))}
-                </ul>
-
-                <button
-                  className={`w-full py-3 px-6 rounded-lg font-semibold transition-all ${plan.buttonStyle}`}
-                  onClick={() => handleGetStarted(plan.id)}
-                >
-                  {plan.price === 'Custom' ? 'Contact Sales' : 'Get Started'}
-                </button>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
 
       {/* CTA Section */}
       <section className="py-20 bg-gradient-to-r from-teal-600 to-teal-600">
@@ -833,13 +674,6 @@ const LandingPage = () => {
           </div>
         </div>
       </section>
-
-      {/* Subscription Modal */}
-      <SubscriptionModal
-        isOpen={showSubscriptionModal}
-        onClose={() => setShowSubscriptionModal(false)}
-        initialTab="plans"
-      />
     </div>
   );
 };

@@ -360,6 +360,151 @@ def get_organization_stats(org_id):
     return success_response(data=stats)
 
 
+@bp.route('/<string:org_id>/attendance/stats', methods=['GET'])
+@jwt_required()
+@require_permission('organizations:read')
+def get_org_attendance_stats(org_id):
+    """
+    Get detailed attendance statistics for value-added dashboard
+    """
+    from ...services.attendance_service import AttendanceService
+    from datetime import datetime, timedelta
+    
+    try:
+        # Get last 30 days for trend
+        end_date = datetime.utcnow().date()
+        start_date = end_date - timedelta(days=30)
+        
+        summary = AttendanceService.get_organization_attendance_summary(
+            org_id, 
+            start_date.isoformat(), 
+            end_date.isoformat()
+        )
+        
+        # Transform for frontend
+        series = summary.get('series', [])
+        
+        # Calculate trend (compare last 7 days vs previous 7 days)
+        last_7_days = series[-7:] if len(series) >= 7 else series
+        prev_7_days = series[-14:-7] if len(series) >= 14 else []
+        
+        avg_rate_current = sum(d['present'] for d in last_7_days) / max(1, len(last_7_days) * summary.get('total_active_employees', 1)) * 100
+        avg_rate_prev = sum(d['present'] for d in prev_7_days) / max(1, len(prev_7_days) * summary.get('total_active_employees', 1)) * 100 if prev_7_days else avg_rate_current
+        
+        trend_diff = round(avg_rate_current - avg_rate_prev, 1)
+        
+        # Format daily trend data for chart (Last 7 days)
+        trend_data = []
+        days_map = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+        for d in last_7_days:
+            dt = datetime.strptime(d['date'], '%Y-%m-%d')
+            trend_data.append({
+                'name': days_map[dt.weekday()],
+                'value': round((d['present'] / max(1, summary.get('total_active_employees', 1))) * 100)
+            })
+            
+        
+        # Calculate Employee Trend (Last 6 months growth)
+        from ...models import Employee
+        from sqlalchemy import and_, or_
+        from dateutil.relativedelta import relativedelta
+        import calendar
+
+        employee_trend = []
+        today = datetime.utcnow().date()
+        
+        # Iterate back 5 months + current month = 6 data points
+        for i in range(5, -1, -1):
+            # Target date is the last day of that month
+            date_cursor = today - relativedelta(months=i)
+            # Last day of the month
+            last_day = calendar.monthrange(date_cursor.year, date_cursor.month)[1]
+            target_date = date_cursor.replace(day=last_day)
+            
+            # Don't go into future (if today is mid-month)
+            if target_date > today:
+                target_date = today
+
+            count = db.session.query(func.count(Employee.id)).filter(
+                Employee.organization_id == org_id,
+                func.date(Employee.created_at) <= target_date,
+                or_(
+                    Employee.deleted_at.is_(None),
+                    func.date(Employee.deleted_at) > target_date
+                )
+            ).scalar()
+            
+            employee_trend.append({
+                'name': target_date.strftime('%b'),
+                'value': count
+            })
+
+        response_data = {
+            'active_today': series[-1]['present'] if series else 0,
+            'attendance_rate': round(avg_rate_current),
+            'attendance_trend': trend_diff,
+            'total_employees': summary.get('total_active_employees', 0),
+            'trend_data': trend_data,
+            'punctuality_data': punctuality_data,
+            'employee_trend': employee_trend
+        }
+        
+        return success_response(data=response_data)
+        
+    except Exception as e:
+        import traceback
+        print(f"Error getting attendance stats: {e}")
+        print(traceback.format_exc())
+        return error_response(str(e), 500)
+
+
+@bp.route('/<string:org_id>/visitors/stats', methods=['GET'])
+@jwt_required()
+@require_permission('organizations:read')
+def get_org_visitor_stats(org_id):
+    """
+    Get detailed visitor statistics
+    """
+    from ...services.visitor_service import VisitorService
+    
+    try:
+        # Get today's snapshot
+        dashboard_stats = VisitorService.get_dashboard_stats(org_id)
+        
+        # Get trends
+        trends = VisitorService.get_visitor_trends(org_id)
+        
+        response_data = {
+            'visitors_today': dashboard_stats.get('entries_today', 0),
+            'active_visitors': dashboard_stats.get('active_visitors', 0),
+            'monthly_trend': trends.get('monthly_trend', []),
+            'weekly_activity': trends.get('weekly_activity', [])
+        }
+        
+        return success_response(data=response_data)
+        
+    except Exception as e:
+        print(f"Error getting visitor stats: {e}")
+        return error_response(str(e), 500)
+
+
+@bp.route('/<string:org_id>/departments/attendance', methods=['GET'])
+@jwt_required()
+@require_permission('organizations:read')
+def get_org_department_stats(org_id):
+    """
+    Get department-wise attendance stats
+    """
+    from ...services.attendance_service import AttendanceService
+    
+    try:
+        stats = AttendanceService.get_department_attendance_stats(org_id)
+        return success_response(data=stats)
+        
+    except Exception as e:
+        return error_response(str(e), 500)
+
+
 @bp.route('/<string:org_id>/employees/attendance-summary', methods=['GET'])
 @jwt_required()
 @require_permission('employees:read')

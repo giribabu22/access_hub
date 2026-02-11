@@ -13,8 +13,6 @@ import OrganizationStatistics from './tabs/OrganizationStatistics';
 
 import OrganizationVisitors from './tabs/OrganizationVisitors';
 import OrganizationLPR from './tabs/OrganizationLPR';
-import SubscriptionModal from '../subscription/SubscriptionModal';
-import FeatureGate from '../subscription/FeatureGate';
 import { useSubscription } from '../../contexts/SubscriptionContext';
 import { useAuth } from '../../contexts/AuthContext';
 import { ArrowLeft, Edit2, Ban, CheckCircle, Building2 } from 'lucide-react';
@@ -28,8 +26,7 @@ const OrganizationDetail = ({
   const [searchParams, setSearchParams] = useSearchParams();
   const [organization, setOrganization] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [showSubscriptionModal, setShowSubscriptionModal] = useState(false);
-  const { hasFeature, subscriptionStatus } = useSubscription();
+  const { hasFeature } = useSubscription();
   const { user } = useAuth();
 
   // Verify user has access to this organization
@@ -177,10 +174,6 @@ const OrganizationDetail = ({
     }
   };
 
-  const handleBack = () => {
-    navigate(backPath);
-  };
-
   if (loading) {
     return (
       <div className="flex flex-col items-center justify-center min-h-screen gap-4">
@@ -239,8 +232,8 @@ const OrganizationDetail = ({
               </button>
               <button
                 className={`px-4 py-2 rounded-lg font-medium transition-all duration-300 shadow-sm hover:shadow-md flex items-center gap-2 text-sm ${organization.is_active
-                    ? 'bg-red-500 hover:bg-red-600 text-white'
-                    : 'bg-green-500 hover:bg-green-600 text-white'
+                  ? 'bg-red-500 hover:bg-red-600 text-white'
+                  : 'bg-green-500 hover:bg-green-600 text-white'
                   }`}
                 onClick={handleDisable}
               >
@@ -266,8 +259,8 @@ const OrganizationDetail = ({
               <button
                 key={tab.id}
                 className={`px-3 py-2 font-medium text-xs whitespace-nowrap flex items-center gap-1 transition-all duration-300 relative border-b-2 ${activeTab === tab.id
-                    ? 'text-teal-600 bg-teal-50/95 border-teal-600'
-                    : 'text-gray-600 hover:text-teal-600 hover:bg-teal-100 border-transparent'
+                  ? 'text-teal-600 bg-teal-50/95 border-teal-600'
+                  : 'text-gray-600 hover:text-teal-600 hover:bg-teal-100 border-transparent'
                   }`}
                 onClick={() => setActiveTab(tab.id)}
               >
@@ -335,12 +328,6 @@ const OrganizationDetail = ({
         </div>
       </div>
 
-      {/* Subscription Modal */}
-      <SubscriptionModal
-        isOpen={showSubscriptionModal}
-        onClose={() => setShowSubscriptionModal(false)}
-        organizationId={organization?.id}
-      />
     </div>
   );
 };
