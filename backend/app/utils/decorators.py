@@ -166,6 +166,8 @@ def tenant_isolation(fn):
         return fn(*args, **kwargs)
     return wrapper
 
+tenant_required = tenant_isolation
+
 
 def manager_required(fn):
     """

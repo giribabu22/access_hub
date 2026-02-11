@@ -26,6 +26,12 @@ class LeaveRequest(db.Model):
         nullable=False
     )  # sick, casual, earned, unpaid
     
+    duration_type = db.Column(
+        db.String(20),
+        default='full_day'
+    ) # full_day, half_day
+
+    
     # Leave dates
     start_date = db.Column(db.Date, nullable=False)
     end_date = db.Column(db.Date, nullable=False)
@@ -42,7 +48,7 @@ class LeaveRequest(db.Model):
     )  # pending, approved, rejected
     
     approved_by = db.Column(db.String(36), db.ForeignKey("users.id"), nullable=True)
-    approver = db.relationship("User", foreign_keys=[approved_by])
+    approver = db.relationship("User", foreign_keys=[approved_by], overlaps="approved_leaves")
     approval_notes = db.Column(db.Text)
     
     # Audit timestamps
@@ -56,6 +62,7 @@ class LeaveRequest(db.Model):
             "employee_id": self.employee_id,
             "organization_id": self.organization_id,
             "leave_type": self.leave_type,
+            "duration_type": self.duration_type,
             "start_date": self.start_date.isoformat() if self.start_date else None,
             "end_date": self.end_date.isoformat() if self.end_date else None,
             "total_days": self.total_days,

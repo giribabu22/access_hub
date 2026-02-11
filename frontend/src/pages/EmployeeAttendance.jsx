@@ -193,8 +193,9 @@ function EmployeeAttendance() {
           <div className="bg-teal-50/95 rounded-lg shadow p-6">
             <EmployeeAttendanceCalendar
               viewMode="employee"
-              selectedEmployeeId={user?.employee_id || user?.id} // Fallback to user.id if employee_id not set
-              currentEmployee={user} // Pass user as employee object for header name
+              selectedEmployeeId={user?.employee?.id || user?.id} // Use nested employee.id
+              currentEmployee={user?.employee || user} // Pass employee object if available
+              organizationId={user?.organization_id}
             />
           </div>
         ) : (

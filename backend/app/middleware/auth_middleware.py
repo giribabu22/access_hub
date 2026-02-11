@@ -53,25 +53,39 @@ def create_jwt_payload(user):
     Returns:
         dict: JWT claims
     """
-    # Get department info if user is a manager
+    # Get employee details if available to enrich claims
     department_id = None
-    if user.role and user.role.name == 'manager':
-        # Find the department this user manages
+    organization_id = user.organization_id
+    
+    if user.role and user.role.name.lower() in ['manager', 'employee', 'org_admin']:
         from ..models.employee import Employee
         from ..models.department import Department
         
         employee = Employee.query.filter_by(user_id=user.id).first()
         if employee:
-            department = Department.query.filter_by(manager_id=employee.id).first()
-            if department:
-                department_id = department.id
+            # Fallback: If user record lacks organization_id, use employee's
+            if not organization_id:
+                organization_id = employee.organization_id
+                
+            # Manager-specific department logic
+            if user.role.name.lower() == 'manager':
+                department = Department.query.filter_by(manager_id=employee.id).first()
+                if department:
+                    department_id = department.id
+                elif employee.department_id:
+                    # Fallback: If not explicitly set as manager of a department, 
+                    # assume they manage their assigned department
+                    department_id = employee.department_id
+            # For regular employees, we might want their department_id too if needed
+            elif user.role.name.lower() == 'employee':
+                department_id = employee.department_id
     
     claims = {
         'user_id': user.id,
         'username': user.username,
         'email': user.email,
         'role': user.role.name if user.role else None,
-        'organization_id': user.organization_id,
+        'organization_id': organization_id,
         'department_id': department_id,
         'permissions': user.role.permissions if user.role else {}
     }

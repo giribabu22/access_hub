@@ -836,6 +836,19 @@ export const attendanceService = {
       throw error;
     }
   },
+
+  /**
+   * Update an attendance record
+   */
+  update: async (attendanceId, payload) => {
+    try {
+      const response = await api.put(`/api/v2/attendance/${attendanceId}`, payload);
+      return response.data;
+    } catch (error) {
+      console.error(`Error updating attendance ${attendanceId}:`, error);
+      throw error;
+    }
+  },
 };
 
 /**

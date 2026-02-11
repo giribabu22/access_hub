@@ -210,6 +210,10 @@ def create_app():
                 "description": "Leave request management endpoints"
             },
             {
+                "name": "Attendance Change Requests",
+                "description": "Attendance correction and change request management endpoints"
+            },
+            {
                 "name": "Roles",
                 "description": "Role-based access control (RBAC) management endpoints"
             },
@@ -370,14 +374,17 @@ def create_app():
     from .api.leaves.routes import bp as leaves_v2_bp
     app.register_blueprint(leaves_v2_bp)
     
+    from .api.attendance_change_requests.routes import bp as attendance_change_requests_bp
+    app.register_blueprint(attendance_change_requests_bp)
+    
     from .api.roles.routes import bp as roles_v2_bp
     app.register_blueprint(roles_v2_bp)
 
     from .api.embedding_gen.routes import face_enroll_bp
     app.register_blueprint(face_enroll_bp)
     
-    # from .api.manager.routes import bp as manager_v2_bp
-    # app.register_blueprint(manager_v2_bp)
+    from .api.manager.routes import bp as manager_v2_bp
+    app.register_blueprint(manager_v2_bp)
     
     # from .api.employee.routes import bp as employee_v2_bp
     # app.register_blueprint(employee_v2_bp)
@@ -385,11 +392,23 @@ def create_app():
     from .api.audit.routes import bp as audit_v2_bp
     app.register_blueprint(audit_v2_bp)
     
-    from .api.visitors.routes import bp as visitors_v2_bp
-    app.register_blueprint(visitors_v2_bp)
+    try:
+        from .api.visitors.routes import bp as visitors_v2_bp
+        app.register_blueprint(visitors_v2_bp)
+    except Exception as _err:
+        try:
+            app.logger.warning(f"Visitors V2 blueprint not registered: {_err}")
+        except Exception:
+            pass
     
-    from .api.images.routes import bp as images_v2_bp
-    app.register_blueprint(images_v2_bp)
+    try:
+        from .api.images.routes import bp as images_v2_bp
+        app.register_blueprint(images_v2_bp)
+    except Exception as _err:
+        try:
+            app.logger.warning(f"Images V2 blueprint not registered: {_err}")
+        except Exception:
+            pass
     
     from .api.subscriptions.routes import bp as subscriptions_bp
     app.register_blueprint(subscriptions_bp)

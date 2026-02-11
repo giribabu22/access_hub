@@ -1,13 +1,24 @@
 import numpy as np
 import cv2
-from deepface import DeepFace
 
 class FaceEmbedder:
     def __init__(self):
         self.model_name = "ArcFace"
+        self._deepface = None
+
+    def _get_deepface(self):
+        """Lazy load DeepFace on first use to avoid import issues at startup"""
+        if self._deepface is None:
+            try:
+                from deepface import DeepFace as DF
+                self._deepface = DF
+            except Exception as e:
+                raise ImportError(f"Failed to import DeepFace: {e}")
+        return self._deepface
 
     def get_embedding(self, face_bgr):
         # DeepFace expects RGB images
+        DeepFace = self._get_deepface()
         face_rgb = cv2.cvtColor(face_bgr, cv2.COLOR_BGR2RGB)
         face_rgb = cv2.resize(face_rgb, (112, 112))  # ArcFace expects 112x112
         face_rgb = face_rgb / 255.0  # Optional: normalize

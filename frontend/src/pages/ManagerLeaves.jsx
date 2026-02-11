@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { 
+import {
   Calendar,
   Clock,
   CheckCircle,
@@ -12,6 +12,7 @@ import {
 } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import { authService } from '../services/authService';
+import { API_BASE } from '../services/api';
 
 function ManagerLeaves() {
   const { user } = useAuth();
@@ -39,7 +40,7 @@ function ManagerLeaves() {
         return;
       }
 
-      const response = await fetch('/api/manager/leaves/pending?status=all', {
+      const response = await fetch(`${API_BASE}/api/manager/leaves/pending?status=all`, {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
@@ -65,7 +66,7 @@ function ManagerLeaves() {
             emergencyContact: 'N/A', // This would come from employee API
             handoverNotes: 'N/A' // This could be part of leave request
           }));
-          
+
           setLeaveRequests(requests);
         }
       } else {
@@ -136,7 +137,7 @@ function ManagerLeaves() {
       const token = authService.getAccessToken();
       if (!token) return;
 
-      const response = await fetch(`/api/manager/leaves/${requestId}/approve`, {
+      const response = await fetch(`${API_BASE}/api/manager/leaves/${requestId}/approve`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -180,7 +181,7 @@ function ManagerLeaves() {
         return;
       }
 
-      const response = await fetch(`/api/manager/leaves/${requestId}/reject`, {
+      const response = await fetch(`${API_BASE}/api/manager/leaves/${requestId}/reject`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -198,13 +199,13 @@ function ManagerLeaves() {
           setLeaveRequests(requests =>
             requests.map(req =>
               req.id === requestId
-                ? { 
-                    ...req, 
-                    status: 'rejected', 
-                    rejectedBy: 'Manager', 
-                    rejectedDate: new Date().toISOString().split('T')[0],
-                    rejectionReason: reason
-                  }
+                ? {
+                  ...req,
+                  status: 'rejected',
+                  rejectedBy: 'Manager',
+                  rejectedDate: new Date().toISOString().split('T')[0],
+                  rejectionReason: reason
+                }
                 : req
             )
           );
@@ -425,7 +426,7 @@ function ManagerLeaves() {
             <Calendar className="h-12 w-12 text-gray-400 mx-auto mb-4" />
             <h3 className="text-lg font-medium text-gray-900 mb-2">No leave requests found</h3>
             <p className="text-gray-600">
-              {searchTerm || statusFilter !== 'all' 
+              {searchTerm || statusFilter !== 'all'
                 ? 'Try adjusting your search criteria or filters.'
                 : 'Leave requests will appear here when submitted.'}
             </p>

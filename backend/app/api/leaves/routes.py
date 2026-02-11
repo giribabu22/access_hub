@@ -22,90 +22,66 @@ from ...schemas.leave_request import (
 )
 from ...services.leave_service import LeaveService
 from ...middlewares.rbac_middleware import require_permission
+from ...utils.decorators import role_required
 
 bp = Blueprint('leaves_api', __name__, url_prefix='/api/v2/leaves')
 
 
 @bp.route('', methods=['POST'])
 @jwt_required()
-@require_permission('leaves:create')
+@role_required('employee', 'manager', 'org_admin', 'super_admin')
 @validate_request(LeaveRequestCreateSchema)
 def create_leave_request():
     """
     Create a new leave request
-    ---
-    tags:
-      - Leave Requests
-    security:
-      - Bearer: []
-    parameters:
-      - in: body
-        name: body
-        required: true
-        schema:
-          type: object
-          required:
-            - employee_id
-            - organization_id
-            - leave_type
-            - start_date
-            - end_date
-            - total_days
-            - reason
-          properties:
-            employee_id:
-              type: string
-              example: "emp-uuid-123"
-            organization_id:
-              type: string
-              example: "org-uuid-123"
-            leave_type:
-              type: string
-              enum: [sick, casual, earned, unpaid]
-              example: "casual"
-            start_date:
-              type: string
-              format: date
-              example: "2024-01-15"
-            end_date:
-              type: string
-              format: date
-              example: "2024-01-17"
-            total_days:
-              type: number
-              format: float
-              example: 3.0
-            reason:
-              type: string
-              example: "Family function"
-    responses:
-      201:
-        description: Leave request created successfully
-        schema:
-          $ref: '#/definitions/Success'
-      400:
-        $ref: '#/responses/BadRequestError'
-      401:
-        $ref: '#/responses/UnauthorizedError'
-      403:
-        $ref: '#/responses/ForbiddenError'
-      409:
-        description: Leave request overlaps with existing request
     """
-    data = request.validated_data
-    leave_request = LeaveService.create_leave_request(data)
-    
-    schema = LeaveRequestSchema()
-    return success_response(
-        data=schema.dump(leave_request),
-        message='Leave request created successfully',
-        status_code=201
-    )
+    import logging
+    logger = logging.getLogger(__name__)
+
+    try:
+        data = request.validated_data
+        logger.info(f"Validated Data: {data}")
+        
+        current_user = get_current_user()
+        
+        if current_user:
+            user_id = current_user['id']
+        else:
+            from flask_jwt_extended import get_jwt_identity
+            user_id = get_jwt_identity()
+
+        # Fetch Employee profile linked to this user
+        from ...models.employee import Employee
+        employee = Employee.query.filter_by(user_id=user_id).first()
+        
+        if not employee:
+            return error_response(message="Employee profile not found", status_code=404)
+            
+        # Inject backend-controlled fields
+        data['employee_id'] = employee.id
+        # Use organization_id from the employee record as it is more reliable
+        data['organization_id'] = employee.organization_id
+        
+        # Remove fields not in model
+        # duration_type is now supported
+
+        
+        leave_request = LeaveService.create_leave_request(data)
+        
+        schema = LeaveRequestSchema()
+        return success_response(
+            data=schema.dump(leave_request),
+            message='Leave request created successfully',
+            status_code=201
+        )
+    except Exception as e:
+        logger.error(f"Error in create_leave_request: {str(e)}")
+        raise e
 
 
 @bp.route('', methods=['GET'])
 @jwt_required()
-@require_permission('leaves:read')
+@role_required('employee', 'manager', 'org_admin', 'super_admin')
 @validate_query(LeaveRequestListSchema)
 def list_leave_requests():
     """
@@ -204,7 +180,7 @@ def list_leave_requests():
 
 @bp.route('/<string:leave_id>', methods=['GET'])
 @jwt_required()
-@require_permission('leaves:read')
+@role_required('employee', 'manager', 'org_admin', 'super_admin')
 def get_leave_request(leave_id):
     """
     Get leave request by ID
@@ -239,7 +215,7 @@ def get_leave_request(leave_id):
 
 @bp.route('/<string:leave_id>', methods=['PUT'])
 @jwt_required()
-@require_permission('leaves:update')
+@role_required('employee', 'manager', 'org_admin', 'super_admin')
 @validate_request(LeaveRequestUpdateSchema)
 def update_leave_request(leave_id):
     """
@@ -302,7 +278,7 @@ def update_leave_request(leave_id):
 
 @bp.route('/<string:leave_id>', methods=['DELETE'])
 @jwt_required()
-@require_permission('leaves:delete')
+@role_required('employee', 'manager', 'org_admin', 'super_admin')
 def delete_leave_request(leave_id):
     """
     Delete a leave request (only if pending)
@@ -338,7 +314,7 @@ def delete_leave_request(leave_id):
 
 @bp.route('/<string:leave_id>/approve', methods=['POST'])
 @jwt_required()
-@require_permission('leaves:approve')
+@role_required('manager', 'org_admin', 'super_admin')
 @validate_request(LeaveRequestApprovalSchema)
 def approve_leave_request(leave_id):
     """
@@ -379,6 +355,11 @@ def approve_leave_request(leave_id):
     data = request.validated_data
     current_user = get_current_user()
     
+    if not current_user:
+        from flask_jwt_extended import get_jwt_identity
+        # Construct a minimal user dict for the service
+        current_user = {'id': get_jwt_identity()}
+    
     leave_request = LeaveService.approve_leave_request(leave_id, data, current_user)
     
     schema = LeaveRequestSchema()
@@ -390,7 +371,7 @@ def approve_leave_request(leave_id):
 
 @bp.route('/<string:leave_id>/reject', methods=['POST'])
 @jwt_required()
-@require_permission('leaves:approve')
+@role_required('manager', 'org_admin', 'super_admin')
 @validate_request(LeaveRequestApprovalSchema)
 def reject_leave_request(leave_id):
     """
@@ -430,6 +411,11 @@ def reject_leave_request(leave_id):
     """
     data = request.validated_data
     current_user = get_current_user()
+
+    if not current_user:
+        from flask_jwt_extended import get_jwt_identity
+        # Construct a minimal user dict for the service
+        current_user = {'id': get_jwt_identity()}
     
     leave_request = LeaveService.reject_leave_request(leave_id, data, current_user)
     

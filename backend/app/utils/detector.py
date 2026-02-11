@@ -1,17 +1,27 @@
 import os
 from ultralytics import YOLO
-from app.config import MODEL_PATH
+from app.config import Config
 from app.utils.logger import setup_logger
 import torch
 logger = setup_logger("Detector")
 
 class ObjectDetector:
-    def __init__(self):
-        if not os.path.exists(MODEL_PATH):
-            logger.error(f"Model not found at: {MODEL_PATH}")
-            raise FileNotFoundError(f"Model not found: {MODEL_PATH}")
-        logger.info(f"Loading model from {MODEL_PATH}")
-        self.model = YOLO(MODEL_PATH)
+    def __init__(self, model_path=None):
+        if model_path is None:
+            model_path = Config.MODEL_PATH
+        
+        if not model_path:
+            logger.warning("MODEL_PATH not set. ObjectDetector will not be functional.")
+            self.model = None
+            return
+            
+        if not os.path.exists(model_path):
+            logger.warning(f"Model not found at: {model_path}. ObjectDetector will not be functional.")
+            self.model = None
+            return
+        
+        logger.info(f"Loading model from {model_path}")
+        self.model = YOLO(model_path)
 
     def detect(self, frame):
         """
@@ -25,6 +35,10 @@ class ObjectDetector:
     Returns:
         List[List[float]]: List of bounding boxes in xywh format.
         """
+        if self.model is None:
+            logger.warning("Model is not loaded. Cannot perform detection.")
+            return []
+            
         results = self.model.predict(frame, device="cuda" if torch.cuda.is_available() else "cpu")
     
         if not results or not hasattr(results[0], "boxes") or results[0].boxes is None:

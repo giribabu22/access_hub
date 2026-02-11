@@ -257,11 +257,11 @@ def get_attendance_history():
         start_date = end_date - timedelta(days=days)
         
         # Get attendance records
-        attendance_query = Attendance.query.filter(
-            Attendance.employee_id == employee.id,
-            func.date(Attendance.check_in_time) >= start_date,
-            func.date(Attendance.check_in_time) <= end_date
-        ).order_by(Attendance.check_in_time.desc())
+        attendance_query = AttendanceRecord.query.filter(
+            AttendanceRecord.employee_id == employee.id,
+            func.date(AttendanceRecord.check_in_time) >= start_date,
+            func.date(AttendanceRecord.check_in_time) <= end_date
+        ).order_by(AttendanceRecord.check_in_time.desc())
         
         attendance_records = attendance_query.paginate(
             page=page, per_page=per_page, error_out=False
@@ -357,7 +357,7 @@ def get_employee_leaves():
                 'leave_type': leave.leave_type,
                 'start_date': leave.start_date.isoformat(),
                 'end_date': leave.end_date.isoformat(),
-                'days_requested': leave.days_requested,
+                'days_requested': leave.total_days,
                 'reason': leave.reason,
                 'status': leave.status,
                 'created_at': leave.created_at.isoformat(),
@@ -467,12 +467,12 @@ def apply_for_leave():
         days_requested = (end_date - start_date).days + 1
         
         # Create new leave request
-        new_leave = Leave(
+        new_leave = LeaveRequest(
             employee_id=employee.id,
             leave_type=data['leave_type'],
             start_date=start_date,
             end_date=end_date,
-            days_requested=days_requested,
+            total_days=days_requested,
             reason=data['reason'],
             status='pending',
             created_at=datetime.utcnow()
@@ -523,9 +523,9 @@ def get_employee_stats_summary():
         current_month_start = today.replace(day=1)
         
         # Get attendance stats for current month
-        attendance_records = Attendance.query.filter(
-            Attendance.employee_id == employee.id,
-            func.date(Attendance.check_in_time) >= current_month_start
+        attendance_records = AttendanceRecord.query.filter(
+            AttendanceRecord.employee_id == employee.id,
+            func.date(AttendanceRecord.check_in_time) >= current_month_start
         ).all()
         
         present_days = len(attendance_records)
@@ -543,7 +543,7 @@ def get_employee_stats_summary():
             func.extract('year', LeaveRequest.start_date) == today.year
         ).all()
         
-        total_leave_days_used = sum(leave.days_requested for leave in approved_leaves_this_year)
+        total_leave_days_used = sum(leave.total_days for leave in approved_leaves_this_year)
         
         # Calculate total hours this month
         total_hours_this_month = 0

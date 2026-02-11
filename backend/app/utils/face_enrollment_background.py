@@ -25,9 +25,25 @@ os.makedirs(BEST_FACE_DIR, exist_ok=True)
 # Qdrant ingestion API
 FASTAPI_EMBEDDING_URL = os.environ.get("FASTAPI_EMBEDDING_URL", "http://qdrant_api:8000/embedding_AMS")
 
-# Heavy models (reuse once)
-detector = ObjectDetector()
-embedder = FaceEmbedder()
+# Heavy models (lazy load on first use)
+_detector = None
+_embedder = None
+
+def get_detector():
+    """Lazy load detector on first use"""
+    global _detector
+    if _detector is None:
+        logger.info("Initializing ObjectDetector...")
+        _detector = ObjectDetector()
+    return _detector
+
+def get_embedder():
+    """Lazy load embedder on first use"""
+    global _embedder
+    if _embedder is None:
+        logger.info("Initializing FaceEmbedder...")
+        _embedder = FaceEmbedder()
+    return _embedder
 
 
 # --------------------------- Utility Functions ---------------------------
@@ -64,7 +80,7 @@ def aggregate_image_to_prototype(face_bgr, num_variants=25, min_keep=5, hard_sim
     embs, brightness, sharpness = [], [], []
 
     for img_bgr in aug_imgs:
-        emb = embedder.get_embedding(img_bgr)
+        emb = get_embedder().get_embedding(img_bgr)
         if emb is None or isinstance(emb, (list, tuple)):
             continue
         emb = emb.astype(np.float32).reshape(-1)
@@ -128,7 +144,7 @@ def process_face_enrollment_background(employee_id: str, img_b64: str):
         frame_rgb = np.array(pil)
 
         # --------------------- Step 2: Detect Faces ----------------------
-        bboxes = detector.detect(frame_rgb)
+        bboxes = get_detector().detect(frame_rgb)
         if not bboxes:
             logger.warning(f"No faces detected for {employee_id}")
             return
@@ -167,7 +183,7 @@ def process_face_enrollment_background(employee_id: str, img_b64: str):
         embs, br_list, sh_list = [], [], []
 
         for img_bgr in aug_imgs:
-            emb = embedder.get_embedding(img_bgr)
+            emb = get_embedder().get_embedding(img_bgr)
             if emb is None or not isinstance(emb, np.ndarray):
                 continue
 

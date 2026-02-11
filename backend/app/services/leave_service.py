@@ -25,29 +25,43 @@ class LeaveService:
             raise NotFoundError('Employee')
         
         # Check for overlapping leave requests
-        overlapping = LeaveRequest.query.filter(
-            and_(
-                LeaveRequest.employee_id == data['employee_id'],
-                LeaveRequest.status.in_(['pending', 'approved']),
-                or_(
-                    and_(
-                        LeaveRequest.start_date <= data['start_date'],
-                        LeaveRequest.end_date >= data['start_date']
-                    ),
-                    and_(
-                        LeaveRequest.start_date <= data['end_date'],
-                        LeaveRequest.end_date >= data['end_date']
-                    ),
-                    and_(
-                        LeaveRequest.start_date >= data['start_date'],
-                        LeaveRequest.end_date <= data['end_date']
-                    )
+        # For half days, we need to check if there's already a leave for the same part of day
+        # If full day, it overlaps with everything
+        
+        domain_filters = [
+            LeaveRequest.employee_id == data['employee_id'],
+            LeaveRequest.status.in_(['pending', 'approved']),
+            or_(
+                and_(
+                    LeaveRequest.start_date <= data['start_date'],
+                    LeaveRequest.end_date >= data['start_date']
+                ),
+                and_(
+                    LeaveRequest.start_date <= data['end_date'],
+                    LeaveRequest.end_date >= data['end_date']
+                ),
+                and_(
+                    LeaveRequest.start_date >= data['start_date'],
+                    LeaveRequest.end_date <= data['end_date']
                 )
             )
-        ).first()
+        ]
+        
+        # New logic for half-day compatibility
+        # If incoming is half-day, and existing is half-day, they MIGHT coexist (logic to be defined)
+        # For now, we follow the requirement to just STORE duration_type.
+        # But to prevent blocking, we should ideally check it.
+        # However, without specific 'morning/afternoon' details, 
+        # two 'half_day' requests on same day are ambiguous.
+        # So we KEEP strict overlap for now, but the field is now stored.
+        
+        overlapping = LeaveRequest.query.filter(and_(*domain_filters)).first()
         
         if overlapping:
-            raise ConflictError('Leave request overlaps with an existing leave request')
+            raise ConflictError(
+                f'Leave request overlaps with an existing {overlapping.status} request '
+                f'from {overlapping.start_date} to {overlapping.end_date}'
+            )
         
         # Create leave request
         leave_request = LeaveRequest(**data)
@@ -150,7 +164,10 @@ class LeaveService:
             ).first()
             
             if overlapping:
-                raise ConflictError('Leave request overlaps with an existing leave request')
+                raise ConflictError(
+                    f'Leave request overlaps with an existing {overlapping.status} request '
+                    f'from {overlapping.start_date} to {overlapping.end_date}'
+                )
         
         # Update fields
         for key, value in data.items():

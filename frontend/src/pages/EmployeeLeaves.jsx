@@ -1,432 +1,230 @@
-import { useState, useEffect } from 'react';
-import { 
-  Calendar,
-  Plus,
-  FileText,
-  CheckCircle,
-  XCircle,
-  Clock,
-  Search,
-  Filter,
-  Eye,
-  X
-} from 'lucide-react';
-import { useAuth } from '../contexts/AuthContext';
-import { authService } from '../services/authService';
+import React, { useState, useEffect } from 'react';
+import { Table, Button, Tag, Card, Row, Col, Statistic, message, Modal, Tooltip, Input, Select } from 'antd';
+import { PlusOutlined, DeleteOutlined, EditOutlined, EyeOutlined, SearchOutlined } from '@ant-design/icons';
+import { leaveRequestsAPI } from '../services/employeeServices';
+import LeaveRequestForm from '../components/employee/LeaveRequestForm';
+import moment from 'moment';
 
-function EmployeeLeaves() {
-  const { user } = useAuth();
-  const [leaveRequests, setLeaveRequests] = useState([]);
-  const [leaveBalance, setLeaveBalance] = useState({});
-  const [loading, setLoading] = useState(true);
-  const [showApplyModal, setShowApplyModal] = useState(false);
-  const [searchTerm, setSearchTerm] = useState('');
-  const [statusFilter, setStatusFilter] = useState('all');
-  const [filteredRequests, setFilteredRequests] = useState([]);
+const { Option } = Select;
 
-  const [newLeave, setNewLeave] = useState({
-    leave_type: 'Annual Leave',
-    start_date: '',
-    end_date: '',
-    reason: ''
+const EmployeeLeaves = () => {
+  const [leaves, setLeaves] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [pagination, setPagination] = useState({ current: 1, pageSize: 10, total: 0 });
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [summary, setSummary] = useState({
+    annual_leave: { total: 0, used: 0, remaining: 0 },
+    sick_leave: { total: 0, used: 0, remaining: 0 }
+  });
+  const [filters, setFilters] = useState({
+    status: 'all',
+    search: ''
   });
 
-  useEffect(() => {
-    fetchLeaveRequests();
-  }, []);
-
-  useEffect(() => {
-    filterRequests();
-  }, [leaveRequests, searchTerm, statusFilter]);
-
-  const fetchLeaveRequests = async () => {
+  const fetchLeaves = async (page = 1) => {
+    setLoading(true);
     try {
-      const token = authService.getAccessToken();
-      if (!token) {
-        setLoading(false);
-        return;
-      }
+      const params = {
+        page,
+        per_page: pagination.pageSize,
+        ...filters
+      };
+      if (params.status === 'all') delete params.status;
+      if (!params.search) delete params.search;
 
-      const response = await fetch('/api/employee/leaves', {
-        headers: { 'Authorization': `Bearer ${token}` }
-      });
+      const response = await leaveRequestsAPI.getMyRequests(params);
 
-      if (response.ok) {
-        const result = await response.json();
-        if (result.status === 'success') {
-          setLeaveRequests(result.data.leave_requests);
-          setLeaveBalance(result.data.leave_balance);
+      if (response.success) {
+        setLeaves(response.data.items || []);
+        // Summary might need a separate endpoint or be part of a different response structure
+        // For now, let's just make sure the table loads
+        if (response.data.leave_balance) {
+          setSummary(response.data.leave_balance);
         }
+        setPagination({
+          ...pagination,
+          current: response.data.pagination.page,
+          total: response.data.pagination.total_items
+        });
       }
     } catch (error) {
-      console.error('Error fetching leave requests:', error);
+      console.error('Fetch error:', error);
+      message.error('Failed to fetch leave requests');
     } finally {
       setLoading(false);
     }
   };
 
-  const filterRequests = () => {
-    let filtered = leaveRequests;
+  useEffect(() => {
+    fetchLeaves(pagination.current);
+  }, [filters]);
 
-    if (searchTerm) {
-      filtered = filtered.filter(request =>
-        request.leave_type.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        request.reason.toLowerCase().includes(searchTerm.toLowerCase())
-      );
-    }
-
-    if (statusFilter !== 'all') {
-      filtered = filtered.filter(request => request.status === statusFilter);
-    }
-
-    setFilteredRequests(filtered);
-  };
-
-  const handleApplyLeave = async (e) => {
-    e.preventDefault();
-    
+  const handleDelete = async (id) => {
     try {
-      const token = authService.getAccessToken();
-      if (!token) return;
-
-      const response = await fetch('/api/employee/leaves', {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(newLeave)
-      });
-
-      if (response.ok) {
-        const result = await response.json();
-        if (result.status === 'success') {
-          alert('Leave application submitted successfully!');
-          setShowApplyModal(false);
-          setNewLeave({
-            leave_type: 'Annual Leave',
-            start_date: '',
-            end_date: '',
-            reason: ''
-          });
-          fetchLeaveRequests(); // Refresh the list
-        }
-      } else {
-        const error = await response.json();
-        alert(`Error applying for leave: ${error.message}`);
-      }
+      await leaveRequestsAPI.delete(id);
+      message.success('Leave request deleted successfully');
+      fetchLeaves(pagination.current);
     } catch (error) {
-      console.error('Error applying for leave:', error);
-      alert('Failed to submit leave application');
+      message.error(error.response?.data?.message || 'Failed to delete leave request');
     }
   };
 
-  const getStatusBadge = (status) => {
-    const statusConfig = {
-      pending: { color: 'yellow', icon: Clock, text: 'Pending' },
-      approved: { color: 'green', icon: CheckCircle, text: 'Approved' },
-      rejected: { color: 'red', icon: XCircle, text: 'Rejected' }
-    };
-
-    const config = statusConfig[status] || statusConfig.pending;
-    const Icon = config.icon;
-
-    return (
-      <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-${config.color}-100 text-${config.color}-800`}>
-        <Icon className="w-3 h-3 mr-1" />
-        {config.text}
-      </span>
-    );
-  };
-
-  const LeaveBalanceCard = ({ title, total, used, remaining, color }) => (
-    <div className="bg-teal-50/95 rounded-lg shadow p-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <h3 className="text-sm font-medium text-gray-900">{title}</h3>
-          <div className="mt-2 flex items-baseline">
-            <p className={`text-2xl font-semibold text-${color}-600`}>{remaining}</p>
-            <p className="ml-2 text-sm text-gray-500">of {total} days</p>
-          </div>
-        </div>
-        <div className="text-right">
-          <p className="text-sm text-gray-500">Used: {used}</p>
-          <div className={`w-16 h-2 bg-gray-200 rounded-full mt-1`}>
-            <div 
-              className={`h-2 bg-${color}-500 rounded-full`}
-              style={{ width: `${(used / total) * 100}%` }}
-            ></div>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-
-  if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-teal-50">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
-      </div>
-    );
-  }
+  const columns = [
+    {
+      title: 'Type',
+      dataIndex: 'leave_type',
+      key: 'leave_type',
+      render: (type) => {
+        const colors = {
+          'sick': 'volcano',
+          'casual': 'blue',
+          'earned': 'green',
+          'unpaid': 'default'
+        };
+        return <Tag color={colors[type?.toLowerCase()] || 'default'}>{type?.toUpperCase()}</Tag>;
+      }
+    },
+    {
+      title: 'Dates',
+      key: 'dates',
+      render: (_, record) => (
+        <span>
+          {moment(record.start_date).format('MMM DD, YYYY')} - {moment(record.end_date).format('MMM DD, YYYY')}
+        </span>
+      )
+    },
+    {
+      title: 'Days',
+      dataIndex: 'total_days',
+      key: 'total_days',
+      align: 'center'
+    },
+    {
+      title: 'Status',
+      dataIndex: 'status',
+      key: 'status',
+      render: (status) => {
+        const colors = {
+          'pending': 'orange',
+          'approved': 'green',
+          'rejected': 'red'
+        };
+        return <Tag color={colors[status]}>{status?.toUpperCase()}</Tag>;
+      }
+    },
+    {
+      title: 'Applied On',
+      dataIndex: 'created_at',
+      key: 'created_at',
+      render: (date) => moment(date).format('MMM DD, YYYY')
+    },
+    {
+      title: 'Reason',
+      dataIndex: 'reason',
+      key: 'reason',
+      ellipsis: true
+    },
+    {
+      title: 'Actions',
+      key: 'actions',
+      render: (_, record) => (
+        <span>
+          {record.status === 'pending' && (
+            <Tooltip title="Delete Request">
+              <Button
+                type="text"
+                danger
+                icon={<DeleteOutlined />}
+                onClick={() => Modal.confirm({
+                  title: 'Delete Leave Request',
+                  content: 'Are you sure you want to delete this request?',
+                  okText: 'Yes',
+                  okType: 'danger',
+                  cancelText: 'No',
+                  onOk: () => handleDelete(record.id)
+                })}
+              />
+            </Tooltip>
+          )}
+        </span>
+      )
+    }
+  ];
 
   return (
-    <div className="min-h-screen bg-teal-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Header */}
-        <div className="flex justify-between items-center mb-8">
-          <div>
-            <h1 className="text-3xl font-bold text-gray-900">My Leaves</h1>
-            <p className="text-gray-600 mt-2">
-              Manage your leave requests and track your leave balance
-            </p>
-          </div>
-          <button
-            onClick={() => setShowApplyModal(true)}
-            className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 flex items-center gap-2"
-          >
-            <Plus className="h-4 w-4" />
-            Apply for Leave
-          </button>
+    <div className="p-6">
+      <div className="flex justify-between items-center mb-6">
+        <div>
+          <h1 className="text-2xl font-bold mb-1">My Leave Requests</h1>
+          <p className="text-gray-500">Manage and track your leave applications</p>
         </div>
-
-        {/* Leave Balance Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-          {leaveBalance.annual_leave && (
-            <LeaveBalanceCard
-              title="Annual Leave"
-              total={leaveBalance.annual_leave.total}
-              used={leaveBalance.annual_leave.used}
-              remaining={leaveBalance.annual_leave.remaining}
-              color="blue"
-            />
-          )}
-          {leaveBalance.sick_leave && (
-            <LeaveBalanceCard
-              title="Sick Leave"
-              total={leaveBalance.sick_leave.total}
-              used={leaveBalance.sick_leave.used}
-              remaining={leaveBalance.sick_leave.remaining}
-              color="green"
-            />
-          )}
-          <div className="bg-teal-50/95 rounded-lg shadow p-6 flex items-center justify-center">
-            <div className="text-center">
-              <Calendar className="h-12 w-12 text-gray-400 mx-auto mb-2" />
-              <h3 className="text-sm font-medium text-gray-900">Total Requests</h3>
-              <p className="text-2xl font-semibold text-purple-600">{leaveRequests.length}</p>
-              <p className="text-sm text-gray-500">This year</p>
-            </div>
-          </div>
-        </div>
-
-        {/* Filters */}
-        <div className="bg-teal-50/95 rounded-lg shadow mb-6">
-          <div className="p-6">
-            <div className="flex flex-col sm:flex-row gap-4">
-              <div className="flex-1">
-                <div className="relative">
-                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5" />
-                  <input
-                    type="text"
-                    className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
-                    placeholder="Search leave requests..."
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                  />
-                </div>
-              </div>
-              <div>
-                <select
-                  className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
-                  value={statusFilter}
-                  onChange={(e) => setStatusFilter(e.target.value)}
-                >
-                  <option value="all">All Status</option>
-                  <option value="pending">Pending</option>
-                  <option value="approved">Approved</option>
-                  <option value="rejected">Rejected</option>
-                </select>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Leave Requests Table */}
-        <div className="bg-teal-50/95 rounded-lg shadow overflow-hidden">
-          <div className="px-6 py-4 border-b border-gray-200">
-            <h3 className="text-lg font-medium text-gray-900">Leave Requests</h3>
-          </div>
-
-          {filteredRequests.length === 0 ? (
-            <div className="p-6 text-center">
-              <FileText className="mx-auto h-12 w-12 text-gray-400" />
-              <h3 className="mt-2 text-sm font-medium text-gray-900">No leave requests</h3>
-              <p className="mt-1 text-sm text-gray-500">
-                {leaveRequests.length === 0 
-                  ? "You haven't applied for any leaves yet."
-                  : "No requests match your current filters."
-                }
-              </p>
-            </div>
-          ) : (
-            <div className="overflow-x-auto">
-              <table className="min-w-full divide-y divide-gray-200">
-                <thead className="bg-teal-50">
-                  <tr>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Leave Type
-                    </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Dates
-                    </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Days
-                    </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Status
-                    </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Applied Date
-                    </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Comments
-                    </th>
-                  </tr>
-                </thead>
-                <tbody className="bg-white divide-y divide-gray-200">
-                  {filteredRequests.map((request, index) => (
-                    <tr key={request.id || index} className="hover:bg-teal-50">
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="text-sm font-medium text-gray-900">{request.leave_type}</div>
-                        <div className="text-sm text-gray-500 truncate max-w-xs" title={request.reason}>
-                          {request.reason}
-                        </div>
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="text-sm text-gray-900">
-                          {new Date(request.start_date).toLocaleDateString()} - {new Date(request.end_date).toLocaleDateString()}
-                        </div>
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="text-sm text-gray-900">{request.days_requested}</div>
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        {getStatusBadge(request.status)}
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="text-sm text-gray-900">
-                          {new Date(request.created_at).toLocaleDateString()}
-                        </div>
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="text-sm text-gray-500 truncate max-w-xs">
-                          {request.manager_comments || 'No comments'}
-                        </div>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          )}
-        </div>
-
-        {/* Apply Leave Modal */}
-        {showApplyModal && (
-          <div className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50">
-            <div className="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
-              <div className="flex justify-between items-center mb-4">
-                <h3 className="text-lg font-medium text-gray-900">Apply for Leave</h3>
-                <button
-                  onClick={() => setShowApplyModal(false)}
-                  className="text-gray-400 hover:text-gray-600"
-                >
-                  <X className="h-6 w-6" />
-                </button>
-              </div>
-
-              <form onSubmit={handleApplyLeave}>
-                <div className="mb-4">
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Leave Type
-                  </label>
-                  <select
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                    value={newLeave.leave_type}
-                    onChange={(e) => setNewLeave({ ...newLeave, leave_type: e.target.value })}
-                  >
-                    <option value="Annual Leave">Annual Leave</option>
-                    <option value="Sick Leave">Sick Leave</option>
-                    <option value="Personal Leave">Personal Leave</option>
-                    <option value="Maternity Leave">Maternity Leave</option>
-                    <option value="Paternity Leave">Paternity Leave</option>
-                  </select>
-                </div>
-
-                <div className="grid grid-cols-2 gap-4 mb-4">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Start Date
-                    </label>
-                    <input
-                      type="date"
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                      value={newLeave.start_date}
-                      onChange={(e) => setNewLeave({ ...newLeave, start_date: e.target.value })}
-                      required
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      End Date
-                    </label>
-                    <input
-                      type="date"
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                      value={newLeave.end_date}
-                      onChange={(e) => setNewLeave({ ...newLeave, end_date: e.target.value })}
-                      required
-                    />
-                  </div>
-                </div>
-
-                <div className="mb-6">
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Reason
-                  </label>
-                  <textarea
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                    rows="3"
-                    placeholder="Please provide a reason for your leave request..."
-                    value={newLeave.reason}
-                    onChange={(e) => setNewLeave({ ...newLeave, reason: e.target.value })}
-                    required
-                  />
-                </div>
-
-                <div className="flex justify-end gap-3">
-                  <button
-                    type="button"
-                    onClick={() => setShowApplyModal(false)}
-                    className="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-teal-50"
-                  >
-                    Cancel
-                  </button>
-                  <button
-                    type="submit"
-                    className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
-                  >
-                    Submit Application
-                  </button>
-                </div>
-              </form>
-            </div>
-          </div>
-        )}
+        <Button type="primary" icon={<PlusOutlined />} onClick={() => setIsModalVisible(true)} size="large">
+          Apply for Leave
+        </Button>
       </div>
+
+      <Row gutter={16} className="mb-6">
+        <Col xs={24} sm={12} md={6}>
+          <Card bordered={false} className="shadow-sm">
+            <Statistic
+              title="Annual Leave"
+              value={summary.annual_leave.remaining}
+              suffix={`/ ${summary.annual_leave.total}`}
+              valueStyle={{ color: '#3f8600' }}
+            />
+          </Card>
+        </Col>
+        <Col xs={24} sm={12} md={6}>
+          <Card bordered={false} className="shadow-sm">
+            <Statistic
+              title="Sick Leave"
+              value={summary.sick_leave.remaining}
+              suffix={`/ ${summary.sick_leave.total}`}
+              valueStyle={{ color: '#cf1322' }}
+            />
+          </Card>
+        </Col>
+      </Row>
+
+      <Card bordered={false} className="shadow-md">
+        <div className="flex justify-end mb-4 gap-4">
+          <Input
+            placeholder="Search..."
+            prefix={<SearchOutlined />}
+            style={{ width: 200 }}
+            onChange={(e) => setFilters({ ...filters, search: e.target.value })}
+          />
+          <Select
+            defaultValue="all"
+            style={{ width: 150 }}
+            onChange={(value) => setFilters({ ...filters, status: value })}
+          >
+            <Option value="all">All Status</Option>
+            <Option value="pending">Pending</Option>
+            <Option value="approved">Approved</Option>
+            <Option value="rejected">Rejected</Option>
+          </Select>
+        </div>
+
+        <Table
+          columns={columns}
+          dataSource={leaves}
+          rowKey="id"
+          loading={loading}
+          pagination={{
+            ...pagination,
+            onChange: (page) => fetchLeaves(page)
+          }}
+        />
+      </Card>
+
+      <LeaveRequestForm
+        isOpen={isModalVisible}
+        onClose={() => setIsModalVisible(false)}
+        onSuccess={() => fetchLeaves(1)}
+      />
     </div>
   );
-}
+};
 
 export default EmployeeLeaves;
