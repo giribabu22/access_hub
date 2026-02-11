@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { Select, Spin } from 'antd';
+import { Select } from 'antd';
 import moment from 'moment';
 import { attendanceService } from '../../../services/organizationsService';
+import Loader from '../../common/Loader';
+import { useToast } from '../../../contexts/ToastContext';
 
 const { Option } = Select;
 
@@ -13,6 +15,7 @@ const EmployeeAttendanceCalendar = ({
     currentEmployee = null, // Optional: Pass full employee object if available, useful for employee view
     organizationId = null
 }) => {
+    const { error: showError } = useToast();
     const [selectedEmployee, setSelectedEmployee] = useState(selectedEmployeeId);
     const [selectedMonth, setSelectedMonth] = useState(moment());
     const [attendanceData, setAttendanceData] = useState([]);
@@ -74,6 +77,7 @@ const EmployeeAttendanceCalendar = ({
             calculateStats(records);
         } catch (error) {
             console.error('Error fetching attendance data:', error);
+            showError('Failed to fetch attendance data');
             setAttendanceData([]);
         } finally {
             setLoading(false);
@@ -269,7 +273,7 @@ const EmployeeAttendanceCalendar = ({
                 </div>
             ) : loading ? (
                 <div className="flex items-center justify-center py-12">
-                    <Spin size="large" />
+                    <Loader size="large" />
                 </div>
             ) : (
                 <div className="flex flex-col lg:flex-row gap-4">

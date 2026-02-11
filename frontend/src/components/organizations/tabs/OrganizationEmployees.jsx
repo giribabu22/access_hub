@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { message, Modal, Form, Input, Select, DatePicker, Switch } from 'antd';
+import { Modal, Form, Input, Select, DatePicker, Switch } from 'antd';
 import { employeesService, EMPLOYMENT_TYPES, GENDER_OPTIONS, departmentsService, shiftsService, organizationsService } from '../../../services/organizationsService';
 import api from '../../../services/api';
 import moment from 'moment';
 import WebcamCapture from '../../common/WebcamCapture.jsx';
+import Loader from '../../common/Loader';
+import { useToast } from '../../../contexts/ToastContext';
 import EmployeeAnalytics from './EmployeeAnalytics';
 import EmployeeAttendanceLogs from './EmployeeAttendanceLogs';
 import EmployeeAttendanceCalendar from './EmployeeAttendanceCalendar';
@@ -31,6 +33,7 @@ const OrganizationEmployees = ({ organizationId, organization }) => {
   const [loadingAttendance, setLoadingAttendance] = useState(false);
   const [selectedCalendarEmployee, setSelectedCalendarEmployee] = useState(null);
   const calendarRef = React.useRef(null);
+  const { success, error: showError } = useToast();
 
   useEffect(() => {
     fetchEmployees();
@@ -50,7 +53,7 @@ const OrganizationEmployees = ({ organizationId, organization }) => {
       setEmployees(response.data?.items || []);
     } catch (error) {
       console.error('Error fetching employees:', error);
-      message.error(error.response?.data?.message || 'Failed to load employees');
+      showError(error.response?.data?.message || 'Failed to load employees');
     } finally {
       setLoading(false);
     }
@@ -79,7 +82,7 @@ const OrganizationEmployees = ({ organizationId, organization }) => {
       setAttendanceRecords(response.data?.items || []);
     } catch (error) {
       console.error('Error fetching attendance records:', error);
-      message.error(error.response?.data?.message || 'Failed to load attendance records');
+      showError(error.response?.data?.message || 'Failed to load attendance records');
     } finally {
       setLoadingAttendance(false);
     }
@@ -113,11 +116,11 @@ const OrganizationEmployees = ({ organizationId, organization }) => {
 
     try {
       await employeesService.delete(employeeId, false);
-      message.success('Employee deleted successfully!');
+      success('Employee deleted successfully!');
       fetchEmployees();
     } catch (error) {
       console.error('Error deleting employee:', error);
-      message.error(error.response?.data?.message || 'Failed to delete employee');
+      showError(error.response?.data?.message || 'Failed to delete employee');
     }
   };
 
@@ -126,11 +129,11 @@ const OrganizationEmployees = ({ organizationId, organization }) => {
       await employeesService.update(employee.id, {
         is_active: !employee.is_active,
       });
-      message.success(employee.is_active ? 'Successfully disabled' : 'Successfully enabled');
+      success(employee.is_active ? 'Successfully disabled' : 'Successfully enabled');
       fetchEmployees();
     } catch (error) {
       console.error('Error updating employee status:', error);
-      message.error(error.response?.data?.message || 'Failed to update employee status');
+      showError(error.response?.data?.message || 'Failed to update employee status');
     }
   };
 
@@ -152,7 +155,7 @@ const OrganizationEmployees = ({ organizationId, organization }) => {
           photo_base64: employeePhoto || undefined,
         };
         await employeesService.update(editingEmployee.id, payload);
-        message.success('Successfully updated');
+        success('Successfully updated');
       } else {
         const generateUUID = () => {
           return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
@@ -177,35 +180,8 @@ const OrganizationEmployees = ({ organizationId, organization }) => {
           address: values.address,
           photo_base64: employeePhoto || undefined,
         };
-
-        // Step 1: Create the employee
-        const employeeResponse = await employeesService.create(payload);
-        message.success('Successfully created');
-
-        // Step 2: If employee was created successfully and has image, enroll face
-        if (employeeResponse.success && employeeResponse.data) {
-          const employeeId = employeeResponse.data.id;
-          const imageBase64 = employeeResponse.data.photo_base64;
-
-          // Only call face enroll if we have both employee_id and image data
-          if (employeeId && imageBase64) {
-            try {
-              const faceEnrollPayload = {
-                employee_id: employeeId,
-                img_b64: imageBase64,
-              };
-
-              await api.post('/api/v1/face/enroll', faceEnrollPayload);
-              console.log('Face enrollment successful for employee:', employeeId);
-            } catch (faceError) {
-              console.error('Face enrollment failed:', faceError);
-              // Show warning but don't block the employee creation
-              message.warning('Employee created successfully, but face enrollment failed. You can retry later.');
-            }
-          } else {
-            console.warn('Missing employee_id or image data for face enrollment');
-          }
-        }
+        await employeesService.create(payload);
+        success('Successfully created');
       }
 
       setShowModal(false);
@@ -215,7 +191,7 @@ const OrganizationEmployees = ({ organizationId, organization }) => {
       fetchEmployees();
     } catch (error) {
       console.error('Error saving employee:', error);
-      message.error(error.response?.data?.message || 'Failed to save employee');
+      showError(error.response?.data?.message || 'Failed to save employee');
     }
   };
 
@@ -233,8 +209,8 @@ const OrganizationEmployees = ({ organizationId, organization }) => {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center py-12">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-teal-600"></div>
+      <div className="flex flex-col items-center justify-center min-h-[400px] bg-white/50 backdrop-blur-sm rounded-xl border border-gray-100 shadow-inner">
+        <Loader size="large" text="Fetching employee records..." />
       </div>
     );
   }
@@ -309,7 +285,7 @@ const OrganizationEmployees = ({ organizationId, organization }) => {
 
             {loadingAttendance ? (
               <div className="flex items-center justify-center py-12">
-                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-teal-600"></div>
+                <Loader />
               </div>
             ) : attendanceRecords.length === 0 ? (
               <div className="text-center py-12 bg-teal-50">
@@ -651,7 +627,7 @@ const OrganizationEmployees = ({ organizationId, organization }) => {
                         onImageCapture={(base64) => {
                           setEmployeePhoto(base64);
                           setShowWebcam(false);
-                          message.success('Employee photo captured successfully!');
+                          success('Employee photo captured successfully!');
                         }}
                         onBack={() => setShowWebcam(false)}
                       />

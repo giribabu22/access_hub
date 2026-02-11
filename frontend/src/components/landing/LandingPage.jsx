@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-import { ArrowRight, Check } from '../icons/Icons';
+import { ArrowRight, Check, Sparkles, Users, Lock, Zap } from '../icons/Icons';
 import DemoSection from './DemoSection';
 import { statsAPI } from '../../services/api';
 
@@ -44,7 +44,7 @@ const LandingPage = () => {
 
   const features = [
     {
-      icon: '👥',
+      icon: <Users className="w-8 h-8" />,
       title: 'Employee Management',
       description: 'Comprehensive employee tracking, attendance monitoring, and role-based access control.',
       color: 'from-blue-500 to-cyan-500',
@@ -65,11 +65,18 @@ const LandingPage = () => {
       details: ['QR code check-in', 'Host notifications', 'Badge printing', 'Pre-registration']
     },
     {
+      icon: <Sparkles className="w-8 h-8" />,
+      title: 'AI Insights',
+      description: 'Harness the power of AI to predict attendance trends and identify security anomalies before they happen.',
+      color: 'from-purple-500 to-indigo-500',
+      details: ['Predictive attendance', 'Anomaly detection', 'Risk assessment', 'Smart scheduling']
+    },
+    {
       icon: '📊',
       title: 'Advanced Analytics',
-      description: 'Detailed reports, usage statistics, and predictive insights for better decision making.',
+      description: 'Detailed reports, AI-driven usage statistics, and predictive insights for better decision making.',
       color: 'from-orange-500 to-red-500',
-      details: ['Real-time dashboards', 'Custom reports', 'Traffic patterns', 'Security insights']
+      details: ['AI-powered dashboards', 'Custom reports', 'Traffic patterns', 'Security insights']
     },
     {
       icon: '🏢',
@@ -79,7 +86,7 @@ const LandingPage = () => {
       details: ['Centralized management', 'Location-specific rules', 'Cross-site reporting', 'Unified dashboard']
     },
     {
-      icon: '🔒',
+      icon: <Lock className="w-8 h-8" />,
       title: 'Enterprise Security',
       description: 'Military-grade encryption, compliance reporting, and audit trails.',
       color: 'from-gray-700 to-gray-900',
@@ -100,7 +107,7 @@ const LandingPage = () => {
       details: ['RESTful API', 'Webhooks', 'SSO integration', 'Custom connectors']
     },
     {
-      icon: '⚡',
+      icon: <Zap className="w-8 h-8" />,
       title: 'Real-time Alerts',
       description: 'Instant notifications for security events, visitor arrivals, and system status.',
       color: 'from-yellow-500 to-orange-500',
@@ -137,12 +144,12 @@ const LandingPage = () => {
       ]
     },
     {
-      category: 'Cloud Platforms',
+      category: 'AI & Cloud',
       items: [
-        { name: 'AWS', logo: '☁️', description: 'Cloud infrastructure' },
-        { name: 'Microsoft Azure', logo: '🌐', description: 'Enterprise cloud' },
-        { name: 'Google Cloud', logo: '🚀', description: 'AI and ML services' },
-        { name: 'Docker', logo: '🐳', description: 'Containerization' }
+        { name: 'Google Cloud AI', logo: '🚀', description: 'Advanced ML models' },
+        { name: 'OpenAI', logo: '🤖', description: 'Intelligent automation' },
+        { name: 'AWS SageMaker', logo: '☁️', description: 'Predictive analytics' },
+        { name: 'Qdrant', logo: '🧬', description: 'Vector search for facial identification' }
       ]
     }
   ];
@@ -247,15 +254,15 @@ const LandingPage = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="pt-20 pb-16 text-center lg:pt-32">
             <h1 className="mx-auto max-w-4xl font-display text-5xl font-medium tracking-tight text-slate-900 sm:text-6xl">
-              Workplace{' '}
-              <span className="relative whitespace-nowrap text-blue-600">
-                <span className="relative">Access Control</span>
+              AI-Powered{' '}
+              <span className="relative whitespace-nowrap text-teal-600">
+                <span className="relative">Workplace Access</span>
               </span>{' '}
-              Made Simple
+              Control
             </h1>
             <p className="mx-auto mt-6 max-w-2xl text-lg tracking-tight text-slate-700">
-              A professional visitor management solution that helps organizations manage employee access,
-              track visitors, and maintain security compliance.
+              Next-generation visitor management and security powered by advanced AI.
+              Secure your premises with intelligent facial recognition and predictive analytics.
             </p>
             <div className="mt-10 flex justify-center gap-x-6">
               <button
@@ -293,8 +300,8 @@ const LandingPage = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {features.map((feature, index) => (
-              <div key={index} className="bg-teal-50/95 rounded-lg p-6 border border-slate-200 hover:border-slate-300 transition-colors">
-                <div className="text-3xl mb-4">{feature.icon}</div>
+              <div key={index} className="bg-teal-50/95 rounded-lg p-6 border border-slate-200 hover:border-teal-300 transition-all hover:shadow-lg group">
+                <div className="text-3xl mb-4 group-hover:scale-110 transition-transform">{feature.icon}</div>
                 <h3 className="text-lg font-semibold text-slate-900 mb-2">{feature.title}</h3>
                 <p className="text-slate-600 text-sm mb-4">{feature.description}</p>
                 {feature.details && (

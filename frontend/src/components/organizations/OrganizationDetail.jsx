@@ -3,6 +3,7 @@ import { useParams, useNavigate, useSearchParams } from 'react-router-dom';
 import { message } from 'antd';
 import { organizationsService } from '../../services/organizationsService';
 import OrganizationInfo from './tabs/OrganizationInfo';
+import Loader from '../common/Loader';
 import OrganizationEmployees from './tabs/OrganizationEmployees';
 import OrganizationCameras from './tabs/OrganizationCameras';
 import OrganizationLocations from './tabs/OrganizationLocations';
@@ -176,9 +177,8 @@ const OrganizationDetail = ({
 
   if (loading) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-screen gap-4">
-        <div className="w-12 h-12 border-4 border-gray-200 border-t-teal-600 rounded-full animate-spin"></div>
-        <p className="text-gray-600">Loading organization details...</p>
+      <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-slate-50 via-teal-50 to-cyan-50">
+        <Loader size="large" text="Loading organization details..." />
       </div>
     );
   }

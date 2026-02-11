@@ -337,30 +337,8 @@ export const organizationsService = {
       const response = await api.get(`/api/v2/organizations/${orgId}/attendance/stats`, { params });
       return response.data;
     } catch (error) {
-      // Return mock data for now if endpoint fails (graceful degradation)
-      console.warn(`Error getting attendance stats ${orgId}, using fallback data:`, error);
-      return {
-        success: true,
-        data: {
-          attendance_rate: 87,
-          attendance_trend: 5.2,
-          active_today: 0,
-          punctuality_data: [
-            { name: 'Mon', onTime: 145, late: 22, absent: 8 },
-            { name: 'Tue', onTime: 152, late: 18, absent: 5 },
-            { name: 'Wed', onTime: 138, late: 28, absent: 9 },
-            { name: 'Thu', onTime: 148, late: 20, absent: 7 },
-            { name: 'Fri', onTime: 142, late: 25, absent: 8 }
-          ],
-          trend_data: [
-            { name: 'Mon', value: 82 },
-            { name: 'Tue', value: 85 },
-            { name: 'Wed', value: 83 },
-            { name: 'Thu', value: 88 },
-            { name: 'Fri', value: 87 }
-          ]
-        }
-      };
+      console.error(`Error getting attendance stats ${orgId}:`, error);
+      throw error;
     }
   },
 
@@ -376,28 +354,8 @@ export const organizationsService = {
       const response = await api.get(`/api/v2/organizations/${orgId}/visitors/stats`, { params });
       return response.data;
     } catch (error) {
-      console.warn(`Error getting visitor stats ${orgId}, using fallback data:`, error);
-      return {
-        success: true,
-        data: {
-          visitors_today: 45,
-          active_visitors: 12,
-          monthly_trend: [
-            { name: 'Jan', value: 850 },
-            { name: 'Feb', value: 920 },
-            { name: 'Mar', value: 880 },
-            { name: 'Apr', value: 1050 },
-            { name: 'May', value: 1150 }
-          ],
-          weekly_activity: [
-            { name: 'Mon', value: 45 },
-            { name: 'Tue', value: 52 },
-            { name: 'Wed', value: 38 },
-            { name: 'Thu', value: 48 },
-            { name: 'Fri', value: 55 }
-          ]
-        }
-      };
+      console.error(`Error getting visitor stats ${orgId}:`, error);
+      throw error;
     }
   },
 
@@ -412,17 +370,8 @@ export const organizationsService = {
       const response = await api.get(`/api/v2/organizations/${orgId}/departments/attendance`);
       return response.data;
     } catch (error) {
-      console.warn(`Error getting department attendance ${orgId}, using fallback data:`, error);
-      return {
-        success: true,
-        data: [
-          { name: 'Engineering', rate: 92 },
-          { name: 'Sales', rate: 88 },
-          { name: 'HR', rate: 95 },
-          { name: 'Operations', rate: 85 },
-          { name: 'Finance', rate: 90 }
-        ]
-      };
+      console.error(`Error getting department attendance ${orgId}:`, error);
+      throw error;
     }
   },
 };

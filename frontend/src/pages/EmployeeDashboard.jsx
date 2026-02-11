@@ -12,7 +12,8 @@ import {
   Mail,
   Building,
   CalendarDays,
-  Timer
+  Timer,
+  Sparkles
 } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import { authService } from '../services/authService';
@@ -162,6 +163,27 @@ function EmployeeDashboard() {
             </div>
           </div>
         )}
+
+        {/* AI Insight Card */}
+        <div className="bg-gradient-to-r from-teal-600 to-cyan-700 rounded-xl p-6 mb-8 shadow-lg relative overflow-hidden group">
+          <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+            <Sparkles className="h-24 w-24 text-white" />
+          </div>
+          <div className="relative z-10 flex items-start gap-4">
+            <div className="bg-white/20 p-3 rounded-lg backdrop-blur-sm">
+              <Sparkles className="h-6 w-6 text-white" />
+            </div>
+            <div>
+              <h3 className="text-lg font-bold text-white mb-1">AI Smart Insight</h3>
+              <p className="text-teal-50 text-sm leading-relaxed max-w-2xl">
+                {stats.attendancePercentage >= 90
+                  ? "Your consistency is outstanding! Our AI models predict you're on track for a 'Top Performer' badge this month. Keep it up!"
+                  : "Based on your recent patterns, the AI suggests checking in 5 minutes earlier to maintain a perfect punctuality score this week."
+                }
+              </p>
+            </div>
+          </div>
+        </div>
 
         {/* Stats Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6 mb-8">

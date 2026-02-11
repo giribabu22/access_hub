@@ -393,6 +393,7 @@ def get_org_attendance_stats(org_id):
         
         trend_diff = round(avg_rate_current - avg_rate_prev, 1)
         
+        
         # Format daily trend data for chart (Last 7 days)
         trend_data = []
         days_map = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
@@ -402,11 +403,25 @@ def get_org_attendance_stats(org_id):
                 'name': days_map[dt.weekday()],
                 'value': round((d['present'] / max(1, summary.get('total_active_employees', 1))) * 100)
             })
-            
+
+        # Calculate Punctuality Data (Last 5 days) for the chart
+        # We need to use the daily summary from AttendanceService which includes late counts
+        punctuality_data = []
+        recent_days = series[-5:] if len(series) >= 5 else series
+        
+        for d in recent_days:
+            dt = datetime.strptime(d['date'], '%Y-%m-%d')
+            punctuality_data.append({
+                'name': days_map[dt.weekday()],
+                'onTime': max(0, d['present'] - d.get('late', 0)),
+                'late': d.get('late', 0),
+                'absent': d.get('absent', 0)
+            })
         
         # Calculate Employee Trend (Last 6 months growth)
         from ...models import Employee
-        from sqlalchemy import and_, or_
+        from sqlalchemy import and_, or_, func
+        from ...extensions import db
         from dateutil.relativedelta import relativedelta
         import calendar
 

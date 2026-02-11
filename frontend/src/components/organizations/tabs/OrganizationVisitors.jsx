@@ -7,7 +7,10 @@ import PreRegistrationList from './PreRegistrationList';
 import { visitorService } from '../../../services/visitorService';
 import { Users, BarChart3, UserCheck, ShieldAlert, FileText, Calendar, XCircle, RefreshCw, Ticket, Footprints, AlertTriangle, Thermometer, Crown, HardHat, Package, UserPlus, Briefcase, Settings2, Circle, DownloadCloud, Wrench, CheckCircle2, User, Building, TruckIcon } from 'lucide-react';
 
+import { useToast } from '../../../contexts/ToastContext';
+
 const OrganizationVisitors = ({ organizationId, organization }) => {
+  const { error: showError } = useToast();
   const [activeSubTab, setActiveSubTab] = useState('overview'); // checkin, security, logs, overview
   const [refreshTrigger, setRefreshTrigger] = useState(0);
   const [stats, setStats] = useState({
@@ -40,6 +43,7 @@ const OrganizationVisitors = ({ organizationId, organization }) => {
       }
     } catch (error) {
       console.error("Failed to fetch visitor stats", error);
+      showError('Failed to fetch visitor statistics');
     }
   };
 

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { message } from 'antd';
 import { organizationsService } from '../../services/organizationsService';
+import Loader from '../common/Loader';
 import '../../styles/OrganizationList.css';
 
 const OrganizationList = ({ showCreateButton = true, basePath = '/super-admin/organizations' }) => {
@@ -65,9 +66,8 @@ const OrganizationList = ({ showCreateButton = true, basePath = '/super-admin/or
 
   if (loading) {
     return (
-      <div className="loading-container">
-        <div className="spinner-large"></div>
-        <p>Loading organizations...</p>
+      <div className="flex flex-col items-center justify-center min-h-[400px] w-full bg-gradient-to-br from-slate-50 to-teal-50 rounded-2xl shadow-inner">
+        <Loader size="large" text="Loading organizations..." />
       </div>
     );
   }
