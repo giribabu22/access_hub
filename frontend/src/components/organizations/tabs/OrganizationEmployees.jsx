@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { message, Modal, Form, Input, Select, DatePicker, Switch } from 'antd';
 import { employeesService, EMPLOYMENT_TYPES, GENDER_OPTIONS, departmentsService, shiftsService, organizationsService } from '../../../services/organizationsService';
+import api from '../../../services/api';
 import moment from 'moment';
 import WebcamCapture from '../../common/WebcamCapture.jsx';
 import EmployeeAnalytics from './EmployeeAnalytics';
@@ -176,8 +177,35 @@ const OrganizationEmployees = ({ organizationId, organization }) => {
           address: values.address,
           photo_base64: employeePhoto || undefined,
         };
-        await employeesService.create(payload);
+
+        // Step 1: Create the employee
+        const employeeResponse = await employeesService.create(payload);
         message.success('Successfully created');
+
+        // Step 2: If employee was created successfully and has image, enroll face
+        if (employeeResponse.success && employeeResponse.data) {
+          const employeeId = employeeResponse.data.id;
+          const imageBase64 = employeeResponse.data.photo_base64;
+
+          // Only call face enroll if we have both employee_id and image data
+          if (employeeId && imageBase64) {
+            try {
+              const faceEnrollPayload = {
+                employee_id: employeeId,
+                img_b64: imageBase64,
+              };
+
+              await api.post('/api/v1/face/enroll', faceEnrollPayload);
+              console.log('Face enrollment successful for employee:', employeeId);
+            } catch (faceError) {
+              console.error('Face enrollment failed:', faceError);
+              // Show warning but don't block the employee creation
+              message.warning('Employee created successfully, but face enrollment failed. You can retry later.');
+            }
+          } else {
+            console.warn('Missing employee_id or image data for face enrollment');
+          }
+        }
       }
 
       setShowModal(false);
@@ -241,7 +269,7 @@ const OrganizationEmployees = ({ organizationId, organization }) => {
               <button onClick={() => setActiveTab('list')} className={`px-2.5 py-1.5 rounded-md text-xs font-semibold transition-all flex items-center gap-1 ${activeTab === 'list' ? 'bg-teal-600 text-white shadow-sm' : 'text-gray-600 hover:text-teal-600 hover:bg-gray-200'}`}><Users className="w-3.5 h-3.5" />List</button>
               <button onClick={() => setActiveTab('analytics')} className={`px-2.5 py-1.5 rounded-md text-xs font-semibold transition-all flex items-center gap-1 ${activeTab === 'analytics' ? 'bg-teal-600 text-white shadow-sm' : 'text-gray-600 hover:text-teal-600 hover:bg-gray-200'}`}><BarChart3 className="w-3.5 h-3.5" />Overview</button>
               <button onClick={() => setActiveTab('logs')} className={`px-2.5 py-1.5 rounded-md text-xs font-semibold transition-all flex items-center gap-1 ${activeTab === 'logs' ? 'bg-teal-600 text-white shadow-sm' : 'text-gray-600 hover:text-teal-600 hover:bg-gray-200'}`}><ClipboardList className="w-3.5 h-3.5" />Logs</button>
-              <button onClick={() => { setActiveTab('records'); if (activeTab !== 'records') { fetchAttendanceRecords(); }}} className={`px-2.5 py-1.5 rounded-md text-xs font-semibold transition-all flex items-center gap-1 ${activeTab === 'records' ? 'bg-teal-600 text-white shadow-sm' : 'text-gray-600 hover:text-teal-600 hover:bg-gray-200'}`}><FileText className="w-3.5 h-3.5" />Records</button>
+              <button onClick={() => { setActiveTab('records'); if (activeTab !== 'records') { fetchAttendanceRecords(); } }} className={`px-2.5 py-1.5 rounded-md text-xs font-semibold transition-all flex items-center gap-1 ${activeTab === 'records' ? 'bg-teal-600 text-white shadow-sm' : 'text-gray-600 hover:text-teal-600 hover:bg-gray-200'}`}><FileText className="w-3.5 h-3.5" />Records</button>
               <button onClick={() => setActiveTab('calendar')} className={`px-2.5 py-1.5 rounded-md text-xs font-semibold transition-all flex items-center gap-1 ${activeTab === 'calendar' ? 'bg-teal-600 text-white shadow-sm' : 'text-gray-600 hover:text-teal-600 hover:bg-gray-200'}`}><CalendarIcon className="w-3.5 h-3.5" />calendar</button>
               <button onClick={() => setActiveTab('departments')} className={`px-2.5 py-1.5 rounded-md text-xs font-semibold transition-all flex items-center gap-1 ${activeTab === 'departments' ? 'bg-teal-600 text-white shadow-sm' : 'text-gray-600 hover:text-teal-600 hover:bg-gray-200'}`}><Building2 className="w-3.5 h-3.5" />Dept</button>
               <button onClick={() => setActiveTab('shifts')} className={`px-2.5 py-1.5 rounded-md text-xs font-semibold transition-all flex items-center gap-1 ${activeTab === 'shifts' ? 'bg-teal-600 text-white shadow-sm' : 'text-gray-600 hover:text-teal-600 hover:bg-gray-200'}`}><Clock className="w-3.5 h-3.5" />Shifts</button>
@@ -618,7 +646,7 @@ const OrganizationEmployees = ({ organizationId, organization }) => {
 
                   {showWebcam && (
                     <div className="mb-6">
-                      <WebcamCapture 
+                      <WebcamCapture
                         key={`webcam-${Date.now()}`}
                         onImageCapture={(base64) => {
                           setEmployeePhoto(base64);

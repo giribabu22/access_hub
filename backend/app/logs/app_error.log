@@ -12565,3 +12565,11 @@ AttributeError: 'Employee' object has no attribute 'employee_id'. Did you mean: 
                    ^^^^^^^^^^^^^^^^^^^^
 AttributeError: 'Employee' object has no attribute 'employee_id'. Did you mean: 'employee_code'?
 
+[2026-02-11 13:22:17,413] ERROR in face_enrollment_background: Unhandled exception during face enrollment for c578f5f0-4c88-4511-8e55-ad559fe72924: cannot identify image file <_io.BytesIO object at 0x0000020A274A77E0>
+Traceback (most recent call last):
+  File "C:\Users\kajal\ProjectSp\access_hub\access_hub\backend\app\utils\face_enrollment_background.py", line 143, in process_face_enrollment_background
+    pil = Image.open(io.BytesIO(img_bytes)).convert("RGB")
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\kajal\ProjectSp\access_hub\access_hub\backend\venv\Lib\site-packages\PIL\Image.py", line 3579, in open
+    raise UnidentifiedImageError(msg)
+PIL.UnidentifiedImageError: cannot identify image file <_io.BytesIO object at 0x0000020A274A77E0>

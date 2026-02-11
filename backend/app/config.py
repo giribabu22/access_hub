@@ -16,6 +16,9 @@ class Settings(BaseSettings):
     # File storage
     upload_folder: str = Field("./uploads", env=["UPLOAD_FOLDER"])
     
+    # Model path for YOLO detector
+    model_path: Optional[str] = Field(None, env=["MODEL_PATH"])
+    
     # Environment
     environment: str = Field("dev", env=["ENVIRONMENT", "environment"])
 
@@ -102,6 +105,9 @@ class Config:
     
     # Upload
     UPLOAD_FOLDER = settings.upload_folder
+    
+    # Model path for YOLO detector
+    MODEL_PATH = settings.model_path
     
     # Redis (optional)
     REDIS_URL = settings.redis_url
