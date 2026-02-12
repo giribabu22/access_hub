@@ -79,7 +79,7 @@ const OrganizationDetail = ({
   // Define available tabs based on enabled features
   const getAvailableTabs = () => {
     const tabs = [
-      { id: 'info', name: '▤ Organization Info', component: 'info', alwaysShow: true }
+      { id: 'info', name: '◐ Organization Overview', component: 'info', alwaysShow: true }
     ];
 
     if (enabledFeatures.employee_attendance) {
@@ -105,17 +105,17 @@ const OrganizationDetail = ({
       tabs.push({ id: 'locations', name: '◈ Locations', component: 'locations' });
     }
 
-    if (enabledFeatures.advanced_analytics) {
-      tabs.push({ id: 'statistics', name: '◐ Analytics', component: 'statistics' });
-    }
+    // if (enabledFeatures.advanced_analytics) {
+    //   tabs.push({ id: 'statistics', name: '◐ Analytics', component: 'statistics' });
+    // }
 
 
 
-    // Always show alerts and rules
-    tabs.push(
-      { id: 'alerts', name: '⚠ Alerts', component: 'alerts', alwaysShow: true },
-      { id: 'rules', name: '≡ Rules', component: 'rules', alwaysShow: true }
-    );
+    // // Always show alerts and rules
+    // tabs.push(
+    //   { id: 'alerts', name: '⚠ Alerts', component: 'alerts', alwaysShow: true },
+    //   { id: 'rules', name: '≡ Rules', component: 'rules', alwaysShow: true }
+    // );
 
     return tabs;
   };
@@ -251,7 +251,7 @@ const OrganizationDetail = ({
 
 
       {/* Tabs */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-4 lg:px-4 py-6">
+      <div className="max-w-7xl mx-auto px-1 sm:px-4 lg:px-1 py-2">
         <div className="bg-teal-50/95 rounded-lg shadow-sm border border-gray-200 overflow-hidden">
           {/* Tab Navigation */}
           <div className="flex bg-teal-50 border-b border-gray-200 overflow-x-auto">
@@ -270,7 +270,7 @@ const OrganizationDetail = ({
           </div>
 
           {/* Tab Content */}
-          <div className="p-8">
+          <div className="p-4">
             {activeTab === 'info' && (
               <OrganizationInfo
                 organization={organization}
