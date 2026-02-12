@@ -228,6 +228,26 @@ def create_app():
             {
                 "name": "Health",
                 "description": "System health check endpoints"
+            },
+            {
+                "name": "Face Recognition",
+                "description": "Face detection and enrollment endpoints for employee verification"
+            },
+            {
+                "name": "LPR (License Plate Recognition)",
+                "description": "Vehicle tracking and access control endpoints"
+            },
+            {
+                "name": "Subscriptions",
+                "description": "Subscription and feature access management endpoints"
+            },
+            {
+                "name": "Manager",
+                "description": "Manager-specific endpoints for team management and reporting"
+            },
+            {
+                "name": "Images",
+                "description": "Image storage and retrieval endpoints"
             }
         ],
         "responses": {
