@@ -55,6 +55,6 @@ Werkzeug>=3.0.0
 blinker>=1.9.0
 tensorflow==2.14.0
 keras==2.14.0
-opencv-python
+opencv-python-headless
 deepface==0.0.93
 ultralytics==8.1.0
