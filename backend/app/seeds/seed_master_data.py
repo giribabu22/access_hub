@@ -15,7 +15,7 @@ import uuid
 def create_roles():
     """Create comprehensive role structure with detailed permissions"""
     
-    print("\n🔐 Creating Roles...")
+    print("\n--- Creating Roles ---")
     
     roles_data = [
         {
@@ -107,7 +107,7 @@ def create_roles():
         existing_role = Role.query.filter_by(name=role_data["name"]).first()
         
         if existing_role:
-            print(f"  ℹ️  Role already exists: {role_data['name']}")
+            print(f"  [INFO] Role already exists: {role_data['name']}")
             created_roles.append(existing_role)
         else:
             role = Role(
@@ -117,7 +117,7 @@ def create_roles():
             )
             db.session.add(role)
             db.session.flush()
-            print(f"  ✅ Created role: {role_data['name']}")
+            print(f"  [SUCCESS] Created role: {role_data['name']}")
             created_roles.append(role)
     
     return {role.name: role for role in created_roles}
@@ -126,7 +126,7 @@ def create_roles():
 def create_organizations():
     """Create primary test organization"""
     
-    print("\n🏢 Creating Primary Organization...")
+    print("\n--- Creating Primary Organization ---")
     
     # Focus on one comprehensive organization
     org_data = {
@@ -144,7 +144,7 @@ def create_organizations():
     existing_org = Organization.query.filter_by(code=org_data["code"]).first()
     
     if existing_org:
-        print(f"  ℹ️  Organization already exists: {org_data['name']}")
+        print(f"  [INFO] Organization already exists: {org_data['name']}")
         created_org = existing_org
     else:
         org = Organization(
@@ -165,7 +165,7 @@ def create_organizations():
         )
         db.session.add(org)
         db.session.flush()
-        print(f"  ✅ Created organization: {org_data['name']}")
+        print(f"  [SUCCESS] Created organization: {org_data['name']}")
         created_org = org
     
     return [created_org]
@@ -174,7 +174,7 @@ def create_organizations():
 def create_departments(organizations):
     """Create departments for primary organization"""
     
-    print("\n🏢 Creating Departments...")
+    print("\n--- Creating Departments ---")
     
     departments_structure = {
         "Engineering": "Department for all engineering work",
@@ -200,7 +200,7 @@ def create_departments(organizations):
         ).first()
         
         if existing_dept:
-            print(f"    ℹ️  Department already exists: {dept_name}")
+            print(f"    [INFO] Department already exists: {dept_name}")
             created_depts.append(existing_dept)
         else:
             dept = Department(
@@ -212,7 +212,7 @@ def create_departments(organizations):
             )
             db.session.add(dept)
             db.session.flush()
-            print(f"    ✅ Created department: {dept_name}")
+            print(f"    [SUCCESS] Created department: {dept_name}")
             created_depts.append(dept)
     
     return created_depts
@@ -221,7 +221,7 @@ def create_departments(organizations):
 def create_shifts(organizations):
     """Create work shifts for primary organization"""
     
-    print("\n⏰ Creating Shifts...")
+    print("\n--- Creating Shifts ---")
     
     shifts_data = [
         {
@@ -267,7 +267,7 @@ def create_shifts(organizations):
         ).first()
         
         if existing_shift:
-            print(f"    ℹ️  Shift already exists: {shift_data['name']}")
+            print(f"    [INFO] Shift already exists: {shift_data['name']}")
             created_shifts.append(existing_shift)
         else:
             shift = Shift(
@@ -281,7 +281,7 @@ def create_shifts(organizations):
             )
             db.session.add(shift)
             db.session.flush()
-            print(f"    ✅ Created shift: {shift_data['name']}")
+            print(f"    [SUCCESS] Created shift: {shift_data['name']}")
             created_shifts.append(shift)
     
     return created_shifts
@@ -290,7 +290,7 @@ def create_shifts(organizations):
 def create_users_and_employees(organizations, departments, roles, shifts):
     """Create test users and linked employees for primary organization"""
     
-    print("\n👥 Creating Users and Employees...")
+    print("\n--- Creating Users and Employees ---")
     
     org = organizations[0]  # Primary organization
     
@@ -470,7 +470,7 @@ def create_users_and_employees(organizations, departments, roles, shifts):
         # Find department
         dept = next((d for d in departments if d.organization_id == org.id and d.code == emp_data["dept_code"]), None)
         if not dept:
-            print(f"  ⚠️  Department {emp_data['dept_code']} not found, skipping employee {emp_data['full_name']}")
+            print(f"  [WARNING] Department {emp_data['dept_code']} not found, skipping employee {emp_data['full_name']}")
             continue
         
         # Find shift
@@ -479,14 +479,14 @@ def create_users_and_employees(organizations, departments, roles, shifts):
         # Find role
         role = roles.get(emp_data["role"])
         if not role:
-            print(f"  ⚠️  Role {emp_data['role']} not found, skipping employee {emp_data['full_name']}")
+            print(f"  [WARNING] Role {emp_data['role']} not found, skipping employee {emp_data['full_name']}")
             continue
         
         # Check if user already exists
         existing_user = User.query.filter_by(email=emp_data["email"]).first()
         
         if existing_user:
-            print(f"  ℹ️  User already exists: {emp_data['full_name']} ({emp_data['email']})")
+            print(f"  [INFO] User already exists: {emp_data['full_name']} ({emp_data['email']})")
             created_users.append(existing_user)
         else:
             # Create user
@@ -500,7 +500,7 @@ def create_users_and_employees(organizations, departments, roles, shifts):
             )
             db.session.add(user)
             db.session.flush()
-            print(f"  ✅ Created user: {emp_data['full_name']} (Role: {role.name})")
+            print(f"  [SUCCESS] Created user: {emp_data['full_name']} (Role: {role.name})")
             created_users.append(user)
             
             # Create employee linked to user
@@ -519,7 +519,7 @@ def create_users_and_employees(organizations, departments, roles, shifts):
             )
             db.session.add(employee)
             db.session.flush()
-            print(f"    ✅ Created employee: {emp_data['full_name']}")
+            print(f"    [SUCCESS] Created employee: {emp_data['full_name']}")
             created_employees.append(employee)
     
     return created_users, created_employees
@@ -528,10 +528,10 @@ def create_users_and_employees(organizations, departments, roles, shifts):
 def create_attendance_records(employees):
     """Create sample attendance records for the last 2 months (60 days)"""
     
-    print("\n📋 Creating Sample Attendance Records (Last 2 Months)...")
+    print("\n--- Creating Sample Attendance Records (Last 2 Months) ---")
     
     if not employees:
-        print("  ⚠️  No employees found to create attendance records")
+        print("  [WARNING] No employees found to create attendance records")
         return
     
     today = date.today()
@@ -597,17 +597,17 @@ def create_attendance_records(employees):
             employee_records += 1
             total_records_created += 1
         
-        print(f"    ✅ Created {employee_records} attendance records")
+        print(f"    [SUCCESS] Created {employee_records} attendance records")
     
     db.session.flush()
-    print(f"\n  ✅ Total Attendance Records Created: {total_records_created}")
+    print(f"\n  [SUCCESS] Total Attendance Records Created: {total_records_created}")
 
 
 def seed_all_master_data():
     """Main function to seed all master data for primary organization"""
     
     print("\n" + "="*60)
-    print("🌱 Starting Master Data Seeding (Primary Organization)")
+    print("Starting Master Data Seeding (Primary Organization)")
     print("="*60)
     
     try:
@@ -636,9 +636,9 @@ def seed_all_master_data():
         db.session.commit()
         
         print("\n" + "="*60)
-        print("✅ Master Data Seeding Completed Successfully!")
+        print("[SUCCESS] Master Data Seeding Completed Successfully!")
         print("="*60)
-        print("\n📊 Summary:")
+        print("\nSummary:")
         print(f"  • Roles: {len(roles)}")
         print(f"  • Organizations: {len(organizations)}")
         print(f"  • Departments: {len(departments)}")
@@ -646,16 +646,16 @@ def seed_all_master_data():
         print(f"  • Users: {len(users)}")
         print(f"  • Employees: {len(employees)}")
         print(f"  • Attendance Records: ~{len(employees) * 42} (60 days - weekends, per employee)")
-        print("\n🏢 Organization: India IT Park (IIT)")
+        print("\nOrganization: India IT Park (IIT)")
         print("  • Address: 789 IT Boulevard, Hyderabad, India")
         print("  • Timezone: Asia/Kolkata")
         print("  • Subscription Tier: Premium")
-        print("\n🔐 Test Credentials (Sample Users):")
+        print("\nTest Credentials (Sample Users):")
         print("  • priya.sharma@indiaittpark.com (Manager)")
         print("  • rajesh.kumar@indiaittpark.com (Team Lead)")
         print("  • neha.gupta@indiaittpark.com (Org Admin)")
         print("  • Password: Test@123 (for all test users)")
-        print("\n📅 Attendance Data: Last 60 days (2 months)")
+        print("\nAttendance Data: Last 60 days (2 months)")
         print("  • Includes realistic patterns: 75% present, 15% half-day, 10% absent")
         print("  • Working days only (Monday-Friday)")
         print("\n" + "="*60 + "\n")
@@ -664,7 +664,7 @@ def seed_all_master_data():
         
     except Exception as e:
         db.session.rollback()
-        print(f"\n❌ Error during seeding: {str(e)}")
+        print(f"\n[ERROR] Error during seeding: {str(e)}")
         import traceback
         traceback.print_exc()
         return False
