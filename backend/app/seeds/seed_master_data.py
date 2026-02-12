@@ -1,6 +1,7 @@
 """
-Comprehensive Master/Test Data Seeding Script
-Creates roles with permissions, organizations, departments, employees, shifts, and test users.
+Comprehensive Master/Test Data Seeding Script for Single Organization
+Creates roles with permissions, one primary organization, departments, employees, shifts, test users,
+and 2 months of detailed attendance logs for testing and analytics.
 """
 
 from datetime import datetime, date, time, timedelta
@@ -123,88 +124,55 @@ def create_roles():
 
 
 def create_organizations():
-    """Create test organizations"""
+    """Create primary test organization"""
     
-    print("\n🏢 Creating Organizations...")
+    print("\n🏢 Creating Primary Organization...")
     
-    orgs_data = [
-        {
-            "name": "Tech Solutions Inc",
-            "code": "TSI",
-            "organization_type": "office",
-            "address": "123 Tech Street, San Francisco, CA",
-            "contact_email": "hr@techsolutions.com",
-            "contact_phone": "+1-415-555-0101",
-            "timezone": "America/Los_Angeles",
-            "subscription_tier": "enterprise",
-        },
-        {
-            "name": "Global Services Ltd",
-            "code": "GSL",
-            "organization_type": "office",
-            "address": "456 Service Ave, London, UK",
-            "contact_email": "info@globalservices.com",
-            "contact_phone": "+44-20-7946-0958",
-            "timezone": "Europe/London",
-            "subscription_tier": "professional",
-        },
-        {
-            "name": "India IT Park",
-            "code": "IIT",
-            "organization_type": "office",
-            "address": "789 IT Boulevard, Hyderabad, India",
-            "contact_email": "contact@indiaittpark.com",
-            "contact_phone": "+91-40-2331-0000",
-            "timezone": "Asia/Kolkata",
-            "subscription_tier": "premium",
-        },
-        {
-            "name": "Startup Hub",
-            "code": "STH",
-            "organization_type": "office",
-            "address": "321 Innovation Drive, Austin, TX",
-            "contact_email": "hello@startuphub.com",
-            "contact_phone": "+1-512-555-0102",
-            "timezone": "America/Chicago",
-            "subscription_tier": "basic",
-        },
-    ]
+    # Focus on one comprehensive organization
+    org_data = {
+        "name": "India IT Park",
+        "code": "IIT",
+        "organization_type": "office",
+        "address": "789 IT Boulevard, Hyderabad, India",
+        "contact_email": "contact@indiaittpark.com",
+        "contact_phone": "+91-40-2331-0000",
+        "timezone": "Asia/Kolkata",
+        "subscription_tier": "premium",
+    }
     
-    created_orgs = []
+    created_org = None
+    existing_org = Organization.query.filter_by(code=org_data["code"]).first()
     
-    for org_data in orgs_data:
-        existing_org = Organization.query.filter_by(code=org_data["code"]).first()
-        
-        if existing_org:
-            print(f"  ℹ️  Organization already exists: {org_data['name']}")
-            created_orgs.append(existing_org)
-        else:
-            org = Organization(
-                name=org_data["name"],
-                code=org_data["code"],
-                organization_type=org_data["organization_type"],
-                address=org_data["address"],
-                contact_email=org_data["contact_email"],
-                contact_phone=org_data["contact_phone"],
-                timezone=org_data["timezone"],
-                subscription_tier=org_data["subscription_tier"],
-                working_hours={
-                    "start": "09:00",
-                    "end": "18:00",
-                    "days": [1, 2, 3, 4, 5]  # Monday to Friday
-                },
-                is_active=True
-            )
-            db.session.add(org)
-            db.session.flush()
-            print(f"  ✅ Created organization: {org_data['name']}")
-            created_orgs.append(org)
+    if existing_org:
+        print(f"  ℹ️  Organization already exists: {org_data['name']}")
+        created_org = existing_org
+    else:
+        org = Organization(
+            name=org_data["name"],
+            code=org_data["code"],
+            organization_type=org_data["organization_type"],
+            address=org_data["address"],
+            contact_email=org_data["contact_email"],
+            contact_phone=org_data["contact_phone"],
+            timezone=org_data["timezone"],
+            subscription_tier=org_data["subscription_tier"],
+            working_hours={
+                "start": "09:00",
+                "end": "18:00",
+                "days": [1, 2, 3, 4, 5]  # Monday to Friday
+            },
+            is_active=True
+        )
+        db.session.add(org)
+        db.session.flush()
+        print(f"  ✅ Created organization: {org_data['name']}")
+        created_org = org
     
-    return created_orgs
+    return [created_org]
 
 
 def create_departments(organizations):
-    """Create departments for each organization"""
+    """Create departments for primary organization"""
     
     print("\n🏢 Creating Departments...")
     
@@ -219,37 +187,39 @@ def create_departments(organizations):
     
     created_depts = []
     
-    for org in organizations:
-        print(f"\n  Creating departments for {org.name}:")
-        for idx, (dept_name, dept_desc) in enumerate(departments_structure.items(), 1):
-            dept_code = f"{dept_name.upper()[:3]}"  # First 3 letters
-            
-            existing_dept = Department.query.filter_by(
+    # Create departments only for the primary organization
+    org = organizations[0]
+    print(f"\n  Creating departments for {org.name}:")
+    
+    for idx, (dept_name, dept_desc) in enumerate(departments_structure.items(), 1):
+        dept_code = f"{dept_name.upper()[:3]}"  # First 3 letters
+        
+        existing_dept = Department.query.filter_by(
+            organization_id=org.id,
+            code=dept_code
+        ).first()
+        
+        if existing_dept:
+            print(f"    ℹ️  Department already exists: {dept_name}")
+            created_depts.append(existing_dept)
+        else:
+            dept = Department(
                 organization_id=org.id,
-                code=dept_code
-            ).first()
-            
-            if existing_dept:
-                print(f"    ℹ️  Department already exists: {dept_name}")
-                created_depts.append(existing_dept)
-            else:
-                dept = Department(
-                    organization_id=org.id,
-                    name=dept_name,
-                    code=dept_code,
-                    description=dept_desc,
-                    is_active=True
-                )
-                db.session.add(dept)
-                db.session.flush()
-                print(f"    ✅ Created department: {dept_name}")
-                created_depts.append(dept)
+                name=dept_name,
+                code=dept_code,
+                description=dept_desc,
+                is_active=True
+            )
+            db.session.add(dept)
+            db.session.flush()
+            print(f"    ✅ Created department: {dept_name}")
+            created_depts.append(dept)
     
     return created_depts
 
 
 def create_shifts(organizations):
-    """Create work shifts for organizations"""
+    """Create work shifts for primary organization"""
     
     print("\n⏰ Creating Shifts...")
     
@@ -286,121 +256,48 @@ def create_shifts(organizations):
     
     created_shifts = []
     
-    for org in organizations:
-        print(f"\n  Creating shifts for {org.name}:")
-        for shift_data in shifts_data:
-            existing_shift = Shift.query.filter_by(
+    # Create shifts only for the primary organization
+    org = organizations[0]
+    print(f"\n  Creating shifts for {org.name}:")
+    
+    for shift_data in shifts_data:
+        existing_shift = Shift.query.filter_by(
+            organization_id=org.id,
+            name=shift_data["name"]
+        ).first()
+        
+        if existing_shift:
+            print(f"    ℹ️  Shift already exists: {shift_data['name']}")
+            created_shifts.append(existing_shift)
+        else:
+            shift = Shift(
                 organization_id=org.id,
-                name=shift_data["name"]
-            ).first()
-            
-            if existing_shift:
-                print(f"    ℹ️  Shift already exists: {shift_data['name']}")
-                created_shifts.append(existing_shift)
-            else:
-                shift = Shift(
-                    organization_id=org.id,
-                    name=shift_data["name"],
-                    start_time=datetime.strptime(shift_data["start_time"], "%H:%M").time(),
-                    end_time=datetime.strptime(shift_data["end_time"], "%H:%M").time(),
-                    grace_period_minutes=shift_data["grace_period_minutes"],
-                    working_days=shift_data["working_days"],
-                    is_active=True
-                )
-                db.session.add(shift)
-                db.session.flush()
-                print(f"    ✅ Created shift: {shift_data['name']}")
-                created_shifts.append(shift)
+                name=shift_data["name"],
+                start_time=datetime.strptime(shift_data["start_time"], "%H:%M").time(),
+                end_time=datetime.strptime(shift_data["end_time"], "%H:%M").time(),
+                grace_period_minutes=shift_data["grace_period_minutes"],
+                working_days=shift_data["working_days"],
+                is_active=True
+            )
+            db.session.add(shift)
+            db.session.flush()
+            print(f"    ✅ Created shift: {shift_data['name']}")
+            created_shifts.append(shift)
     
     return created_shifts
 
 
 def create_users_and_employees(organizations, departments, roles, shifts):
-    """Create test users and linked employees"""
+    """Create test users and linked employees for primary organization"""
     
     print("\n👥 Creating Users and Employees...")
     
-    # Sample employees data
+    org = organizations[0]  # Primary organization
+    
+    # Comprehensive employees data for primary organization
     employees_data = [
-        # Tech Solutions Inc - Engineering
+        # Engineering Department
         {
-            "org_code": "TSI",
-            "dept_code": "ENG",
-            "full_name": "Alice Johnson",
-            "email": "alice.johnson@techsolutions.com",
-            "username": "alice_johnson",
-            "employee_code": "TSI001",
-            "designation": "Senior Engineer",
-            "gender": "female",
-            "role": "manager",
-            "shift_name": "Morning Shift",
-        },
-        {
-            "org_code": "TSI",
-            "dept_code": "ENG",
-            "full_name": "Bob Smith",
-            "email": "bob.smith@techsolutions.com",
-            "username": "bob_smith",
-            "employee_code": "TSI002",
-            "designation": "Junior Engineer",
-            "gender": "male",
-            "role": "employee",
-            "shift_name": "Morning Shift",
-        },
-        {
-            "org_code": "TSI",
-            "dept_code": "SAL",
-            "full_name": "Carol Davis",
-            "email": "carol.davis@techsolutions.com",
-            "username": "carol_davis",
-            "employee_code": "TSI003",
-            "designation": "Sales Manager",
-            "gender": "female",
-            "role": "manager",
-            "shift_name": "Morning Shift",
-        },
-        {
-            "org_code": "TSI",
-            "dept_code": "HR",
-            "full_name": "David Wilson",
-            "email": "david.wilson@techsolutions.com",
-            "username": "david_wilson",
-            "employee_code": "TSI004",
-            "designation": "HR Manager",
-            "gender": "male",
-            "role": "org_admin",
-            "shift_name": "Morning Shift",
-        },
-        
-        # Global Services Ltd - Multiple Departments
-        {
-            "org_code": "GSL",
-            "dept_code": "ENG",
-            "full_name": "Emma Brown",
-            "email": "emma.brown@globalservices.com",
-            "username": "emma_brown",
-            "employee_code": "GSL001",
-            "designation": "Technical Lead",
-            "gender": "female",
-            "role": "manager",
-            "shift_name": "Morning Shift",
-        },
-        {
-            "org_code": "GSL",
-            "dept_code": "OPE",
-            "full_name": "Frank Miller",
-            "email": "frank.miller@globalservices.com",
-            "username": "frank_miller",
-            "employee_code": "GSL002",
-            "designation": "Operations Manager",
-            "gender": "male",
-            "role": "org_admin",
-            "shift_name": "Morning Shift",
-        },
-        
-        # India IT Park - Multiple roles
-        {
-            "org_code": "IIT",
             "dept_code": "ENG",
             "full_name": "Priya Sharma",
             "email": "priya.sharma@indiaittpark.com",
@@ -412,7 +309,6 @@ def create_users_and_employees(organizations, departments, roles, shifts):
             "shift_name": "Morning Shift",
         },
         {
-            "org_code": "IIT",
             "dept_code": "ENG",
             "full_name": "Rajesh Kumar",
             "email": "rajesh.kumar@indiaittpark.com",
@@ -424,54 +320,146 @@ def create_users_and_employees(organizations, departments, roles, shifts):
             "shift_name": "Morning Shift",
         },
         {
-            "org_code": "IIT",
+            "dept_code": "ENG",
+            "full_name": "Neelam Verma",
+            "email": "neelam.verma@indiaittpark.com",
+            "username": "neelam_verma",
+            "employee_code": "IIT003",
+            "designation": "Junior Developer",
+            "gender": "female",
+            "role": "employee",
+            "shift_name": "Morning Shift",
+        },
+        {
+            "dept_code": "ENG",
+            "full_name": "Arun Singh",
+            "email": "arun.singh@indiaittpark.com",
+            "username": "arun_singh",
+            "employee_code": "IIT004",
+            "designation": "QA Engineer",
+            "gender": "male",
+            "role": "employee",
+            "shift_name": "Morning Shift",
+        },
+        
+        # Finance Department
+        {
             "dept_code": "FIN",
             "full_name": "Neha Gupta",
             "email": "neha.gupta@indiaittpark.com",
             "username": "neha_gupta",
-            "employee_code": "IIT003",
+            "employee_code": "IIT005",
             "designation": "Finance Manager",
             "gender": "female",
             "role": "org_admin",
             "shift_name": "Morning Shift",
         },
         {
-            "org_code": "IIT",
-            "dept_code": "SUP",
-            "full_name": "Arjun Patel",
-            "email": "arjun.patel@indiaittpark.com",
-            "username": "arjun_patel",
-            "employee_code": "IIT004",
-            "designation": "Support Executive",
+            "dept_code": "FIN",
+            "full_name": "Vikram Desai",
+            "email": "vikram.desai@indiaittpark.com",
+            "username": "vikram_desai",
+            "employee_code": "IIT006",
+            "designation": "Accountant",
             "gender": "male",
             "role": "employee",
-            "shift_name": "Evening Shift",
+            "shift_name": "Morning Shift",
         },
         
-        # Startup Hub
+        # Sales Department
         {
-            "org_code": "STH",
-            "dept_code": "ENG",
-            "full_name": "Maya Chen",
-            "email": "maya.chen@startuphub.com",
-            "username": "maya_chen",
-            "employee_code": "STH001",
-            "designation": "Full Stack Developer",
+            "dept_code": "SAL",
+            "full_name": "Anjali Patel",
+            "email": "anjali.patel@indiaittpark.com",
+            "username": "anjali_patel",
+            "employee_code": "IIT007",
+            "designation": "Sales Manager",
             "gender": "female",
             "role": "manager",
             "shift_name": "Morning Shift",
         },
         {
-            "org_code": "STH",
-            "dept_code": "ENG",
-            "full_name": "Leo Rodriguez",
-            "email": "leo.rodriguez@startuphub.com",
-            "username": "leo_rodriguez",
-            "employee_code": "STH002",
-            "designation": "Frontend Developer",
+            "dept_code": "SAL",
+            "full_name": "Rohan Malhotra",
+            "email": "rohan.malhotra@indiaittpark.com",
+            "username": "rohan_malhotra",
+            "employee_code": "IIT008",
+            "designation": "Sales Executive",
             "gender": "male",
             "role": "employee",
             "shift_name": "Morning Shift",
+        },
+        
+        # HR Department
+        {
+            "dept_code": "HR",
+            "full_name": "Divya Nair",
+            "email": "divya.nair@indiaittpark.com",
+            "username": "divya_nair",
+            "employee_code": "IIT009",
+            "designation": "HR Manager",
+            "gender": "female",
+            "role": "manager",
+            "shift_name": "Morning Shift",
+        },
+        {
+            "dept_code": "HR",
+            "full_name": "Suresh Iyer",
+            "email": "suresh.iyer@indiaittpark.com",
+            "username": "suresh_iyer",
+            "employee_code": "IIT010",
+            "designation": "HR Executive",
+            "gender": "male",
+            "role": "employee",
+            "shift_name": "Morning Shift",
+        },
+        
+        # Operations Department
+        {
+            "dept_code": "OPE",
+            "full_name": "Kavya Reddy",
+            "email": "kavya.reddy@indiaittpark.com",
+            "username": "kavya_reddy",
+            "employee_code": "IIT011",
+            "designation": "Operations Manager",
+            "gender": "female",
+            "role": "manager",
+            "shift_name": "Morning Shift",
+        },
+        {
+            "dept_code": "OPE",
+            "full_name": "Arjun Patel",
+            "email": "arjun.patel@indiaittpark.com",
+            "username": "arjun_patel",
+            "employee_code": "IIT012",
+            "designation": "Operations Executive",
+            "gender": "male",
+            "role": "employee",
+            "shift_name": "Evening Shift",
+        },
+        
+        # Support Department
+        {
+            "dept_code": "SUP",
+            "full_name": "Shreya Chopra",
+            "email": "shreya.chopra@indiaittpark.com",
+            "username": "shreya_chopra",
+            "employee_code": "IIT013",
+            "designation": "Support Lead",
+            "gender": "female",
+            "role": "team_lead",
+            "shift_name": "Morning Shift",
+        },
+        {
+            "dept_code": "SUP",
+            "full_name": "Deepak Nayak",
+            "email": "deepak.nayak@indiaittpark.com",
+            "username": "deepak_nayak",
+            "employee_code": "IIT014",
+            "designation": "Support Executive",
+            "gender": "male",
+            "role": "employee",
+            "shift_name": "Evening Shift",
         },
     ]
     
@@ -479,12 +467,6 @@ def create_users_and_employees(organizations, departments, roles, shifts):
     created_employees = []
     
     for emp_data in employees_data:
-        # Find organization
-        org = next((o for o in organizations if o.code == emp_data["org_code"]), None)
-        if not org:
-            print(f"  ⚠️  Organization {emp_data['org_code']} not found, skipping employee {emp_data['full_name']}")
-            continue
-        
         # Find department
         dept = next((d for d in departments if d.organization_id == org.id and d.code == emp_data["dept_code"]), None)
         if not dept:
@@ -544,30 +526,39 @@ def create_users_and_employees(organizations, departments, roles, shifts):
 
 
 def create_attendance_records(employees):
-    """Create sample attendance records for the last 30 days"""
+    """Create sample attendance records for the last 2 months (60 days)"""
     
-    print("\n📋 Creating Sample Attendance Records...")
+    print("\n📋 Creating Sample Attendance Records (Last 2 Months)...")
     
     if not employees:
         print("  ⚠️  No employees found to create attendance records")
         return
     
     today = date.today()
+    total_records_created = 0
     
     for employee in employees:
         print(f"\n  Creating attendance for: {employee.full_name}")
+        employee_records = 0
         
-        # Create records for last 30 days
-        for days_ago in range(30, 0, -1):
+        # Create records for last 60 days (2 months)
+        for days_ago in range(60, 0, -1):
             record_date = today - timedelta(days=days_ago)
             
             # Skip weekends (Saturday=5, Sunday=6)
             if record_date.weekday() >= 5:
                 continue
             
-            # Random attendance pattern
+            # Varied attendance pattern for realistic data
             import random
-            status_choice = random.choice(["present", "present", "present", "absent", "half_day"])
+            pattern = random.random()
+            
+            if pattern < 0.75:  # 75% present
+                status_choice = "present"
+            elif pattern < 0.90:  # 15% half_day
+                status_choice = "half_day"
+            else:  # 10% absent
+                status_choice = "absent"
             
             existing_record = AttendanceRecord.query.filter_by(
                 employee_id=employee.id,
@@ -577,9 +568,11 @@ def create_attendance_records(employees):
             if existing_record:
                 continue
             
-            # Create attendance record
+            # Create attendance record based on status
             if status_choice == "present":
-                check_in = datetime.combine(record_date, datetime.strptime("09:15", "%H:%M").time())
+                # Add slight variation to check-in times (5-20 mins variance)
+                variance = random.randint(5, 20)
+                check_in = datetime.combine(record_date, datetime.strptime(f"09:{variance:02d}", "%H:%M").time())
                 check_out = datetime.combine(record_date, datetime.strptime("17:45", "%H:%M").time())
                 work_hours = 8.5
             elif status_choice == "half_day":
@@ -601,16 +594,20 @@ def create_attendance_records(employees):
                 work_hours=work_hours
             )
             db.session.add(attendance)
+            employee_records += 1
+            total_records_created += 1
+        
+        print(f"    ✅ Created {employee_records} attendance records")
     
     db.session.flush()
-    print("  ✅ Attendance records created")
+    print(f"\n  ✅ Total Attendance Records Created: {total_records_created}")
 
 
 def seed_all_master_data():
-    """Main function to seed all master data"""
+    """Main function to seed all master data for primary organization"""
     
     print("\n" + "="*60)
-    print("🌱 Starting Master Data Seeding")
+    print("🌱 Starting Master Data Seeding (Primary Organization)")
     print("="*60)
     
     try:
@@ -618,7 +615,7 @@ def seed_all_master_data():
         roles = create_roles()
         db.session.commit()
         
-        # Create organizations
+        # Create primary organization
         organizations = create_organizations()
         db.session.commit()
         
@@ -634,7 +631,7 @@ def seed_all_master_data():
         users, employees = create_users_and_employees(organizations, departments, roles, shifts)
         db.session.commit()
         
-        # Create attendance records
+        # Create 2 months of attendance records
         create_attendance_records(employees)
         db.session.commit()
         
@@ -648,9 +645,19 @@ def seed_all_master_data():
         print(f"  • Shifts: {len(shifts)}")
         print(f"  • Users: {len(users)}")
         print(f"  • Employees: {len(employees)}")
-        print("\n🔐 Test Credentials:")
-        print("  • Username/Email: {user_email}")
-        print("  • Password: Test@123")
+        print(f"  • Attendance Records: ~{len(employees) * 42} (60 days - weekends, per employee)")
+        print("\n🏢 Organization: India IT Park (IIT)")
+        print("  • Address: 789 IT Boulevard, Hyderabad, India")
+        print("  • Timezone: Asia/Kolkata")
+        print("  • Subscription Tier: Premium")
+        print("\n🔐 Test Credentials (Sample Users):")
+        print("  • priya.sharma@indiaittpark.com (Manager)")
+        print("  • rajesh.kumar@indiaittpark.com (Team Lead)")
+        print("  • neha.gupta@indiaittpark.com (Org Admin)")
+        print("  • Password: Test@123 (for all test users)")
+        print("\n📅 Attendance Data: Last 60 days (2 months)")
+        print("  • Includes realistic patterns: 75% present, 15% half-day, 10% absent")
+        print("  • Working days only (Monday-Friday)")
         print("\n" + "="*60 + "\n")
         
         return True
