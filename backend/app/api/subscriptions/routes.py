@@ -20,7 +20,48 @@ bp = Blueprint("subscriptions", __name__)
 
 @bp.route("/api/subscriptions/plans", methods=["GET"])
 def get_subscription_plans():
-    """Get all available subscription plans"""
+    """
+    Get all available subscription plans
+    ---
+    tags:
+      - Subscriptions
+    responses:
+      200:
+        description: All subscription plans retrieved successfully
+        schema:
+          type: object
+          properties:
+            success:
+              type: boolean
+              example: true
+            data:
+              type: object
+              properties:
+                plans:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      tier:
+                        type: string
+                        enum: [free, starter, professional, enterprise]
+                      name:
+                        type: string
+                      description:
+                        type: string
+                      price:
+                        type: number
+                      currency:
+                        type: string
+                      features:
+                        type: array
+                        items:
+                          type: string
+                      limits:
+                        type: object
+            message:
+              type: string
+    """
     plans = []
     
     for tier, config in SUBSCRIPTION_PLANS.items():
@@ -48,7 +89,51 @@ def get_subscription_plans():
 @require_auth
 @require_role(['super_admin', 'org_admin'])
 def get_organization_subscription_status(org_id: str):
-    """Get subscription status for an organization"""
+    """
+    Get subscription status for an organization
+    ---
+    tags:
+      - Subscriptions
+    security:
+      - Bearer: []
+    parameters:
+      - in: path
+        name: org_id
+        type: string
+        required: true
+        description: Organization ID
+    responses:
+      200:
+        description: Subscription status retrieved successfully
+        schema:
+          type: object
+          properties:
+            success:
+              type: boolean
+              example: true
+            data:
+              type: object
+              properties:
+                tier:
+                  type: string
+                status:
+                  type: string
+                renewal_date:
+                  type: string
+                  format: date
+                features_enabled:
+                  type: array
+                  items:
+                    type: string
+      403:
+        description: Access denied (not authorized for this organization)
+        schema:
+          $ref: '#/definitions/Error'
+      404:
+        description: Organization not found
+        schema:
+          $ref: '#/definitions/Error'
+    """
     
     # Check access: super_admin can access any org, org_admin only their own
     if g.user_role != 'super_admin' and g.organization_id != org_id:
@@ -78,7 +163,64 @@ def get_organization_subscription_status(org_id: str):
 @require_auth
 @require_role(['super_admin'])
 def upgrade_organization_subscription(org_id: str):
-    """Upgrade organization subscription (Super Admin only)"""
+    """
+    Upgrade organization subscription (Super Admin only)
+    ---
+    tags:
+      - Subscriptions
+    security:
+      - Bearer: []
+    parameters:
+      - in: path
+        name: org_id
+        type: string
+        required: true
+        description: Organization ID
+      - in: body
+        name: body
+        required: true
+        schema:
+          type: object
+          required:
+            - subscription_tier
+          properties:
+            subscription_tier:
+              type: string
+              enum: [free, starter, professional, enterprise]
+              description: New subscription tier
+            effective_date:
+              type: string
+              format: date
+              description: Date upgrade becomes effective (optional)
+    responses:
+      200:
+        description: Subscription upgraded successfully
+        schema:
+          type: object
+          properties:
+            success:
+              type: boolean
+              example: true
+            message:
+              type: string
+            data:
+              type: object
+              properties:
+                previous_tier:
+                  type: string
+                new_tier:
+                  type: string
+                effective_date:
+                  type: string
+      400:
+        $ref: '#/responses/BadRequestError'
+      401:
+        $ref: '#/responses/UnauthorizedError'
+      403:
+        description: Only super admin can upgrade subscriptions
+        schema:
+          $ref: '#/definitions/Error'
+    """
     
     data = request.get_json()
     new_tier = data.get('subscription_tier')
