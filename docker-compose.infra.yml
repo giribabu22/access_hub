@@ -8,7 +8,7 @@ services:
     environment:
       POSTGRES_USER: admin
       POSTGRES_PASSWORD: admin
-      POSTGRES_DB: visitor_db
+      POSTGRES_DB: access_hub
     ports:
       - "5432:5432"
     volumes:

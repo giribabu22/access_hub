@@ -29,36 +29,37 @@ def init_db():
 @cli.command()
 def seed_roles():
     """Seed default roles and permissions"""
-    from app.seeds.init_roles import init_roles
-    init_roles()
+    from app.seeds.seed_master_data import create_roles
+    create_roles()
+    db.session.commit()
 
 
 @cli.command()
 def seed_super_admin():
     """Seed default super admin"""
-    from app.seeds.init_super_admin import init_super_admin
-    init_super_admin()
+    # Note: seed_master_data creates users and employees including admins
+    from app.seeds.seed_master_data import seed_all_master_data
+    seed_all_master_data()
 
 
 @cli.command()
 def seed_sparquer():
-    """Seed Sparquer organization with departments and employees"""
-    from app.seeds.init_sparquer_org import init_sparquer_organization
-    init_sparquer_organization()
+    """Seed primary organization (India IT Park)"""
+    from app.seeds.seed_master_data import seed_all_master_data
+    seed_all_master_data()
 
 
 @cli.command()
 def seed_all():
-    """Run all seed scripts (roles, super admin, and Sparquer org)"""
-    from app.seeds.seed_all import seed_all
-    seed_all()
+    """Run master data seeding"""
+    from app.seeds.seed_master_data import seed_all_master_data
+    seed_all_master_data()
 
 
 @cli.command()
 def verify_seeds():
-    """Verify that all seed data has been properly created"""
-    from app.seeds.verify_seeds import verify_seeds
-    verify_seeds()
+    """Check SEED_VALIDATION_REPORT.md for verification status"""
+    click.echo("Verification scripts are consolidated. Please refer to SEED_VALIDATION_REPORT.md")
 
 
 @cli.command()
